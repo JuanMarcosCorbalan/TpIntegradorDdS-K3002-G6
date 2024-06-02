@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TpIntegradorDdS-K3002-G6.iml" filepath="$PROJECT_DIR$/TpIntegradorDdS-K3002-G6.iml" />
-      <module fileurl="file://$PROJECT_DIR$/implementacion/implementacion.iml" filepath="$PROJECT_DIR$/implementacion/implementacion.iml" />
     </modules>
   </component>
 </project>
