@@ -8,4 +8,12 @@ public class Documento_identidad {
         this.numeroDocumento = numeroDocumento;
         this.Tipo = Tipo;
     }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+    public void setTipo(Tipo_documento Tipo) {
+        this.Tipo = Tipo;
+    }
+
 }

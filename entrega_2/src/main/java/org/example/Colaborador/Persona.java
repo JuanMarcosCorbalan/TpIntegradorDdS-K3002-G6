@@ -9,5 +9,11 @@ public class Persona {
             this.direccion = direccion;
             this.medios_de_contacto = mediosContacto;
     }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    public void setMediosDeContacto(Medio_contacto[] mediosContacto) {
+        this.medios_de_contacto = mediosContacto;
+    }
 }
 

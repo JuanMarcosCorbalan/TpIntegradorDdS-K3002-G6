@@ -13,6 +13,11 @@ public class Tecnico extends Persona_fisica {
 
         this.areaCobertura = areaCobertura;
     }
-    public void setMedioContacto(){}
+    public void setAreaCobertura(AreaCobertura areaCobertura){
+        this.areaCobertura = areaCobertura;
+    }
+    public AreaCobertura getAreaCobertura(){
+        return areaCobertura;
+    }
     public void notificarPorMedio(){}
 }
