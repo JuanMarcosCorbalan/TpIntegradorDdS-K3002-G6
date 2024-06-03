@@ -1,13 +1,11 @@
 package org.example.Interfaz;
 
-import org.example.Heladeras.Heladera;
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Mapa {
-    List<Heladera> heladeras = new ArrayList<Heladera>();
+
+
+    /*List<Heladera> heladeras = new ArrayList<Heladera>();
 
     // creo que esto no va pero lo dejo por ahora
     public Heladera seleccionarHeladera(Heladera unaHeladera){
@@ -17,5 +15,12 @@ public class Mapa {
         }
         Heladera heladeraDeLista = heladeras.get(indiceHeladera);
         return heladeraDeLista;
+    }*/
+
+    public void aniadir_marcador(String latitud, String longitud, List<String> marcadores)
+    {
+        String new_marker = "&markers=color:orange%7Clabel:H%7C"+latitud+","+longitud;
+        marcadores.add(new_marker);
     }
+
 }

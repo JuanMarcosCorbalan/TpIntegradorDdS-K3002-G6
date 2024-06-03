@@ -13,6 +13,8 @@ public class Main {
     List<Colaborador> colaboradores = new ArrayList<Colaborador>();
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
 
+
+
     public static void main(String[] args) {
 
         System.out.println("Hello world!");
