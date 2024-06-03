@@ -24,7 +24,7 @@ public class Modificacion_tecnico {
         tecnico.getDomicilio().setCiudad(ciudad);
     }
     public void modificar_direccion(Tecnico tecnico,String direccion) {
-        tecnico.setDireccion(direccion);
+        tecnico.getDomicilio().setDireccion(direccion);
     }
     public void modificar_medios(Tecnico tecnico, Medio_contacto[] mediosContacto) {
         tecnico.setMediosDeContacto(mediosContacto);
@@ -32,7 +32,7 @@ public class Modificacion_tecnico {
     public void modificar_nombre(Tecnico tecnico,String nombre) {
         tecnico.setNombre(nombre);
     }
-    public void modificar_apellidos(Tecnico tecnico,String apellido) {
+    public void modificar_apellido(Tecnico tecnico,String apellido) {
         tecnico.setApellido(apellido);
     }
     public void modificar_fecha_nacimiento(Tecnico tecnico,String fechaNacimiento) {

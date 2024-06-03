@@ -46,7 +46,9 @@ public class Colaborador {
         this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
-
+    public Persona getPersona(){
+        return persona_colaboradora;
+    }
     // GETTERS AND SETTERS
 
 

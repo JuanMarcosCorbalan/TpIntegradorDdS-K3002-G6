@@ -1,6 +1,6 @@
 package org.example.Colaborador;
 
-public class Persona {
+abstract public class Persona {
     Domicilio domicilio;
     Medio_contacto[] medios_de_contacto;
 
@@ -17,5 +17,6 @@ public class Persona {
     public Domicilio getDomicilio() {
         return domicilio;
     }
+    //abstract void setNombre(String nombre);
 }
 
