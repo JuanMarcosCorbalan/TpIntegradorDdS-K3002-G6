@@ -32,7 +32,7 @@ public class Main {
     void darBajaColaborador(Colaborador colaborador){
         colaboradores.remove(colaborador);
     }
-
+    /*
     void modificarColaborador(Colaborador colaborador){
         colaboradores.
     }*/
@@ -48,39 +48,7 @@ public class Main {
     {
         tecnicos.remove(tecnico);
     }
-    public void modificar_tecnico(Tecnico tecnico, String nombre, String apellido, String fechaNacimiento, String direccion, Tipo_documento tipoDoc,String numeroDocumento, Medio_contacto[] medios, String latitud, String longitud, String radio) {
-        if (nombre != null) {
-            tecnico.setNombre(nombre);
-        }
-        if (apellido != null) {
-            tecnico.setApellido(apellido);
-        }
-        if (fechaNacimiento != null) {
-            tecnico.setFechaNacimiento(fechaNacimiento);
-        }
-        if (direccion != null) {
-            tecnico.setDireccion(direccion);
-        }
-        if(numeroDocumento != null){
-            tecnico.getDocumentoIdentidad().setNumeroDocumento(numeroDocumento);
-        }
-        if (tipoDoc != null) {
-            tecnico.getDocumentoIdentidad().setTipo(tipoDoc);
-        }
-        if (medios != null) {
-            tecnico.setMediosDeContacto(medios);
-        }
-        if (latitud != null && longitud != null && radio != null) {
-            tecnico.getAreaCobertura().setLatitud(latitud);
-        }
-        if(longitud != null){
-            tecnico.getAreaCobertura().setLongitud(longitud);
-
-        }
-        if(radio != null){
-            tecnico.getAreaCobertura().setRadio(radio);
-        }
-    }
+    
 
 
 }
