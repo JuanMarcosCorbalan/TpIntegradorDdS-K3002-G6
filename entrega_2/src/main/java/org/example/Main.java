@@ -11,6 +11,7 @@ import java.util.List;
 public class Main {
 
     List<Colaborador> colaboradores = new ArrayList<Colaborador>();
+    List<Tecnico> tecnicos = new ArrayList<Tecnico>();
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
 
 
@@ -22,10 +23,10 @@ public class Main {
     }
 
     public void dar_alta_colaborador_fisico(String nombre, String apellido, String fechaNacimiento, String Direccion,
-                                     Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto medios[], Forma_colaborar formas[]){
+                                            Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios, Forma_colaborar[] formas){
         Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
-        Persona_fisica nueva_persona = new Persona_fisica(nombre,apellido,fechaNacimiento,nuevo_documento);
-        Colaborador colaborador = new Colaborador(nueva_persona,medios,formas);
+        Persona_fisica nueva_persona = new Persona_fisica(nombre,apellido,fechaNacimiento,nuevo_documento,Direccion,medios);
+        Colaborador colaborador = new Colaborador(nueva_persona,formas);
         colaboradores.add(colaborador);
     }
 /*
@@ -36,13 +37,17 @@ public class Main {
     void modificarColaborador(Colaborador colaborador){
         colaboradores.
     }*/
-    //falta cargarle los medios de contacto
-    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, String Direccion, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto medios[], String latitud,String longitud ,String radio)
+
+    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, String direccion, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios, String latitud, String longitud , String radio)
     {
         Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
         AreaCobertura nueva_area = new AreaCobertura(latitud,longitud,radio);
-        Tecnico nueva_tecnico = new Tecnico(nombre,apellido,fechaNacimiento,nuevo_documento,nueva_area);
-
+        Tecnico nueva_tecnico = new Tecnico(nombre,apellido,fechaNacimiento,nuevo_documento,direccion,medios,nueva_area);
+        tecnicos.add(nueva_tecnico);
+    }
+    void dar_baja_tecnico(Tecnico tecnico)
+    {
+        tecnicos.remove(tecnico);
     }
 
 

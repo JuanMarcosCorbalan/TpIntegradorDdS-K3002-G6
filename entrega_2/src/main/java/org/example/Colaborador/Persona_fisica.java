@@ -6,7 +6,8 @@ public class Persona_fisica extends Persona{
     String fecha_nacimiento;
     Documento_identidad documento_identidad;
 
-    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento, Documento_identidad documento_identidad){
+    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento, Documento_identidad documento_identidad, String direccion, Medio_contacto[] mediosContacto){
+        super(direccion,mediosContacto);
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha_nacimiento = fecha_nacimiento;
