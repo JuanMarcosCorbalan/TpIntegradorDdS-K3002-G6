@@ -14,4 +14,20 @@ public class Domicilio {
         this.ciudad = ciudad;
         this.Pais = Pais;
     }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    public void setPais(Pais Pais) {
+        this.Pais = Pais;
+    }
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
 }

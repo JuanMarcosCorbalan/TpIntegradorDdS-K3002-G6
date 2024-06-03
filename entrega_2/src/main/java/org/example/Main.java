@@ -37,18 +37,19 @@ public class Main {
         colaboradores.
     }*/
 
-    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, String direccion, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios, String latitud, String longitud , String radio)
+    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais ,String latitud, String longitud , String radio)
     {
         Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
         AreaCobertura nueva_area = new AreaCobertura(latitud,longitud,radio);
-        Tecnico nueva_tecnico = new Tecnico(nombre,apellido,fechaNacimiento,nuevo_documento,direccion,medios,nueva_area);
+        Domicilio nuevo_domicilio = new Domicilio(latDom,longDom,direccion,ciudad,pais);
+        Tecnico nueva_tecnico = new Tecnico(nombre,apellido,fechaNacimiento,nuevo_documento,medios,nuevo_domicilio,nueva_area);
         tecnicos.add(nueva_tecnico);
     }
     void dar_baja_tecnico(Tecnico tecnico)
     {
         tecnicos.remove(tecnico);
     }
-    
+
 
 
 }

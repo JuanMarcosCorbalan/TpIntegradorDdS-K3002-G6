@@ -1,6 +1,8 @@
 package org.example.Modificacion;
 
+import org.example.Colaborador.Ciudad;
 import org.example.Colaborador.Medio_contacto;
+import org.example.Colaborador.Pais;
 import org.example.Colaborador.Tipo_documento;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
@@ -9,7 +11,18 @@ import java.awt.geom.Area;
 
 public class Modificacion_tecnico {
 
-
+    public void modificar_lat_dom(Tecnico tecnico, String lat_dom){
+        tecnico.getDomicilio().setLatitud(lat_dom);
+    }
+    public void modificar_long_dom(Tecnico tecnico, String long_dom){
+        tecnico.getDomicilio().setLongitud(long_dom);
+    }
+    public void modificar_pais(Tecnico tecnico, Pais pais){
+        tecnico.getDomicilio().setPais(pais);
+    }
+    public void modificar_ciudad(Tecnico tecnico, Ciudad ciudad){
+        tecnico.getDomicilio().setCiudad(ciudad);
+    }
     public void modificar_direccion(Tecnico tecnico,String direccion) {
         tecnico.setDireccion(direccion);
     }

@@ -1,19 +1,21 @@
 package org.example.Colaborador;
 
 public class Persona {
-    String direccion;
+    Domicilio domicilio;
     Medio_contacto[] medios_de_contacto;
 
-    public Persona(String direccion, Medio_contacto[] mediosContacto)
+    public Persona(Domicilio domicilio , Medio_contacto[] mediosContacto)
     {
-            this.direccion = direccion;
+            this.domicilio = domicilio;
             this.medios_de_contacto = mediosContacto;
     }
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+
+
     public void setMediosDeContacto(Medio_contacto[] mediosContacto) {
         this.medios_de_contacto = mediosContacto;
+    }
+    public Domicilio getDomicilio() {
+        return domicilio;
     }
 }
 
