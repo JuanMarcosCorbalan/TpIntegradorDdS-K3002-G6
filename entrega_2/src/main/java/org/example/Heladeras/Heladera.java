@@ -72,4 +72,11 @@ public class Heladera {
         this.temperaturaMinima = temperaturaMinima;
     }
 
+    public PuntoUbicacion getPuntoUbicacion() {
+        return puntoUbicacion;
+    }
+
+    public void setPuntoUbicacion(PuntoUbicacion puntoUbicacion) {
+        this.puntoUbicacion = puntoUbicacion;
+    }
 }
