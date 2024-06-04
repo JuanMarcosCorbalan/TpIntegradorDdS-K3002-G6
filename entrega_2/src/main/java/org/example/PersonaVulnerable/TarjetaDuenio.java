@@ -11,7 +11,7 @@ public class TarjetaDuenio {
     PersonaSituacionVulnerable personaSV;
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
 
-    public void TarjetaDuenio(Tarjeta tarjeta, Colaborador colaborador,PersonaSituacionVulnerable personaSV) {
+    public TarjetaDuenio(Tarjeta tarjeta, Colaborador colaborador,PersonaSituacionVulnerable personaSV) {
         this.tarjeta = tarjeta;
         this.colaborador = colaborador;
         this.personaSV = personaSV;
