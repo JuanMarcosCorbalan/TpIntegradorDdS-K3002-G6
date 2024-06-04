@@ -6,4 +6,8 @@ public class Persona_juridica extends Persona{
     Tipo_juridico tipo;
     String rubro;
 
+
+    public String getRazon_social() {
+        return razon_social;
+    }
 }

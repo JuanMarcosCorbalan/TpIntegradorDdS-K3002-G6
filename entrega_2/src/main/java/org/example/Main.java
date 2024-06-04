@@ -1,21 +1,43 @@
 package org.example;
 
 import org.example.Colaborador.*;
+import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
+import org.example.Sistema.MigracionColaboradores;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-
-    List<Colaborador> colaboradores = new ArrayList<Colaborador>();
+    static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        List<Colaborador> colaboradoresNuevo = colaboradores;
+        InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
+
+        instanciacion.crearColaboradores(colaboradores);
+        instanciacion.migrarColaboradores(colaboradores);
+
+
+        for (Colaborador colaborador : colaboradores) {
+            Persona persona = colaborador.getPersona_colaboradora();
+            if(persona instanceof Persona_fisica personaFisicaExistente){
+                System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                String nombre = personaFisicaExistente.getNombre();
+                List<Contribucion> contribuciones = colaborador.getContribuciones();
+                if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                else System.out.println("No tiene colaboraciones realizadas");
+                for(Contribucion contribucion : contribuciones) {
+                    System.out.println(contribucion.getFecha_contribucion());
+                }
+            }
+
+        }
 
     }
 
@@ -43,5 +65,22 @@ public class Main {
 
     }
 
+    public List<Colaborador> getColaboradores() {
+        return colaboradores;
+    }
 
+    public void migrarColaboradores(List<Colaborador> colaboradores){
+        MigracionColaboradores migracionColaboradores = new MigracionColaboradores();
+        migracionColaboradores.leerCsv(colaboradores);
+    }
+    public void crearColaboradores(List<Colaborador> colaboradores){
+        Documento_identidad documentoJuan = new Documento_identidad("43871010", Tipo_documento.DNI);
+        Persona_fisica persona1 = new Persona_fisica("Juan","Corbalan", documentoJuan);
+        Documento_identidad documentoRaul = new Documento_identidad("45369874", Tipo_documento.DNI);
+        Persona_fisica persona2 = new Persona_fisica("Raul","Perez", documentoRaul);
+        Colaborador colaborador1 = new Colaborador(persona1);
+        Colaborador colaborador2 = new Colaborador(persona2);
+        colaboradores.add(colaborador1);
+        colaboradores.add(colaborador2);
+    }
 }

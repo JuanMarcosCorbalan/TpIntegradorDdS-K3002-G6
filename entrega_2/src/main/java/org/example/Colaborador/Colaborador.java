@@ -12,7 +12,7 @@ public class Colaborador {
     Persona persona_colaboradora;
     Medio_contacto medios_de_contacto[];
     //List<Contribucion> contribuciones = new ArrayList<Contribucion>();
-    List<Contribucion> contribuciones;
+    List<Contribucion> contribuciones = new ArrayList<Contribucion>();
     Forma_colaborar formas_de_colaborar[];
     //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
@@ -36,6 +36,10 @@ public class Colaborador {
         Contribucion contribucion_a_realizar = contribuciones.removeFirst();
         contribucion_a_realizar.realizar_contribucion();
     }
+    public void agregarContribucion(Contribucion nuevaContribucion){
+        contribuciones.add(nuevaContribucion);
+    }
+
     //CONSTRUCTOR
     public Colaborador(Persona persona,Medio_contacto mediosContacto[],Forma_colaborar formas[])
     {
@@ -46,7 +50,9 @@ public class Colaborador {
         this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
-
+    public Colaborador(Persona persona_colaboradora) {
+        this.persona_colaboradora = persona_colaboradora;
+    }
     // GETTERS AND SETTERS
 
 
@@ -56,5 +62,17 @@ public class Colaborador {
 
     public void setPuntos(int puntos) {
         this.puntos = puntos;
+    }
+
+    public Persona getPersona_colaboradora() {
+        return persona_colaboradora;
+    }
+
+    public List<Contribucion> getContribuciones() {
+        return contribuciones;
+    }
+
+    public void setContribuciones(List<Contribucion> contribuciones) {
+        this.contribuciones = contribuciones;
     }
 }
