@@ -11,8 +11,7 @@ public class Distribucion_viandas extends Contribucion{
     Heladera heladera_destino;
     Integer cantidad_viandas_a_mover;
     Vianda viandas[];
-    Motivo_distribucion motivo_distribucion;
-
+    Motivo_distribucion motivo_distribucion
 
     public Distribucion_viandas(Integer cantidad_viandas_a_mover, Date fechaColaboracion) {
         super(fechaColaboracion);
