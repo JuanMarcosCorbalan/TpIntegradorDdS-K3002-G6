@@ -8,4 +8,9 @@ public class Donacion_viandas extends Contribucion{
     boolean entregada;
     Vianda viandas[];
 
+    public Integer cant_viandas()
+    {
+        return viandas.length;
+    }
+
 }

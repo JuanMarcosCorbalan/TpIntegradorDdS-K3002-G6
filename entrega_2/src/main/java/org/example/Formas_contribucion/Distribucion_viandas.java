@@ -10,4 +10,9 @@ public class Distribucion_viandas extends Contribucion{
     Integer cantidad_viandas_a_mover;
     Vianda viandas[];
     Motivo_distribucion motivo_distribucion;
+
+
+    public Integer getCantidad_viandas_a_mover() {
+        return cantidad_viandas_a_mover;
+    }
 }

@@ -17,5 +17,6 @@ public class RetirarVianda {
         this.heladeraElegida = heladeraElegida;
         this.retiro = retiro;
         this.tarjetaUtilizada = tarjetaUtilizada;
+
     }
 }

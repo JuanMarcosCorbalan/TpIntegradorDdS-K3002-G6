@@ -23,10 +23,12 @@ public class PersonaSituacionVulnerable {
         this.cantidadMenoresACargo = cantidadMenoresACargo;
         this.tarjeta = tarjeta;
     }
+
     public void retirarVianda(Date fechaActual, Time horaActual, Heladera heladeraElegida){
         RetiroVianda nuevoRetiro = new RetiroVianda(this, fechaActual, horaActual, heladeraElegida);
         RetirarVianda retirarVianda = new RetirarVianda(heladeraElegida, nuevoRetiro, tarjeta);
         retirarVianda.retirarVianda();
+        heladeraElegida.aniadir_retiro(nuevoRetiro); //NUEVO ENTREGA 2, TRAZABILIDAD
     }
 
 }

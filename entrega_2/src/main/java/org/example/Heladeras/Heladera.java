@@ -1,5 +1,7 @@
 package org.example.Heladeras;
 
+import org.example.PersonaVulnerable.RetirarVianda;
+import org.example.PersonaVulnerable.RetiroVianda;
 import org.example.Validadores_Sensores.Validador;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,11 +11,11 @@ public class Heladera {
     PuntoUbicacion puntoUbicacion;
     String idHeladera;
     int unidadViandasActual;
-    int unidadesMaximoViandas;
+    int unidadesMaximoViandas; //VIENE DEFINIDA
     List<Vianda> viandas = new ArrayList<Vianda>();
     Date FechaFuncionamiento;
-    Boolean estaActiva;
-    Boolean enMantenimiento;
+    EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
+    List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
     List<Validador> validadores = new ArrayList<Validador>();
     int temperaturaMaxima;
     int temperaturaMinima;
@@ -23,12 +25,10 @@ public class Heladera {
     }
 
     public void ponerFuncionamiento(){
-        estaActiva = true;
-        enMantenimiento = false;
+        estado_actual = EstadoHeladera.ACTIVA;
     }
     public void solicitarMantenimiento(){
-        enMantenimiento = true;
-        // tiene que dejar de estar activa?
+        estado_actual = EstadoHeladera.EN_MANTENIMIENTO;
     }
     public boolean requiereMantenimiento(){
         // verificacion sobre los parametros que indiquen si necesita mantenimiento
@@ -48,7 +48,10 @@ public class Heladera {
         this.setTemperaturaMinima(temperaturaMinima);
     }
 
-
+    //NUEVO ENTREGA 2
+    public void aniadir_retiro(RetiroVianda retiro){
+        retiros.add(retiro);
+    }
 
 
     // GETTERS Y SETTERS
