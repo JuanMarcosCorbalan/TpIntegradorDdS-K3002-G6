@@ -1,24 +1,44 @@
 package org.example;
 
 import org.example.Colaborador.*;
+import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
+import org.example.Sistema.MigracionColaboradores;
+import org.example.InstanciacionClases;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    List<Colaborador> colaboradores = new ArrayList<Colaborador>();
-    List<Tecnico> tecnicos = new ArrayList<Tecnico>();
+    static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
-
-
+    List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
     public static void main(String[] args) {
-
+        List<Colaborador> colaboradoresNuevo = colaboradores;
+        InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
+
+        instanciacion.crearColaboradores(colaboradores);
+        instanciacion.migrarColaboradores(colaboradores);
+
+        for (Colaborador colaborador : colaboradores) {
+            Persona persona = colaborador.getPersona_colaboradora();
+            if(persona instanceof Persona_fisica personaFisicaExistente){
+                System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                String nombre = personaFisicaExistente.getNombre();
+                List<Contribucion> contribuciones = colaborador.getContribuciones();
+                if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                else System.out.println("No tiene colaboraciones realizadas");
+                for(Contribucion contribucion : contribuciones) {
+                    System.out.println(contribucion.getFecha_contribucion());
+                }
+            }
+
+        }
 
     }
 
@@ -56,5 +76,8 @@ public class Main {
     }
 
 
+    public List<Colaborador> getColaboradores() {
+        return colaboradores;
+    }
 
 }

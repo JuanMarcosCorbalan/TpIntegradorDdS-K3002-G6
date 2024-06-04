@@ -23,4 +23,8 @@ public class Persona_juridica extends Persona{
     public void setRubro(String rubro){
         this.rubro = rubro;
     }
+
+    public String getRazon_social() {
+        return razon_social;
+    }
 }

@@ -11,8 +11,7 @@ import java.util.List;
 public class Colaborador {
 
     Persona persona_colaboradora;
-    //List<Contribucion> contribuciones = new ArrayList<Contribucion>();
-    List<Contribucion> contribuciones;
+    List<Contribucion> contribuciones = new ArrayList<Contribucion>();
     Forma_colaborar[] formas_de_colaborar;
     //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
@@ -34,7 +33,9 @@ public class Colaborador {
             contribuciones.add(contribucion_a_realizar);
         }
     }
-
+    public void agregarContribucion(Contribucion nuevaContribucion){
+        contribuciones.add(nuevaContribucion);
+    }
     // si no se pasa un parametro realiza la primera que haya en la lista
     /*
     public void realizar_contribucion(){
@@ -42,20 +43,17 @@ public class Colaborador {
         contribucion_a_realizar.realizar_contribucion();
     }*/
 
-    //CONSTRUCTOR
-    public Colaborador(Persona persona, Forma_colaborar[] formas)
+    public Colaborador(Persona persona,Forma_colaborar formas[])
     {
         this.persona_colaboradora = persona;
-
         this.contribuciones = new ArrayList<Contribucion>();
         this.formas_de_colaborar = formas;
         this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
-    public Persona getPersona(){
-        return persona_colaboradora;
+    public Colaborador(Persona persona_colaboradora) {
+        this.persona_colaboradora = persona_colaboradora;
     }
-    // GETTERS AND SETTERS
 
     public int getPuntos() {
         int pesos_donados = 0;
@@ -95,7 +93,21 @@ public class Colaborador {
         //QUE HAGA ALGO SI NO PUEDE CANJEAR
     }
 
+
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
+
+    public Persona getPersona_colaboradora() {
+        return persona_colaboradora;
+    }
+
+    public List<Contribucion> getContribuciones() {
+        return contribuciones;
+    }
+
+    public void setContribuciones(List<Contribucion> contribuciones) {
+        this.contribuciones = contribuciones;
+    }
 }
+

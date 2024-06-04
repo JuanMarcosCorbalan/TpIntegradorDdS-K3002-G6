@@ -10,6 +10,8 @@ abstract public class Persona {
             this.medios_de_contacto = mediosContacto;
     }
 
+    public Persona() {
+    }
 
     public void setMediosDeContacto(Medio_contacto[] mediosContacto) {
         this.medios_de_contacto = mediosContacto;
@@ -17,6 +19,17 @@ abstract public class Persona {
     public Domicilio getDomicilio() {
         return domicilio;
     }
+
     //abstract void setNombre(String nombre);
+
+    @Override
+    public boolean equals(Object o){
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        return 0;
+    }
 }
 
