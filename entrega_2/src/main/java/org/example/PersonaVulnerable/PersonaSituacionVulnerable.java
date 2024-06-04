@@ -15,9 +15,18 @@ public class PersonaSituacionVulnerable {
     TarjetaDuenio tarjeta;
 
 
+    public void PersonaSituacionVulnerable(Boolean enSituacionCalle,Domicilio domicilio,Boolean poseeMenoresACargo,Integer cantidadMenoresACargo,TarjetaDuenio tarjeta) {
+        this.fechaRegistroSistema = new Date();
+        this.enSituacionCalle = enSituacionCalle;
+        this.domicilio = domicilio;
+        this.poseeMenoresACargo = poseeMenoresACargo;
+        this.cantidadMenoresACargo = cantidadMenoresACargo;
+        this.tarjeta = tarjeta;
+    }
     public void retirarVianda(Date fechaActual, Time horaActual, Heladera heladeraElegida){
         RetiroVianda nuevoRetiro = new RetiroVianda(this, fechaActual, horaActual, heladeraElegida);
         RetirarVianda retirarVianda = new RetirarVianda(heladeraElegida, nuevoRetiro, tarjeta);
         retirarVianda.retirarVianda();
     }
+
 }
