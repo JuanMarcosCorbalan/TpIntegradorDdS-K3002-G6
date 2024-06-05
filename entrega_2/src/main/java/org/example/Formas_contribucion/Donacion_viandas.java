@@ -25,4 +25,5 @@ public class Donacion_viandas extends Contribucion{
     public Donacion_viandas(Date fecha_contribucion) {
         super(fecha_contribucion);
     }
+
 }

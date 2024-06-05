@@ -17,13 +17,12 @@ import java.util.*;
 
 public class MigracionColaboradores {
 
-    //podria ir como parametro en leerCsv
     String archivoCsv = "csvs/csvColaboradores.csv";
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     Tipo_documento tipoDocumento = null;
 
     public void leerCsv(List<Colaborador> colaboradoresExistentes) {
-        // mapeo para tener las personas en vez de colaboradores (los colaboradores coinciden por la persona)
+        // mapeo para tener las personas en vez de colaboradores
         Map<String, Colaborador> colaboradoresExistentesMap = new HashMap<>();
         Map<String, Persona> personasFisicasExistentes = new HashMap<>();
         for (Colaborador colaborador : colaboradoresExistentes) {
@@ -83,14 +82,13 @@ public class MigracionColaboradores {
                 if (mail.length() > 50){
                     throw new IllegalArgumentException("El mail no puede tener más de 50 caracteres");
                 }
-                // verifica formato (quizas tendria que ser mas riguroso, permite un @ al final o principio del string)
+                // verifica formato
                 if (!mail.contains("@")){
                     throw new IllegalArgumentException("El mail no tiene un formato valido");
                 }
 
                 Date fechaColaboracion = new Date();
                 // valida si el formato de fecha es correcto
-                // NO VALIDA SI UNA FECHA ESTA FUERA DE UN RANGO, COMO 32 DE MARZO
                 try {
                     fechaColaboracion = formatoFecha.parse(linea[5]);
                 } catch (ParseException e) {
@@ -104,8 +102,7 @@ public class MigracionColaboradores {
                 }
 
                 Integer cantidad = Integer.parseInt(linea[7]);
-                // verifica longitud?? no se si se refiere a que no puede ser >7 o mayor a 7 caracteres
-                // tomo que no pueda ser mayor a 7 caracteres
+                //verifico longitud no mayor a 7 caracteres
                 if (cantidad > 9999999) {
                     throw new IllegalArgumentException("La cantidad no puede ser mayor a 9999999");
                 }
@@ -118,10 +115,9 @@ public class MigracionColaboradores {
                 // creo un colaborador con la persona, todavia no tiene la contribucion
                 Colaborador colaborador = new Colaborador(nuevaPersonaFisica);
 
-                // aca verifico si ya existe un colaborador con esa persona, probablemente me fije unicamente en el documento
-                // si existe no hago nada, si no existe lo agrego a la lista de colaboradores del main
+                // aca verifico si ya existe un colaborador con esa persona, me fijo en el documento
+                // si existe lo obtengo de colaboradores existentes, si no existe lo agrego a la lista de colaboradores del main
                 if (!personasFisicasExistentes.containsKey(numeroDocumentoString)){
-                    // no se si es lo mejor agregar desde aca, deberia decirle al main que lo agrege pero no se como referenciarlo
                     colaboradoresExistentes.add(colaborador);
                     personasFisicasExistentes.put(numeroDocumentoString, nuevaPersonaFisica);
                     colaboradoresExistentesMap.put(numeroDocumentoString, colaborador);
@@ -144,7 +140,7 @@ public class MigracionColaboradores {
                         colaborador.agregarContribucion(entregaTarjetas);
                     }
                     case "DONACION_VIANDAS" -> {
-                        // registrar al colaborador y computar los puntos, ESTO SE HACE EN TODAS ENTONCES ACA QUEDA VACIO?
+                        // no seteo la cantidad de viandas porque deberia agregar la vianda a la lista de viandas pero seria una vianda vacia
                         Donacion_viandas donacionViandas = new Donacion_viandas(fechaColaboracion);
                         colaborador.agregarContribucion(donacionViandas);
                     }
