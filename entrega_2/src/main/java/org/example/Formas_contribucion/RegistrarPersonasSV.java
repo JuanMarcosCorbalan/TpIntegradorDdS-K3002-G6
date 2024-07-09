@@ -16,7 +16,8 @@ public class RegistrarPersonasSV extends Contribucion{
     Integer cantidadTarjetasRepartidas =  this.cantidadTarjetas();
 
 
-    public void asignarTarjetas(Colaborador colaborador){
+    public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
+
         for(PersonaSituacionVulnerable personaSituacion : personasSituacionVulnerable){
             if(!tarjetas.isEmpty()) {
                 Tarjeta tarjeta_asignar = tarjetas.remove(0);
