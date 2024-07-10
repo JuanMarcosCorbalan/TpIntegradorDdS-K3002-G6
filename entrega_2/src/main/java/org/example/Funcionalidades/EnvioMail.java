@@ -31,4 +31,26 @@ public class EnvioMail {
             throw ex;
         }
     }
+    // CASO DE PRUEBA
+    public static void main(String[] args) throws IOException {
+        Email from = new Email("grupo.hobbits@gmail.com");
+        String subject = "Carga realizada correctamente";
+        Email to = new Email("rrodasgaleano@frba.utn.edu.ar");
+        Content content = new Content("text/plain", "Tu usuario fue cargado correctamente.");
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid("INSERTARAPIKEY");
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
 }
