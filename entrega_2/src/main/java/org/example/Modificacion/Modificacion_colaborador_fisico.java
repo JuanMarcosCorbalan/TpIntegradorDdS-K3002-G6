@@ -1,7 +1,7 @@
 package org.example.Modificacion;
 
-import org.example.Colaborador.*;
-import org.example.Personal.Tecnico;
+import org.example.Colaborador.Colaborador;
+import org.example.Persona.*;
 
 public class Modificacion_colaborador_fisico {
 

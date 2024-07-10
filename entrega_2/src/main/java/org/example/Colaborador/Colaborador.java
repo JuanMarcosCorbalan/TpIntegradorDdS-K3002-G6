@@ -3,14 +3,15 @@ package org.example.Colaborador;
 import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
 import org.example.Ofertas.Oferta;
+import org.example.Persona.CoeficientesCalculoPuntos;
+import org.example.Persona.Persona;
+import org.example.Persona.Rol;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Colaborador {
+public class Colaborador extends Rol {
 
-    Persona persona_colaboradora;
     List<Contribucion> contribuciones = new ArrayList<Contribucion>();
     Forma_colaborar[] formas_de_colaborar;
     //Heladera heladeras_a_cargo[];
@@ -45,14 +46,14 @@ public class Colaborador {
 
     public Colaborador(Persona persona,Forma_colaborar formas[])
     {
-        this.persona_colaboradora = persona;
+        this.persona = persona;
         this.contribuciones = new ArrayList<Contribucion>();
         this.formas_de_colaborar = formas;
         this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
     public Colaborador(Persona persona_colaboradora) {
-        this.persona_colaboradora = persona_colaboradora;
+        this.persona = persona_colaboradora;
     }
 
     public int getPuntos() {
@@ -99,7 +100,7 @@ public class Colaborador {
     }
 
     public Persona getPersona_colaboradora() {
-        return persona_colaboradora;
+        return persona;
     }
 
     public List<Contribucion> getContribuciones() {

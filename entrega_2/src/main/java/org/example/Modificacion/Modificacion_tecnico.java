@@ -1,13 +1,10 @@
 package org.example.Modificacion;
 
-import org.example.Colaborador.Ciudad;
-import org.example.Colaborador.Medio_contacto;
-import org.example.Colaborador.Pais;
-import org.example.Colaborador.Tipo_documento;
-import org.example.Personal.AreaCobertura;
+import org.example.Persona.Ciudad;
+import org.example.Persona.Medio_contacto;
+import org.example.Persona.Pais;
+import org.example.Persona.Tipo_documento;
 import org.example.Personal.Tecnico;
-
-import java.awt.geom.Area;
 
 public class Modificacion_tecnico {
 

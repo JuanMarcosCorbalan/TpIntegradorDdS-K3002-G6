@@ -1,9 +1,9 @@
 package org.example;
 
 import org.example.Colaborador.Colaborador;
-import org.example.Colaborador.Documento_identidad;
-import org.example.Colaborador.Persona_fisica;
-import org.example.Colaborador.Tipo_documento;
+import org.example.Persona.Documento_identidad;
+import org.example.Persona.Persona_fisica;
+import org.example.Persona.Tipo_documento;
 import org.example.Sistema.MigracionColaboradores;
 
 import java.util.List;

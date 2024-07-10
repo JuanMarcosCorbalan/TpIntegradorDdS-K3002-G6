@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Persona;
 
 
 import java.util.Objects;

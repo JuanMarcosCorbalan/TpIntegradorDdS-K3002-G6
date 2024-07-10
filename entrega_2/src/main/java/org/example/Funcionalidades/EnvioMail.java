@@ -4,23 +4,19 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class EnvioMail {
-    public static void main(String[] args) throws IOException {
 
 
+    public void enviarEmail(Email email) throws IOException {
         Email from = new Email("grupo.hobbits@gmail.com");
-        String subject = "Sending with SendGrid is Fun";
-        Email to = new Email("jbergara@frba.utn.edu.ar");
-        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-        Mail mail = new Mail(from, subject, to, content);
+        String subject = "Carga realizada correctamente";
+        Content content = new Content("text/plain", "Tu usuario fue cargado correctamente.");
+        Mail mail = new Mail(from, subject, email, content);
 
-        String apiKey = "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";
+        String apiKey = "insertarApiKey";
         SendGrid sg = new SendGrid(apiKey);
         Request request = new Request();
         try {
@@ -35,5 +31,4 @@ public class EnvioMail {
             throw ex;
         }
     }
-
 }

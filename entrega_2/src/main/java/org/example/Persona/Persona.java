@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Persona;
 
 abstract public class Persona {
     Domicilio domicilio;
@@ -19,6 +19,7 @@ abstract public class Persona {
     public Domicilio getDomicilio() {
         return domicilio;
     }
+    public Medio_contacto[] getMediosContacto(){return medios_de_contacto;}
 
     //abstract void setNombre(String nombre);
 

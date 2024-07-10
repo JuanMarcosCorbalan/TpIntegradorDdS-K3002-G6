@@ -1,6 +1,6 @@
 package org.example.Ofertas;
 
-import org.example.Colaborador.Ofertante;
+import org.example.Persona.Ofertante;
 
 public class OfrecerOfertaOfertante {
     Oferta ofertaAOfrecer;

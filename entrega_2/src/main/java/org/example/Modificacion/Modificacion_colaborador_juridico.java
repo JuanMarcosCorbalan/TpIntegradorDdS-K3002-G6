@@ -1,6 +1,7 @@
 package org.example.Modificacion;
 
-import org.example.Colaborador.*;
+import org.example.Colaborador.Colaborador;
+import org.example.Persona.*;
 
 public class Modificacion_colaborador_juridico {
     public void modificar_lat_dom(Colaborador colaborador, String lat_dom){

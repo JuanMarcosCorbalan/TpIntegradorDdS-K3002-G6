@@ -1,12 +1,12 @@
 package org.example;
 
-import org.example.Colaborador.*;
+import org.example.Colaborador.Colaborador;
+import org.example.Colaborador.Forma_colaborar;
+import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
-import org.example.Sistema.MigracionColaboradores;
-import org.example.InstanciacionClases;
 
 import java.util.ArrayList;
 import java.util.List;

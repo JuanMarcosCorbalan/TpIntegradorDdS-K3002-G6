@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Persona;
 
 public class Telefono implements Medio_contacto {
     public void notificar() {}

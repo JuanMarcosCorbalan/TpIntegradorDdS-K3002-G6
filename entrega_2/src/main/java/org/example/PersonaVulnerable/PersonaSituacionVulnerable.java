@@ -1,27 +1,31 @@
 package org.example.PersonaVulnerable;
 
-import org.example.Colaborador.Domicilio;
+import org.example.Persona.Domicilio;
 import org.example.Heladeras.Heladera;
+import org.example.Persona.Persona;
+import org.example.Persona.Persona_fisica;
+import org.example.Persona.Rol;
 
 import java.sql.Time;
 import java.util.Date;
 
-public class PersonaSituacionVulnerable {
+public class PersonaSituacionVulnerable extends Rol {
     Date fechaRegistroSistema;
     Boolean enSituacionCalle;
-    Domicilio domicilio;
+    //Domicilio domicilio;
     Boolean poseeMenoresACargo;
     Integer cantidadMenoresACargo;
     TarjetaDuenio tarjeta;
 
 
-    public void PersonaSituacionVulnerable(Boolean enSituacionCalle,Domicilio domicilio,Boolean poseeMenoresACargo,Integer cantidadMenoresACargo,TarjetaDuenio tarjeta) {
+    public void PersonaSituacionVulnerable(String nombre,String apellido,Boolean enSituacionCalle,Domicilio domicilio,Boolean poseeMenoresACargo,Integer cantidadMenoresACargo,TarjetaDuenio tarjeta) {
         this.fechaRegistroSistema = new Date();
         this.enSituacionCalle = enSituacionCalle;
-        this.domicilio = domicilio;
+        //this.domicilio = domicilio;
         this.poseeMenoresACargo = poseeMenoresACargo;
         this.cantidadMenoresACargo = cantidadMenoresACargo;
         this.tarjeta = tarjeta;
+        this.persona = new Persona_fisica(nombre,apellido,null,null,null,domicilio);
     }
 
     public void retirarVianda(Date fechaActual, Time horaActual, Heladera heladeraElegida){

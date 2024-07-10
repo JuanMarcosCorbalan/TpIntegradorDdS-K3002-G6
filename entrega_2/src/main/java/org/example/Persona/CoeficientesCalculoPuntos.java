@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Persona;
 
 public class CoeficientesCalculoPuntos {
     public static final double pesos_donados = 0.5;

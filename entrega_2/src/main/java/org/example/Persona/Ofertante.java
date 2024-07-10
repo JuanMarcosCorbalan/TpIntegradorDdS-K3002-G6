@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Persona;
 
 import org.example.Ofertas.Oferta;
 
