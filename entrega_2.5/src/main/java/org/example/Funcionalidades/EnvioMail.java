@@ -10,7 +10,7 @@ import java.io.IOException;
 public class EnvioMail {
 
 
-    public void enviarEmail(Email email) throws IOException {
+    public static void enviarEmail(Email email) throws IOException {
         Email from = new Email("grupo.hobbits@gmail.com");
         String subject = "Carga realizada correctamente";
         Content content = new Content("text/plain", "Tu usuario fue cargado correctamente.");

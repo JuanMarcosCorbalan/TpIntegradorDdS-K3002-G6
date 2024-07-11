@@ -1,6 +1,8 @@
 package org.example.Sistema;
 
+import com.sendgrid.helpers.mail.objects.Email;
 import org.example.Colaborador.Colaborador;
+import org.example.Funcionalidades.EnvioMail;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.*;
 
@@ -24,6 +26,7 @@ public class MigracionColaboradores {
     String nombre;
     String apellido;
     String formaColaboracion;
+    String mail;
     Integer cantidad;
     Date fechaColaboracion;
     Boolean primeraLinea = true;
@@ -172,7 +175,7 @@ public class MigracionColaboradores {
 
     }
 
-    public Colaborador obtenerColaborador(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap){
+    public Colaborador obtenerColaborador(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap) throws IOException {
         Boolean existeColaborador = this.validarExistencia(personasFisicasExistentesMap);
         if (!existeColaborador){
             // creo los objetos con cada uno de los parametros recibidos
@@ -185,6 +188,8 @@ public class MigracionColaboradores {
             Colaborador colaborador = this.crearColaborador(nuevaPersonaFisica);
 
             this.agregarColaboradorNuevoAExistentes(colaborador, nuevaPersonaFisica, colaboradoresExistentes, colaboradoresExistentesMap, personasFisicasExistentesMap);
+            Email emailPersona = new Email(mail);
+            EnvioMail.enviarEmail(emailPersona);
             return colaborador;
         } else {
             return colaboradoresExistentesMap.get(numeroDocumentoString);
@@ -221,7 +226,7 @@ public class MigracionColaboradores {
         }
     }
 
-    public void crearObjetos(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap){
+    public void crearObjetos(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap) throws IOException {
 
         // aca verifico si ya existe un colaborador con esa persona, me fijo en el documento
         // si existe lo obtengo de colaboradores existentes, si no existe lo creo y lo agrego a la lista de colaboradores del main
