@@ -12,7 +12,7 @@ public class InstanciacionClases {
     // cree esta clase porque tenia muchos problemas con hacerlo en el main directamente poniendo los metodos
     public void migrarColaboradores(List<Colaborador> colaboradores){
         MigracionColaboradores migracionColaboradores = new MigracionColaboradores();
-        migracionColaboradores.leerCsv(colaboradores);
+        migracionColaboradores.migrarCsv(colaboradores);
     }
     public void crearColaboradores(List<Colaborador> colaboradores){
         Documento_identidad documentoJuan = new Documento_identidad("43871010", Tipo_documento.DNI);
