@@ -18,7 +18,7 @@ import java.util.*;
 
 public class MigracionColaboradores {
 
-    String archivoCsv = "csvs/csvColaboradores.csv";
+    String archivoCsv = "csvs/csvColaboradoresemails.csv";
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     Tipo_documento tipoDocumento = null;
     Integer flagLongitud = 0;
@@ -104,7 +104,7 @@ public class MigracionColaboradores {
             throw new IllegalArgumentException("El apellido no puede tener más de 50 caracteres");
         }
 
-        String mail = linea[4];
+        mail = linea[4];
 
         // verifica longitud
         flagLongitud = this.validarLongitud(mail.length(), 50);
