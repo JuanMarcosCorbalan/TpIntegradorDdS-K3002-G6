@@ -112,7 +112,6 @@
     "Application.DisplayImagen.executor": "Run",
     "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "entrega__2.5",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Juan Corbalan/Documents/TpIntegradorDdS-K3002-G6/entrega_2.5"
   }
@@ -149,7 +148,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Sistema/MigracionColaboradores.java</url>
           <line>174</line>
-          <properties class="org.example.Sistema.MigracionColaboradores" method="obtenerColaborador">
+          <properties class="org.example.Sistema.MigracionColaboradores">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
