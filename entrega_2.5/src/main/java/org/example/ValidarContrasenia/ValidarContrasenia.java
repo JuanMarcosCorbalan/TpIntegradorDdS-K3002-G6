@@ -9,17 +9,16 @@ public class ValidarContrasenia {
 
     ArrayList<CondicionContrasenia> condiciones = new ArrayList<>();
 
-    public void setearCondiciones()
+    public ValidarContrasenia()
     {
         LargoContrasenia largoContrasenia = new LargoContrasenia();
         condiciones.add(largoContrasenia);
         ContraseniaComun contraseniaComun = new ContraseniaComun();
         condiciones.add(contraseniaComun);
-
+        // Agregar las condiciones aca
     }
 
-    public boolean validar(String contrasenia)
-    {
+    public boolean validar(String contrasenia) throws IOException {
         for(CondicionContrasenia condicion : condiciones)
         {
             if(!condicion.validar(contrasenia))
