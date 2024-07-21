@@ -1,15 +1,19 @@
 package org.example.ValidarContrasenia;
 
+import static org.example.ValidarContrasenia.condiciones.CONTRASENIA_MENOR_OCHO_CARACTERES;
+
 public class LargoContrasenia extends CondicionContrasenia {
 
     @Override
-    public boolean validar(String password)
+    public int validar(String password)
     {
         if(password.length() < 8)
         {
-            System.out.print("LA CONTRASEÑA TIENE MENOS DE 8 CARACTERES");
-            return false;
+            return CONTRASENIA_MENOR_OCHO_CARACTERES.ordinal();
         }
-        else return true;
+        else
+        {
+            return -1;
+        }
     }
 }

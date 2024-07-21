@@ -21,7 +21,7 @@ public class ValidarContrasenia {
     public boolean validar(String contrasenia) throws IOException {
         for(CondicionContrasenia condicion : condiciones)
         {
-            if(!condicion.validar(contrasenia))
+            if(condicion.validar(contrasenia) != -1)
             {
                 return false;
             }
