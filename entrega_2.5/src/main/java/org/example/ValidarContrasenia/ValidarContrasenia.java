@@ -9,8 +9,7 @@ public class ValidarContrasenia {
 
     ArrayList<CondicionContrasenia> condiciones = new ArrayList<>();
 
-    public ValidarContrasenia()
-    {
+    public ValidarContrasenia() throws IOException {
         LargoContrasenia largoContrasenia = new LargoContrasenia();
         condiciones.add(largoContrasenia);
         ContraseniaComun contraseniaComun = new ContraseniaComun();
