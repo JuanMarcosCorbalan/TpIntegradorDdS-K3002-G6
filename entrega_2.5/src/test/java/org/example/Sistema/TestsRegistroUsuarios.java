@@ -17,7 +17,7 @@ public class TestsRegistroUsuarios {
 
     @Test
     void usuario_no_registrado() throws IOException {
-        RegistrarUsuario.validar_usuario("arbolito23","Hola3456");
+        RegistrarUsuario.comprobar_registrar_usuario("arbolito23","Hola3456");
         boolean usuario_en_hash_map = RegistrarUsuario.usuarios_contrasenias.containsKey("arbolito23");
         assertFalse(usuario_en_hash_map,"Se rechaza el registro del usuario por contrasenia invalida");
     }
