@@ -21,4 +21,8 @@ public class Donacion_dinero extends Contribucion{
         this.frecuencia = frecuencia;
     }
 
+    @Override
+    public double calcular_puntos() {
+        return monto*ConstCalculo.PESOS_DONADOS.getValor();
+    }
 }

@@ -7,31 +7,34 @@ import java.util.List;
 import org.example.Colaborador.Colaborador;
 import org.example.PersonaVulnerable.Tarjeta;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
-import org.example.PersonaVulnerable.TarjetaDuenio;
 
 
 public class RegistrarPersonasSV extends Contribucion{
-    List<Tarjeta> tarjetas = new ArrayList<Tarjeta>();
+    //List<Tarjeta> tarjetas = new ArrayList<Tarjeta>();
+    List<String> ids_tarjetas = new ArrayList<String>();
     List<PersonaSituacionVulnerable> personasSituacionVulnerable = new ArrayList<PersonaSituacionVulnerable>();
-    Integer cantidadTarjetasRepartidas =  this.cantidadTarjetas();
-
+    Integer cantidadTarjetasRepartidas;
 
     public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
-
+        int contador = 0;
         for(PersonaSituacionVulnerable personaSituacion : personasSituacionVulnerable){
-            if(!tarjetas.isEmpty()) {
-                Tarjeta tarjeta_asignar = tarjetas.remove(0);
-                TarjetaDuenio nueva_tarjeta = new TarjetaDuenio(tarjeta_asignar, colaborador, personaSituacion);
-                //ESTA BIEN LLAMADO A colaborador?
-            }
+            String id_tarjeta = ids_tarjetas.remove(contador);
+            Tarjeta nueva_tarjeta = new Tarjeta(id_tarjeta,colaborador,personaSituacion);
+            contador++;
         }
     }
+
     public int cantidadTarjetas(){
-        return tarjetas.size();
+        return ids_tarjetas.size();
     }
 
     public RegistrarPersonasSV(Integer cantidadTarjetasRepartidas, Date fechaColaboracion) {
         super(fechaColaboracion);
         this.cantidadTarjetasRepartidas = cantidadTarjetasRepartidas;
+    }
+
+    @Override
+    public double calcular_puntos() {
+        return cantidadTarjetasRepartidas*ConstCalculo.TARJETAS_REPARTIDAS.getValor();
     }
 }

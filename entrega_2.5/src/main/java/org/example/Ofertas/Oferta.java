@@ -1,8 +1,10 @@
 package org.example.Ofertas;
 
+import org.example.Formas_contribucion.Contribucion;
+
 import java.io.File;
 
-public class Oferta {
+public class Oferta extends Contribucion {
     String nombre;
     Integer puntosNecesarios;
     File imagenIlustrativa;

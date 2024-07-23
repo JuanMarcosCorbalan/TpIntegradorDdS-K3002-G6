@@ -11,4 +11,9 @@ public class Ingresar_vianda_heladera extends Contribucion{
     public void ingresar_vianda() {
         heladera_destino.aniadirVianda(vianda_ingresada);
     }
+
+    @Override
+    public double calcular_puntos() {
+        return super.calcular_puntos();
+    }
 }

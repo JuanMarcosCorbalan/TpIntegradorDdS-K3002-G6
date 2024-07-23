@@ -26,4 +26,8 @@ public class Donacion_viandas extends Contribucion{
         super(fecha_contribucion);
     }
 
+    @Override
+    public double calcular_puntos() {
+        return cant_viandas()*ConstCalculo.VIANDAS_DONADAS.getValor();
+    }
 }

@@ -16,7 +16,7 @@ public class Colaborador extends Rol {
     Forma_colaborar[] formas_de_colaborar;
     //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
-    int puntos;
+    //double puntos;
 
     public void aniadirMedioContacto(){
 
@@ -27,6 +27,8 @@ public class Colaborador extends Rol {
 
     // si se pasa un parametro realiza esa contribucion
     // habria que validar que el colaborador pueda hacerlo
+
+    /* CAMBIAR LA LOGICA DE REALIZAR CONTRIBUCION CON LO QUE NOS DIJERON EN LA ENTREGA 2.5
     public void realizar_contribucion(Contribucion contribucion_a_realizar) {
         if(contribucion_a_realizar.verificar_colaborador(this))
         {
@@ -34,6 +36,9 @@ public class Colaborador extends Rol {
             contribuciones.add(contribucion_a_realizar);
         }
     }
+
+    */
+
     public void agregarContribucion(Contribucion nuevaContribucion){
         contribuciones.add(nuevaContribucion);
     }
@@ -56,38 +61,20 @@ public class Colaborador extends Rol {
         this.persona = persona_colaboradora;
     }
 
-    public int getPuntos() {
-        int pesos_donados = 0;
-        int viandas_distribuidas = 0;
-        int viandas_donadas = 0;
-        int tarjetas_repartidas = 0;
+    public double getPuntos() {
+        double puntos = 0;
+        
         for (Contribucion contribucion : contribuciones)
         {
-            if(contribucion instanceof Donacion_dinero)
-            {
-                pesos_donados += ((Donacion_dinero) contribucion).getMonto();
-            }
-            else if(contribucion instanceof Distribucion_viandas)
-            {
-                viandas_distribuidas += ((Distribucion_viandas) contribucion).getCantidad_viandas_a_mover();
-            }
-            else if(contribucion instanceof Donacion_viandas)
-            {
-                viandas_donadas += ((Donacion_viandas) contribucion).cant_viandas();
-            }
-            else
-            {
-                tarjetas_repartidas += ((RegistrarPersonasSV) contribucion).cantidadTarjetas();
-            }
+            puntos+= contribucion.calcular_puntos();
         }
-        puntos = (int) (CoeficientesCalculoPuntos.pesos_donados * pesos_donados + CoeficientesCalculoPuntos.viandas_distribuidas * viandas_distribuidas
-                + CoeficientesCalculoPuntos.viandas_donadas * viandas_donadas + CoeficientesCalculoPuntos.tarjetas_repartidas * tarjetas_repartidas);
+        
         return puntos;
     }
 
     public void canjearOferta(Oferta oferta)
     {
-        if(oferta.getPuntosNecesarios()<=puntos)
+        if(oferta.getPuntosNecesarios()<=getPuntos())
         {
             oferta.canjear();
         }
@@ -95,9 +82,9 @@ public class Colaborador extends Rol {
     }
 
 
-    public void setPuntos(int puntos) {
+    /*public void setPuntos(int puntos) {
         this.puntos = puntos;
-    }
+    }*/
 
     public Persona getPersona_colaboradora() {
         return persona;

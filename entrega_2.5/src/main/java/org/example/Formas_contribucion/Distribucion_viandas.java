@@ -22,4 +22,9 @@ public class Distribucion_viandas extends Contribucion{
         super(fechaColaboracion);
         this.cantidad_viandas_a_mover = cantidad_viandas_a_mover;
     }
+
+    @Override
+    public double calcular_puntos() {
+        return cantidad_viandas_a_mover*ConstCalculo.VIANDAS_DISTRIBUIDAS.getValor();
+    }
 }
