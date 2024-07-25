@@ -3,6 +3,7 @@ package org.example.Heladeras;
 import org.example.PersonaVulnerable.RetirarVianda;
 import org.example.PersonaVulnerable.RetiroVianda;
 import org.example.Validadores_Sensores.Validador;
+import org.example.Heladeras.EstadoHeladera;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,4 +80,6 @@ public class Heladera {
     public void setPuntoUbicacion(PuntoUbicacion puntoUbicacion) {
         this.puntoUbicacion = puntoUbicacion;
     }
+
+    public void desactivar(){this.estado_actual = EstadoHeladera.INACTIVO;}
 }

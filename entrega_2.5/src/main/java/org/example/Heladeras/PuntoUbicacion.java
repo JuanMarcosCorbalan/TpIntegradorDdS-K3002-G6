@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class PuntoUbicacion {
-    String latitud;
-    String longitud;
+    Integer latitud;
+    Integer longitud;
     String direccion;
     String nombre;
 
@@ -17,4 +17,7 @@ public class PuntoUbicacion {
     public void quitarHeladera(Heladera heladera){
         heladeras.remove(heladera);
     }
+
+    public Integer getLatitud() {return latitud;}
+    public Integer getLongitud() {return longitud;}
 }

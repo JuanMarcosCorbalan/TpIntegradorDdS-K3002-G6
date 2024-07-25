@@ -15,7 +15,7 @@ public class Main {
 
     static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
-    List<Tecnico> tecnicos = new ArrayList<Tecnico>();
+    public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
     public static void main(String[] args) {
         List<Colaborador> colaboradoresNuevo = colaboradores;
