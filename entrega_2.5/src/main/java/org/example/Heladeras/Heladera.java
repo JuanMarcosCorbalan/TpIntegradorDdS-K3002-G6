@@ -1,8 +1,12 @@
 package org.example.Heladeras;
 
-import org.example.PersonaVulnerable.RetirarVianda;
 import org.example.PersonaVulnerable.RetiroVianda;
+import org.example.Suscripcion.AvisoPorDesperfecto;
+import org.example.Suscripcion.FaltanNViandas;
+import org.example.Suscripcion.QuedanNViandas;
+import org.example.Suscripcion.Suscripcion;
 import org.example.Validadores_Sensores.Validador;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +23,7 @@ public class Heladera {
     List<Validador> validadores = new ArrayList<Validador>();
     int temperaturaMaxima;
     int temperaturaMinima;
+    List<Suscripcion> suscripciones = new ArrayList<Suscripcion>();
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();
@@ -36,12 +41,15 @@ public class Heladera {
     }
     public void aniadirVianda(Vianda unaVianda){
         viandas.add(unaVianda);
+        this.chequearAvisoASuscriptores();
     }
     public void quitarVianda(Vianda unaVianda){
         viandas.remove(unaVianda);
+        this.chequearAvisoASuscriptores();
     }
     public void quitarVianda(){
         viandas.removeFirst();
+        this.chequearAvisoASuscriptores();
     }
     public void definirTemperatura(int temperaturaMinima, int temperaturaMaxima){
         this.setTemperaturaMaxima(temperaturaMaxima);
@@ -78,5 +86,26 @@ public class Heladera {
 
     public void setPuntoUbicacion(PuntoUbicacion puntoUbicacion) {
         this.puntoUbicacion = puntoUbicacion;
+    }
+
+    public void agregarSuscripcion(Suscripcion unaSuscripcion){
+        suscripciones.add(unaSuscripcion);
+    }
+    public void chequearAvisoASuscriptores(){
+        for (Suscripcion suscripcion : suscripciones){
+            if (suscripcion instanceof QuedanNViandas && unidadViandasActual <= QuedanNViandas.getCantViandas()){
+                suscripcion.darAviso();
+                return;
+            } else {
+                if (suscripcion instanceof FaltanNViandas && unidadesMaximoViandas - unidadViandasActual >= FaltanNViandas.getCantViandas()){
+                    suscripcion.darAviso();
+                    return;
+                } else {
+                    if (suscripcion instanceof AvisoPorDesperfecto) {
+                        suscripcion.darAviso();
+                    }
+                }
+            }
+        }
     }
 }

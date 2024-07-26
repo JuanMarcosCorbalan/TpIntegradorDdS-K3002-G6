@@ -6,6 +6,7 @@ import org.example.Ofertas.Oferta;
 import org.example.Persona.CoeficientesCalculoPuntos;
 import org.example.Persona.Persona;
 import org.example.Persona.Rol;
+import org.example.Suscripcion.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +98,12 @@ public class Colaborador extends Rol {
     public void setContribuciones(List<Contribucion> contribuciones) {
         this.contribuciones = contribuciones;
     }
+
+    public void suscribirseAHeladera(Heladera heladeraASuscribirse, TipoSuscripcion tipoSuscripcion, Integer numeroViandas){
+        Suscripcion suscripcion = CreacionSuscripcion.crearSuscripcion(tipoSuscripcion, numeroViandas);
+        heladeraASuscribirse.agregarSuscripcion(suscripcion);
+    }
+
+
 }
 
