@@ -31,5 +31,6 @@ public class FallaTecnica extends Incidente{
     {
         BuscarTecnico buscarTecnico = new BuscarTecnico();
         this.tecnicoAsignado = buscarTecnico.buscarTecnico(tecnicos,ubicacion);
+        tecnicoAsignado.asignarFalla(this);
     }
 }

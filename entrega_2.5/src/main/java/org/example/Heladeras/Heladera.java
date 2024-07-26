@@ -82,4 +82,5 @@ public class Heladera {
     }
 
     public void desactivar(){this.estado_actual = EstadoHeladera.INACTIVO;}
+    public void activar(){this.estado_actual = EstadoHeladera.ACTIVA;}
 }
