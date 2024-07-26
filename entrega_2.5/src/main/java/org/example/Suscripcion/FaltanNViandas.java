@@ -1,11 +1,11 @@
 package org.example.Suscripcion;
 
-public class FaltanNViandas extends Suscripcion{
+public class FaltanNViandas implements Suscripcion{
 
     static Integer cantViandas;
 
     public FaltanNViandas(Integer cantViandas) {
-        this.cantViandas = cantViandas;
+        FaltanNViandas.cantViandas = cantViandas;
     }
 
     public static Integer getCantViandas() {

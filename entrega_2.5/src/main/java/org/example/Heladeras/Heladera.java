@@ -1,10 +1,10 @@
 package org.example.Heladeras;
 
 import org.example.PersonaVulnerable.RetiroVianda;
+import org.example.Suscripcion.AdministradorSuscripciones;
 import org.example.Suscripcion.AvisoPorDesperfecto;
 import org.example.Suscripcion.FaltanNViandas;
 import org.example.Suscripcion.QuedanNViandas;
-import org.example.Suscripcion.Suscripcion;
 import org.example.Validadores_Sensores.Validador;
 
 import java.util.ArrayList;
@@ -20,10 +20,9 @@ public class Heladera {
     Date FechaFuncionamiento;
     EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
-    List<Validador> validadores = new ArrayList<Validador>();
     int temperaturaMaxima;
     int temperaturaMinima;
-    List<Suscripcion> suscripciones = new ArrayList<Suscripcion>();
+    AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();
@@ -41,16 +40,16 @@ public class Heladera {
     }
     public void aniadirVianda(Vianda unaVianda){
         viandas.add(unaVianda);
-        this.chequearAvisoASuscriptores();
+        this.notificar_viandas_faltantes();
+        this.notificar_viandas_sobrantes();
     }
-    public void quitarVianda(Vianda unaVianda){
-        viandas.remove(unaVianda);
-        this.chequearAvisoASuscriptores();
-    }
+
     public void quitarVianda(){
         viandas.removeFirst();
-        this.chequearAvisoASuscriptores();
+        this.notificar_viandas_sobrantes();
+        this.notificar_viandas_faltantes();
     }
+
     public void definirTemperatura(int temperaturaMinima, int temperaturaMaxima){
         this.setTemperaturaMaxima(temperaturaMaxima);
         this.setTemperaturaMinima(temperaturaMinima);
@@ -61,6 +60,7 @@ public class Heladera {
         retiros.add(retiro);
     }
 
+    //SUFRE DESPERFECTO NOTIFICAR, CON EVENTTPYRE "desperfecto"
 
     // GETTERS Y SETTERS
 
@@ -88,24 +88,22 @@ public class Heladera {
         this.puntoUbicacion = puntoUbicacion;
     }
 
-    public void agregarSuscripcion(Suscripcion unaSuscripcion){
-        suscripciones.add(unaSuscripcion);
+    public AdministradorSuscripciones getAdmin_suscr() {return admin_suscr;}
+
+    public int getViandasActuales(){return viandas.size();}
+
+    public void notificar_viandas_sobrantes() {
+        int viandasActuales = getViandasActuales();
+        admin_suscr.notificar("Quedan"+Integer.toString(viandasActuales)+"Viandas");
     }
-    public void chequearAvisoASuscriptores(){
-        for (Suscripcion suscripcion : suscripciones){
-            if (suscripcion instanceof QuedanNViandas && unidadViandasActual <= QuedanNViandas.getCantViandas()){
-                suscripcion.darAviso();
-                return;
-            } else {
-                if (suscripcion instanceof FaltanNViandas && unidadesMaximoViandas - unidadViandasActual >= FaltanNViandas.getCantViandas()){
-                    suscripcion.darAviso();
-                    return;
-                } else {
-                    if (suscripcion instanceof AvisoPorDesperfecto) {
-                        suscripcion.darAviso();
-                    }
-                }
-            }
-        }
+    public void notificar_viandas_faltantes() {
+        Integer viandasActuales = getViandasActuales();
+        int viandas_faltantes = (Integer) unidadesMaximoViandas - viandasActuales;
+        admin_suscr.notificar("Faltan"+Integer.toString(viandas_faltantes) +"Viandas");
     }
+    public void notificar_desperfecto()
+    {
+        admin_suscr.notificar("Aviso-Desperfecto");
+    }
+
 }

@@ -1,12 +1,7 @@
 package org.example.Suscripcion;
 
-import org.example.Colaborador.Colaborador;
-import org.example.Heladeras.Heladera;
+public interface Suscripcion {
 
-public class Suscripcion {
-    Heladera heladera;
-    Colaborador colaborador;
-    Integer cantViandas;
-    
-    public void darAviso(){}
+    default void darAviso(){
+    }
 }

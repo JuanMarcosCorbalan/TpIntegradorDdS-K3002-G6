@@ -8,4 +8,11 @@ public class CreacionSuscripcion {
         else if (tipo.toString() == "AVISOPORDESPERFECTO") return new AvisoPorDesperfecto();
         else return null;
     }
+
+    public static String definirEveneto(TipoSuscripcion tipo, Integer cantViandas) {
+        if(tipo.toString() == "QUEDANNVIANDAS") return "Quedan"+cantViandas.toString()+"Viandas";
+        else if(tipo.toString() == "FANTANNVIANDAS") return "Faltan"+cantViandas.toString()+"Viandas";
+        else if(tipo.toString() == "AVISOPORDESPERFECTO") return "Aviso-Desperfecto";
+        else return null;
+    }
 }

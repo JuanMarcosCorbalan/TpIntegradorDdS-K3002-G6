@@ -1,6 +1,6 @@
 package org.example.Suscripcion;
 
-public class AvisoPorDesperfecto extends Suscripcion {
+public class AvisoPorDesperfecto implements Suscripcion {
 
     @Override
     public void darAviso(){

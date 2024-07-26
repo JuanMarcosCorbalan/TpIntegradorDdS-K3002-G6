@@ -101,8 +101,10 @@ public class Colaborador extends Rol {
 
     public void suscribirseAHeladera(Heladera heladeraASuscribirse, TipoSuscripcion tipoSuscripcion, Integer numeroViandas){
         Suscripcion suscripcion = CreacionSuscripcion.crearSuscripcion(tipoSuscripcion, numeroViandas);
-        heladeraASuscribirse.agregarSuscripcion(suscripcion);
+        heladeraASuscribirse.getAdmin_suscr().suscribirse(CreacionSuscripcion.definirEveneto(tipoSuscripcion,numeroViandas),suscripcion);
     }
+
+
 
 
 }
