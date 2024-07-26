@@ -24,9 +24,9 @@ public class TestsRegistroUsuarios {
 
     @Test
     void usuario_existente() throws IOException {
-        RegistrarUsuario.comprobar_registrar_usuario("rood92","Hola_1234");
-        RegistrarUsuario.comprobar_registrar_usuario("rood92","Comova_12345");
-        String contrasenia = RegistrarUsuario.usuarios_contrasenias.get("rood92");
+        RegistrarUsuario.comprobar_registrar_usuario("rood93","Hola_1234");
+        RegistrarUsuario.comprobar_registrar_usuario("rood93","Comova_12345");
+        String contrasenia = RegistrarUsuario.usuarios_contrasenias.get("rood93");
         assertEquals("Hola_1234",contrasenia,"No se registran dos usuarios con el mismo nombre");
 
     }

@@ -5,11 +5,11 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Personal.BuscarTecnico;
 import org.example.Personal.Tecnico;
-import org.example.Main;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class FallaTecnica extends Incidente{
     Colaborador colaborador;
@@ -27,7 +27,7 @@ public class FallaTecnica extends Incidente{
         this.heladera = heladera;
     }
 
-    public void asignarTecnico(PuntoUbicacion ubicacion)
+    public void asignarTecnico(PuntoUbicacion ubicacion, List<Tecnico> tecnicos)
     {
         BuscarTecnico buscarTecnico = new BuscarTecnico();
         this.tecnicoAsignado = buscarTecnico.buscarTecnico(tecnicos,ubicacion);

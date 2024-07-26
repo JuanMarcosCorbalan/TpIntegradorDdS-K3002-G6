@@ -62,7 +62,7 @@ public class Main {
     }
 
 
-    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais ,String latitud, String longitud , String radio)
+    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais ,Integer latitud, Integer longitud , String radio)
     {
         Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
         AreaCobertura nueva_area = new AreaCobertura(latitud,longitud,radio);

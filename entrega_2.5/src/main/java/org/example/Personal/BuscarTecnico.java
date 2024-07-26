@@ -3,8 +3,10 @@ package org.example.Personal;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Persona.Persona_fisica;
 
+import java.util.List;
+
 public class BuscarTecnico {
-    public Tecnico buscarTecnico(Tecnico[] tecnicos, PuntoUbicacion ubicacion) {
+    public Tecnico buscarTecnico(List<Tecnico> tecnicos, PuntoUbicacion ubicacion) {
         Tecnico tecnicoMasCercano = null;
         double menorDistancia = Double.MAX_VALUE;
 
