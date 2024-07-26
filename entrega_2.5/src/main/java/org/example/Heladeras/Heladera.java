@@ -24,6 +24,12 @@ public class Heladera {
     int temperaturaMaxima;
     int temperaturaMinima;
     List<Suscripcion> suscripciones = new ArrayList<Suscripcion>();
+    int cantidadFallas;
+    int cantidadViandasDonadas;
+
+    public Heladera(String idHeladera) {
+        this.idHeladera = idHeladera;
+    }
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();
@@ -61,8 +67,29 @@ public class Heladera {
         retiros.add(retiro);
     }
 
+    public Integer cantidadViandasRetiradas(){
+        return retiros.size();
+    }
+
+    public void aniadirDonacion(){
+        cantidadViandasDonadas++;
+    }
+
 
     // GETTERS Y SETTERS
+
+
+    public String getIdHeladera() {
+        return idHeladera;
+    }
+
+    public Integer getCantidadFallas(){
+        return cantidadFallas;
+    }
+
+    public int getCantidadViandasDonadas() {
+        return cantidadViandasDonadas;
+    }
 
     public int getTemperaturaMaxima() {
         return temperaturaMaxima;
