@@ -1,0 +1,116 @@
+/* Asegurar que la página ocupe toda la altura y el footer esté en la parte inferior */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #D6A3FF; /* Fondo violeta claro */
+}
+
+/* Contenedor principal que se expande para ocupar el espacio disponible */
+.container {
+  flex: 1;
+}
+
+/* Puntos del cliente */
+.puntos-cliente {
+  background-color: rgb(117, 40, 241); /* Fondo naranja */
+  border-radius: 15px;
+  display: inline-block;
+}
+
+.puntos-cliente h2 {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Ofertas - Estilos de las cartas */
+.custom-column {
+  background-color: #FFA500;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
+.custom-column img {
+  border-radius: 10px;
+  max-height: 200px;
+}
+
+.custom-column h5 {
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.custom-column p {
+  font-size: 16px;
+}
+
+.puntos {
+  font-weight: bold;
+  color: rgb(8, 8, 8);
+}
+
+/* Botón de canje */
+.custom-column button {
+  margin-top: 15px;
+  background-color: #28a745; /* Verde para el botón */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+}
+
+.custom-column button:hover {
+  background-color: #218838;
+}
+
+/* Footer siempre en la parte inferior */
+footer {
+  background-color: #EAEAEA;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.img-logo {
+  height: 90px;
+  display: inline-block;
+}
+
+header {
+  background-color: rgb(117, 40, 241);
+  height: 50px;
+  width: 100vw;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.img-logo {
+  height: 60px;
+}
+
+.btn-settings {
+  background: rgb(163, 83, 238);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.settings-icon {
+  width: 30px;
+  height: 30px;
+  background: none;
+}
+
