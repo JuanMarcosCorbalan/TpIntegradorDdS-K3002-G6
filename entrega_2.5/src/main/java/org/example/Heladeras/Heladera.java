@@ -6,6 +6,7 @@ import org.example.Suscripcion.AvisoPorDesperfecto;
 import org.example.Suscripcion.FaltanNViandas;
 import org.example.Suscripcion.QuedanNViandas;
 import org.example.Validadores_Sensores.Validador;
+import org.example.Heladeras.EstadoHeladera;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +88,9 @@ public class Heladera {
     public void setPuntoUbicacion(PuntoUbicacion puntoUbicacion) {
         this.puntoUbicacion = puntoUbicacion;
     }
+
+    public void desactivar(){this.estado_actual = EstadoHeladera.INACTIVO;}
+    public void activar(){this.estado_actual = EstadoHeladera.ACTIVA;}
 
     public AdministradorSuscripciones getAdmin_suscr() {return admin_suscr;}
 

@@ -7,7 +7,10 @@ import org.example.Persona.CoeficientesCalculoPuntos;
 import org.example.Persona.Persona;
 import org.example.Persona.Rol;
 import org.example.Suscripcion.*;
+import org.example.Personal.Tecnico;
+import org.example.Validadores_Sensores.FallaTecnica;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +100,19 @@ public class Colaborador extends Rol {
 
     public void setContribuciones(List<Contribucion> contribuciones) {
         this.contribuciones = contribuciones;
+    }
+
+    public void reportarFallaTenica(Heladera heladera, String descripcion, File foto)
+    {
+        heladera.desactivar();
+        List<Tecnico> tecnicos = new ArrayList<>();//IRREAL, DEBERIA TOMAR LA LISTA REAL CON LOS TECNICOS
+        FallaTecnica fallaTecnica = this.reportarIncidente(this,descripcion,foto,heladera);
+        fallaTecnica.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
+    }
+
+    public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,File foto,Heladera heladera)
+    {
+        return new FallaTecnica(colaborador,descripcion,foto,heladera);
     }
 
     public void suscribirseAHeladera(Heladera heladeraASuscribirse, TipoSuscripcion tipoSuscripcion, Integer numeroViandas){

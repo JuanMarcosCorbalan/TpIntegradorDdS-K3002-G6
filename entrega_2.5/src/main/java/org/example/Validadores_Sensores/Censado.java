@@ -6,5 +6,5 @@ import java.util.Date;
 public class Censado {
     Date fechaSensado;
     Time horaSensado;
-    Sensor sensor;
+    //Sensor sensor;
 }
