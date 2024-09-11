@@ -2,6 +2,8 @@ package org.example.Formas_contribucion;
 
 import org.example.Colaborador.Colaborador;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Date;
 
 abstract public class Contribucion {
@@ -10,7 +12,9 @@ abstract public class Contribucion {
 
 
 
-    public void realizar_contribucion (){};
+    public void realizar_contribucion (){
+        colaborador.agregarContribucion(this);
+    };
     public void verificar_colaborador(Colaborador colaborador) {};
     public double calcular_puntos(){return 0.0;};
 
@@ -18,6 +22,9 @@ abstract public class Contribucion {
         this.fecha_contribucion = fecha_contribucion;
     }
 
+    public Contribucion(Colaborador colaborador){
+        this.colaborador = colaborador;
+    }
     public Contribucion() {
     }
 

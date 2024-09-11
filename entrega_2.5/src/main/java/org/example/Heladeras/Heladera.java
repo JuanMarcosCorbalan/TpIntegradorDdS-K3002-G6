@@ -5,6 +5,7 @@ import org.example.Suscripcion.AdministradorSuscripciones;
 import org.example.Suscripcion.AvisoPorDesperfecto;
 import org.example.Suscripcion.FaltanNViandas;
 import org.example.Suscripcion.QuedanNViandas;
+import org.example.Suscripcion.Suscripcion;
 import org.example.Validadores_Sensores.Validador;
 import org.example.Heladeras.EstadoHeladera;
 
@@ -21,9 +22,16 @@ public class Heladera {
     Date FechaFuncionamiento;
     EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
+    List<Validador> validadores = new ArrayList<Validador>();
     int temperaturaMaxima;
     int temperaturaMinima;
     AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
+    int cantidadFallas;
+    int cantidadViandasDonadas;
+
+    public Heladera(String idHeladera) {
+        this.idHeladera = idHeladera;
+    }
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();
@@ -50,7 +58,6 @@ public class Heladera {
         this.notificar_viandas_sobrantes();
         this.notificar_viandas_faltantes();
     }
-
     public void definirTemperatura(int temperaturaMinima, int temperaturaMaxima){
         this.setTemperaturaMaxima(temperaturaMaxima);
         this.setTemperaturaMinima(temperaturaMinima);
@@ -62,8 +69,29 @@ public class Heladera {
     }
 
     //SUFRE DESPERFECTO NOTIFICAR, CON EVENTTPYRE "desperfecto"
+    public Integer cantidadViandasRetiradas(){
+        return retiros.size();
+    }
+
+    public void aniadirDonacion(){
+        cantidadViandasDonadas++;
+    }
+
 
     // GETTERS Y SETTERS
+
+
+    public String getIdHeladera() {
+        return idHeladera;
+    }
+
+    public Integer getCantidadFallas(){
+        return cantidadFallas;
+    }
+
+    public int getCantidadViandasDonadas() {
+        return cantidadViandasDonadas;
+    }
 
     public int getTemperaturaMaxima() {
         return temperaturaMaxima;
@@ -109,5 +137,4 @@ public class Heladera {
     {
         admin_suscr.notificar("Aviso-Desperfecto");
     }
-
 }

@@ -37,6 +37,11 @@ public class Persona_fisica extends Persona{
         this.documento_identidad = documento_identidad;
     }
 
+    public Persona_fisica(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
     @Override
     public boolean equals(Object o){
         if (this == o) return true;
