@@ -2,12 +2,7 @@ package org.example.Heladeras;
 
 import org.example.PersonaVulnerable.RetiroVianda;
 import org.example.Suscripcion.AdministradorSuscripciones;
-import org.example.Suscripcion.AvisoPorDesperfecto;
-import org.example.Suscripcion.FaltanNViandas;
-import org.example.Suscripcion.QuedanNViandas;
-import org.example.Suscripcion.Suscripcion;
-import org.example.Validadores_Sensores.Validador;
-import org.example.Heladeras.EstadoHeladera;
+import org.example.Validadores_Sensores.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,13 +20,24 @@ public class Heladera {
     List<Validador> validadores = new ArrayList<Validador>();
     int temperaturaMaxima;
     int temperaturaMinima;
+    Double temperaturaActual;
     AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
     int cantidadFallas;
     int cantidadViandasDonadas;
+    ValidadorTemperatura validadorTemp;
+    ValidadorMovimiento validadorMov;
 
+    //CONSTRUCTORES
+    public Heladera(String idHeladera, Double temperaturaActual) {
+        this.idHeladera = idHeladera;
+        this.temperaturaActual=temperaturaActual;
+        this.validadorMov = new ValidadorMovimiento(this);
+        this.validadorTemp = new ValidadorTemperatura(this);
+    }
     public Heladera(String idHeladera) {
         this.idHeladera = idHeladera;
     }
+
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();
@@ -79,6 +85,8 @@ public class Heladera {
 
 
     // GETTERS Y SETTERS
+
+    public Double getTemperaturaActual(){return temperaturaActual;}
 
 
     public String getIdHeladera() {
@@ -136,5 +144,34 @@ public class Heladera {
     public void notificar_desperfecto()
     {
         admin_suscr.notificar("Aviso-Desperfecto");
+    }
+
+    public void procesar_Alerta(Alerta alerta)
+    {
+        switch(alerta.getTipo()){
+            case ALERT_TEMPERATURA -> {
+                validadorTemp.darAviso(TipoAlerta.ALERT_TEMPERATURA);
+                desactivar();
+            }
+            case ALERT_FRAUDE -> {
+                validadorMov.darAviso(TipoAlerta.ALERT_FRAUDE);
+                desactivar();
+            }
+            case ALERT_FALLA_CONEX -> desactivar();
+
+        }
+    }
+
+    public void procesar_temperatura(Double temperatura)
+    {
+            temperaturaActual = temperatura;
+    }
+
+    public EstadoHeladera getEstado(){return estado_actual;}
+
+    public ValidadorMovimiento getValidadorMov(){return validadorMov;}
+
+    public ValidadorTemperatura getValidadorTemp() {
+        return validadorTemp;
     }
 }
