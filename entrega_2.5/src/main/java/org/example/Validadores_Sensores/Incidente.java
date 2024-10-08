@@ -10,4 +10,16 @@ public class Incidente {
     LocalDate fecha;
     LocalTime hora;
     TipoIncidente tipoIncidente;
+
+    public Incidente(Heladera heladera, TipoIncidente tipoIncidente) {
+        this.heladera = heladera;
+        this.fecha = LocalDate.now();
+        this.hora = LocalTime.now();
+        this.tipoIncidente = tipoIncidente;
+    }
+
+
+    public Incidente() {
+
+    }
 }

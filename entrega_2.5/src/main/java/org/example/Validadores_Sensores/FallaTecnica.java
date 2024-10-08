@@ -18,6 +18,7 @@ public class FallaTecnica extends Incidente{
     Tecnico tecnicoAsignado;
 
     public FallaTecnica(Colaborador colaborador, String descripcion, File foto, Heladera heladera){
+        super();
         this.colaborador = colaborador;
         this.descripcion = descripcion;
         this.foto = foto;
