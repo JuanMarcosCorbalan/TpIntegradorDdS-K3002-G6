@@ -35,6 +35,8 @@ public class Donacion_viandas extends Contribucion{
         super(colaborador);
         this.heladera = heladera;
         this.vianda = vianda;
+        this.contribucionExitosa = false;
+        this.contribucionFinalizada = false;
     }
 
     @Override
@@ -47,5 +49,25 @@ public class Donacion_viandas extends Contribucion{
         super.realizar_contribucion();
         heladera.aniadirVianda(vianda);
         heladera.aniadirDonacion();
+    }
+
+    public Heladera getHeladera() {
+        return heladera;
+    }
+
+
+    public boolean isContribucionExitosa() {
+        return contribucionExitosa;
+    }
+    public boolean isContribucionFinalizada() {
+        return contribucionFinalizada;
+    }
+
+    public void setContribucionExitosa(boolean contribucionExitosa) {
+        this.contribucionExitosa = contribucionExitosa;
+    }
+
+    public void setContribucionFinalizada(boolean contribucionFinalizada) {
+        this.contribucionFinalizada = contribucionFinalizada;
     }
 }

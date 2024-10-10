@@ -8,6 +8,8 @@ import org.example.Persona.Persona;
 import org.example.Persona.Rol;
 import org.example.Suscripcion.*;
 import org.example.Personal.Tecnico;
+import org.example.Tarjetas.SolicitudApertura;
+import org.example.Tarjetas.SolicitudWeb;
 import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Validadores_Sensores.FallaTecnica;
 
@@ -133,14 +135,47 @@ public class Colaborador extends Rol {
     }
 
     private void solicitarDonacionVianda(Heladera HeladeraAIngresarViandas, Vianda ViandaADonar){
-        Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
 
         int flagHeladera = HeladeraAIngresarViandas.verificarEspacioDisponible();
         if (flagHeladera == 0) {
+            // si la heladera no tiene lugar tira error
             throw new Error("Espacio no disponible en heladera, seleccione otra!");
         } else {
+            // si la heladera tiene lugar al momento de solicitar hacer la colaboracion, se crea,
+            // se agrega a la lista de contrib y se crea la solicitud
+            // aca se crea una nueva contribucion con estado pendiente (false en entregada)
+            Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
             contribuciones.add(Contribucion);
-            Tarjeta.crearSolicitudWeb();
+            Tarjeta.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
+        }
+    }
+
+    public void concretarDonacionVianda(Heladera heladera) {
+        // para cada una de las contribuciones, busca las que son donaciones de vianda para esa heladera
+        for (Contribucion contribucion: contribuciones) {
+            SolicitudApertura solicitudApertura = Tarjeta.crearSolicitudApertura(heladera);
+            // pregunta si es una instancia de donacion de viandas, si no esta finalizada y si el horario es el adecuado
+            if (contribucion instanceof Donacion_viandas donacionActual && !donacionActual.isContribucionFinalizada()) {
+                // si la heladera de la contribucion es la actual
+                if (donacionActual.getHeladera().equals(heladera)) {
+                    // si existe una solicitud que matchee con la heladera
+                    SolicitudWeb solicitudActual = Tarjeta.buscarSolicitudValida(heladera);
+                    if (solicitudActual != null) {
+                        if (!heladera.estaLlena()) {
+                            donacionActual.realizar_contribucion();
+                            donacionActual.setContribucionExitosa(true);
+                            donacionActual.setContribucionFinalizada(true);
+                            solicitudApertura.setAperturaExitosa(true);
+
+                        } else {
+                            donacionActual.setContribucionExitosa(false);
+                            donacionActual.setContribucionFinalizada(true);
+                            solicitudApertura.setAperturaExitosa(false);
+                        }
+                        solicitudActual.setFinalizada(true);
+                    } solicitudApertura.setAperturaExitosa(false);
+                } solicitudApertura.setAperturaExitosa(false);
+            } solicitudApertura.setAperturaExitosa(false);
         }
     }
 }

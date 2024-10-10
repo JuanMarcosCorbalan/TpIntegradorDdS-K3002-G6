@@ -139,6 +139,10 @@ public class Heladera {
            return 0;
        }
     }
+    public boolean estaLlena(){
+        return this.getCantidadViandasActuales() == this.unidadesMaximoViandas;
+    }
+
     public void notificar_viandas_sobrantes() {
         int viandasActuales = getCantidadViandasActuales();
         admin_suscr.notificar("Quedan"+Integer.toString(viandasActuales)+"Viandas");

@@ -25,4 +25,24 @@ public class SolicitudWeb {
         Heladera = heladera;
         Finalizada = false;
     }
+
+    public Heladera getHeladera() {
+        return Heladera;
+    }
+
+    public LocalDate getFechaSolicitud() {
+        return FechaSolicitud;
+    }
+
+    public LocalTime getHoraSolicitud() {
+        return HoraSolicitud;
+    }
+
+    public Boolean getFinalizada() {
+        return Finalizada;
+    }
+
+    public void setFinalizada(Boolean finalizada) {
+        Finalizada = finalizada;
+    }
 }

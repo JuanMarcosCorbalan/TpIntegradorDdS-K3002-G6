@@ -12,7 +12,20 @@ public class SolicitudApertura {
     LocalDate Fecha;
     LocalTime Hora;
     Colaborador Colaborador;
-    Boolean AperturaExitosa;
+    Boolean AperturaExitosa = null;
 
+    public SolicitudApertura(org.example.Heladeras.Heladera heladera, LocalDate fecha, LocalTime hora, org.example.Colaborador.Colaborador colaborador) {
+        Heladera = heladera;
+        Fecha = fecha;
+        Hora = hora;
+        Colaborador = colaborador;
+    }
 
+    public Boolean getAperturaExitosa() {
+        return AperturaExitosa;
+    }
+
+    public void setAperturaExitosa(Boolean aperturaExitosa) {
+        AperturaExitosa = aperturaExitosa;
+    }
 }
