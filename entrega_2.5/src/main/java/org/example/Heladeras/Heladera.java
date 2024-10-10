@@ -132,8 +132,16 @@ public class Heladera {
 
     public int getCantidadViandasActuales(){return viandas.size();}
 
-    public int verificarEspacioDisponible(){
+    public int verificarEspacioUnitarioDisponible(){
        if (unidadesMaximoViandas - getCantidadViandasActuales() > 0) {
+           return 1;
+       } else {
+           return 0;
+       }
+    }
+
+    public int verificarEspacioDisponible(Integer cantidad) {
+       if (getCantidadViandasActuales() + cantidad < unidadesMaximoViandas) {
            return 1;
        } else {
            return 0;

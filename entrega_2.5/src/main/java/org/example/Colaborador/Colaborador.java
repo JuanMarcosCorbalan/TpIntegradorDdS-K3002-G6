@@ -178,5 +178,25 @@ public class Colaborador extends Rol {
             } solicitudApertura.setAperturaExitosa(false);
         }
     }
+
+
+    private void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion){
+
+        int flagHeladeraOrigen = HeladeraOrigen.verificarEspacioUnitarioDisponible();
+        int flagHeladeraDestino = HeladeraDestino.verificarEspacioDisponible(cantidadViandasAMover);
+        if (flagHeladeraOrigen == 0 || flagHeladeraDestino == 0) {
+            // si la heladera origen no tiene la suficiente cantidad de
+            // viandas o la destino no tiene lugar tira error
+            throw new Error("Cantidad de viandas a mover invalida!");
+        } else {
+            // si la heladera origen tiene las viandas disp y si
+            // la heladera destino tiene lugar al momento de solicitar hacer la colaboracion,
+            // se crea, se agrega a la lista de contrib y se crea la solicitud
+            // aca se crea una nueva contribucion con estado pendiente (false en entregada)
+            Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
+            contribuciones.add(Contribucion);
+            Tarjeta.crearSolicitudWebDistribucion();
+        }
+    }
 }
 

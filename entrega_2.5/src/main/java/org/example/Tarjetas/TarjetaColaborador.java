@@ -39,8 +39,11 @@ public class TarjetaColaborador {
         return null;
     }
 
-    public void crearSolicitudWebDistribucion(Heladera heladera){
-        SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladera);
+    public void crearSolicitudesWebDistribucion(Heladera heladeraOrigen, Heladera heladeraDestino){
+        SolicitudWeb nuevaSolicitudWebOrigen = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraOrigen);
+        solicitudesWeb.add(nuevaSolicitudWebOrigen);
+        SolicitudWeb nuevaSolicitudWebDestino = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraDestino);
+        solicitudesWeb.add(nuevaSolicitudWebDestino);
     }
 
     public Boolean duracionMenorA3Horas(SolicitudWeb solicitudWeb){
