@@ -1,4 +1,4 @@
-package org.example.Colaborador;
+package org.example.Tarjetas;
 
 public enum MotivoSolicitud {
     APERTURA_DONACION,

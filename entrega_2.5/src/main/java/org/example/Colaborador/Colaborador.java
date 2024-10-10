@@ -2,12 +2,13 @@ package org.example.Colaborador;
 
 import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
+import org.example.Heladeras.Vianda;
 import org.example.Ofertas.Oferta;
-import org.example.Persona.CoeficientesCalculoPuntos;
 import org.example.Persona.Persona;
 import org.example.Persona.Rol;
 import org.example.Suscripcion.*;
 import org.example.Personal.Tecnico;
+import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Validadores_Sensores.FallaTecnica;
 
 import java.io.File;
@@ -49,7 +50,6 @@ public class Colaborador extends Rol {
     public void agregarContribucion(Contribucion nuevaContribucion){
         contribuciones.add(nuevaContribucion);
     }
-    // si no se pasa un parametro realiza la primera que haya en la lista
     /*
     public void realizar_contribucion(){
         Contribucion contribucion_a_realizar = contribuciones.removeFirst();
@@ -130,6 +130,18 @@ public class Colaborador extends Rol {
             }
         }
         return viandasDonadas;
+    }
+
+    private void solicitarDonacionVianda(Heladera HeladeraAIngresarViandas, Vianda ViandaADonar){
+        Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
+
+        int flagHeladera = HeladeraAIngresarViandas.verificarEspacioDisponible();
+        if (flagHeladera == 0) {
+            throw new Error("Espacio no disponible en heladera, seleccione otra!");
+        } else {
+            contribuciones.add(Contribucion);
+            Tarjeta.crearSolicitudWeb();
+        }
     }
 }
 

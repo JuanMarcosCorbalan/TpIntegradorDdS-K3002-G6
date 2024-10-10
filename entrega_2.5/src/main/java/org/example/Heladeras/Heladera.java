@@ -1,7 +1,7 @@
 package org.example.Heladeras;
 
-import org.example.PersonaVulnerable.RetiroVianda;
 import org.example.Suscripcion.AdministradorSuscripciones;
+import org.example.Tarjetas.RetiroVianda;
 import org.example.Validadores_Sensores.*;
 
 import java.util.ArrayList;
@@ -130,14 +130,21 @@ public class Heladera {
 
     public AdministradorSuscripciones getAdmin_suscr() {return admin_suscr;}
 
-    public int getViandasActuales(){return viandas.size();}
+    public int getCantidadViandasActuales(){return viandas.size();}
 
+    public int verificarEspacioDisponible(){
+       if (unidadesMaximoViandas - getCantidadViandasActuales() > 0) {
+           return 1;
+       } else {
+           return 0;
+       }
+    }
     public void notificar_viandas_sobrantes() {
-        int viandasActuales = getViandasActuales();
+        int viandasActuales = getCantidadViandasActuales();
         admin_suscr.notificar("Quedan"+Integer.toString(viandasActuales)+"Viandas");
     }
     public void notificar_viandas_faltantes() {
-        Integer viandasActuales = getViandasActuales();
+        Integer viandasActuales = getCantidadViandasActuales();
         int viandas_faltantes = (Integer) unidadesMaximoViandas - viandasActuales;
         admin_suscr.notificar("Faltan"+Integer.toString(viandas_faltantes) +"Viandas");
     }

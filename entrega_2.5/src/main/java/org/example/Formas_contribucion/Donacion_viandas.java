@@ -10,19 +10,20 @@ import java.util.Date;
 
 public class Donacion_viandas extends Contribucion{
     Heladera heladera;
-    boolean entregada;
     List<Vianda> viandas = new ArrayList<Vianda>();
     Vianda vianda; // en un inicio creo que son donaciones unitarias de viandas
+    boolean contribucionExitosa;
+    boolean contribucionFinalizada;
 
     public Integer cant_viandas()
     {
         return viandas.size();
     }
 
-    public Donacion_viandas(Heladera heladera, boolean entregada, List<Vianda> viandas, Date fecha_contribucion) {
+    public Donacion_viandas(Heladera heladera, boolean contribucionExitosa, List<Vianda> viandas, Date fecha_contribucion) {
         super(fecha_contribucion);
         this.heladera = heladera;
-        this.entregada = entregada;
+        this.contribucionExitosa = contribucionExitosa;
         this.viandas = viandas;
     }
 

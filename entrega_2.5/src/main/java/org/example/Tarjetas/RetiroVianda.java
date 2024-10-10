@@ -1,11 +1,10 @@
-package org.example.PersonaVulnerable;
+package org.example.Tarjetas;
 
 import org.example.Heladeras.Heladera;
+import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class RetiroVianda {
     PersonaSituacionVulnerable personaSV;

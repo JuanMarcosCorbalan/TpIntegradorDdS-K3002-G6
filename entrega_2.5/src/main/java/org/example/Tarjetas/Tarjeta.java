@@ -1,14 +1,12 @@
-package org.example.PersonaVulnerable;
+package org.example.Tarjetas.PersonaVulnerable;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
+import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Tarjeta {
     String id_tarjeta;

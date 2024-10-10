@@ -9,7 +9,8 @@ import java.util.Date;
 abstract public class Contribucion {
     Colaborador colaborador;
     Date fecha_contribucion;
-
+    Boolean contribucionExitosa;
+    Boolean contribucionTerminada;
 
 
     public void realizar_contribucion (){

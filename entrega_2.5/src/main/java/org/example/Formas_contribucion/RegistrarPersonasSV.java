@@ -5,8 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.example.Colaborador.Colaborador;
-import org.example.PersonaVulnerable.Tarjeta;
+import org.example.Tarjetas.PersonaVulnerable.Tarjeta;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
+import org.example.Tarjetas.Tarjeta;
 
 
 public class RegistrarPersonasSV extends Contribucion{
