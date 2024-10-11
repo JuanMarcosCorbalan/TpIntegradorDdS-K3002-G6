@@ -153,7 +153,7 @@ public class Colaborador extends Rol {
         // para cada una de las contribuciones, busca las que son donaciones de vianda para esa heladera
         for (Contribucion contribucion: contribuciones) {
             SolicitudApertura solicitudApertura = Tarjeta.crearSolicitudApertura(heladera);
-            Tarjeta.verificarAperturaDonacion(heladera, contribucion, solicitudApertura);
+            Tarjeta.verificarApertura(heladera, contribucion, solicitudApertura);
         }
     }
 
@@ -181,9 +181,9 @@ public class Colaborador extends Rol {
         // para cada una de las contribuciones, busca las que son retiros para esa heladera
         for (Contribucion contribucion: contribuciones) {
             SolicitudApertura solicitudAperturaOrigen = Tarjeta.crearSolicitudApertura(heladeraOrigen);
-            Tarjeta.verificarRetiroDistribucion(heladeraOrigen, contribucion, solicitudAperturaOrigen);
+            Tarjeta.verificarApertura(heladeraOrigen, contribucion, solicitudAperturaOrigen);
             SolicitudApertura solicitudAperturaDestino = Tarjeta.crearSolicitudApertura(heladeraDestino);
-            Tarjeta.verificarRetiroDistribucion(heladeraDestino, contribucion, solicitudAperturaDestino);
+            Tarjeta.verificarApertura(heladeraDestino, contribucion, solicitudAperturaDestino);
         }
     }
 }

@@ -55,31 +55,6 @@ public class TarjetaColaborador {
         return duracion.compareTo(Duration.ofHours(3)) <= 0;
     }
 
-    public void verificarAperturaDonacion(Heladera heladera, Contribucion contribucion, SolicitudApertura solicitudApertura){
-        // pregunta si es una instancia de donacion de viandas, si no esta finalizada y si el horario es el adecuado
-        if (contribucion instanceof Donacion_viandas donacionActual && !donacionActual.isContribucionFinalizada()) {
-            // si la heladera de la contribucion es la actual
-            if (donacionActual.getHeladera().equals(heladera)) {
-                // si existe una solicitud que matchee con la heladera
-                SolicitudWeb solicitudActual = this.buscarSolicitudValida(heladera);
-                if (solicitudActual != null) {
-                    if (!heladera.estaLlena()) {
-                        donacionActual.realizar_contribucion();
-                        donacionActual.setContribucionExitosa(true);
-                        donacionActual.setContribucionFinalizada(true);
-                        solicitudApertura.setAperturaExitosa(true);
-
-                    } else {
-                        donacionActual.setContribucionExitosa(false);
-                        donacionActual.setContribucionFinalizada(true);
-                        solicitudApertura.setAperturaExitosa(false);
-                    }
-                    solicitudActual.setFinalizada(true);
-                } solicitudApertura.setAperturaExitosa(false);
-            } solicitudApertura.setAperturaExitosa(false);
-        } solicitudApertura.setAperturaExitosa(false);
-    }
-
     public void verificarApertura(Heladera heladera, Contribucion contribucion, SolicitudApertura solicitudApertura){
         // pregunta si es una instancia de donacion de viandas, si no esta finalizada y si el horario es el adecuado
         if (contribucion instanceof Donacion_viandas donacionActual) {
