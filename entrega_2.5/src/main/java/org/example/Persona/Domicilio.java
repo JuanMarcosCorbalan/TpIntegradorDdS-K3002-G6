@@ -15,6 +15,8 @@ public class Domicilio {
         this.Pais = Pais;
     }
 
+    public Domicilio () {}
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }

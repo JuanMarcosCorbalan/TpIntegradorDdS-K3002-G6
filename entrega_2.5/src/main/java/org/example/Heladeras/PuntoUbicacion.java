@@ -11,6 +11,15 @@ public class PuntoUbicacion {
 
     List<Heladera> heladeras = new ArrayList<Heladera>();
 
+    public PuntoUbicacion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public PuntoUbicacion(Integer latitud, Integer longitud) {
+        this.longitud = longitud;
+        this.latitud = latitud;
+    }
+
     public void aniadirHeladera(Heladera heladera){
         heladeras.add(heladera);
     }
@@ -20,4 +29,6 @@ public class PuntoUbicacion {
 
     public Integer getLatitud() {return latitud;}
     public Integer getLongitud() {return longitud;}
+
+
 }

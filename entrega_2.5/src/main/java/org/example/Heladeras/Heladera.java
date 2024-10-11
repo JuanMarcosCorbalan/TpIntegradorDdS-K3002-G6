@@ -38,6 +38,11 @@ public class Heladera {
         this.idHeladera = idHeladera;
     }
 
+    public Heladera(PuntoUbicacion puntoUbicacion ) {
+        // habria q generar un id
+        this.puntoUbicacion = puntoUbicacion;
+    }
+
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();

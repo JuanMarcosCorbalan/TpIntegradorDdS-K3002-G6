@@ -1,4 +1,4 @@
-package org.example.Tarjetas.PersonaVulnerable;
+package org.example.Tarjetas;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
@@ -8,14 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Tarjeta {
+public class TarjetaSv {
     String id_tarjeta;
     Integer cantidadUsos;
     Colaborador colaborador;
     PersonaSituacionVulnerable personaSV;
     ArrayList<RetiroVianda> retirosVianda;
 
-    public Tarjeta(String id_tarjeta, Colaborador colaborador, PersonaSituacionVulnerable personaSV) {
+    public TarjetaSv(String id_tarjeta, Colaborador colaborador, PersonaSituacionVulnerable personaSV) {
         this.id_tarjeta = id_tarjeta;
         this.colaborador = colaborador;
         this.personaSV = personaSV;
@@ -25,7 +25,7 @@ public class Tarjeta {
 
     private Integer setCantidadUsos(PersonaSituacionVulnerable personaSV) {
         int numero_base = 4; //NUMERO BASE QUE DAN EN LA CONSIGNA
-        int menores_cargo = personaSV.cantidadMenoresACargo;
+        int menores_cargo = personaSV.getCantidadMenoresACargo();
 
         return numero_base + 2 *menores_cargo; // SE ANIADEN DOS USOS MAS POR CADA MENOR A CARGO
     }

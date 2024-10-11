@@ -8,7 +8,7 @@ import java.util.Date;
 
 abstract public class Contribucion {
     Colaborador colaborador;
-    Date fecha_contribucion;
+    LocalDate fecha_contribucion;
     Boolean contribucionExitosa;
     Boolean contribucionTerminada;
 
@@ -19,7 +19,7 @@ abstract public class Contribucion {
     public void verificar_colaborador(Colaborador colaborador) {};
     public double calcular_puntos(){return 0.0;};
 
-    public Contribucion(Date fecha_contribucion) {
+    public Contribucion(LocalDate fecha_contribucion) {
         this.fecha_contribucion = fecha_contribucion;
     }
 
@@ -29,11 +29,11 @@ abstract public class Contribucion {
     public Contribucion() {
     }
 
-    public Date getFecha_contribucion() {
+    public LocalDate getFecha_contribucion() {
         return fecha_contribucion;
     }
 
-    public void setFecha_contribucion(Date fecha_contribucion) {
+    public void setFecha_contribucion(LocalDate fecha_contribucion) {
         this.fecha_contribucion = fecha_contribucion;
     }
 }

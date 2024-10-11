@@ -1,5 +1,6 @@
 package org.example.Funcionalidades;
 
+import org.example.Heladeras.PuntoUbicacion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class BusquedaPuntosSugeridos {
 
-    List<Punto> puntos_sugeridos = new ArrayList<Punto>();
+    List<PuntoUbicacion> puntosSugeridos = new ArrayList<PuntoUbicacion>();
 
     public void solicitar_puntos_sugeridos()
     {
@@ -19,13 +20,17 @@ public class BusquedaPuntosSugeridos {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
-            String longitud = jsonObject.optString("longitud");
-            String latitud = jsonObject.optString("latitud");
-            Punto nuevo_punto = new Punto();
-            nuevo_punto.latitud = latitud;
-            nuevo_punto.longitud = longitud;
-            puntos_sugeridos.add(nuevo_punto);
+            String longitudString = jsonObject.optString("longitud");
+            String latitudString = jsonObject.optString("latitud");
+            int longitudInt = Integer.parseInt(longitudString);
+            int latitudInt = Integer.parseInt(latitudString);
+            PuntoUbicacion nuevo_punto = new PuntoUbicacion(latitudInt, longitudInt);
+            puntosSugeridos.add(nuevo_punto);
         }
+    }
+
+    public List<PuntoUbicacion> getPuntosSugeridos() {
+        return puntosSugeridos;
     }
 
     //PRUEBA DE LOS PUNTOS SUGERIDOS
@@ -33,9 +38,11 @@ public class BusquedaPuntosSugeridos {
     {
         BusquedaPuntosSugeridos nueva_busqueda = new BusquedaPuntosSugeridos();
         nueva_busqueda.solicitar_puntos_sugeridos();
-        for (Punto punto : nueva_busqueda.puntos_sugeridos) {
-            System.out.println(punto);
+        for (PuntoUbicacion punto : nueva_busqueda.puntosSugeridos) {
+            System.out.println(punto.getLatitud().toString());
+            System.out.println(punto.getLongitud().toString());
         }
     }
+
 
 }

@@ -13,6 +13,7 @@ import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Validadores_Sensores.FallaTecnica;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Colaborador extends Rol {
     List<Heladera> heladeras_a_cargo;
     //double puntos;
     Integer viandasDonadas = 0;
-    TarjetaColaborador Tarjeta;
+    TarjetaColaborador TarjetaColaborador;
 
 
     public void aniadirMedioContacto(){
@@ -145,15 +146,15 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
             contribuciones.add(Contribucion);
-            Tarjeta.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
+            TarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
         }
     }
 
     public void concretarDonacionVianda(Heladera heladera) {
         // para cada una de las contribuciones, busca las que son donaciones de vianda para esa heladera
         for (Contribucion contribucion: contribuciones) {
-            SolicitudApertura solicitudApertura = Tarjeta.crearSolicitudApertura(heladera);
-            Tarjeta.verificarApertura(heladera, contribucion, solicitudApertura);
+            SolicitudApertura solicitudApertura = TarjetaColaborador.crearSolicitudApertura(heladera);
+            TarjetaColaborador.verificarApertura(heladera, contribucion, solicitudApertura);
         }
     }
 
@@ -172,7 +173,7 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
             contribuciones.add(Contribucion);
-            Tarjeta.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
+            TarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
         }
     }
 
@@ -180,11 +181,33 @@ public class Colaborador extends Rol {
     public void concretarDistribucionVianda(Heladera heladeraOrigen, Heladera heladeraDestino) {
         // para cada una de las contribuciones, busca las que son retiros para esa heladera
         for (Contribucion contribucion: contribuciones) {
-            SolicitudApertura solicitudAperturaOrigen = Tarjeta.crearSolicitudApertura(heladeraOrigen);
-            Tarjeta.verificarApertura(heladeraOrigen, contribucion, solicitudAperturaOrigen);
-            SolicitudApertura solicitudAperturaDestino = Tarjeta.crearSolicitudApertura(heladeraDestino);
-            Tarjeta.verificarApertura(heladeraDestino, contribucion, solicitudAperturaDestino);
+            SolicitudApertura solicitudAperturaOrigen = TarjetaColaborador.crearSolicitudApertura(heladeraOrigen);
+            TarjetaColaborador.verificarApertura(heladeraOrigen, contribucion, solicitudAperturaOrigen);
+            SolicitudApertura solicitudAperturaDestino = TarjetaColaborador.crearSolicitudApertura(heladeraDestino);
+            TarjetaColaborador.verificarApertura(heladeraDestino, contribucion, solicitudAperturaDestino);
         }
     }
+
+    public void solicitarTarjetasParaRepartir(Integer cantidadTarjetas){
+        RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now());
+        // enviar tarjetas qcyo algo asi
+    }
+
+    public void registrarPersonasSv(){
+        for(Contribucion contribucion: contribuciones) {
+            if (contribucion instanceof RegistrarPersonasSV registroPersonasSV){
+                registroPersonasSV.cargarDatosPersonasSv();
+                registroPersonasSV.asignarTarjetas(this);
+            }
+        }
+    }
+
+    public void solicitarHacerseCargoHeladera(){
+        HacerseCargoHeladera cargoHeladera = new HacerseCargoHeladera(this);
+        cargoHeladera.hacerseCargo();
+        contribuciones.add(cargoHeladera);
+    }
+
+    
 }
 
