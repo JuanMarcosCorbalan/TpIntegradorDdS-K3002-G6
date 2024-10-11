@@ -2,36 +2,69 @@ package org.example.Formas_contribucion;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
-import org.example.Heladeras.Vianda;
 
 import java.util.Date;
 
 
 public class Distribucion_viandas extends Contribucion{
-    Heladera heladera_origen;
-    Heladera heladera_destino;
-    Integer cantidad_viandas_a_mover;
+    Heladera heladeraOrigen;
+    Heladera heladeraDestino;
+    Integer cantidadViandasAMover;
 //    Vianda viandas[];
     Motivo_distribucion motivo_distribucion;
+    Boolean ContribucionFinalizada;
+    Boolean ContribucionExitosa;
+    Boolean RetiroExitoso;
+    Boolean IngresoExitoso;
 
-    public Integer getCantidad_viandas_a_mover() {
-        return cantidad_viandas_a_mover;
+
+
+    public Integer getCantidadViandasAMover() {
+        return cantidadViandasAMover;
     }
 
-    public Distribucion_viandas(Integer cantidad_viandas_a_mover, Date fechaColaboracion) {
+    public Distribucion_viandas(Integer cantidadViandasAMover, Date fechaColaboracion) {
         super(fechaColaboracion);
-        this.cantidad_viandas_a_mover = cantidad_viandas_a_mover;
+        this.cantidadViandasAMover = cantidadViandasAMover;
     }
-    public Distribucion_viandas(Integer cantidad_viandas_a_mover, Colaborador colaborador, Heladera heladeraOrigen, Heladera heladeraDestino, Motivo_distribucion motivo_distribucion) {
+    public Distribucion_viandas(Integer cantidadViandasAMover, Colaborador colaborador, Heladera heladeraOrigen, Heladera heladeraDestino, Motivo_distribucion motivo_distribucion) {
         super(colaborador);
-        this.cantidad_viandas_a_mover = cantidad_viandas_a_mover;
-        this.heladera_destino = heladeraDestino;
-        this.heladera_origen = heladeraOrigen;
+        this.cantidadViandasAMover = cantidadViandasAMover;
+        this.heladeraDestino = heladeraDestino;
+        this.heladeraOrigen = heladeraOrigen;
         this.motivo_distribucion = motivo_distribucion;
     }
 
     @Override
     public double calcular_puntos() {
-        return cantidad_viandas_a_mover*ConstCalculo.VIANDAS_DISTRIBUIDAS.getValor();
+        return cantidadViandasAMover *ConstCalculo.VIANDAS_DISTRIBUIDAS.getValor();
+    }
+
+    public Boolean isContribucionFinalizada() {
+        return ContribucionFinalizada;
+    }
+
+    public Heladera getHeladeraDestino() {
+        return heladeraDestino;
+    }
+
+    public Heladera getHeladeraOrigen() {
+        return heladeraOrigen;
+    }
+
+    public void setContribucionExitosa(Boolean contribucionExistosa) {
+        ContribucionExitosa = contribucionExistosa;
+    }
+
+    public void setContribucionFinalizada(Boolean contribucionFinalizada) {
+        ContribucionFinalizada = contribucionFinalizada;
+    }
+
+    public void setRetiroExitoso(Boolean retiroExitoso) {
+        RetiroExitoso = retiroExitoso;
+    }
+
+    public void setIngresoExitoso(Boolean ingresoExitoso) {
+        IngresoExitoso = ingresoExitoso;
     }
 }

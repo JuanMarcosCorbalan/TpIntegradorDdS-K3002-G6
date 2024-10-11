@@ -9,7 +9,6 @@ import org.example.Persona.Rol;
 import org.example.Suscripcion.*;
 import org.example.Personal.Tecnico;
 import org.example.Tarjetas.SolicitudApertura;
-import org.example.Tarjetas.SolicitudWeb;
 import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Validadores_Sensores.FallaTecnica;
 
@@ -136,7 +135,7 @@ public class Colaborador extends Rol {
 
     private void solicitarDonacionVianda(Heladera HeladeraAIngresarViandas, Vianda ViandaADonar){
 
-        int flagHeladera = HeladeraAIngresarViandas.verificarEspacioDisponible();
+        int flagHeladera = HeladeraAIngresarViandas.verificarEspacioUnitarioDisponible();
         if (flagHeladera == 0) {
             // si la heladera no tiene lugar tira error
             throw new Error("Espacio no disponible en heladera, seleccione otra!");
@@ -154,37 +153,15 @@ public class Colaborador extends Rol {
         // para cada una de las contribuciones, busca las que son donaciones de vianda para esa heladera
         for (Contribucion contribucion: contribuciones) {
             SolicitudApertura solicitudApertura = Tarjeta.crearSolicitudApertura(heladera);
-            // pregunta si es una instancia de donacion de viandas, si no esta finalizada y si el horario es el adecuado
-            if (contribucion instanceof Donacion_viandas donacionActual && !donacionActual.isContribucionFinalizada()) {
-                // si la heladera de la contribucion es la actual
-                if (donacionActual.getHeladera().equals(heladera)) {
-                    // si existe una solicitud que matchee con la heladera
-                    SolicitudWeb solicitudActual = Tarjeta.buscarSolicitudValida(heladera);
-                    if (solicitudActual != null) {
-                        if (!heladera.estaLlena()) {
-                            donacionActual.realizar_contribucion();
-                            donacionActual.setContribucionExitosa(true);
-                            donacionActual.setContribucionFinalizada(true);
-                            solicitudApertura.setAperturaExitosa(true);
-
-                        } else {
-                            donacionActual.setContribucionExitosa(false);
-                            donacionActual.setContribucionFinalizada(true);
-                            solicitudApertura.setAperturaExitosa(false);
-                        }
-                        solicitudActual.setFinalizada(true);
-                    } solicitudApertura.setAperturaExitosa(false);
-                } solicitudApertura.setAperturaExitosa(false);
-            } solicitudApertura.setAperturaExitosa(false);
+            Tarjeta.verificarAperturaDonacion(heladera, contribucion, solicitudApertura);
         }
     }
 
 
     private void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion){
-
         int flagHeladeraOrigen = HeladeraOrigen.verificarEspacioUnitarioDisponible();
-        int flagHeladeraDestino = HeladeraDestino.verificarEspacioDisponible(cantidadViandasAMover);
-        if (flagHeladeraOrigen == 0 || flagHeladeraDestino == 0) {
+        Boolean flagHeladeraDestino = HeladeraDestino.tieneEspacioDisponible(cantidadViandasAMover);
+        if (flagHeladeraOrigen == 0 || !flagHeladeraDestino) {
             // si la heladera origen no tiene la suficiente cantidad de
             // viandas o la destino no tiene lugar tira error
             throw new Error("Cantidad de viandas a mover invalida!");
@@ -195,7 +172,18 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
             contribuciones.add(Contribucion);
-            Tarjeta.crearSolicitudWebDistribucion();
+            Tarjeta.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
+        }
+    }
+
+
+    public void concretarDistribucionVianda(Heladera heladeraOrigen, Heladera heladeraDestino) {
+        // para cada una de las contribuciones, busca las que son retiros para esa heladera
+        for (Contribucion contribucion: contribuciones) {
+            SolicitudApertura solicitudAperturaOrigen = Tarjeta.crearSolicitudApertura(heladeraOrigen);
+            Tarjeta.verificarRetiroDistribucion(heladeraOrigen, contribucion, solicitudAperturaOrigen);
+            SolicitudApertura solicitudAperturaDestino = Tarjeta.crearSolicitudApertura(heladeraDestino);
+            Tarjeta.verificarRetiroDistribucion(heladeraDestino, contribucion, solicitudAperturaDestino);
         }
     }
 }

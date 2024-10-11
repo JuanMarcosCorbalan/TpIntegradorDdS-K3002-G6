@@ -64,6 +64,13 @@ public class Heladera {
         this.notificar_viandas_sobrantes();
         this.notificar_viandas_faltantes();
     }
+
+    public void retirarViandas(Integer cantidadARetirar) {
+        for (int i = 0; i < cantidadARetirar; i++) {
+            viandas.removeFirst();
+        }
+    }
+
     public void definirTemperatura(int temperaturaMinima, int temperaturaMaxima){
         this.setTemperaturaMaxima(temperaturaMaxima);
         this.setTemperaturaMinima(temperaturaMinima);
@@ -140,13 +147,14 @@ public class Heladera {
        }
     }
 
-    public int verificarEspacioDisponible(Integer cantidad) {
-       if (getCantidadViandasActuales() + cantidad < unidadesMaximoViandas) {
-           return 1;
-       } else {
-           return 0;
-       }
+    public Boolean tieneEspacioDisponible(Integer cantidad) {
+       return getCantidadViandasActuales() + cantidad < unidadesMaximoViandas;
     }
+
+    public boolean tieneCantidadDeViandas(Integer cantidad) {
+        return getCantidadViandasActuales() - cantidad >= 0;
+    }
+
     public boolean estaLlena(){
         return this.getCantidadViandasActuales() == this.unidadesMaximoViandas;
     }
