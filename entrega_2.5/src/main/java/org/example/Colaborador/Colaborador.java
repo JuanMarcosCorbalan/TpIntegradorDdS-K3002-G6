@@ -134,7 +134,7 @@ public class Colaborador extends Rol {
         return viandasDonadas;
     }
 
-    private void solicitarDonacionVianda(Heladera HeladeraAIngresarViandas, Vianda ViandaADonar){
+    public void solicitarDonacionVianda(Heladera HeladeraAIngresarViandas, Vianda ViandaADonar){
 
         int flagHeladera = HeladeraAIngresarViandas.verificarEspacioUnitarioDisponible();
         if (flagHeladera == 0) {

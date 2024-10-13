@@ -2,15 +2,19 @@ package org.example;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
+import org.example.Heladeras.Heladera;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
+import org.example.Colaborador.ControladoresColaborador.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinMustache;
 
 public class Main {
 
@@ -29,13 +33,51 @@ public class Main {
                                 cors.add(it -> it.anyHost());
                             }); // para poder hacer requests de un dominio a otro
 
-                            javalinConfig.staticFiles.add("/"); //recursos estaticos (HTML, CSS, JS, IMG)
+                            javalinConfig.staticFiles.add("/paginaWebColaboracionHeladeras"); //recursos estaticos (HTML, CSS, JS, IMG)
+                            //JavalinMustache.init();  // Configurar Mustache
                         }
 
                 )
                 .get("/", ctx -> ctx.result("Hello World"))
                 .start(8081);
 
+        app.get("/donacionVianda", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
+        });
+        // login para guardar al colaborador
+        app.post("/login", ctx -> {
+            // Validar credenciales del colaborador
+            Colaborador colaborador = ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
+
+            if (colaborador != null) {
+                // Guardar al colaborador en la sesión
+                ctx.sessionAttribute("colaborador", colaborador);
+                ctx.result("Login exitoso");
+            } else {
+                ctx.result("Credenciales incorrectas");
+            }
+        });
+        // Ruta para manejar la solicitud POST de realizar donación
+        app.post("/solicitarDonacionVianda", ctx -> {
+            // Obtener al colaborador desde la sesión
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Recibir los datos del formulario
+                String nombre = ctx.formParam("inputComida");
+                LocalDate cantidad = LocalDate.parse(ctx.formParam("inputFechaVencimiento"));
+                Heladera heladera = new Heladera("heladera0Prueba");
+                String calorias = ctx.formParam("inputCalorias");
+                String pesoGramos = ctx.formParam("inputPeso");
+                // Llamar a la lógica de backend
+                SolicitarDonacionViandaHandler.realizarDonacion(colaborador, nombre, cantidad, heladera, calorias, pesoGramos);
+
+                // Enviar una respuesta de confirmación
+                ctx.result("Donación realizada con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar una donación.");
+            }
+        });
 
 
         instanciacion.crearColaboradores(colaboradores);
