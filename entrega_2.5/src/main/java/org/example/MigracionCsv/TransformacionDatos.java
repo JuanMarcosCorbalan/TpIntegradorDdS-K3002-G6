@@ -4,6 +4,8 @@ import org.example.Persona.Tipo_documento;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class TransformacionDatos {
@@ -27,14 +29,9 @@ public class TransformacionDatos {
         return Integer.toString(numeroDocumento).replace(".","");
     }
 
-    public Date stringToDate(String fechaString, SimpleDateFormat formatoFecha){
+    public LocalDate stringToDate(String fechaString, DateTimeFormatter formatoFecha){
         // valida si el formato de fecha es correcto
-        try {
-            return formatoFecha.parse(fechaString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return LocalDate.parse(fechaString, formatoFecha);
     }
 
     public void transformarDatos(Integer numeroDocumento,String numeroDocumentoString,String tipoDocumento){

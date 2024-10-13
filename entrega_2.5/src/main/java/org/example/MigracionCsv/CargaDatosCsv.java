@@ -10,13 +10,14 @@ import org.example.Persona.Persona_fisica;
 import org.example.Persona.Tipo_documento;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class CargaDatosCsv {
 
-    public void cargarDatos(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap, String nombre, String apellido, String numeroDocumentoString, Tipo_documento tipoDocumento, String mail, String formaColaboracion, Integer cantidad, Date fechaColaboracion) throws IOException {
+    public void cargarDatos(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap, String nombre, String apellido, String numeroDocumentoString, Tipo_documento tipoDocumento, String mail, String formaColaboracion, Integer cantidad, LocalDate fechaColaboracion) throws IOException {
 
         // aca verifico si ya existe un colaborador con esa persona, me fijo en el documento
         // si existe lo obtengo de colaboradores existentes, si no existe lo creo y lo agrego a la lista de colaboradores del main
@@ -26,7 +27,7 @@ public class CargaDatosCsv {
         this.identificarYCrearColaboracion(colaborador, formaColaboracion, cantidad, fechaColaboracion);
     }
 
-    public void identificarYCrearColaboracion(Colaborador colaborador, String formaColaboracion, Integer cantidad, Date fechaColaboracion){
+    public void identificarYCrearColaboracion(Colaborador colaborador, String formaColaboracion, Integer cantidad, LocalDate fechaColaboracion){
         switch (formaColaboracion) {
             case "DINERO" -> {
                 Donacion_dinero donacionDinero = new Donacion_dinero(cantidad, Tipos_frecuencia.DONACION_UNICA, fechaColaboracion);

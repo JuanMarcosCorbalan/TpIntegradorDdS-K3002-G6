@@ -10,12 +10,15 @@ import com.opencsv.exceptions.CsvException;
 import java.io.IOException;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class MigracionColaboradores {
 
     String archivoCsv = "csvs/csvColaboradores.csv";
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     Tipo_documento tipoDocumento = null;
     //String tipoDocumentoString;
     Integer flagLongitud = 0;
@@ -27,7 +30,7 @@ public class MigracionColaboradores {
     //String mail;
     //Integer cantidad;
     //String fechaColaboracionString;
-    Date fechaColaboracion;
+    LocalDate fechaColaboracion;
     Boolean primeraLinea = true;
     ObtencionLineasCsv obtencionLineasCsv = new ObtencionLineasCsv();
     TransformacionDatos transformacionDatos = new TransformacionDatos();

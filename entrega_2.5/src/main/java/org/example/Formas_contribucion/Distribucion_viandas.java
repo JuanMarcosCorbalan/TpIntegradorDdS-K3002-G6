@@ -3,6 +3,7 @@ package org.example.Formas_contribucion;
 import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -23,7 +24,7 @@ public class Distribucion_viandas extends Contribucion{
         return cantidadViandasAMover;
     }
 
-    public Distribucion_viandas(Integer cantidadViandasAMover, Date fechaColaboracion) {
+    public Distribucion_viandas(Integer cantidadViandasAMover, LocalDate fechaColaboracion) {
         super(fechaColaboracion);
         this.cantidadViandasAMover = cantidadViandasAMover;
     }

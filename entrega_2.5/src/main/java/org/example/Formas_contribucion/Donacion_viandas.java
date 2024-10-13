@@ -4,6 +4,7 @@ import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.Vianda;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -20,14 +21,14 @@ public class Donacion_viandas extends Contribucion{
         return viandas.size();
     }
 
-    public Donacion_viandas(Heladera heladera, boolean contribucionExitosa, List<Vianda> viandas, Date fecha_contribucion) {
+    public Donacion_viandas(Heladera heladera, boolean contribucionExitosa, List<Vianda> viandas, LocalDate fecha_contribucion) {
         super(fecha_contribucion);
         this.heladera = heladera;
         this.contribucionExitosa = contribucionExitosa;
         this.viandas = viandas;
     }
 
-    public Donacion_viandas(Date fecha_contribucion) {
+    public Donacion_viandas(LocalDate fecha_contribucion) {
         super(fecha_contribucion);
     }
 

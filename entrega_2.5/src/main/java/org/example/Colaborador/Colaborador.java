@@ -207,7 +207,5 @@ public class Colaborador extends Rol {
         cargoHeladera.hacerseCargo();
         contribuciones.add(cargoHeladera);
     }
-
-    
 }
 

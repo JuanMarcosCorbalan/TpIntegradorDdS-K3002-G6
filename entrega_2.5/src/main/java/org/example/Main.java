@@ -10,6 +10,7 @@ import org.example.Personal.Tecnico;
 
 import java.util.ArrayList;
 import java.util.List;
+import io.javalin.Javalin;
 
 public class Main {
 
@@ -21,6 +22,21 @@ public class Main {
         List<Colaborador> colaboradoresNuevo = colaboradores;
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
+
+
+        Javalin app = Javalin.create(javalinConfig -> {
+                            javalinConfig.plugins.enableCors(cors -> {
+                                cors.add(it -> it.anyHost());
+                            }); // para poder hacer requests de un dominio a otro
+
+                            javalinConfig.staticFiles.add("/"); //recursos estaticos (HTML, CSS, JS, IMG)
+                        }
+
+                )
+                .get("/", ctx -> ctx.result("Hello World"))
+                .start(8081);
+
+
 
         instanciacion.crearColaboradores(colaboradores);
         instanciacion.migrarColaboradores(colaboradores);
