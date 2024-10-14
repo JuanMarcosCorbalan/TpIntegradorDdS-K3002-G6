@@ -38,6 +38,12 @@ public class Heladera {
         this.idHeladera = idHeladera;
     }
 
+    public Heladera(String idHeladera, Integer unidadesMaximoViandas) {
+        this.idHeladera = idHeladera;
+        this.unidadesMaximoViandas = unidadesMaximoViandas;
+    }
+
+
     public Heladera(PuntoUbicacion puntoUbicacion ) {
         // habria q generar un id
         this.puntoUbicacion = puntoUbicacion;

@@ -5,6 +5,7 @@ import org.example.Formas_contribucion.Distribucion_viandas;
 import org.example.Formas_contribucion.Donacion_viandas;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.Vianda;
+import org.example.Colaborador.Colaborador;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,11 +18,16 @@ import static org.example.Tarjetas.MotivoSolicitud.APERTURA_DISTRIBUCION;
 import static org.example.Tarjetas.MotivoSolicitud.APERTURA_DONACION;
 
 public class TarjetaColaborador {
-    private String IdTarjeta;
-    org.example.Colaborador.Colaborador colaborador;
+    String IdTarjeta;
+    Colaborador colaborador;
     List<SolicitudWeb> solicitudesWeb = new ArrayList<SolicitudWeb>();
     List<SolicitudApertura> solicitudAperturas = new ArrayList<SolicitudApertura>();
 
+
+    public TarjetaColaborador(String idTarjeta, Colaborador colaborador) {
+        IdTarjeta = idTarjeta;
+        this.colaborador = colaborador;
+    }
 
     public void crearSolicitudWebDonacion(Heladera heladera){
         SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DONACION, LocalDate.now(), LocalTime.now(),heladera);

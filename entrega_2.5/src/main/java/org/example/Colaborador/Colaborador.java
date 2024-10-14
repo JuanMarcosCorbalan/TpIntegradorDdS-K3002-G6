@@ -25,7 +25,7 @@ public class Colaborador extends Rol {
     List<Heladera> heladeras_a_cargo;
     //double puntos;
     Integer viandasDonadas = 0;
-    TarjetaColaborador TarjetaColaborador;
+    TarjetaColaborador tarjetaColaborador;
 
 
     public void aniadirMedioContacto(){
@@ -146,20 +146,20 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
             contribuciones.add(Contribucion);
-            TarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
+            tarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
         }
     }
 
     public void concretarDonacionVianda(Heladera heladera) {
         // para cada una de las contribuciones, busca las que son donaciones de vianda para esa heladera
         for (Contribucion contribucion: contribuciones) {
-            SolicitudApertura solicitudApertura = TarjetaColaborador.crearSolicitudApertura(heladera);
-            TarjetaColaborador.verificarApertura(heladera, contribucion, solicitudApertura);
+            SolicitudApertura solicitudApertura = tarjetaColaborador.crearSolicitudApertura(heladera);
+            tarjetaColaborador.verificarApertura(heladera, contribucion, solicitudApertura);
         }
     }
 
 
-    private void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion){
+    public void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion){
         int flagHeladeraOrigen = HeladeraOrigen.verificarEspacioUnitarioDisponible();
         Boolean flagHeladeraDestino = HeladeraDestino.tieneEspacioDisponible(cantidadViandasAMover);
         if (flagHeladeraOrigen == 0 || !flagHeladeraDestino) {
@@ -173,7 +173,7 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
             contribuciones.add(Contribucion);
-            TarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
+            tarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
         }
     }
 
@@ -181,23 +181,24 @@ public class Colaborador extends Rol {
     public void concretarDistribucionVianda(Heladera heladeraOrigen, Heladera heladeraDestino) {
         // para cada una de las contribuciones, busca las que son retiros para esa heladera
         for (Contribucion contribucion: contribuciones) {
-            SolicitudApertura solicitudAperturaOrigen = TarjetaColaborador.crearSolicitudApertura(heladeraOrigen);
-            TarjetaColaborador.verificarApertura(heladeraOrigen, contribucion, solicitudAperturaOrigen);
-            SolicitudApertura solicitudAperturaDestino = TarjetaColaborador.crearSolicitudApertura(heladeraDestino);
-            TarjetaColaborador.verificarApertura(heladeraDestino, contribucion, solicitudAperturaDestino);
+            SolicitudApertura solicitudAperturaOrigen = tarjetaColaborador.crearSolicitudApertura(heladeraOrigen);
+            tarjetaColaborador.verificarApertura(heladeraOrigen, contribucion, solicitudAperturaOrigen);
+            SolicitudApertura solicitudAperturaDestino = tarjetaColaborador.crearSolicitudApertura(heladeraDestino);
+            tarjetaColaborador.verificarApertura(heladeraDestino, contribucion, solicitudAperturaDestino);
         }
     }
 
     public void solicitarTarjetasParaRepartir(Integer cantidadTarjetas){
         RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now());
         // enviar tarjetas qcyo algo asi
+        contribuciones.add(registroPersonasSV);
     }
 
-    public void registrarPersonasSv(){
+    public void registrarPersonaSv(String nombre, String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
         for(Contribucion contribucion: contribuciones) {
             if (contribucion instanceof RegistrarPersonasSV registroPersonasSV){
-                registroPersonasSV.cargarDatosPersonasSv();
-                registroPersonasSV.asignarTarjetas(this);
+                registroPersonasSV.cargarDatosPersonaSv(nombre, apellido, situacionCalle, domicilioString, menoresACargo);
+                registroPersonasSV.asignarTarjeta(this);
             }
         }
     }
@@ -206,6 +207,10 @@ public class Colaborador extends Rol {
         HacerseCargoHeladera cargoHeladera = new HacerseCargoHeladera(this);
         cargoHeladera.hacerseCargo();
         contribuciones.add(cargoHeladera);
+    }
+
+    public void setTarjetaColaborador(TarjetaColaborador tarjetaColaborador) {
+        this.tarjetaColaborador = tarjetaColaborador;
     }
 }
 

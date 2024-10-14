@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
+import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import io.javalin.Javalin;
-import io.javalin.rendering.template.JavalinMustache;
+import org.example.Tarjetas.TarjetaColaborador;
 
 public class Main {
 
@@ -38,16 +39,29 @@ public class Main {
                         }
 
                 )
-                .get("/", ctx -> ctx.result("Hello World"))
+                .get("/", ctx -> ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache"))
                 .start(8081);
 
+        app.get("/inicioSesion", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache");
+        });
         app.get("/donacionVianda", ctx->{
             ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
+        });
+        app.get("/distribucionTarjetas", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
+        });
+        app.get("/distribucionViandas", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/distribucionViandas/html/distribucionViandas.mustache");
         });
         // login para guardar al colaborador
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
-            Colaborador colaborador = ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
+
+            Persona_fisica juan = new Persona_fisica("juan", "corbalan");
+            Colaborador colaborador = new Colaborador(juan);
+            colaborador.setTarjetaColaborador(new TarjetaColaborador("t1", colaborador));
+                    //ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
 
             if (colaborador != null) {
                 // Guardar al colaborador en la sesión
@@ -65,7 +79,7 @@ public class Main {
                 // Recibir los datos del formulario
                 String nombre = ctx.formParam("inputComida");
                 LocalDate cantidad = LocalDate.parse(ctx.formParam("inputFechaVencimiento"));
-                Heladera heladera = new Heladera("heladera0Prueba");
+                Heladera heladera = new Heladera("heladera0Prueba", 10);
                 String calorias = ctx.formParam("inputCalorias");
                 String pesoGramos = ctx.formParam("inputPeso");
                 // Llamar a la lógica de backend
@@ -78,6 +92,79 @@ public class Main {
                 ctx.status(401).result("Por favor inicia sesión para realizar una donación.");
             }
         });
+
+        app.post("/solicitarTarjetas", ctx -> {
+            // Obtener al colaborador desde la sesión
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Recibir los datos del formulario
+                Integer cantidadDeTarjetas = Integer.valueOf(ctx.formParam("inputCantidadTarjetas"));
+                // Llamar a la lógica de backend
+                SolicitarTarjetasParaRepartirHandler.realizarDonacion(colaborador, cantidadDeTarjetas);
+
+                // Enviar una respuesta de confirmación
+                ctx.result("Solicitud de tarjetas realizada con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar un registro.");
+            }
+        });
+
+        app.post("/registrarPersonaSV", ctx -> {
+            // Obtener al colaborador desde la sesión
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Recibir los datos del formulario
+                String nombre = ctx.formParam("inputNombre");
+                String apellido = ctx.formParam("inputApellido");
+                LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
+                Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
+                String situacionDeCalleString = ctx.formParam("flexRadioDefault");
+                boolean situacionDeCalle = Boolean.getBoolean(situacionDeCalleString);
+                String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
+                // Llamar a la lógica de backend
+                RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido,situacionDeCalle,domicilio,cantidadMenoresACargo);
+
+                // Enviar una respuesta de confirmación
+                ctx.result("Registro realizado con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar un registro.");
+            }
+        });
+        app.post("/distribucionViandas", ctx -> {
+            // Obtener al colaborador desde la sesión
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Recibir los datos del formulario
+                Heladera heladera0 = new Heladera("heladera0Prueba", 10);
+                Heladera heladera1 = new Heladera("heladera1Prueba", 10);
+                LocalDate fechaDistribucion = LocalDate.parse(ctx.formParam("inputFechaDistribucion"));
+                Integer cantidadViandasAMover = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
+                String desperfecto = ctx.formParam("opcionDesperfecto");
+                String faltantes = ctx.formParam("opcionFaltantes");
+                Motivo_distribucion motivoDistribucion = null;
+                if (desperfecto.equals("desperfecto") && faltantes.equals("faltantes")){
+                    motivoDistribucion = Motivo_distribucion.AMBOS;
+                } else {
+                    if (desperfecto.equals("desperfecto")) {
+                        motivoDistribucion = Motivo_distribucion.DESPERFECTO_HELADERA;
+                    }
+                    if (faltantes.equals("faltantes")) {
+                        motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
+                    }
+                }
+                // Llamar a la lógica de backend
+                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
+
+                // Enviar una respuesta de confirmación
+                ctx.result("Solicitud realizada con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+            }
+        });
+
 
 
         instanciacion.crearColaboradores(colaboradores);

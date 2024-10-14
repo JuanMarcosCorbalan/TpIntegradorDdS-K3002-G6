@@ -16,6 +16,7 @@ public class RegistrarPersonasSV extends Contribucion{
     List<String> ids_tarjetas = new ArrayList<String>();
     List<PersonaSituacionVulnerable> personasSituacionVulnerable = new ArrayList<PersonaSituacionVulnerable>();
     Integer cantidadTarjetasRepartidas;
+    Integer registrosPendientes;
 
     public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
         int contador = 0;
@@ -24,6 +25,18 @@ public class RegistrarPersonasSV extends Contribucion{
             TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta,colaborador,personaSituacion);
             personaSituacion.setTarjetaSv(nueva_tarjetaSv);
             contador++;
+        }
+    }
+
+    public void asignarTarjeta(Colaborador colaborador) {
+        if (registrosPendientes > 0) {
+            String id_tarjeta = ids_tarjetas.removeFirst();
+            PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.removeFirst();
+            TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
+            personaSituacion.setTarjetaSv(nueva_tarjetaSv);
+            registrosPendientes--;
+        }else {
+            throw new IllegalArgumentException("NO QUEDAN REGISTROS PENDIENTES");
         }
     }
     /* public void PersonaSituacionVulnerable(String nombre, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Boolean poseeMenoresACargo, Integer cantidadMenoresACargo, TarjetaSv tarjetaSv) {
@@ -37,21 +50,11 @@ public class RegistrarPersonasSV extends Contribucion{
     }*/
 
 
-    public void cargarDatosPersonasSv() {
+    public void cargarDatosPersonasSv(String nombre,String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo) {
         for (int i = 0; i < this.cantidadTarjetas(); i++) {
-            String nombre = this.solicitarNombre();
-            String apellido = this.solicitarApellido();
-            boolean situacionCalle = this.solicitarSituacionCalle();
-            String domicilioString = null; // Asumimos que domicilio es opcional
 
             Domicilio domicilio = new Domicilio();
-            // Si la persona está en situación de calle, solicitamos el domicilio
-            if (!situacionCalle) {
-                domicilioString = this.solicitarDomicilio();
-                domicilio.setDireccion(domicilioString);
-            }
-
-            Integer menoresACargo = this.solicitarMenoresACargo();
+            domicilio.setDireccion(domicilioString);
 
             // Creamos la nueva persona con los datos solicitados
             PersonaSituacionVulnerable personaSituacionVulnerableNueva = new PersonaSituacionVulnerable(
@@ -66,6 +69,26 @@ public class RegistrarPersonasSV extends Contribucion{
         }
     }
 
+    public void cargarDatosPersonaSv(String nombre,String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
+        if (registrosPendientes > 0) {
+            Domicilio domicilio = new Domicilio();
+            domicilio.setDireccion(domicilioString);
+
+            // Creamos la nueva persona con los datos solicitados
+            PersonaSituacionVulnerable personaSituacionVulnerableNueva = new PersonaSituacionVulnerable(
+                    nombre,
+                    apellido,
+                    situacionCalle,
+                    domicilio,
+                    menoresACargo);
+
+            // Añadimos la persona a la lista
+            personasSituacionVulnerable.add(personaSituacionVulnerableNueva);
+        } else {
+            throw new IllegalArgumentException("NO QUEDAN REGISTROS PENDIENTES");
+        }
+    }
+
     public int cantidadTarjetas(){
         return ids_tarjetas.size();
     }
@@ -73,6 +96,7 @@ public class RegistrarPersonasSV extends Contribucion{
     public RegistrarPersonasSV(Integer cantidadTarjetasRepartidas, LocalDate fechaColaboracion) {
         super(fechaColaboracion);
         this.cantidadTarjetasRepartidas = cantidadTarjetasRepartidas;
+        this.registrosPendientes = cantidadTarjetasRepartidas;
     }
 
     @Override
