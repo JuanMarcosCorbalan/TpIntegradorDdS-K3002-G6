@@ -6,6 +6,7 @@ import org.example.Validadores_Sensores.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Heladera {
@@ -13,7 +14,7 @@ public class Heladera {
     String idHeladera;
     int unidadViandasActual;
     int unidadesMaximoViandas; //VIENE DEFINIDA
-    List<Vianda> viandas = new ArrayList<Vianda>();
+    List<Vianda> viandas = new LinkedList<Vianda>();
     Date FechaFuncionamiento;
     EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
@@ -71,14 +72,14 @@ public class Heladera {
     }
 
     public void quitarVianda(){
-        viandas.removeFirst();
+        viandas.remove(0);
         this.notificar_viandas_sobrantes();
         this.notificar_viandas_faltantes();
     }
 
     public void retirarViandas(Integer cantidadARetirar) {
         for (int i = 0; i < cantidadARetirar; i++) {
-            viandas.removeFirst();
+            viandas.remove(0);
         }
     }
 

@@ -3,6 +3,7 @@ package org.example.Formas_contribucion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.example.Colaborador.Colaborador;
@@ -13,8 +14,8 @@ import org.example.Tarjetas.TarjetaSv;
 
 public class RegistrarPersonasSV extends Contribucion{
     //List<Tarjeta> tarjetas = new ArrayList<Tarjeta>(); podria utilizar repo de tarjetas que ya tiene el sistema y q dio de alta antes
-    List<String> ids_tarjetas = new ArrayList<String>();
-    List<PersonaSituacionVulnerable> personasSituacionVulnerable = new ArrayList<PersonaSituacionVulnerable>();
+    List<String> ids_tarjetas = new LinkedList<String>();
+    List<PersonaSituacionVulnerable> personasSituacionVulnerable = new LinkedList<PersonaSituacionVulnerable>();
     Integer cantidadTarjetasRepartidas;
     Integer registrosPendientes;
 
@@ -30,8 +31,8 @@ public class RegistrarPersonasSV extends Contribucion{
 
     public void asignarTarjeta(Colaborador colaborador) {
         if (registrosPendientes > 0) {
-            String id_tarjeta = ids_tarjetas.removeFirst();
-            PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.removeFirst();
+            String id_tarjeta = ids_tarjetas.remove(0);
+            PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.remove(0);
             TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
             personaSituacion.setTarjetaSv(nueva_tarjetaSv);
             registrosPendientes--;
