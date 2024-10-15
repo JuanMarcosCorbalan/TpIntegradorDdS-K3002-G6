@@ -10,16 +10,16 @@ body {
 }
 
 header {
-  background-color: #2A4D69; /* Color de fondo del encabezado */
-  height: 60px; /* Ajustar la altura del encabezado */
-  width: 100%; /* Asegurarse de que ocupe todo el ancho */
+  background-color: #2A4D69;
+  height: 60px; /* Altura del encabezado */
+  width: 100vw;
 }
 
 .header-container {
   display: flex;
   justify-content: space-between; /* Espacio entre logo y botón */
   align-items: center; /* Alinear elementos verticalmente */
-  padding: 5px 20px; /* Ajuste de espaciado reducido */
+  padding: 10px 20px; /* Ajuste de espaciado reducido */
   height: 100%; /* Asegurarse de que el contenedor ocupe toda la altura del encabezado */
 }
 
@@ -28,16 +28,10 @@ header {
 }
 
 .btn-settings {
-  background-color: #ff8c00; /* Color de fondo del botón de configuración */
-  border: none; /* Sin borde */
-  border-radius: 10px; /* Bordes redondeados */
-  cursor: pointer; /* Apunta con el cursor */
-  padding: 8px; /* Espaciado interno */
-  width: 40px; /* Ancho del botón de configuración */
-  height: 40px; /* Alto del botón de configuración */
-  display: flex; /* Para centrar el icono */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
+  background: #ff8c00;
+  border-radius: 10px;
+  cursor: none;
+  padding: 5px;
 }
 
 .btn-settings:hover {
@@ -45,18 +39,17 @@ header {
 }
 
 .settings-icon {
-  width: 20px; /* Ajusta el tamaño de la imagen */
-  height: 20px; /* Ajusta el tamaño de la imagen */
-  color: black; /* Color del icono */
+  width: 30px; /* Ancho del icono */
+  height: 30px; /* Alto del icono */
 }
 
-form {
-  max-width: 1200px; /* Ancho máximo del formulario */
-  margin: 20px auto; /* Centrar el formulario */
+.content {
+  flex: 1; /* Permite que el contenido crezca */
+  max-width: 1200px; /* Ancho máximo del contenido */
+  margin: 20px auto; /* Centrar el contenido */
   padding: 20px; /* Espaciado interno */
   border-radius: 10px; /* Bordes redondeados */
-  background-color: transparent; /* Fondo transparente para el formulario */
-  box-shadow: none; /* Sin sombra para el formulario */
+  background-color: transparent; /* Fondo transparente para el contenido */
 }
 
 .mapa-foto {
@@ -88,41 +81,13 @@ input[type="date"] {
   max-width: 300px; /* Ancho máximo del botón */
 }
 
-/* Estilo para los botones de verificación */
-.form-check-input {
-  background-color: #BDCADE; /* Color de fondo para los botones de verificación */
-  border: 2px solid #ccc; /* Borde gris */
-  border-radius: 50%; /* Bordes circulares */
-  width: 20px; /* Ancho del botón */
-  height: 20px; /* Alto del botón */
-  appearance: none; /* Eliminar el estilo predeterminado */
-  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
-}
-
-.form-check-input:checked {
-  background-color: #28a745; /* Color al estar seleccionado */
-  border: 2px solid #28a745; /* Borde verde al estar seleccionado */
-}
-
-/* Estilo para el icono de verificación */
-.form-check-input:checked::after {
-  content: '✔'; /* Agregar un icono de verificación */
-  color: white; /* Color del icono */
-  font-size: 16px; /* Tamaño del icono */
-  display: flex; /* Para centrar el icono */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  position: relative; /* Para posicionar el icono */
-  top: -2px; /* Ajustar la posición vertical del icono */
-}
-
 /* Estilo para el footer */
 footer {
-  background-color: #3E3E3E; /* Color del pie de página */
-  padding: 10px; /* Espaciado interno reducido */
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #3E3E3E;
+  padding: 1rem;
   text-align: center;
-  color: white; /* Color del texto en el pie de página */
-  width: 100%; /* Asegurarse de que ocupe todo el ancho */
-  position: relative; /* Para evitar problemas de superposición */
-  bottom: 0; /* Alinear al fondo */
+  color: white;
 }
+

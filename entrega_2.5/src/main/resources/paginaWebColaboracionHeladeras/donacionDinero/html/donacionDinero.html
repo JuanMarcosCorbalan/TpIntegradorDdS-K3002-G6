@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -13,18 +14,9 @@
 <header>
   <div class="header-container d-flex justify-content-between align-items-center">
     <img class="img-logo" src="../img/logov2.png" alt="logo">
-    <div class="dropdown">
-      <button class="btn btn-settings dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-              aria-expanded="false">
-        <img src="../img/settings.png" alt="Settings" class="settings-icon">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'"
-                    class="dropdown-item">Ver reporte semanal</button></li>
-        <li><button class="dropdown-item">Opción 2</button></li>
-        <li><button class="dropdown-item">Opción 3</button></li>
-      </ul>
-    </div>
+    <button class="btn btn-settings" type="button">
+      <img src="../img/settings.png" alt="Settings" class="settings-icon">
+    </button>
   </div>
 </header>
 
@@ -57,11 +49,14 @@
   <button type="submit" class="btn btn-lg btn-custom">Realizar donación</button>
 </div>
 
-<footer>Empresas que colaboran con nosotros:
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+<footer>
+  <div class="footer-content text-center">
+    Empresas que colaboran con nosotros:
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+  </div>
 </footer>
 
 <script src="../js/inicioSesion.js" charset="utf-8"></script>

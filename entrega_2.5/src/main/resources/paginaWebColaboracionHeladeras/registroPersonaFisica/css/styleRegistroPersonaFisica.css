@@ -5,13 +5,26 @@ body {
   padding: 0;
 }
 
-.container {
-  width: 60%;
-  margin: 20px auto;
-  background-color: #d0e5f8;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.img-logo {
+  height: 60px;
+}
+
+.btn-settings {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.settings-icon {
+  width: 30px;
+  height: 30px;
 }
 
 form {
@@ -19,55 +32,33 @@ form {
   flex-direction: column;
 }
 
-.form-section {
+.row {
   margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 5px;
 }
 
-.form-section.with-background {
-  background-color: #d0e5f8;
-}
-
-.form-section.no-background {
-  background-color: transparent;
-}
-
-.input-group {
-
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: bold;
+.form-label {
+  display: block;
   margin-bottom: 5px;
-  color: #3D3D3D;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="date"] {
+.form-control {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
 }
 
-input[type="checkbox"] {
-  margin-right: 10px;
+.input-smaller {
+  width: 50%;
+  margin-left: 0;
 }
 
-.required {
-  color: red;
+@media (max-width: 768px) {
+  .input-smaller {
+    width: 100%;
+  }
 }
 
-.letterWhite{
-  color: white;
-}
-
-.submit-button {
+.btn {
   background-color: rgb(246, 144, 0);
   color: white;
   padding: 12px;
@@ -77,50 +68,13 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-.submit-button:hover {
+.btn:hover {
   background-color: rgb(208, 229, 248);
 }
-
 
 footer {
   background-color: #3e3e3e;
   padding: 1rem;
   text-align: center;
-}
-
-.img-logo {
-  height: 90px;
-  display: inline-block;
-}
-
-header {
-  background-color: rgb(42, 77, 105);
-  height: 50px;
-  width: 100vw;
-}
-
-.header-container {
-  display: flex;
-  justify-content: space-between; /* Espacio entre logo y botón */
-  height: 100%;
-  width: 100%;
-  align-items: center; /* Alinear elementos verticalmente */
-  padding: 10px 20px; /* Ajuste de espaciado */
-}
-
-.img-logo {
-  height: 60px; /* Ajusta el tamaño del logo según tu preferencia */
-}
-
-.btn-settings {
-  background: rgb(208, 229, 248); /* Sin fondo */
-  border-radius: 10px; /* Sin borde */
-  cursor: pointer; /* Apunta con el cursor */
-  padding: 5; /* Sin padding */
-}
-
-.settings-icon {
-  width: 30px; /* Ajusta el tamaño de la imagen */
-  height: 30px; /* Ajusta el tamaño de la imagen */
-  background: none
+  color: white;
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/styleRegistroPersonaFisica.css">
 </head>
-
 <body>
 <header class="bg-primary text-white mb-4">
   <div class="header-container d-flex justify-content-between align-items-center px-4 py-2">
@@ -21,6 +19,7 @@
 </header>
 
 <form>
+  <!-- Nombres y Apellidos -->
   <div class="row mb-3 mx-3">
     <div class="col-md-6">
       <label for="nombres" class="form-label">Nombre/s</label>
@@ -32,6 +31,7 @@
     </div>
   </div>
 
+  <!-- Fecha de Nacimiento -->
   <div class="row mb-3 mx-3">
     <div class="col-md-6">
       <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
@@ -39,54 +39,42 @@
     </div>
   </div>
 
-  <h5>Medios de contacto</h5>
+  <!-- Medios de contacto -->
+  <h5 class="mx-3">Medios de contacto</h5>
   <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
-    <div class="col-md-4">
+    <div class="col-md-12">
       <label for="correo" class="form-label">Correo</label>
-      <input type="email" class="form-control shadow-sm" id="correo" name="correo" placeholder="Correo Electrónico actual">
+      <input type="email" class="form-control shadow-sm input-smaller" id="correo" name="correo" placeholder="Correo Electrónico actual">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
       <label for="telefono" class="form-label">Número de teléfono</label>
-      <input type="text" class="form-control shadow-sm" id="telefono" name="telefono" placeholder="Número de Teléfono actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="telefono" name="telefono" placeholder="Número de Teléfono actual">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
       <label for="whatsapp" class="form-label">Whatsapp</label>
-      <input type="text" class="form-control shadow-sm" id="whatsapp" name="whatsapp" placeholder="Whatsapp actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="whatsapp" name="whatsapp" placeholder="Whatsapp actual">
     </div>
   </div>
 
-  <h5>Domicilio</h5>
+  <!-- Domicilio -->
+  <h5 class="mx-3">Domicilio</h5>
   <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
-    <div class="col-md-3">
+    <div class="col-md-12">
       <label for="calle" class="form-label">Calle</label>
-      <input type="text" class="form-control shadow-sm" id="calle" name="calle" placeholder="Calle actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="calle" name="calle" placeholder="Calle actual">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-12">
       <label for="altura" class="form-label">Altura</label>
-      <input type="text" class="form-control shadow-sm" id="altura" name="altura" placeholder="Altura actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="altura" name="altura" placeholder="Altura actual">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-12">
       <label for="ciudad" class="form-label">Ciudad</label>
-      <input type="text" class="form-control shadow-sm" id="ciudad" name="ciudad" placeholder="Ciudad actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="ciudad" name="ciudad" placeholder="Ciudad actual">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-12">
       <label for="pais" class="form-label">País</label>
-      <input type="text" class="form-control shadow-sm" id="pais" name="pais" placeholder="País actual">
+      <input type="text" class="form-control shadow-sm input-smaller" id="pais" name="pais" placeholder="País actual">
     </div>
-  </div>
-
-  <h5>Formas de colaboración deseadas</h5>
-  <div class="form-check mb-2 mx-3">
-    <input type="checkbox" class="form-check-input" id="colaborar-dinero">
-    <label class="form-check-label" for="colaborar-dinero">Colaborar aportando dinero</label>
-  </div>
-  <div class="form-check mb-2 mx-3">
-    <input type="checkbox" class="form-check-input" id="colaborar-viandas">
-    <label class="form-check-label" for="colaborar-viandas">Colaborar distribuyendo viandas</label>
-  </div>
-  <div class="form-check mb-4 mx-3">
-    <input type="checkbox" class="form-check-input" id="colaborar-donando-viandas">
-    <label class="form-check-label" for="colaborar-donando-viandas">Colaborar donando viandas</label>
   </div>
 
   <button type="submit" class="btn btn-warning w-100">Completar Registro</button>
@@ -101,5 +89,4 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

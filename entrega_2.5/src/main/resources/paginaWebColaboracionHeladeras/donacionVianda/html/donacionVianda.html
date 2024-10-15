@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,23 +8,13 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="../css/donacionViandaEstilos.css" rel="stylesheet">
 </head>
-
 <body>
 <header>
   <div class="header-container d-flex justify-content-between align-items-center">
     <img class="img-logo" src="../img/logov2.png" alt="logo">
-    <div class="dropdown">
-      <button class="btn btn-settings dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-              aria-expanded="false">
-        <img src="../img/settings.png" alt="Settings" class="settings-icon">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'"
-                    class="dropdown-item">Ver reporte semanal</button></li>
-        <li><button class="dropdown-item">Opción 2</button></li>
-        <li><button class="dropdown-item">Opción 3</button></li>
-      </ul>
-    </div>
+    <button class="btn btn-settings" type="button">
+      <img src="../img/settings.png" alt="Settings" class="settings-icon">
+    </button>
   </div>
 </header>
 
@@ -32,39 +22,44 @@
   <form class="row g-3 mx-5 my-5" method="post" action="/solicitarDonacionVianda">
     <div class="col-md-6">
       <label for="inputComida" class="form-label">Ingrese que comida desea donar</label>
-      <input type="text" class="form-control" id="inputComida" name="inputComida" required style="background-color: #BDCADE; border: 1px solid #ccc;">
+      <input type="text" class="form-control" id="inputComida" name="inputComida" required placeholder="Ej: Pan, Vegetales">
     </div>
     <div class="col-md-6">
       <label for="inputFechaVencimiento" class="form-label">Fecha de Vencimiento</label>
-      <input type="date" class="form-control" id="inputFechaVencimiento" name="inputFechaVencimiento" style="background-color: #BDCADE; border: 1px solid #ccc;">
+      <input type="date" class="form-control" id="inputFechaVencimiento" name="inputFechaVencimiento" placeholder="DD/MM/AAAA">
     </div>
     <div class="col-12">
       <label for="inputHeladera" class="form-label">Ingrese la heladera en la que desea donar la vianda</label>
+      <input type="text" class="form-control" id="inputHeladera" name="inputHeladera" placeholder="Ej: Heladera Central">
+    </div>
+    <div class="col-12">
       <img src="../img/mapa.png" alt="Mapa" class="mapa-foto">
     </div>
     <div class="col-md-6">
       <label for="inputCalorias" class="form-label">Ingrese calorías de la comida (cal)</label>
-      <input type="number" class="form-control" id="inputCalorias" name="inputCalorias" style="background-color: #BDCADE; border: 1px solid #ccc;">
+      <input type="number" class="form-control" id="inputCalorias" name="inputCalorias" placeholder="Calorías">
     </div>
     <div class="col-md-6">
       <label for="inputPeso" class="form-label">Ingrese peso de la vianda (gramos)</label>
-      <input type="number" class="form-control" id="inputPeso" name="inputPeso" style="background-color: #BDCADE; border: 1px solid #ccc;">
+      <input type="number" class="form-control" id="inputPeso" name="inputPeso" placeholder="Peso en gramos">
     </div>
     <div class="col-12 text-center">
-      <button type="submit" class="btn btn-donar">Cargar donación de vianda</button>
+      <button type="submit" class="btn btn-donar">Realizar donación</button>
     </div>
   </form>
 </div>
 
-<footer>Empresas que colaboran con nosotros:
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+<footer>
+  <div class="footer-content text-center">
+    Empresas que colaboran con nosotros:
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+  </div>
 </footer>
 
 <script src="../js/inicioSesion.js" charset="utf-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

@@ -1,4 +1,7 @@
-body {
+/* Estilos generales para el cuerpo y el HTML */
+body, html {
+  width: 100%;
+  overflow-x: hidden; /* Oculta el desplazamiento horizontal */
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -8,39 +11,48 @@ body {
   background-color: #F5F5F5;
 }
 
+/* Contenedor principal para el contenido */
 .content {
+  width: 100%; /* Asegura que el contenido no exceda el ancho de la pantalla */
+  box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho */
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  flex: 1; /* Permite que el contenedor crezca */
 }
 
+/* Estilos para el pie de página */
 footer {
-  background-color: #3E3E3E;
+  background-color: #2a4d69;
   padding: 1rem;
   text-align: center;
   color: white;
+  margin-top: auto;
 }
 
+/* Estilos para el logo */
 .img-logo {
-  height: 90px;
+  height: 60px; /* Altura del logo */
 }
 
+/* Estilos para el encabezado */
 header {
   background-color: #2A4D69;
-  height: 50px;
+  height: 60px; /* Altura del encabezado */
   width: 100vw;
 }
 
+/* Contenedor del encabezado */
 .header-container {
   display: flex;
   justify-content: space-between;
   height: 100%;
   width: 100%;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 20px; /* Espaciado interno */
 }
 
+/* Estilos para el botón de configuración */
 .btn-settings {
   background: #ff8c00;
   border-radius: 10px;
@@ -48,25 +60,62 @@ header {
   padding: 5px;
 }
 
+/* Estilos para el icono de configuración */
 .settings-icon {
   width: 30px;
   height: 30px;
   background: none;
 }
 
+/* Estilos para el botón de donación */
 .btn-donar {
   background-color: #F69000;
   border-radius: 20px;
   color: white;
-  padding: 10px 60px;
+  padding: 10px 60px; /* Espaciado interno */
   text-align: center;
   display: block;
-  margin: 20px auto;
-  width: 100%;
-  max-width: 300px;
+  margin: 20px auto; /* Centrado horizontal */
+  width: 100%; /* Ancho completo */
+  max-width: 300px; /* Ancho máximo */
+  white-space: nowrap;
 }
 
+/* Estilos para la imagen del mapa */
 .mapa-foto {
-  max-width: 92vw;
-  max-height: 100vh;
+  width: 100%; /* Asegura que la imagen se ajuste al contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
+/* Estilos generales para todos los campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"] {
+  width: 100%; /* Asegura que el campo ocupe todo el ancho disponible */
+  padding: 12px 20px; /* Espacio interno para texto */
+  margin: 8px 0; /* Margen entre campos */
+  display: inline-block; /* Alineación adecuada */
+  border: none; /* Sin bordes visibles */
+  border-radius: 30px; /* Bordes redondeados */
+  box-sizing: border-box; /* Calcula el ancho incluyendo padding y border */
+  background-color: #BDCADE; /* Color de fondo específico */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra suave para profundidad */
+  transition: box-shadow 0.3s ease-in-out; /* Transición suave de sombra */
+}
+.form-control {
+  background-color: #BDCADE; /* Color de fondo para los inputs */
+}
+.form-control:disabled {
+  background-color: #BDCADE; /* Asegura que el color se aplique a los inputs deshabilitados */
+  opacity: 1; /* Evita que el color se vea más claro */
+}
+
+/* Estilos específicos cuando un campo está enfocado */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus {
+  outline: none; /* Elimina el contorno predeterminado al enfocar */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra más pronunciada al enfocar */
 }

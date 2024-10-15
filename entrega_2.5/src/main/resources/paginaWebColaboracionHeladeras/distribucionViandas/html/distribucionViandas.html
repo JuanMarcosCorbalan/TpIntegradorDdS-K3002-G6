@@ -1,5 +1,5 @@
+<!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,66 +8,71 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="../css/distribucionViandasEstilos.css" rel="stylesheet">
 </head>
-
 <body>
 <header>
-  <div class="header-container d-flex justify-content-between align-items-center p-3" style="background-color: #2A4D69;">
+  <div class="header-container d-flex justify-content-between align-items-center">
     <img class="img-logo" src="../img/logov2.png" alt="logo">
-    <div class="dropdown">
-      <button class="btn btn-settings" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-              aria-expanded="false">
-        <img src="../img/settings.png" alt="Settings" class="settings-icon">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'"
-                    class="dropdown-item">Ver reporte semanal</button></li>
-        <li><button class="dropdown-item">Opción 2</button></li>
-        <li><button class="dropdown-item">Opción 3</button></li>
-      </ul>
+    <div class="d-flex align-items-center">
+      <div class="dropdown">
+        <button class="btn btn-settings" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                aria-expanded="false">
+          <img src="../img/settings.png" alt="Settings" class="settings-icon">
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'"
+                      class="dropdown-item">Ver reporte semanal</button></li>
+          <li><button class="dropdown-item">Opción 2</button></li>
+          <li><button class="dropdown-item">Opción 3</button></li>
+        </ul>
+      </div>
     </div>
   </div>
 </header>
 
-<form class="row g-3 mx-5 my-5" style="background-color: transparent; border: none;">
-  <div class="col-12">
-    <label for="inputHeladera" class="form-label">Seleccione dos heladeras. La primera es la heladera de la que desea mover las viandas, la segunda es la heladera destino</label>
-    <img src="../img/mapa.png" alt="Mapa" class="mapa-foto">
-  </div>
-
-  <div class="col-md-6">
-    <label for="inputCantidadViandas" class="form-label mx-3 my-2">Ingrese cantidad de viandas a mover</label>
-    <input type="number" class="form-control" id="inputCantidadViandas" placeholder="Cantidad de viandas a mover">
-
-    <label for="inputFechaDistribucion" class="form-label mx-3 my-2">Fecha a realizar la distribución</label>
-    <input type="date" class="form-control" id="inputFechaDistribucion">
-  </div>
-
-  <div class="col-md-6">
-    <h5>Seleccione el motivo de la distribución</h5>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="flexCheckDesperfecto">
-      <label class="form-check-label" for="flexCheckDesperfecto">Desperfecto en la heladera</label>
+<div class="content">
+  <form class="row g-3 mx-5 my-5" style="background-color: transparent; border: none;">
+    <div class="col-12">
+      <label for="inputHeladera" class="form-label">Seleccione dos heladeras. La primera es la heladera de la que desea mover las viandas, la segunda es la heladera destino</label>
+      <img src="../img/mapa.png" alt="Mapa" class="mapa-foto">
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="flexCheckFaltaViandas" checked>
-      <label class="form-check-label" for="flexCheckFaltaViandas">Falta de viandas en heladera destino</label>
+
+    <div class="col-md-6">
+      <label for="inputCantidadViandas" class="form-label mx-3 my-2">Ingrese cantidad de viandas a mover</label>
+      <input type="number" class="form-control" id="inputCantidadViandas" placeholder="Cantidad de viandas a mover">
+
+      <label for="inputFechaDistribucion" class="form-label mx-3 my-2">Fecha a realizar la distribución</label>
+      <input type="date" class="form-control" id="inputFechaDistribucion">
     </div>
-  </div>
 
-  <div class="col-12 text-center">
-    <button type="submit" class="btn btn-primary">Realizar distribución...</button>
-  </div>
-</form>
+    <div class="col-md-6">
+      <h5>Seleccione el motivo de la distribución</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDesperfecto">
+        <label class="form-check-label" for="flexCheckDesperfecto">Desperfecto en la heladera</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckFaltaViandas" checked>
+        <label class="form-check-label" for="flexCheckFaltaViandas">Falta de viandas en heladera destino</label>
+      </div>
+    </div>
 
-<footer class="text-center p-3" style="background-color: #3E3E3E;">Empresas que colaboran con nosotros:
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
-  <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary">Realizar distribución...</button>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <div class="footer-content text-center">
+    Empresas que colaboran con nosotros:
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
+  </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/inicioSesion.js" charset="utf-8"></script>
 </body>
-
 </html>
