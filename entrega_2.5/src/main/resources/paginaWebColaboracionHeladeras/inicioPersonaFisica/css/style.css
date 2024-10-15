@@ -1,33 +1,91 @@
-body {
-  background-color: #f1f1f1;
+body, html {
+  width: 100%;
+  overflow-x: hidden; /* Oculta el desplazamiento horizontal */
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #F5F5F5;
 }
 
-.container {
-  max-width: 900px;
+header {
+  background-color: #2A4D69;
+  height: 60px; /* Altura del encabezado */
+  width: 100vw;
 }
 
-footer {
-  margin-top: auto;
+.img-logo {
+  height: 60px; /* Altura del logo */
 }
 
 .header-container {
-  background-color: #1f3d7a;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px; /* Espaciado interno */
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.btn-canjear {
+  background-color: #cfe2f3; /* Color de fondo del botón */
+  border: 2px solid #2a4d69; /* Borde del botón */
+  border-radius: 10px;
+  color: #2a4d69; /* Color del texto */
+  padding: 5px 15px; /* Espaciado interno */
+  margin-right: 10px; /* Espaciado entre botones */
+}
+
+.btn-settings {
+  background: #ff8c00;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+  border: none; /* Sin borde */
 }
 
 .settings-icon {
-  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background: none;
 }
 
-.form-control {
+.custom-card {
+  background-color: #cfe2f3; /* Color de fondo de las cajas */
+  border: 2px solid #2a4d69; /* Borde de las cajas */
   border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
 }
 
-.p-4 {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.custom-card:hover {
+  transform: scale(1.05); /* Efecto de hover */
+}
+
+footer {
+  background-color: #2a4d69;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  margin-top: auto;
+}
+
+.btn-donar {
+  background-color: #F69000;
+  border-radius: 20px;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  display: block;
+  margin: 20px auto;
+  width: 100%;
+  font-size: 24px; /* Tamaño de la flecha */
 }
