@@ -5,126 +5,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Registro</title>
-  <!-- Enlace de Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/styleRegistroPersonaFisica.css">
 </head>
 
 <body>
-  <header>
-    <div class="header-container">
-      <img class="img-logo" src="../img/logov2.png" alt="logo">
-      <nav class="main-nav">
-      </nav>
-      <button class="btn-settings">
-        <img src="../img/settings.png" alt="Settings" class="settings-icon">
-      </button>D0E5F8
+<header class="bg-primary text-white mb-4">
+  <div class="header-container d-flex justify-content-between align-items-center px-4 py-2">
+    <img class="img-logo" src="../img/logov2.png" alt="logo" height="60">
+    <button class="btn-settings bg-transparent border-0">
+      <img src="../img/settings.png" alt="Settings" class="settings-icon" width="30" height="30">
+    </button>
+  </div>
+</header>
+
+<form>
+  <div class="row mb-3 mx-3">
+    <div class="col-md-6">
+      <label for="nombres" class="form-label">Nombre/s</label>
+      <input type="text" class="form-control shadow-sm" id="nombres" name="nombres" placeholder="Nombre/s actual/es">
     </div>
-  </header>
-  <div class="container mt-5 p-4 rounded shadow" style="background-color: #d0e5f8;">
-    <form>
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-6">
-            <label for="nombres">Ingrese su/s nombre/s</label>
-            <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Nombre/s">
-          </div>
-          <div class="col-md-6">
-            <label for="apellidos">Ingrese su/s apellido/s</label>
-            <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellido/s">
-          </div>
-          <div class="col-md-6">
-            <label for="fecha-nacimiento">Fecha de Nacimiento</label>
-            <input type="text" class="form-control" id="fecha-nacimiento" name="fecha-nacimiento"
-              placeholder="DD/MM/YYYY">
-          </div>
-        </div>
-
-
-        <div class="p-3 rounded mb-4 my-5" style="background-color: #FFCD5B;">
-          <h5>Medios de contacto <span class="text-danger">(Mínimo 1 campo requerido)</span></h5>
-          <div class="row">
-            <div class="col-md-6">
-              <label for="correo">Correo</label>
-              <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo Electrónico">
-            </div>
-            <div class="col-md-6">
-              <label for="telefono">Número de teléfono</label>
-              <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Número de Teléfono">
-            </div>
-            <div class="col-md-6">
-              <label for="whatsapp">Whatsapp</label>
-              <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp">
-            </div>
-          </div>
-        </div>
-
-        <div class="p-3 rounded mb-4 my-5" style="background-color: #FFCD5B;">
-          <h5>Domicilio</h5>
-          <div class="row">
-            <div class="form-group col-md-3">
-              <label for="calle">Calle</label>
-              <input type="text" class="form-control" id="calle" name="calle" placeholder="Calle">
-            </div>
-            <div class="form-group col-md-3">
-              <label for="altura">Altura</label>
-              <input type="text" class="form-control" id="altura" name="altura" placeholder="Altura">
-            </div>
-            <div class="form-group col-md-3">
-              <label for="ciudad">Ciudad</label>
-              <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ciudad">
-            </div>
-            <div class="form-group col-md-3">
-              <label for="pais">País</label>
-              <input type="text" class="form-control" id="pais" name="pais" placeholder="País">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-12">
-            <h5>Formas de colaboración deseadas (seleccione una o más)</h5>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="colaborar-dinero" name="colaborar-dinero">
-              <label class="form-check-label" for="colaborar-dinero">Colaborar aportando dinero</label>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="colaborar-viandas" name="colaborar-viandas">
-              <label class="form-check-label" for="colaborar-viandas">Colaborar distribuyendo viandas</label>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="colaborar-donando-viandas"
-                name="colaborar-donando-viandas">
-              <label class="form-check-label" for="colaborar-donando-viandas">Colaborar donando viandas</label>
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="colaborar-repariendo-tarjetas"
-                name="colaborar-repariendo-tarjetas">
-              <label class="form-check-label" for="colaborar-repariendo-tarjetas">Colaborar repartiendo tarjetas y registrando personas en situacion vulnerable</label>
-            </div>
-          </div>
-        </div>
-
-      <button type="submit" class="btn submit-button mt-4">Completar Registro</button>
-      </div>
-    </form>
+    <div class="col-md-6">
+      <label for="apellidos" class="form-label">Apellido/s</label>
+      <input type="text" class="form-control shadow-sm" id="apellidos" name="apellidos" placeholder="Apellido/s actual/es">
+    </div>
   </div>
 
+  <div class="row mb-3 mx-3">
+    <div class="col-md-6">
+      <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+      <input type="text" class="form-control shadow-sm" id="fecha-nacimiento" name="fecha-nacimiento" placeholder="DD/MM/YYYY">
+    </div>
+  </div>
 
+  <h5>Medios de contacto</h5>
+  <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
+    <div class="col-md-4">
+      <label for="correo" class="form-label">Correo</label>
+      <input type="email" class="form-control shadow-sm" id="correo" name="correo" placeholder="Correo Electrónico actual">
+    </div>
+    <div class="col-md-4">
+      <label for="telefono" class="form-label">Número de teléfono</label>
+      <input type="text" class="form-control shadow-sm" id="telefono" name="telefono" placeholder="Número de Teléfono actual">
+    </div>
+    <div class="col-md-4">
+      <label for="whatsapp" class="form-label">Whatsapp</label>
+      <input type="text" class="form-control shadow-sm" id="whatsapp" name="whatsapp" placeholder="Whatsapp actual">
+    </div>
+  </div>
 
-  <!-- Enlace de Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <h5>Domicilio</h5>
+  <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
+    <div class="col-md-3">
+      <label for="calle" class="form-label">Calle</label>
+      <input type="text" class="form-control shadow-sm" id="calle" name="calle" placeholder="Calle actual">
+    </div>
+    <div class="col-md-3">
+      <label for="altura" class="form-label">Altura</label>
+      <input type="text" class="form-control shadow-sm" id="altura" name="altura" placeholder="Altura actual">
+    </div>
+    <div class="col-md-3">
+      <label for="ciudad" class="form-label">Ciudad</label>
+      <input type="text" class="form-control shadow-sm" id="ciudad" name="ciudad" placeholder="Ciudad actual">
+    </div>
+    <div class="col-md-3">
+      <label for="pais" class="form-label">País</label>
+      <input type="text" class="form-control shadow-sm" id="pais" name="pais" placeholder="País actual">
+    </div>
+  </div>
 
-  <footer>Empresas que colaboran con nosotros:
-    <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
-    <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
-    <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
-    <img src="https://via.placeholder.com/20" alt="Logo de empresa D">
-  </footer>
+  <h5>Formas de colaboración deseadas</h5>
+  <div class="form-check mb-2 mx-3">
+    <input type="checkbox" class="form-check-input" id="colaborar-dinero">
+    <label class="form-check-label" for="colaborar-dinero">Colaborar aportando dinero</label>
+  </div>
+  <div class="form-check mb-2 mx-3">
+    <input type="checkbox" class="form-check-input" id="colaborar-viandas">
+    <label class="form-check-label" for="colaborar-viandas">Colaborar distribuyendo viandas</label>
+  </div>
+  <div class="form-check mb-4 mx-3">
+    <input type="checkbox" class="form-check-input" id="colaborar-donando-viandas">
+    <label class="form-check-label" for="colaborar-donando-viandas">Colaborar donando viandas</label>
+  </div>
+
+  <button type="submit" class="btn btn-warning w-100">Completar Registro</button>
+</form>
+
+<footer class="bg-secondary text-center text-white py-3 mt-4">
+  Empresas que colaboran con nosotros:
+  <img src="https://via.placeholder.com/20" alt="Logo de empresa A" class="mx-2">
+  <img src="https://via.placeholder.com/20" alt="Logo de empresa B" class="mx-2">
+  <img src="https://via.placeholder.com/20" alt="Logo de empresa C" class="mx-2">
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 
 </html>

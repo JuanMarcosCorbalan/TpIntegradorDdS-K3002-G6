@@ -5,7 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #D6A3FF;
+  background-color: #F5F5F5;
 }
 
 .content {
@@ -15,80 +15,58 @@ body {
   flex: 1;
 }
 
-
 footer {
-  background-color: #EAEAEA;
+  background-color: #3E3E3E;
   padding: 1rem;
   text-align: center;
+  color: white;
 }
 
 .img-logo {
   height: 90px;
-  display: inline-block;
 }
 
 header {
-  background-color: rgb(42, 77, 105);
+  background-color: #2A4D69;
   height: 50px;
   width: 100vw;
 }
 
 .header-container {
   display: flex;
-  justify-content: space-between; /* Espacio entre logo y botón */
+  justify-content: space-between;
   height: 100%;
   width: 100%;
-  align-items: center; /* Alinear elementos verticalmente */
-  padding: 10px 20px; /* Ajuste de espaciado */
-}
-
-.img-logo {
-  height: 60px; /* Ajusta el tamaño del logo según tu preferencia */
+  align-items: center;
+  padding: 10px 20px;
 }
 
 .btn-settings {
-  background: rgb(163, 83, 238); /* Sin fondo */
-  border-radius: 10px; /* Sin borde */
-  cursor: pointer; /* Apunta con el cursor */
-  padding: 5; /* Sin padding */
+  background: #ff8c00;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .settings-icon {
-  width: 30px; /* Ajusta el tamaño de la imagen */
-  height: 30px; /* Ajusta el tamaño de la imagen */
-  background: none
+  width: 30px;
+  height: 30px;
+  background: none;
 }
 
-.btn {
-  background-color: rgb(117, 40, 241);
-  border-radius: 50px;
-}
-
-.btn-check:checked + .btn{
-  background-color: green; /* Cambia este color al que prefieras */
-  border: 2px solid rgb(117, 40, 241);    /* Cambia también el borde si lo necesitas */
-}
-
-/* Cambiar el color del texto del botón seleccionado */
-.btn-check:hover + .btn{
-  background-color: green;
-}
-
-.custom-container {
+.btn-donar {
+  background-color: #F69000;
+  border-radius: 20px;
+  color: white;
+  padding: 10px 60px;
   text-align: center;
-  
+  display: block;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 300px;
 }
 
-.btn-custom{
-  background-color: rgb(0, 156, 0);
-  margin-bottom: 30vh;
-}
-
-.btn-custom:hover{
- background-color: rgb(2, 201, 2);
-}
-
-.mapa-foto{
+.mapa-foto {
   max-width: 92vw;
   max-height: 100vh;
 }

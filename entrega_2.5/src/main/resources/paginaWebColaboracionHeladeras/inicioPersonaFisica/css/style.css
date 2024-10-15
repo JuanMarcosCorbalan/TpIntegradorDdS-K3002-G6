@@ -1,121 +1,33 @@
 body {
+  background-color: #f1f1f1;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #D6A3FF;
 }
 
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-}
-
-.login-container {
-  background-color: #B9F4A7;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.login-container img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 20px;
-}
-
-input[type="text"], input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-.login-btn {
-  background-color: #FFA500;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.login-btn:hover {
-  background-color: #FF8C00;
-}
-
-.register-link {
-  margin-top: 5px;
-  display: block;
-  color: black;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.register-link span {
-  display: inline-block;
-  background-color: #800080;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin-top: 10px;
+.container {
+  max-width: 900px;
 }
 
 footer {
-  background-color: #EAEAEA;
-  padding: 10px;
- /* text-align: center;/**/
-}
-
-.img-logo {
-  height: 90px;
-  display: inline-block;
-}
-
-header {
-  background-color: rgb(42, 77, 105);
-  height: 50px;
-  width: 100vw;
-}
-
-.custom-column{
-  background-color: #FFA500;
-  border-radius: 50px;
-  padding: 30px;
-  box-shadow: 5px 5px rgba(0, 0, 0, 0.055);
+  margin-top: auto;
 }
 
 .header-container {
-  display: flex;
-  justify-content: space-between; /* Espacio entre logo y botón */
-  height: 100%;
-  width: 100%;
-  align-items: center; /* Alinear elementos verticalmente */
-  padding: 10px 20px; /* Ajuste de espaciado */
-}
-
-.img-logo {
-  height: 60px; /* Ajusta el tamaño del logo según tu preferencia */
-}
-
-.btn-settings {
-  background: rgb(163, 83, 238); /* Sin fondo */
-  border-radius: 10px; /* Sin borde */
-  cursor: pointer; /* Apunta con el cursor */
-  padding: 5; /* Sin padding */
+  background-color: #1f3d7a;
 }
 
 .settings-icon {
-  width: 30px; /* Ajusta el tamaño de la imagen */
-  height: 30px; /* Ajusta el tamaño de la imagen */
-  background: none
+  cursor: pointer;
+}
+
+.form-control {
+  border-radius: 10px;
+}
+
+.p-4 {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
