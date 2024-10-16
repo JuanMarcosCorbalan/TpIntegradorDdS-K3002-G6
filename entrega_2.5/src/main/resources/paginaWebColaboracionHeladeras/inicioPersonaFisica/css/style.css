@@ -9,7 +9,10 @@ body, html {
   min-height: 100vh;
   background-color: #F5F5F5;
 }
-
+/* Para Chrome, Safari, Opera */
+body::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en WebKit browsers */
+}
 header {
   background-color: #2A4D69;
   height: 60px; /* Altura del encabezado */
