@@ -79,6 +79,7 @@ input[type="date"] {
   margin: 20px auto; /* Centrar el botón horizontalmente */
   width: 100%; /* Ajustar al 100% del contenedor */
   max-width: 300px; /* Ancho máximo del botón */
+  white-space: nowrap;
 }
 
 /* Estilo para el footer */

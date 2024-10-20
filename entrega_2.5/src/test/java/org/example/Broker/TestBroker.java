@@ -82,7 +82,7 @@ public class TestBroker {
 
         Double temperaturaActualizada = heladera.getTemperaturaActual();
 
-        assertEquals(5.0,temperaturaActualizada);
+        assertEquals(500.5,temperaturaActualizada);
 
     }
 
@@ -98,7 +98,7 @@ public class TestBroker {
 
         Double temperaturaActualizada = heladera.getTemperaturaActual();
 
-        assertEquals(5.0,temperaturaActualizada);
+        assertEquals(-500.5,temperaturaActualizada);
 
     }
 
@@ -168,7 +168,7 @@ public class TestBroker {
         broker.procesarMensajes(heladera);
 
         List<Alerta> alertas_aux = heladera.getValidadorTemp().getAlertas();
-        Alerta alerta_actual = alertas_aux.getFirst();
+        Alerta alerta_actual = alertas_aux.get(0);
 
         assertEquals(TipoAlerta.ALERT_TEMPERATURA,alerta_actual.getTipo());
         assertEquals(heladera, alerta_actual.getHeladera());

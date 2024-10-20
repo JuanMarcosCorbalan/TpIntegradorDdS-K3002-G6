@@ -11,6 +11,7 @@ import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
 import org.example.Colaborador.ControladoresColaborador.*;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +46,57 @@ public class Main {
         app.get("/inicioSesion", ctx->{
             ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache");
         });
-        app.get("/donacionVianda", ctx->{
-            ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
-        });
         app.get("/distribucionTarjetas", ctx->{
             ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
         });
         app.get("/distribucionViandas", ctx->{
             ctx.render("/paginaWebColaboracionHeladeras/distribucionViandas/html/distribucionViandas.mustache");
         });
+
+        app.get("/donacionDinero", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/donacionDinero/html/donacionDinero.mustache");
+        });
+        app.get("/donacionVianda", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
+        });
+        app.get("/gestionHeladeras", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/gestionHeladeras/html/gestionHeladeras.mustache");
+        });//server error
+
+        app.get("/hacerseCargoHeladera", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera.mustache");
+        });//server error
+
+        app.get("/inicioAdminitrador", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/inicioAdminitrador/html/inicioAdminitrador.mustache");
+        }); //server error
+
+        app.get("/puntosYCanjes", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache");
+        }); //server error
+
+        app.get("/registroOpciones", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/registroOpciones/html/registroOpciones.mustache");
+        }); //server error
+
+        app.get("/registroPersonaFisica", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/registroPersonaFisica/html/registroPersonaFisica.mustache");
+        }); //server error
+
+
+        app.get("/registroPersonaJuridica", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/registroPersonaJuridica/html/registroPersonaJuridica.mustache");
+        });//server error
+
+        app.get("/resultadoMigracionCSV", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache");
+        });//server error
+
+        app.get("/visualizadorReporteSemanal", ctx->{
+            ctx.render("/paginaWebColaboracionHeladeras/visualizadorReporteSemanal/html/visualizadorReporteSemanal.html");
+        });//server error
+
+
         // login para guardar al colaborador
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
@@ -120,7 +163,7 @@ public class Main {
                 LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
                 Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
                 String situacionDeCalleString = ctx.formParam("flexRadioDefault");
-                boolean situacionDeCalle = Boolean.getBoolean(situacionDeCalleString);
+                boolean situacionDeCalle = Boolean.parseBoolean (situacionDeCalleString);
                 String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
                 // Llamar a la lógica de backend
                 RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido,situacionDeCalle,domicilio,cantidadMenoresACargo);

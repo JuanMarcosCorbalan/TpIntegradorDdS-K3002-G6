@@ -65,6 +65,31 @@
             <version>0.9.7</version>
         </dependency>
 
+        <!--Para la persistencia-->
+
+<!-- JPA Persistence Dependencies -->
+        <dependency>
+            <groupId>io.github.flbulgarelli</groupId>
+            <artifactId>jpa-extras</artifactId>
+            <version>1.0.0-rc1</version>
+        </dependency>
+
+<!-- drivers jdbc -->
+    <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.17</version>
+        </dependency>
+
+<!-- hsqldb -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+<!--Hasta aca para la persistencia-->
 
         <!--libreria de logueo requerida por javalin-->
         <dependency>
