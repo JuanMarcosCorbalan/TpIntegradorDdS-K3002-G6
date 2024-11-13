@@ -15,6 +15,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import io.javalin.Javalin;
 import org.example.Tarjetas.TarjetaColaborador;
 
@@ -43,56 +44,56 @@ public class Main {
                 .get("/", ctx -> ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache"))
                 .start(8081);
 
-        app.get("/inicioSesion", ctx->{
+        app.get("/inicioSesion", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache");
         });
-        app.get("/distribucionTarjetas", ctx->{
+        app.get("/distribucionTarjetas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
         });
-        app.get("/distribucionViandas", ctx->{
+        app.get("/distribucionViandas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionViandas/html/distribucionViandas.mustache");
         });
 
-        app.get("/donacionDinero", ctx->{
+        app.get("/donacionDinero", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/donacionDinero/html/donacionDinero.mustache");
         });
-        app.get("/donacionVianda", ctx->{
+        app.get("/donacionVianda", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
         });
-        app.get("/gestionHeladeras", ctx->{
+        app.get("/gestionHeladeras", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/gestionHeladeras/html/gestionHeladeras.mustache");
         });//server error
 
-        app.get("/hacerseCargoHeladera", ctx->{
+        app.get("/hacerseCargoHeladera", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera.mustache");
         });//server error
 
-        app.get("/inicioAdminitrador", ctx->{
+        app.get("/inicioAdminitrador", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/inicioAdminitrador/html/inicioAdminitrador.mustache");
         }); //server error
 
-        app.get("/puntosYCanjes", ctx->{
+        app.get("/puntosYCanjes", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache");
         }); //server error
 
-        app.get("/registroOpciones", ctx->{
+        app.get("/registroOpciones", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroOpciones/html/registroOpciones.mustache");
         }); //server error
 
-        app.get("/registroPersonaFisica", ctx->{
+        app.get("/registroPersonaFisica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroPersonaFisica/html/registroPersonaFisica.mustache");
         }); //server error
 
 
-        app.get("/registroPersonaJuridica", ctx->{
+        app.get("/registroPersonaJuridica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroPersonaJuridica/html/registroPersonaJuridica.mustache");
         });//server error
 
-        app.get("/resultadoMigracionCSV", ctx->{
+        app.get("/resultadoMigracionCSV", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache");
         });//server error
 
-        app.get("/visualizadorReporteSemanal", ctx->{
+        app.get("/visualizadorReporteSemanal", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/visualizadorReporteSemanal/html/visualizadorReporteSemanal.html");
         });//server error
 
@@ -104,12 +105,33 @@ public class Main {
             Persona_fisica juan = new Persona_fisica("juan", "corbalan");
             Colaborador colaborador = new Colaborador(juan);
             colaborador.setTarjetaColaborador(new TarjetaColaborador("t1", colaborador));
-                    //ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
+            //ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
+
+            String buttonType = ctx.formParam("buttonType");
+            String username = ctx.formParam("nombreUsuario");
+            String password = ctx.formParam("contraseniaUsuario");
 
             if (colaborador != null) {
                 // Guardar al colaborador en la sesión
                 ctx.sessionAttribute("colaborador", colaborador);
-                ctx.result("Login exitoso");
+                switch (buttonType) {
+                    case "principal":
+                        // Lógica para iniciar sesión normal
+                        ctx.result("Inicio de sesión principal, RECONOCERIA EL TIPO DE CUENTA Y LLEVA A SU INICIO, POR AHORA INGRESAR DE FORMA MANUAL CON EL BOTON DE CADA TIPO DE CUENTA");
+                        break;
+                    case "fisica":
+                        // Lógica para iniciar sesión como persona física
+                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                        break;
+                    case "juridica":
+                        // Lógica para iniciar sesión como persona jurídica
+                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                        break;
+                    default:
+                        ctx.status(400).result("Acción no reconocida");
+                        break;
+                }
+
             } else {
                 ctx.result("Credenciales incorrectas");
             }
@@ -163,10 +185,10 @@ public class Main {
                 LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
                 Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
                 String situacionDeCalleString = ctx.formParam("flexRadioDefault");
-                boolean situacionDeCalle = Boolean.parseBoolean (situacionDeCalleString);
+                boolean situacionDeCalle = Boolean.parseBoolean(situacionDeCalleString);
                 String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
                 // Llamar a la lógica de backend
-                RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido,situacionDeCalle,domicilio,cantidadMenoresACargo);
+                RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
 
                 // Enviar una respuesta de confirmación
                 ctx.result("Registro realizado con éxito.");
@@ -183,89 +205,103 @@ public class Main {
                 Heladera heladera0 = new Heladera("heladera0Prueba", 10);
                 Heladera heladera1 = new Heladera("heladera1Prueba", 10);
                 LocalDate fechaDistribucion = LocalDate.parse(ctx.formParam("inputFechaDistribucion"));
-                Integer cantidadViandasAMover = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
+                Integer cantidadViandasAMover = Integer.valueOf(ctx.formParam("inputCantidadViandas"));
                 String desperfecto = ctx.formParam("opcionDesperfecto");
+                if (desperfecto == null) {
+                    desperfecto = "false";
+                }
                 String faltantes = ctx.formParam("opcionFaltantes");
+                if (faltantes == null) {
+                    faltantes = "false";
+                }
                 Motivo_distribucion motivoDistribucion = null;
-                if (desperfecto.equals("desperfecto") && faltantes.equals("faltantes")){
+                if (desperfecto.equals("desperfecto") && faltantes.equals("faltantes")) {
                     motivoDistribucion = Motivo_distribucion.AMBOS;
                 } else {
                     if (desperfecto.equals("desperfecto")) {
                         motivoDistribucion = Motivo_distribucion.DESPERFECTO_HELADERA;
+                    } else {
+                        if (faltantes.equals("faltantes")) {
+                            motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
+                        } else {
+                            ctx.status(401).result("Seleccione un motivo de distribucion");
+                        }
                     }
-                    if (faltantes.equals("faltantes")) {
-                        motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
+
+                    }
+                    // Llamar a la lógica de backend
+                    SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
+
+                    // Enviar una respuesta de confirmación
+                    ctx.result("Solicitud realizada con éxito.");
+                } else{
+                    // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+                }
+            });
+
+
+            instanciacion.crearColaboradores(colaboradores);
+            instanciacion.migrarColaboradores(colaboradores);
+
+            for (Colaborador colaborador : colaboradores) {
+                Persona persona = colaborador.getPersona_colaboradora();
+                if (persona instanceof Persona_fisica personaFisicaExistente) {
+                    System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                    String nombre = personaFisicaExistente.getNombre();
+                    List<Contribucion> contribuciones = colaborador.getContribuciones();
+                    if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                    else System.out.println("No tiene colaboraciones realizadas");
+                    for (Contribucion contribucion : contribuciones) {
+                        System.out.println(contribucion.getFecha_contribucion());
                     }
                 }
-                // Llamar a la lógica de backend
-                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
 
-                // Enviar una respuesta de confirmación
-                ctx.result("Solicitud realizada con éxito.");
-            } else {
-                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
-            }
-        });
-
-
-
-        instanciacion.crearColaboradores(colaboradores);
-        instanciacion.migrarColaboradores(colaboradores);
-
-        for (Colaborador colaborador : colaboradores) {
-            Persona persona = colaborador.getPersona_colaboradora();
-            if(persona instanceof Persona_fisica personaFisicaExistente){
-                System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
-                String nombre = personaFisicaExistente.getNombre();
-                List<Contribucion> contribuciones = colaborador.getContribuciones();
-                if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
-                else System.out.println("No tiene colaboraciones realizadas");
-                for(Contribucion contribucion : contribuciones) {
-                    System.out.println(contribucion.getFecha_contribucion());
-                }
             }
 
         }
 
-    }
-
-    public void dar_alta_colaborador_fisico(String nombre, String apellido, String fechaNacimiento, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais , Forma_colaborar[] formas)
-    {
-        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
-        Domicilio nuevo_domicilio = new Domicilio(latDom,longDom,direccion,ciudad,pais);
-        Persona_fisica nueva_persona = new Persona_fisica(nombre,apellido,fechaNacimiento,nuevo_documento,medios,nuevo_domicilio);
-        Colaborador colaborador = new Colaborador(nueva_persona,formas);
-        colaboradores.add(colaborador);
-    }
-    public void dar_alta_colaborador_juridico(String razonSocial, Tipo_juridico tipo, String rubro, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais , Forma_colaborar[] formas)
-    {
-        Domicilio nuevo_domicilio = new Domicilio(latDom,longDom,direccion,ciudad,pais);
-        Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio,medios,razonSocial,tipo,rubro);
-        Colaborador colaborador = new Colaborador(nueva_persona,formas);
-        colaboradores.add(colaborador);
-    }
-    void darBajaColaborador(Colaborador colaborador){
-        colaboradores.remove(colaborador);
-    }
-
-
-    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento tipoDoc, String numeroDocumento, Medio_contacto[] medios,String latDom,String longDom,String direccion, Ciudad ciudad,Pais pais ,Integer latitud, Integer longitud , String radio)
-    {
-        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento,tipoDoc);
-        AreaCobertura nueva_area = new AreaCobertura(latitud,longitud,radio);
-        Domicilio nuevo_domicilio = new Domicilio(latDom,longDom,direccion,ciudad,pais);
-        Tecnico nueva_tecnico = new Tecnico(nombre,apellido,fechaNacimiento,nuevo_documento,medios,nuevo_domicilio,nueva_area);
-        tecnicos.add(nueva_tecnico);
-    }
-    void dar_baja_tecnico(Tecnico tecnico)
-    {
-        tecnicos.remove(tecnico);
-    }
+        public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
+        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
+        ciudad, Pais pais, Forma_colaborar[]formas)
+        {
+            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
+            Colaborador colaborador = new Colaborador(nueva_persona, formas);
+            colaboradores.add(colaborador);
+        }
+        public void dar_alta_colaborador_juridico (String razonSocial, Tipo_juridico tipo, String rubro, Medio_contacto[]
+        medios, String latDom, String longDom, String direccion, Ciudad ciudad, Pais pais, Forma_colaborar[]formas)
+        {
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
+            Colaborador colaborador = new Colaborador(nueva_persona, formas);
+            colaboradores.add(colaborador);
+        }
+        void darBajaColaborador (Colaborador colaborador){
+            colaboradores.remove(colaborador);
+        }
 
 
-    public List<Colaborador> getColaboradores() {
-        return colaboradores;
-    }
+        public void dar_alta_tecnico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
+        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
+        ciudad, Pais pais, Integer latitud, Integer longitud, String radio)
+        {
+            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+            AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
+            tecnicos.add(nueva_tecnico);
+        }
+        void dar_baja_tecnico (Tecnico tecnico)
+        {
+            tecnicos.remove(tecnico);
+        }
 
-}
+
+        public List<Colaborador> getColaboradores () {
+            return colaboradores;
+        }
+
+    }

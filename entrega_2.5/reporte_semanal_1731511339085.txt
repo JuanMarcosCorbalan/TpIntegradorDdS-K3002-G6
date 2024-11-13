@@ -1,0 +1,15 @@
+CANTIDAD_FALLAS_POR_HELADERA
+Heladera H1: 0
+Heladera H2: 0
+
+CANTIDAD_DE_VIANDAS_RETIRADAS_POR_HELADERA
+Heladera H1: 0
+Heladera H2: 0
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_HELADERA
+Heladera: H1: 2
+Heladera: H2: 1
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_COLABORADOR
+Colaborador: Juan Roman Riquelme: 2
+Colaborador: Martin Palermo: 1
