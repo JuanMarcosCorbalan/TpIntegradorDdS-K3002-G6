@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
+import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
 import org.example.Persona.*;
@@ -238,6 +239,20 @@ public class Main {
                     // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                     ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
                 }
+            });
+
+            app.post("/hacerseCargoHeladera", ctx -> {
+                Colaborador colaborador = ctx.sessionAttribute("colaborador");
+                if (colaborador != null) {
+                    HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                    SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
+
+                    ctx.result("Solicitud realizada con éxito.");
+                }else{
+                    // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+                }
+
             });
 
 
