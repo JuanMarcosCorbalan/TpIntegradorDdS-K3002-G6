@@ -30,7 +30,6 @@ public class MigracionColaboradores {
     ValidacionDatos validacionDatos = new ValidacionDatos();
     ExtraccionDatosLinea extraccionDatosLinea = new ExtraccionDatosLinea();
     CargaDatosCsv cargarDatosCsv = new CargaDatosCsv();
-    DatosColaboracion datosColaboracion = new DatosColaboracion();
     RepositorioColaboradores colaboradoresExistentes;
 
     public MigracionColaboradores(String archivoCsv, RepositorioColaboradores colaboradores) {
@@ -38,17 +37,19 @@ public class MigracionColaboradores {
         this.colaboradoresExistentes = colaboradores;
     }
 
-    public void migrarCsv() {
+    public List<DatosColaboracion> migrarCsv() {
         // mapeo para tener las personas en vez de colaboradores
         Map<String, Colaborador> colaboradoresExistentesMap = new HashMap<>();
         Map<String, Persona> personasFisicasExistentesMap = new HashMap<>();
         this.instanciacionHashMaps(colaboradoresExistentesMap, personasFisicasExistentesMap);
+        List<DatosColaboracion> datosColaboraciones = new ArrayList<>();
 
         try {
             List<String[]> lineas = obtencionLineasCsv.leerCsv(archivoCsv);
 
             // lee cada linea del csv
             for (String[] linea : lineas) {
+                DatosColaboracion datosColaboracion = new DatosColaboracion();
 
                 extraccionDatosLinea.extraerDatosLinea(linea,datosColaboracion);
                 numeroDocumentoString = transformacionDatos.numeroDocumentoString(datosColaboracion.getNumeroDocumento());
@@ -57,11 +58,13 @@ public class MigracionColaboradores {
                 ValidacionDatos.validarLinea(linea, primeraLinea, datosColaboracion.getTipoDoc(), numeroDocumentoString, datosColaboracion.getNombre(), datosColaboracion.getApellido(), datosColaboracion.getMail(), datosColaboracion.getFormaColaboracion(), datosColaboracion.getCantidad());
                 cargarDatosCsv.cargarDatos(colaboradoresExistentes.getColaboradores(),colaboradoresExistentesMap, personasFisicasExistentesMap, datosColaboracion.getNombre(), datosColaboracion.getApellido(), numeroDocumentoString, tipoDocumento, datosColaboracion.getMail(), datosColaboracion.getFormaColaboracion(), datosColaboracion.getCantidad(), fechaColaboracion);
 
+                datosColaboraciones.add(datosColaboracion);
             }
         } catch (IOException |CsvException e) {
             // si hubo un problema con la io como que no esta el archivo o en la lectura del csv existente
             e.printStackTrace();
         }
+        return datosColaboraciones;
 
     }
 

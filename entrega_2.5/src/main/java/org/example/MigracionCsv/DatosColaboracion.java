@@ -34,4 +34,6 @@ public class DatosColaboracion {
 
     public Integer getCantidad() { return cantidad; }
     public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+
+
 }

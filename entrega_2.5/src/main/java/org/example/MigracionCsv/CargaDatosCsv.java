@@ -25,6 +25,7 @@ public class CargaDatosCsv {
         // POR AHORA TOMO QUE DONAR DINERO SEA UNA DONACION UNICA PORQ EN LA MIGRACION SE PIERDE LA FRECUENCIA
         // paso formaColaboracion a colaboracion
         this.identificarYCrearColaboracion(colaborador, formaColaboracion, cantidad, fechaColaboracion);
+
     }
 
     public void identificarYCrearColaboracion(Colaborador colaborador, String formaColaboracion, Integer cantidad, LocalDate fechaColaboracion){

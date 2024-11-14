@@ -127,3 +127,20 @@ header {
   height: 30px;
   background: none;
 }
+
+/* Asegúrate de que el body y html ocupen el 100% de la altura */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Usar flexbox en el contenedor principal para que el footer se quede abajo */
+.custom-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa al menos el 100% de la altura de la ventana */
+}
+/* Asegúrate de que el contenido principal ocupe el espacio disponible */
+.container {
+    flex: 1;
+}

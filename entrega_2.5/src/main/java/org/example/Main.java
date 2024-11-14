@@ -6,6 +6,7 @@ import org.example.Colaborador.RepositorioColaboradores;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
+import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
@@ -16,7 +17,9 @@ import org.example.Colaborador.ControladoresColaborador.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
@@ -281,7 +284,13 @@ public class Main {
                     }
                     // esto podria ir en el handler
                     MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colaboradoresExistentes);
-                    migracionColaboradores.migrarCsv();
+                    List<DatosColaboracion> datosAImprimir = migracionColaboradores.migrarCsv();
+                    System.out.println(datosAImprimir);
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("datosColaboraciones", datosAImprimir);
+                    // Pasa la lista al contexto y renderiza la plantilla
+                    ctx.attribute("datosColaboracion", datosAImprimir);
+                    ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache", model);
                     for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
                         Persona persona = colaboradorLista.getPersona_colaboradora();
                         if (persona instanceof Persona_fisica personaFisicaExistente) {
@@ -294,7 +303,6 @@ public class Main {
                                 System.out.println(contribucion.getFecha_contribucion());
                             }
                         }
-
                     }
                 }
             } else {
