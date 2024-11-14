@@ -11,13 +11,27 @@ import org.example.Persona.Domicilio;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Tarjetas.TarjetaSv;
 
+import javax.persistence.*;
 
+@Entity
 public class RegistrarPersonasSV extends Contribucion{
+
+    @ManyToOne
+    @JoinColumn (name = "id_colaborador")
+    Colaborador colaborador;
+
+    Date fecha_contribucion;
+
     //List<Tarjeta> tarjetas = new ArrayList<Tarjeta>(); podria utilizar repo de tarjetas que ya tiene el sistema y q dio de alta antes
-    List<String> ids_tarjetas = new LinkedList<String>();
-    List<PersonaSituacionVulnerable> personasSituacionVulnerable = new LinkedList<PersonaSituacionVulnerable>();
-    Integer cantidadTarjetasRepartidas;
-    Integer registrosPendientes;
+    @Transient
+    List<String> ids_tarjetas = new LinkedList<String>(); // esta no esta en el der
+
+    @OneToMany(mappedBy = "registro")
+    List<PersonaSituacionVulnerable> personasSituacionVulnerable = new LinkedList<PersonaSituacionVulnerable>(); // esta no esta en el der
+    @Transient
+    Integer cantidadTarjetasRepartidas; // esta no esta en el der
+    @Transient
+    Integer registrosPendientes; // esta no esta en el der
 
     public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
         int contador = 0;

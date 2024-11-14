@@ -2,9 +2,11 @@ package org.example.Validadores_Sensores;
 
 import org.example.Heladeras.Heladera;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Entity
 public class Alerta extends Incidente{
     TipoAlerta tipo;
 

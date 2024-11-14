@@ -6,15 +6,23 @@ import org.example.Heladeras.PuntoUbicacion;
 import org.example.Personal.BuscarTecnico;
 import org.example.Personal.Tecnico;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+@Entity
 public class FallaTecnica extends Incidente{
+
+    @ManyToOne
     Colaborador colaborador;
+
     String descripcion;
     File foto;
+
+    @ManyToOne
     Tecnico tecnicoAsignado;
 
     public FallaTecnica(Colaborador colaborador, String descripcion, File foto, Heladera heladera){

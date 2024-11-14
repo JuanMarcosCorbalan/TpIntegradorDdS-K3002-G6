@@ -2,9 +2,20 @@ package org.example.Ofertas;
 
 import org.example.Formas_contribucion.Contribucion;
 
+import javax.persistence.*;
 import java.io.File;
 
+@Entity
 public class Oferta extends Contribucion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ofertaRubro")
+    private OfertasRubro ofertaRubro;
+
     String nombre;
     Integer puntosNecesarios;
     File imagenIlustrativa;

@@ -6,11 +6,18 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Heladeras.RepositorioHeladeras;
 
+import javax.persistence.*;
 import java.util.List;
 
+
+@Entity
 public class HacerseCargoHeladera extends Contribucion{
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Heladera heladeraElegida;
+
+    @Transient
     RepositorioHeladeras repositorioHeladeras;
-    Heladera heladeraElegida;
 
     public void hacerseCargo() {
         BusquedaPuntosSugeridos busquedaPuntosSugeridos = new BusquedaPuntosSugeridos();

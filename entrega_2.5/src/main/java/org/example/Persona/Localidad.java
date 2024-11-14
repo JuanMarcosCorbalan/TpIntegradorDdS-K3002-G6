@@ -4,16 +4,17 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Ciudad {
-
+public class Localidad {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn (name = "ciudad_pais")
-    public Pais pais;
+    @JoinColumn (name = "localidad_ciudad")
+    private Ciudad ciudad;
 
-    @OneToMany (mappedBy = "ciudad", cascade = CascadeType.ALL)
-    public List<Localidad> localidades;
+    @OneToMany (mappedBy = "localidad")
+    public List<Domicilio> domicilios;
+
+    String nombre;
 }

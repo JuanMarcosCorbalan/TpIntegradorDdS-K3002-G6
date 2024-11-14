@@ -4,18 +4,36 @@ import org.example.Heladeras.Heladera;
 import org.example.Persona.*;
 import org.example.Validadores_Sensores.FallaTecnica;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.List;
 
+
+@Entity
 public class Tecnico extends Rol {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
+    private Long id;
+
+    @ManyToOne
     AreaCobertura areaCobertura;
+
+    @OneToMany(mappedBy = "tecnicoAsignado")
     List <FallaTecnica> fallasTecnicasAsignadas;
+
+    @OneToMany(mappedBy = "tecnico")
     List <Visita> visitasRealizadas;
 
-    public Tecnico(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, Medio_contacto[] mediosContacto, Domicilio domicilio, AreaCobertura areaCobertura ){
-        this.persona = new Persona_fisica(nombre,apellido,fecha_nacimiento,documento,mediosContacto,domicilio);
+    public Tecnico(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, List<Medio_contacto> mediosContacto, Domicilio domicilio, AreaCobertura areaCobertura ){
+        this.persona = new Persona_fisica(nombre,apellido,fecha_nacimiento,documento, mediosContacto,domicilio);
         this.areaCobertura = areaCobertura;
     }
+
+    public Tecnico() {
+
+    }
+
     public void setAreaCobertura(AreaCobertura areaCobertura){
         this.areaCobertura = areaCobertura;
     }

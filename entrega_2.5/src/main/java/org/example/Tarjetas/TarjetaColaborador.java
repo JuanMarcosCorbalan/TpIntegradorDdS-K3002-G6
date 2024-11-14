@@ -7,6 +7,9 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.Vianda;
 import org.example.Colaborador.Colaborador;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Duration;
@@ -17,24 +20,32 @@ import java.util.List;
 import static org.example.Tarjetas.MotivoSolicitud.APERTURA_DISTRIBUCION;
 import static org.example.Tarjetas.MotivoSolicitud.APERTURA_DONACION;
 
-public class TarjetaColaborador {
-    String IdTarjeta;
-    Colaborador colaborador;
+@Entity
+public class TarjetaColaborador extends Tarjeta{
+    //String IdTarjeta;
+    //Colaborador colaborador;
+
+    @OneToMany(mappedBy = "Colaborador")
     List<SolicitudWeb> solicitudesWeb = new ArrayList<SolicitudWeb>();
+
+    @OneToMany(mappedBy = "Colaborador")
     List<SolicitudApertura> solicitudAperturas = new ArrayList<SolicitudApertura>();
 
 
-    public TarjetaColaborador(String idTarjeta, Colaborador colaborador) {
-        IdTarjeta = idTarjeta;
-        this.colaborador = colaborador;
+    public TarjetaColaborador(Colaborador colaborador) {
+        super(colaborador);
     }
 
+
+
+    //public TarjetaColaborador() {}
+
     public void crearSolicitudWebDonacion(Heladera heladera){
-        SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DONACION, LocalDate.now(), LocalTime.now(),heladera);
+        SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DONACION, LocalDate.now(), LocalTime.now(),heladera,this);
         solicitudesWeb.add(nuevaSolicitudWeb);
     }
     public SolicitudApertura crearSolicitudApertura(Heladera heladera){
-        return new SolicitudApertura(heladera, LocalDate.now(), LocalTime.now(), colaborador);
+        return new SolicitudApertura(heladera, LocalDate.now(), LocalTime.now(), colaborador,this);
     }
 
     public SolicitudWeb buscarSolicitudValida(Heladera heladera){
@@ -50,10 +61,10 @@ public class TarjetaColaborador {
     }
 
     public void crearSolicitudesWebDistribucion(Heladera heladeraOrigen, Heladera heladeraDestino){
-        SolicitudWeb nuevaSolicitudWebOrigen = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraOrigen);
+        SolicitudWeb nuevaSolicitudWebOrigen = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraOrigen,this);
         solicitudesWeb.add(nuevaSolicitudWebOrigen);
-        SolicitudWeb nuevaSolicitudWebDestino = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraDestino);
-        solicitudesWeb.add(nuevaSolicitudWebDestino);
+        SolicitudWeb nuevaSolicitudWebDestino = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraDestino,this);
+      ,this  solicitudesWeb.add(nuevaSolicitudWebDestino);
     }
 
     public Boolean duracionMenorA3Horas(SolicitudWeb solicitudWeb){

@@ -22,9 +22,7 @@ public class BusquedaPuntosSugeridos {
             JSONObject jsonObject = jsonArray.optJSONObject(i);
             String longitudString = jsonObject.optString("longitud");
             String latitudString = jsonObject.optString("latitud");
-            int longitudInt = Integer.parseInt(longitudString);
-            int latitudInt = Integer.parseInt(latitudString);
-            PuntoUbicacion nuevo_punto = new PuntoUbicacion(latitudInt, longitudInt);
+            PuntoUbicacion nuevo_punto = new PuntoUbicacion(latitudString, longitudString);
             puntosSugeridos.add(nuevo_punto);
         }
     }

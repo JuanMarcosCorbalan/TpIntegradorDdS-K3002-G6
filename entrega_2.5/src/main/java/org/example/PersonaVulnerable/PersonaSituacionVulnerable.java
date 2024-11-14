@@ -1,23 +1,30 @@
 package org.example.PersonaVulnerable;
 
+import org.example.Formas_contribucion.RegistrarPersonasSV;
 import org.example.Persona.Domicilio;
 import org.example.Heladeras.Heladera;
 import org.example.Persona.Persona_fisica;
 import org.example.Persona.Rol;
 import org.example.Tarjetas.TarjetaSv;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
+
+@Entity
 public class PersonaSituacionVulnerable extends Rol {
+
     Date fechaRegistroSistema;
     Boolean enSituacionCalle;
-    //Domicilio domicilio;
-    //Boolean poseeMenoresACargo;
+    Boolean poseeMenoresACargo;
     Integer cantidadMenoresACargo;
-    TarjetaSv tarjetaSv;
+    //TarjetaSv tarjetaSv;
+    //Domicilio domicilio;
 
+    @ManyToOne
+    private RegistrarPersonasSV registro;
 
     public PersonaSituacionVulnerable(String nombre, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Integer cantidadMenoresACargo, TarjetaSv tarjetaSv) {
         this.fechaRegistroSistema = new Date();
@@ -25,7 +32,7 @@ public class PersonaSituacionVulnerable extends Rol {
         //this.domicilio = domicilio;
         //this.poseeMenoresACargo = poseeMenoresACargo;
         this.cantidadMenoresACargo = cantidadMenoresACargo;
-        this.tarjetaSv = tarjetaSv;
+        //this.tarjetaSv = tarjetaSv;
         this.persona = new Persona_fisica(nombre,apellido,null,null,null,domicilio);
     }
 
@@ -35,6 +42,10 @@ public class PersonaSituacionVulnerable extends Rol {
         //this.domicilio = domicilio;
         this.cantidadMenoresACargo = cantidadMenoresACargo;
         this.persona = new Persona_fisica(nombre,apellido,null,null,null,domicilio);
+    }
+
+    public PersonaSituacionVulnerable() {
+
     }
 
     public void retirarVianda(LocalDate fechaActual, LocalTime horaActual, Heladera heladeraElegida){
@@ -49,7 +60,5 @@ public class PersonaSituacionVulnerable extends Rol {
         return cantidadMenoresACargo;
     }
 
-    public void setTarjetaSv(TarjetaSv tarjetaSv) {
-        this.tarjetaSv = tarjetaSv;
-    }
+   // public void setTarjetaSv(TarjetaSv tarjetaSv) {this.tarjetaSv = tarjetaSv;}
 }

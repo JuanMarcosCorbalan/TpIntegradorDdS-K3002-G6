@@ -1,32 +1,60 @@
 package org.example.Heladeras;
 
+import org.example.Colaborador.Colaborador;
 import org.example.Suscripcion.AdministradorSuscripciones;
 import org.example.Tarjetas.RetiroVianda;
 import org.example.Validadores_Sensores.*;
 
+import javax.persistence.*;
+import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+@Entity
 public class Heladera {
-    PuntoUbicacion puntoUbicacion;
-    String idHeladera;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private PuntoUbicacion puntoUbicacion;
+
+    String idHeladera; // CREO QUE NO IRIA MAS
     int unidadViandasActual;
     int unidadesMaximoViandas; //VIENE DEFINIDA
+
+    @OneToMany(mappedBy = "heladera")
     List<Vianda> viandas = new LinkedList<Vianda>();
+
     Date FechaFuncionamiento;
+
+    @Enumerated(EnumType.STRING)
     EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
+
+    @OneToMany(mappedBy = "heladeraRetiro")
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
-    List<Validador> validadores = new ArrayList<Validador>();
+
+    @OneToMany(mappedBy = "heladera")
+    List<Incidente> incidentes = new ArrayList<>();
+
+    int cantidadFallas;
+
     int temperaturaMaxima;
     int temperaturaMinima;
     Double temperaturaActual;
     AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
-    int cantidadFallas;
+
     int cantidadViandasDonadas;
     ValidadorTemperatura validadorTemp;
     ValidadorMovimiento validadorMov;
+    @Transient
+    List<Validador> validadores = new ArrayList<Validador>();
+
+    @ManyToOne
+    private Colaborador colaboradores;
 
     //CONSTRUCTORES
     public Heladera(String idHeladera, Double temperaturaActual) {

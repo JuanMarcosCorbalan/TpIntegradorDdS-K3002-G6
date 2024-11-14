@@ -2,12 +2,22 @@ package org.example.Formas_contribucion;
 
 import org.example.Colaborador.Colaborador;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
 import java.util.Date;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 abstract public class Contribucion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
     Colaborador colaborador;
+
     LocalDate fecha_contribucion;
     Boolean contribucionExitosa;
     Boolean contribucionTerminada;

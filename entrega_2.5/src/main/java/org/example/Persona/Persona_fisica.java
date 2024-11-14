@@ -1,20 +1,29 @@
 package org.example.Persona;
-
+import javax.persistence.*;
+import java.util.List;
 
 import java.util.Objects;
 
+@Entity
 public class Persona_fisica extends Persona{
     String nombre;
     String apellido;
     String fecha_nacimiento;
-    Documento_identidad documento_identidad;
 
-    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, Medio_contacto[] mediosContacto,Domicilio domicilio){
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn (name = "persona_documento")
+    public Documento_identidad documento_identidad;
+
+    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, List<Medio_contacto> mediosContacto,Domicilio domicilio){
         super(domicilio,mediosContacto);
         this.nombre = nombre;
         this.apellido = apellido;
         this.fecha_nacimiento = fecha_nacimiento;
         this.documento_identidad = documento;
+    }
+
+    public Persona_fisica() {
+
     }
 
     public void setNombre(String nombre){

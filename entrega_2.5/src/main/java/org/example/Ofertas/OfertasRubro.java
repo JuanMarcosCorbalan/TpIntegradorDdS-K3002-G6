@@ -2,12 +2,23 @@ package org.example.Ofertas;
 
 import org.example.Formas_contribucion.Rubro;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class OfertasRubro {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToMany(mappedBy = "ofertaRubro")
+    private List<Oferta> ofertas;
+
     Rubro rubro;
-    List<Oferta> ofertas = new ArrayList<Oferta>();
+
+    //List<Oferta> ofertas = new ArrayList<Oferta>();
 
     public void aniadirOferta(Oferta unaOferta){
         ofertas.add(unaOferta);
