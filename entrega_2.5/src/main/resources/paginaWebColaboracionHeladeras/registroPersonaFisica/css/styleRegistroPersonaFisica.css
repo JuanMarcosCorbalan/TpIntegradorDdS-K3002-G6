@@ -5,6 +5,12 @@ body {
   padding: 0;
 }
 
+.header-container{
+  background-color: rgb(42, 77, 105);
+  height: 50px;
+  width: 100vw;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -17,8 +23,19 @@ body {
 }
 
 .btn-settings {
-  background: none;
+  background: rgb(207, 142, 51); /* Sin fondo */
+  border-radius: 10px; /* Sin borde */
+  cursor: pointer; /* Apunta con el cursor */
+  padding: 5; /* Sin padding */
+}
+
+.submit-button {
+  background-color: rgb(246, 144, 0);
+  color: white;
+  padding: 12px;
+  font-size: 18px;
   border: none;
+  border-radius: 50px;
   cursor: pointer;
 }
 
@@ -77,4 +94,13 @@ footer {
   padding: 1rem;
   text-align: center;
   color: white;
+}
+
+.container {
+  width: 60%;
+  margin: 20px auto;
+  background-color: #E3E3E3;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

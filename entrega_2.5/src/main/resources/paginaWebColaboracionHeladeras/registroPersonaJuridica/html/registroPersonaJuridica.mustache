@@ -22,17 +22,19 @@
         </button>
     </div>
 </header>
-<div class="container mt-5 p-4 rounded shadow" style="background-color: #c176ff;">
-    <form>
+<div class="container mt-5 p-4 rounded shadow" style="background-color: #f5f2f2;">
+    <form method="post" action="/registarPersonaJuridica">
         <div class="col-md-12">
             <div class="col-md-12">
                 <div class="col-md-6">
-                    <label for="nombres">Ingrese su razon social</label>
-                    <input type="text" class="form-control" id="razon-social" name="razon-social" placeholder="Razon social">
+                    <label for="inputRazonSocial">Ingrese su razon social</label>
+                    <input type="text" class="form-control" id="inputRazonSocial" name="inputRazonSocial"
+                           placeholder="Razon social">
                 </div>
                 <div class="col-md-6 my-3">
                     <div class="input-group mb-3"></div>
-                    <select class="form-select" id="inputTipoOrganizacion">
+                    <label for="inputTipoOrganizacion">Ingrese tipo Organizacion</label>
+                    <select class="form-select" id="inputTipoOrganizacion" name="inputTipoOrganizacion">
                         <option selected>Seleccione tipo de organización</option>
                         <option value="1">Gubernamental</option>
                         <option value="2">ONG</option>
@@ -43,55 +45,56 @@
             </div>
 
 
-
-            <div class="p-3 rounded mb-4 my-5" style="background-color: #FFCD5B;">
+            <div class="p-3 rounded mb-4 my-5" style="background-color: #D0E5F8;">
                 <h5>Medios de contacto <span class="text-danger">(Mínimo 1 campo requerido)</span></h5>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="correo">Correo</label>
-                        <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo Electrónico">
+                        <label for="inputCorreo">Correo</label>
+                        <input type="email" class="form-control" id="inputCorreo" name="inputCorreo"
+                               placeholder="Correo Electrónico">
                     </div>
                     <div class="col-md-6">
-                        <label for="telefono">Número de teléfono</label>
-                        <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Número de Teléfono">
+                        <label for="inputTelefono">Número de teléfono</label>
+                        <input type="text" class="form-control" id="inputTelefono" name="inputTelefono"
+                               placeholder="Número de Teléfono">
                     </div>
                     <div class="col-md-6">
-                        <label for="whatsapp">Whatsapp</label>
-                        <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp">
+                        <label for="inputWhatsapp">Whatsapp</label>
+                        <input type="text" class="form-control" id="inputWhatsapp" name="inputWhatsapp"
+                               placeholder="Whatsapp">
                     </div>
                 </div>
             </div>
 
-            <div class="p-3 rounded mb-4 my-5" style="background-color: #FFCD5B;">
+            <div class="p-3 rounded mb-4 my-5" style="background-color: #D0E5F8;">
                 <h5>Domicilio</h5>
                 <div class="row">
                     <div class="form-group col-md-3">
-                        <label for="calle">Calle</label>
-                        <input type="text" class="form-control" id="calle" name="calle" placeholder="Calle">
+                        <label for="inputCalle">Calle</label>
+                        <input type="text" class="form-control" id="inputCalle" name="inputCalle" placeholder="Calle">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="altura">Altura</label>
-                        <input type="text" class="form-control" id="altura" name="altura" placeholder="Altura">
+                        <label for="inputAltura">Altura</label>
+                        <input type="text" class="form-control" id="inputAltura" name="inputAltura"
+                               placeholder="Altura">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="ciudad">Ciudad</label>
-                        <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ciudad">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="pais">País</label>
-                        <input type="text" class="form-control" id="pais" name="pais" placeholder="País">
+                        <label for="inputLocalidad">Localidad</label>
+                        <input type="text" class="form-control" id="inputLocalidad" name="inputLocalidad"
+                               placeholder="Localidad">
                     </div>
                 </div>
                 <div class="container custom-container">
                     <h5>Tiene local a la calle?</h5>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                        <input class="form-check-input" type="radio" value="1" name="LocalCalle" id="flexRadioDefault1"
+                               checked>
                         <label class="form-check-label" for="flexRadioDefault1">
                             Si, tengo local a la calle
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" value="0" name="LocalCalle" id="flexRadioDefault2">
                         <label class="form-check-label" for="flexRadioDefault2">
                             No tengo local a la calle
                         </label>
@@ -99,26 +102,11 @@
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <h5>Formas de colaboración deseadas (seleccione una o más)</h5>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="colaborar-dinero" name="colaborar-dinero">
-                        <label class="form-check-label" for="colaborar-dinero">Colaborar aportando dinero</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="hacerse-cargo-heladera" name="hacerse-cargo-heladera">
-                        <label class="form-check-label" for="hacerse-cargo-heladera">Hacerse cargo de heladera</label>
-                    </div>
-                </div>
-            </div>
-
             <button type="submit" class="btn submit-button mt-4">Completar Registro</button>
         </div>
-</div>
-</form>
-</div>
 
+    </form>
+</div>
 
 
 <!-- Enlace de Bootstrap JS -->

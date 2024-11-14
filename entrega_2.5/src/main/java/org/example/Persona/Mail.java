@@ -23,4 +23,8 @@ public class Mail implements Medio_contacto {
     public String getMail() {
         return mail;
     }
+
+    public Mail(String mail) {
+        this.mail = mail;
+    }
 }

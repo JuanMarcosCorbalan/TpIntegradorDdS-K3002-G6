@@ -12,12 +12,12 @@
 <header class="bg-primary text-white mb-4">
   <div class="header-container d-flex justify-content-between align-items-center px-4 py-2">
     <img class="img-logo" src="../img/logov2.png" alt="logo" height="60">
-    <button class="btn-settings bg-transparent border-0">
-      <img src="../img/settings.png" alt="Settings" class="settings-icon" width="30" height="30">
+    <button class="btn-settings">
+      <img src="../img/settings.png" alt="Settings" class="settings-icon">
     </button>
   </div>
 </header>
-
+<div class="container mt-5 p-4 rounded shadow" style="background-color: #f5f2f2;">
 <form>
   <!-- Nombres y Apellidos -->
   <div class="row mb-3 mx-3">
@@ -41,7 +41,7 @@
 
   <!-- Medios de contacto -->
   <h5 class="mx-3">Medios de contacto</h5>
-  <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
+  <div class="row mb-3 mx-3" style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
     <div class="col-md-12">
       <label for="correo" class="form-label">Correo</label>
       <input type="email" class="form-control shadow-sm input-smaller" id="correo" name="correo" placeholder="Correo Electrónico actual">
@@ -58,7 +58,7 @@
 
   <!-- Domicilio -->
   <h5 class="mx-3">Domicilio</h5>
-  <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
+  <div class="row mb-3 mx-3" style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
     <div class="col-md-12">
       <label for="calle" class="form-label">Calle</label>
       <input type="text" class="form-control shadow-sm input-smaller" id="calle" name="calle" placeholder="Calle actual">
@@ -74,11 +74,13 @@
     <div class="col-md-12">
       <label for="pais" class="form-label">País</label>
       <input type="text" class="form-control shadow-sm input-smaller" id="pais" name="pais" placeholder="País actual">
+    <button type="submit" class="btn submit-button mt-4">Completar Registro</button>
+    
     </div>
   </div>
 
-  <button type="submit" class="btn btn-warning w-100">Completar Registro</button>
 </form>
+</div>
 
 <footer class="bg-secondary text-center text-white py-3 mt-4">
   Empresas que colaboran con nosotros:

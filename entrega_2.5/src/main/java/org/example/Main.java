@@ -13,10 +13,7 @@ import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
 import org.example.Colaborador.ControladoresColaborador.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +25,13 @@ import org.example.Tarjetas.TarjetaColaborador;
 public class Main {
 
     static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
-    static RepositorioColaboradores colaboradoresExistentes ;
+    static RepositorioColaboradores colaboradoresExistentes;
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
     public static void main(String[] args) {
         List<Colaborador> colaboradoresNuevo = colaboradores;
-        colaboradoresExistentes  = new RepositorioColaboradores(colaboradores);
+        colaboradoresExistentes = new RepositorioColaboradores(colaboradores);
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
@@ -236,124 +233,231 @@ public class Main {
                         }
                     }
 
+                }
+                // Llamar a la lógica de backend
+                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
+
+                // Enviar una respuesta de confirmación
+                ctx.result("Solicitud realizada con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+            }
+        });
+
+        app.post("/hacerseCargoHeladera", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
+
+                ctx.result("Solicitud realizada con éxito.");
+            } else {
+                // Si el colaborador no está en la sesión, redirigir al login o mostrar error
+                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+            }
+
+        });
+
+        app.post("/migrarCsv", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                var archivoCsv = ctx.uploadedFile("archivoCsv");
+                if (archivoCsv != null) {
+
+                    String directorioDestino = "/csvs/";
+                    File directorio = new File(directorioDestino);
+
+                    if (!directorio.exists()) {
+                        directorio.mkdirs(); // Crea el directorio si no existe
                     }
-                    // Llamar a la lógica de backend
-                    SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
-
-                    // Enviar una respuesta de confirmación
-                    ctx.result("Solicitud realizada con éxito.");
-                } else{
-                    // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
-                }
-            });
-
-            app.post("/hacerseCargoHeladera", ctx -> {
-                Colaborador colaborador = ctx.sessionAttribute("colaborador");
-                if (colaborador != null) {
-                    HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
-                    SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
-
-                    ctx.result("Solicitud realizada con éxito.");
-                }else{
-                    // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
-                }
-
-            });
-
-            app.post("/migrarCsv", ctx -> {
-                Colaborador colaborador = ctx.sessionAttribute("colaborador");
-                if (colaborador != null) {
-                    var archivoCsv = ctx.uploadedFile("archivoCsv");
-                    if (archivoCsv != null) {
-
-                        String directorioDestino = "/csvs/";
-                        File directorio = new File(directorioDestino);
-
-                        if (!directorio.exists()) {
-                            directorio.mkdirs(); // Crea el directorio si no existe
-                        }
-                        String pathArchivo = directorioDestino  + archivoCsv.filename();
-                        try(OutputStream out = new FileOutputStream(pathArchivo)) {
-                            archivoCsv.content().transferTo(out);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            ctx.status(500).result("Error al guardar el archivo.");
-                            return;
-                        }
-                        // esto podria ir en el handler
-                        MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colaboradoresExistentes);
-                        migracionColaboradores.migrarCsv();
-                        for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
-                            Persona persona = colaboradorLista.getPersona_colaboradora();
-                            if (persona instanceof Persona_fisica personaFisicaExistente) {
-                                System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
-                                String nombre = personaFisicaExistente.getNombre();
-                                List<Contribucion> contribuciones = colaboradorLista.getContribuciones();
-                                if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
-                                else System.out.println("No tiene colaboraciones realizadas");
-                                for (Contribucion contribucion : contribuciones) {
-                                    System.out.println(contribucion.getFecha_contribucion());
-                                }
+                    String pathArchivo = directorioDestino + archivoCsv.filename();
+                    try (OutputStream out = new FileOutputStream(pathArchivo)) {
+                        archivoCsv.content().transferTo(out);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        ctx.status(500).result("Error al guardar el archivo.");
+                        return;
+                    }
+                    // esto podria ir en el handler
+                    MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colaboradoresExistentes);
+                    migracionColaboradores.migrarCsv();
+                    for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
+                        Persona persona = colaboradorLista.getPersona_colaboradora();
+                        if (persona instanceof Persona_fisica personaFisicaExistente) {
+                            System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                            String nombre = personaFisicaExistente.getNombre();
+                            List<Contribucion> contribuciones = colaboradorLista.getContribuciones();
+                            if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                            else System.out.println("No tiene colaboraciones realizadas");
+                            for (Contribucion contribucion : contribuciones) {
+                                System.out.println(contribucion.getFecha_contribucion());
                             }
-
                         }
+
                     }
-                } else {
-                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
                 }
-            });
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+            }
+        });
+        //instanciacion.crearColaboradores(colaboradores);
+        //instanciacion.migrarColaboradores(colaboradores);
+
+        app.post("/registarPersonaFisica", ctx -> {
+            Tipo_documento tipoDocumento = null;
+            List<Medio_contacto> mediosContacto = new ArrayList<>() ;
+            String nombres = ctx.formParam("inputNombre");
+            String apellidos = ctx.formParam("inputApellidos");
+            String fechaNacimiento = ctx.formParam("inputFechaNacimiento");
+            String numeroDocumento = ctx.formParam("inputNumeroDocumento");
+            String tipoDocumentoString = ctx.formParam("inputTipoDocumento");
+            switch (tipoDocumentoString) {
+                case "1":
+                    tipoDocumento = Tipo_documento.DNI;
+                    break;
+                case "2":
+                    tipoDocumento = Tipo_documento.LIBRETA_ENROLAMIENTO;
+                    break;
+                case "3":
+                    tipoDocumento = Tipo_documento.LIBRETA_CIVICA;
+                    break;
+                default:
+                    ctx.status(400).result("por favor ingrese un tipo de documento");
+            }
+            Documento_identidad documento = new Documento_identidad(numeroDocumento, tipoDocumento);
+            String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
+            String localidad = ctx.formParam("inputLocalidad");
+            Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
+            Persona_fisica persona = new Persona_fisica(nombres, apellidos,fechaNacimiento,documento, mediosContacto,
+                    domicilioNuevo);
+
+            String correo = ctx.formParam("inputCorreo");
+            String numeroTelefono = ctx.formParam("inputTelefono");
+            String numeroWhatsapp = ctx.formParam("inputWhatsapp");
+
+            if (correo != null) {
+                Medio_contacto nuevoCorreo = new Mail(correo);
+                persona.agregarMedioContacto(nuevoCorreo);
+            }
+
+            if (numeroTelefono != null) {
+                Medio_contacto nuevoTelefono = new Telefono(numeroTelefono);
+                persona.agregarMedioContacto(nuevoTelefono);
+            }
+
+            if (numeroWhatsapp != null) {
+                Medio_contacto nuevoWhatsapp = new Whatsapp(numeroWhatsapp);
+                persona.agregarMedioContacto(nuevoWhatsapp);
+            }
+            Colaborador colaborador = new Colaborador(persona);
+            colaboradoresExistentes.agregarColaborador(colaborador);
+            ctx.result("colaborador creado con exito");
+        });
+
+        app.post("/registarPersonaJuridica", ctx -> {
+            Tipo_juridico tipoJuridico = null;
+            List<Medio_contacto> mediosContacto = new ArrayList<>() ;
+            String razonSocial = ctx.formParam("inputRazonSocial");
+            String tipoOrganizacionString = ctx.formParam("inputTipoOrganizacion");
+            switch (tipoOrganizacionString) {
+                case "1":
+                    tipoJuridico = Tipo_juridico.GUBERNAMENTAL;
+                    break;
+                case "2":
+                    tipoJuridico = Tipo_juridico.ONG;
+                    break;
+                case "3":
+                    tipoJuridico = Tipo_juridico.EMPRESA;
+                    break;
+                case "4":
+                    tipoJuridico = Tipo_juridico.INSTITUCION;
+                    break;
+                default:
+                    ctx.status(400).result("por favor ingrese un tipo de organización");
+            }
+            String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
+            String localidad = ctx.formParam("inputLocalidad");
+            Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
+            String localALaCalle = ctx.formParam("LocalCalle");
+            switch (localALaCalle){
+                case "1":
+                    domicilioNuevo.setDaALaCalle(true);
+                    break;
+                case "0":
+                    domicilioNuevo.setDaALaCalle(false);
+                    break;
+            }
+
+            Persona_juridica persona = new Persona_juridica(domicilioNuevo, mediosContacto,razonSocial,tipoJuridico);
+
+            String correo = ctx.formParam("inputCorreo");
+            String numeroTelefono = ctx.formParam("inputTelefono");
+            String numeroWhatsapp = ctx.formParam("inputWhatsapp");
+
+            if (correo != null) {
+                Medio_contacto nuevoCorreo = new Mail(correo);
+                persona.agregarMedioContacto(nuevoCorreo);
+            }
+
+            if (numeroTelefono != null) {
+                Medio_contacto nuevoTelefono = new Telefono(numeroTelefono);
+                persona.agregarMedioContacto(nuevoTelefono);
+            }
+
+            if (numeroWhatsapp != null) {
+                Medio_contacto nuevoWhatsapp = new Whatsapp(numeroWhatsapp);
+                persona.agregarMedioContacto(nuevoWhatsapp);
+            }
+            Colaborador colaborador = new Colaborador(persona);
+            colaboradoresExistentes.agregarColaborador(colaborador);
+            ctx.result("colaborador creado con exito");
+        });
 
 
-            //instanciacion.crearColaboradores(colaboradores);
-            //instanciacion.migrarColaboradores(colaboradores);
-
-
-
-        }
-
-        public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
-        ciudad, Pais pais, Forma_colaborar[]formas)
-        {
-            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
-            Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
-            Colaborador colaborador = new Colaborador(nueva_persona, formas);
-            colaboradores.add(colaborador);
-        }
-        public void dar_alta_colaborador_juridico (String razonSocial, Tipo_juridico tipo, String rubro, Medio_contacto[]
-        medios, String latDom, String longDom, String direccion, Ciudad ciudad, Pais pais, Forma_colaborar[]formas)
-        {
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
-            Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
-            Colaborador colaborador = new Colaborador(nueva_persona, formas);
-            colaboradores.add(colaborador);
-        }
-        void darBajaColaborador (Colaborador colaborador){
-            colaboradores.remove(colaborador);
-        }
-
-
-        public void dar_alta_tecnico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
-        ciudad, Pais pais, Integer latitud, Integer longitud, String radio)
-        {
-            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
-            AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
-            Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
-            tecnicos.add(nueva_tecnico);
-        }
-        void dar_baja_tecnico (Tecnico tecnico)
-        {
-            tecnicos.remove(tecnico);
-        }
-
-
-        public List<Colaborador> getColaboradores () {
-            return colaboradores;
-        }
 
     }
+
+    public void dar_alta_colaborador_fisico(String nombre, String apellido, String fechaNacimiento, Tipo_documento
+            tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Ciudad
+                                                    ciudad, Pais pais, Forma_colaborar[] formas) {
+        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+        Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
+        Colaborador colaborador = new Colaborador(nueva_persona, formas);
+        colaboradores.add(colaborador);
+    }
+
+    public void dar_alta_colaborador_juridico(String razonSocial, Tipo_juridico tipo, String rubro, List<Medio_contacto>
+            medios, String latDom, String longDom, String direccion, Ciudad ciudad, Pais pais, Forma_colaborar[] formas) {
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+        Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
+        Colaborador colaborador = new Colaborador(nueva_persona, formas);
+        colaboradores.add(colaborador);
+    }
+
+    void darBajaColaborador(Colaborador colaborador) {
+        colaboradores.remove(colaborador);
+    }
+
+
+    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento
+            tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Ciudad
+                                         ciudad, Pais pais, Integer latitud, Integer longitud, String radio) {
+        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+        AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+        Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
+        tecnicos.add(nueva_tecnico);
+    }
+
+    void dar_baja_tecnico(Tecnico tecnico) {
+        tecnicos.remove(tecnico);
+    }
+
+
+    public List<Colaborador> getColaboradores() {
+        return colaboradores;
+    }
+
+}

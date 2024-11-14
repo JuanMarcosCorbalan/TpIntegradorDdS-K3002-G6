@@ -6,6 +6,8 @@ public class Domicilio {
     Ciudad ciudad;
     String direccion;
     Pais Pais;
+    String localidad;
+    Boolean daALaCalle;
 
     public Domicilio (String latitud, String longitud, String direccion, Ciudad ciudad, Pais Pais) {
         this.latitud = latitud;
@@ -16,6 +18,11 @@ public class Domicilio {
     }
 
     public Domicilio () {}
+
+    public Domicilio(String localidad, String direccion) {
+        this.localidad = localidad;
+        this.direccion = direccion;
+    }
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
@@ -31,5 +38,13 @@ public class Domicilio {
     }
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Boolean getDaALaCalle() {
+        return daALaCalle;
+    }
+
+    public void setDaALaCalle(Boolean daALaCalle) {
+        this.daALaCalle = daALaCalle;
     }
 }

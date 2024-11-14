@@ -1,6 +1,7 @@
 package org.example.Persona;
 
 
+import java.util.List;
 import java.util.Objects;
 
 public class Persona_fisica extends Persona{
@@ -9,7 +10,7 @@ public class Persona_fisica extends Persona{
     String fecha_nacimiento;
     Documento_identidad documento_identidad;
 
-    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, Medio_contacto[] mediosContacto,Domicilio domicilio){
+    public Persona_fisica(String nombre, String apellido, String fecha_nacimiento, Documento_identidad documento, List<Medio_contacto> mediosContacto, Domicilio domicilio){
         super(domicilio,mediosContacto);
         this.nombre = nombre;
         this.apellido = apellido;

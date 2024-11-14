@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #D6A3FF;
+  background-color: #E3E3E3;
   margin: 0;
   padding: 0;
 }
@@ -8,7 +8,7 @@ body {
 .container {
   width: 60%;
   margin: 20px auto;
-  background-color: #c176ff;
+  background-color: #E3E3E3;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -26,7 +26,7 @@ form {
 }
 
 .form-section.with-background {
-  background-color: #FFCD5B;
+  background-color: #D0E5F8;
 }
 
 .form-section.no-background {
@@ -68,7 +68,7 @@ input[type="checkbox"] {
 }
 
 .submit-button {
-  background-color: rgb(117, 40, 241);
+  background-color: rgb(246, 144, 0);
   color: white;
   padding: 12px;
   font-size: 18px;
@@ -94,7 +94,7 @@ footer {
 }
 
 header {
-  background-color: rgb(117, 40, 241);
+  background-color: rgb(42, 77, 105);
   height: 50px;
   width: 100vw;
 }
@@ -113,7 +113,7 @@ header {
 }
 
 .btn-settings {
-  background: rgb(163, 83, 238); /* Sin fondo */
+  background: rgb(207, 142, 51); /* Sin fondo */
   border-radius: 10px; /* Sin borde */
   cursor: pointer; /* Apunta con el cursor */
   padding: 5; /* Sin padding */
@@ -126,6 +126,6 @@ header {
 }
 
 .custom-container {
-  background-color: #FFCD5B;
+  background-color: #D0E5F8;
   box-shadow: none;
 }

@@ -21,6 +21,10 @@ public class Donacion_dinero extends Contribucion{
         this.monto = monto;
         this.frecuencia = frecuencia;
     }
+    /*
+    public void realizarDonacion(){
+        colaborador.pagar(monto);
+    } */
 
     @Override
     public double calcular_puntos() {

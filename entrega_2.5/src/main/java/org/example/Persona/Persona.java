@@ -1,10 +1,13 @@
 package org.example.Persona;
 
+import java.util.ArrayList;
+import java.util.List;
+
 abstract public class Persona {
     Domicilio domicilio;
-    Medio_contacto[] medios_de_contacto;
+    List<Medio_contacto> medios_de_contacto = new ArrayList<>();
 
-    public Persona(Domicilio domicilio , Medio_contacto[] mediosContacto)
+    public Persona(Domicilio domicilio , List<Medio_contacto> mediosContacto)
     {
             this.domicilio = domicilio;
             this.medios_de_contacto = mediosContacto;
@@ -13,15 +16,18 @@ abstract public class Persona {
     public Persona() {
     }
 
-    public void setMediosDeContacto(Medio_contacto[] mediosContacto) {
+    public void setMediosDeContacto(List<Medio_contacto> mediosContacto) {
         this.medios_de_contacto = mediosContacto;
     }
     public Domicilio getDomicilio() {
         return domicilio;
     }
-    public Medio_contacto[] getMediosContacto(){return medios_de_contacto;}
+    public List<Medio_contacto> getMediosContacto(){return medios_de_contacto;}
 
     //abstract void setNombre(String nombre);
+    public void agregarMedioContacto(Medio_contacto medioContacto){
+        medios_de_contacto.add(medioContacto);
+    }
 
     @Override
     public boolean equals(Object o){
