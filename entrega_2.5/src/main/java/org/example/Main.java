@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
+import org.example.Colaborador.RepositorioColaboradores;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
@@ -13,21 +14,27 @@ import org.example.Personal.Tecnico;
 import org.example.Colaborador.ControladoresColaborador.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.javalin.Javalin;
+import org.example.Sistema.MigracionColaboradores;
 import org.example.Tarjetas.TarjetaColaborador;
 
 public class Main {
 
     static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
+    static RepositorioColaboradores colaboradoresExistentes ;
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
     public static void main(String[] args) {
         List<Colaborador> colaboradoresNuevo = colaboradores;
+        colaboradoresExistentes  = new RepositorioColaboradores(colaboradores);
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
@@ -255,24 +262,54 @@ public class Main {
 
             });
 
+            app.post("/migrarCsv", ctx -> {
+                Colaborador colaborador = ctx.sessionAttribute("colaborador");
+                if (colaborador != null) {
+                    var archivoCsv = ctx.uploadedFile("archivoCsv");
+                    if (archivoCsv != null) {
 
-            instanciacion.crearColaboradores(colaboradores);
-            instanciacion.migrarColaboradores(colaboradores);
+                        String directorioDestino = "/csvs/";
+                        File directorio = new File(directorioDestino);
 
-            for (Colaborador colaborador : colaboradores) {
-                Persona persona = colaborador.getPersona_colaboradora();
-                if (persona instanceof Persona_fisica personaFisicaExistente) {
-                    System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
-                    String nombre = personaFisicaExistente.getNombre();
-                    List<Contribucion> contribuciones = colaborador.getContribuciones();
-                    if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
-                    else System.out.println("No tiene colaboraciones realizadas");
-                    for (Contribucion contribucion : contribuciones) {
-                        System.out.println(contribucion.getFecha_contribucion());
+                        if (!directorio.exists()) {
+                            directorio.mkdirs(); // Crea el directorio si no existe
+                        }
+                        String pathArchivo = directorioDestino  + archivoCsv.filename();
+                        try(OutputStream out = new FileOutputStream(pathArchivo)) {
+                            archivoCsv.content().transferTo(out);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            ctx.status(500).result("Error al guardar el archivo.");
+                            return;
+                        }
+                        // esto podria ir en el handler
+                        MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colaboradoresExistentes);
+                        migracionColaboradores.migrarCsv();
+                        for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
+                            Persona persona = colaboradorLista.getPersona_colaboradora();
+                            if (persona instanceof Persona_fisica personaFisicaExistente) {
+                                System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                                String nombre = personaFisicaExistente.getNombre();
+                                List<Contribucion> contribuciones = colaboradorLista.getContribuciones();
+                                if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                                else System.out.println("No tiene colaboraciones realizadas");
+                                for (Contribucion contribucion : contribuciones) {
+                                    System.out.println(contribucion.getFecha_contribucion());
+                                }
+                            }
+
+                        }
                     }
+                } else {
+                    ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
                 }
+            });
 
-            }
+
+            //instanciacion.crearColaboradores(colaboradores);
+            //instanciacion.migrarColaboradores(colaboradores);
+
+
 
         }
 

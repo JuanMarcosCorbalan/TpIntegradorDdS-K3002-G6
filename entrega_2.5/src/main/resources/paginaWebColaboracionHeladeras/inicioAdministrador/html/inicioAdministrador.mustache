@@ -37,11 +37,11 @@
         <div class="row align-items-start">
             <div class="col mx-3 my-5 custom-column">
                 <h1>Realizar Migracion CSV</h1>
-                <div class="input-group mb-3" method="post" action="/migrarCsv">
+                <form class="input-group mb-3" method="post" action="/migrarCsv"  enctype="multipart/form-data">
                     <label class="input-group-text" for="inputGroupFile01">Archivo CSV</label>
-                    <input type="file" class="form-control" id="inputGroupFile01">
-                    <button onclick="location.href='../../resultadoMigracionCSV/html/resultadoMigracionCSV.html'" type="button" class="btn btn-success btn-lg">Realizar Migracion</button>
-                </div>
+                    <input type="file" class="form-control" id="inputGroupFile01" name="archivoCsv" required>
+                    <button type="submit" class="btn btn-success btn-lg">Realizar Migracion</button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 package org.example.Sistema;
 
 import org.example.Colaborador.Colaborador;
+import org.example.Colaborador.RepositorioColaboradores;
 import org.example.MigracionCsv.*;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.*;
@@ -17,19 +18,11 @@ import java.util.*;
 
 public class MigracionColaboradores {
 
-    String archivoCsv = "csvs/csvColaboradores.csv";
+    String archivoCsv;
     DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/uuuu");
     Tipo_documento tipoDocumento = null;
-    //String tipoDocumentoString;
     Integer flagLongitud = 0;
-    //Integer numeroDocumento;
     String numeroDocumentoString;
-    //String nombre;
-    //String apellido;
-    //String formaColaboracion;
-    //String mail;
-    //Integer cantidad;
-    //String fechaColaboracionString;
     LocalDate fechaColaboracion;
     Boolean primeraLinea = true;
     ObtencionLineasCsv obtencionLineasCsv = new ObtencionLineasCsv();
@@ -38,12 +31,18 @@ public class MigracionColaboradores {
     ExtraccionDatosLinea extraccionDatosLinea = new ExtraccionDatosLinea();
     CargaDatosCsv cargarDatosCsv = new CargaDatosCsv();
     DatosColaboracion datosColaboracion = new DatosColaboracion();
+    RepositorioColaboradores colaboradoresExistentes;
 
-    public void migrarCsv(List<Colaborador> colaboradoresExistentes) {
+    public MigracionColaboradores(String archivoCsv, RepositorioColaboradores colaboradores) {
+        this.archivoCsv = archivoCsv;
+        this.colaboradoresExistentes = colaboradores;
+    }
+
+    public void migrarCsv() {
         // mapeo para tener las personas en vez de colaboradores
         Map<String, Colaborador> colaboradoresExistentesMap = new HashMap<>();
         Map<String, Persona> personasFisicasExistentesMap = new HashMap<>();
-        this.instanciacionHashMaps(colaboradoresExistentes,colaboradoresExistentesMap, personasFisicasExistentesMap);
+        this.instanciacionHashMaps(colaboradoresExistentesMap, personasFisicasExistentesMap);
 
         try {
             List<String[]> lineas = obtencionLineasCsv.leerCsv(archivoCsv);
@@ -56,7 +55,7 @@ public class MigracionColaboradores {
                 tipoDocumento = transformacionDatos.stringToTipoDocumento(datosColaboracion.getTipoDoc());
                 fechaColaboracion = transformacionDatos.stringToDate(datosColaboracion.getFechaColaboracionString(), formatoFecha);
                 ValidacionDatos.validarLinea(linea, primeraLinea, datosColaboracion.getTipoDoc(), numeroDocumentoString, datosColaboracion.getNombre(), datosColaboracion.getApellido(), datosColaboracion.getMail(), datosColaboracion.getFormaColaboracion(), datosColaboracion.getCantidad());
-                cargarDatosCsv.cargarDatos(colaboradoresExistentes,colaboradoresExistentesMap, personasFisicasExistentesMap, datosColaboracion.getNombre(), datosColaboracion.getApellido(), numeroDocumentoString, tipoDocumento, datosColaboracion.getMail(), datosColaboracion.getFormaColaboracion(), datosColaboracion.getCantidad(), fechaColaboracion);
+                cargarDatosCsv.cargarDatos(colaboradoresExistentes.getColaboradores(),colaboradoresExistentesMap, personasFisicasExistentesMap, datosColaboracion.getNombre(), datosColaboracion.getApellido(), numeroDocumentoString, tipoDocumento, datosColaboracion.getMail(), datosColaboracion.getFormaColaboracion(), datosColaboracion.getCantidad(), fechaColaboracion);
 
             }
         } catch (IOException |CsvException e) {
@@ -66,8 +65,8 @@ public class MigracionColaboradores {
 
     }
 
-    public void instanciacionHashMaps(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap){
-        for (Colaborador colaborador : colaboradoresExistentes) {
+    public void instanciacionHashMaps(Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap){
+        for (Colaborador colaborador : colaboradoresExistentes.getColaboradores()) {
             Persona persona = colaborador.getPersona_colaboradora();
             if (persona instanceof Persona_fisica personaFisicaExistente) { // solo mete a personas fisicas
                 String numeroDocumento = personaFisicaExistente.getDocumento_identidad().getNumeroDocumento();
