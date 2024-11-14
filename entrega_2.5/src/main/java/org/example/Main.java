@@ -277,19 +277,18 @@ public class Main {
         }
 
         public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
-        ciudad, Pais pais, Forma_colaborar[]formas)
+        tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar> formas)
         {
             Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
             Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
             Colaborador colaborador = new Colaborador(nueva_persona, formas);
             colaboradores.add(colaborador);
         }
-        public void dar_alta_colaborador_juridico (String razonSocial, Tipo_juridico tipo, String rubro, Medio_contacto[]
-        medios, String latDom, String longDom, String direccion, Ciudad ciudad, Pais pais, Forma_colaborar[]formas)
+        public void dar_alta_colaborador_juridico (String razonSocial, Tipo_juridico tipo, String rubro, List<Medio_contacto>
+        medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar>formas)
         {
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
             Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
             Colaborador colaborador = new Colaborador(nueva_persona, formas);
             colaboradores.add(colaborador);
@@ -300,12 +299,12 @@ public class Main {
 
 
         public void dar_alta_tecnico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, Medio_contacto[]medios, String latDom, String longDom, String direccion, Ciudad
-        ciudad, Pais pais, Integer latitud, Integer longitud, String radio)
+        tipoDoc, String numeroDocumento, List<Medio_contacto>medios, String latDom, String longDom, String direccion,Localidad localidad,
+                                      String latitud, String longitud, String radio)
         {
             Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
             AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, ciudad, pais);
+            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
             Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
             tecnicos.add(nueva_tecnico);
         }

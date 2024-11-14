@@ -35,12 +35,11 @@ public class Domicilio {
 
 
 
-    public Domicilio (String latitud, String longitud, String direccion, Ciudad ciudad, Pais Pais) {
+    public Domicilio (String latitud, String longitud, String direccion, Localidad localidad) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.direccion = direccion;
-        //this.ciudad = ciudad;
-        //this.Pais = Pais;
+        this.localidad = localidad;
     }
 
     public Domicilio () {}

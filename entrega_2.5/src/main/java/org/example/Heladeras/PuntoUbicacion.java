@@ -34,6 +34,10 @@ public class PuntoUbicacion {
         this.latitud = latitud;
     }
 
+    public PuntoUbicacion() {
+
+    }
+
     public void aniadirHeladera(Heladera heladera){
         heladeras.add(heladera);
     }

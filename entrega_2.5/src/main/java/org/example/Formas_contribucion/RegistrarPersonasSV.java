@@ -33,12 +33,17 @@ public class RegistrarPersonasSV extends Contribucion{
     @Transient
     Integer registrosPendientes; // esta no esta en el der
 
+    public RegistrarPersonasSV() {
+
+    }
+
     public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
         int contador = 0;
         for(PersonaSituacionVulnerable personaSituacion : personasSituacionVulnerable){
             String id_tarjeta = ids_tarjetas.remove(contador);
-            TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta,colaborador,personaSituacion);
-            personaSituacion.setTarjetaSv(nueva_tarjetaSv);
+            //TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta,colaborador,personaSituacion);
+            TarjetaSv nueva_tarjetaSv = new TarjetaSv(colaborador,personaSituacion);
+            //personaSituacion.setTarjetaSv(nueva_tarjetaSv);
             contador++;
         }
     }
@@ -47,8 +52,9 @@ public class RegistrarPersonasSV extends Contribucion{
         if (registrosPendientes > 0) {
             String id_tarjeta = ids_tarjetas.remove(0);
             PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.remove(0);
-            TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
-            personaSituacion.setTarjetaSv(nueva_tarjetaSv);
+            //TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
+            TarjetaSv nueva_tarjetaSv = new TarjetaSv(colaborador, personaSituacion);
+            //personaSituacion.setTarjetaSv(nueva_tarjetaSv);
             registrosPendientes--;
         }else {
             throw new IllegalArgumentException("NO QUEDAN REGISTROS PENDIENTES");

@@ -10,10 +10,18 @@ public class Ciudad {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn (name = "ciudad_pais")
     public Pais pais;
 
-    @OneToMany (mappedBy = "ciudad", cascade = CascadeType.ALL)
-    public List<Localidad> localidades;
+    public String nombre;
+
+
+    public Ciudad(String nombreCiudad,Pais pais)
+    {
+        this.pais = pais;
+        this.nombre = nombreCiudad;
+    }
+    /*@OneToMany (mappedBy = "ciudad", cascade = CascadeType.ALL)
+    public List<Localidad> localidades;*/
 }

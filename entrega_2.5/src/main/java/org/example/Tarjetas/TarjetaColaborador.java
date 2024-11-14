@@ -36,6 +36,13 @@ public class TarjetaColaborador extends Tarjeta{
         super(colaborador);
     }
 
+    public TarjetaColaborador(String id,Colaborador colaborador) {
+        super(colaborador);
+    }
+
+    public TarjetaColaborador() {
+
+    }
 
 
     //public TarjetaColaborador() {}
@@ -64,7 +71,7 @@ public class TarjetaColaborador extends Tarjeta{
         SolicitudWeb nuevaSolicitudWebOrigen = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraOrigen,this);
         solicitudesWeb.add(nuevaSolicitudWebOrigen);
         SolicitudWeb nuevaSolicitudWebDestino = new SolicitudWeb(colaborador, APERTURA_DISTRIBUCION, LocalDate.now(), LocalTime.now(),heladeraDestino,this);
-      ,this  solicitudesWeb.add(nuevaSolicitudWebDestino);
+        solicitudesWeb.add(nuevaSolicitudWebDestino);
     }
 
     public Boolean duracionMenorA3Horas(SolicitudWeb solicitudWeb){

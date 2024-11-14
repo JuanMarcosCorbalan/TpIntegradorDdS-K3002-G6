@@ -11,6 +11,10 @@ public class Pais {
 
     public String nombre;
 
-    @OneToMany (mappedBy = "pais")
-    private List<Ciudad> ciudades;
+    public Pais(String NombrePais)
+    {
+        this.nombre = NombrePais;
+    }
+    /*@OneToMany (mappedBy = "pais")
+    private List<Ciudad> ciudades;*/
 }

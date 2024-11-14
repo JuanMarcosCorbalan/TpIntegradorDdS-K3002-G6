@@ -5,16 +5,20 @@ import java.util.List;
 
 @Entity
 public class Localidad {
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    String nombre;
+
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn (name = "localidad_ciudad")
     private Ciudad ciudad;
 
-    @OneToMany (mappedBy = "localidad")
-    public List<Domicilio> domicilios;
+    public Localidad(String nombre_localidad, Ciudad ciudad) {
+        this.nombre = nombre_localidad;
+        this.ciudad = ciudad;
+    }
 
-    String nombre;
 }

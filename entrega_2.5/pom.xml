@@ -89,6 +89,12 @@
             <version>2.4.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.4.18.Final</version>
+        </dependency>
 <!--Hasta aca para la persistencia-->
 
         <!--libreria de logueo requerida por javalin-->

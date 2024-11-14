@@ -31,7 +31,7 @@ public class TarjetaSv extends Tarjeta {
         this.retirosVianda = new ArrayList<RetiroVianda>();
     }
 
-    //public TarjetaSv() {}
+    public TarjetaSv() {}
 
     private Integer setCantidadUsos(PersonaSituacionVulnerable personaSV) {
         int numero_base = 4; //NUMERO BASE QUE DAN EN LA CONSIGNA
@@ -49,7 +49,8 @@ public class TarjetaSv extends Tarjeta {
         {
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
-            RetiroVianda nuevo_retiro = new RetiroVianda(personaSV,fecha,hora,heladera_retiro);
+            //RetiroVianda nuevo_retiro = new RetiroVianda(personaSV,fecha,hora,heladera_retiro);
+            RetiroVianda nuevo_retiro = new RetiroVianda(fecha,hora,heladera_retiro,this);
             retirosVianda.add(nuevo_retiro);
         }
     }

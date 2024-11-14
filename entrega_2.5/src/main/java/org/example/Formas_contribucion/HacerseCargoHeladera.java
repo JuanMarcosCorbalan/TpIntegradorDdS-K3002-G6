@@ -36,7 +36,7 @@ public class HacerseCargoHeladera extends Contribucion{
         System.out.println("Seleccione longitud para colocar la heladera");
         String longitudString = System.console().readLine();
 
-        return new PuntoUbicacion(Integer.getInteger(latitudString), Integer.getInteger(longitudString));
+        return new PuntoUbicacion(latitudString, longitudString);
     };
 
     public HacerseCargoHeladera(Colaborador colaborador) {
