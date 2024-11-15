@@ -13,7 +13,7 @@ public class SolicitudWeb {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    String IdSolicitud;
+    private Long id;
 
     /*RELACION CON HELADERA*/
     @ManyToOne
@@ -28,7 +28,9 @@ public class SolicitudWeb {
     @JoinColumn (name = "solicitud_web_tarjeta")
     public TarjetaColaborador Tarjeta;
 
+    @Enumerated(EnumType.STRING)
     MotivoSolicitud Motivo;
+
     LocalDate FechaSolicitud;
     LocalTime HoraSolicitud;
     Boolean Finalizada;

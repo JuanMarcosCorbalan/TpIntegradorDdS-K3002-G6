@@ -14,6 +14,11 @@ public class Alerta extends Incidente{
         super(heladera, tipoIncidente);
         this.tipo = tipoAlerta;
     }
+
+    public Alerta() {
+
+    }
+
     public TipoAlerta getTipo(){return tipo;}
     public Heladera getHeladera(){return heladera;}
 }

@@ -17,8 +17,13 @@ public class Visita {
     @ManyToOne
     Tecnico tecnico;
 
+    @ManyToOne
     FallaTecnica fallaRevisada;
+
+    @ManyToOne
     Heladera heladera;
+
+
     LocalDate fechaVisita;
     String descripcion;
     File imagen;
@@ -34,5 +39,9 @@ public class Visita {
         if(incidenteSolucionado) {
             heladera.activar();
         }
+    }
+
+    public Visita() {
+
     }
 }

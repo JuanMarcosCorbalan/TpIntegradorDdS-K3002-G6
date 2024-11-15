@@ -21,7 +21,9 @@ abstract public class Persona {
     @JoinColumn (name = "persona_domicilio")
     public Domicilio domicilio;
 
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    //@OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     public List<Medio_contacto> mediosContacto;
 
 

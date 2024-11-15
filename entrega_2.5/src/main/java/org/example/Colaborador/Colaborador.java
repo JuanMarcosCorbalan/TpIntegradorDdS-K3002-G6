@@ -37,14 +37,14 @@ public class Colaborador extends Rol {
     @OneToMany(mappedBy = "colaborador")
     List<MensajeAviso> mensajesAvisos;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "FormasColaborarxRol",
             joinColumns = @JoinColumn(name = "ID_Colaborador"),
             inverseJoinColumns = @JoinColumn(name = "ID_FormasColaborar")
-    )
+    )*/
     @Enumerated(EnumType.STRING) // Almacenamos el enum como String en la BD.
-    public List<Forma_colaborar> formasColaborar;
+    Forma_colaborar formasColaborar;
 
     public Colaborador() {
 

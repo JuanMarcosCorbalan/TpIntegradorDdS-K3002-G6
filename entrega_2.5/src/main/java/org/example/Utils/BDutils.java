@@ -1,6 +1,5 @@
 package org.example.Utils;
 
-
 import org.example.Persona.Ciudad;
 import org.example.Persona.Domicilio;
 import org.example.Persona.Localidad;
@@ -12,12 +11,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+
 public class BDutils {
 
     private static final EntityManagerFactory factory;
 
     static {
-        factory = Persistence.createEntityManagerFactory("simple-persistence-unit");
+        factory = Persistence.createEntityManagerFactory("demo-hibernate-PU");
     }
 
     public static EntityManager getEntityManager() {
@@ -49,7 +49,10 @@ public class BDutils {
     public static void main(String[] args) {
 
         EntityManager em = getEntityManager();
+        //em.getTransaction().begin();
         comenzarTransaccion(em);
+
+        System.out.println("creando objetos");
 
         Pais pais = new Pais("argentina");
         Ciudad ciudad = new Ciudad("bsas",pais);
@@ -59,10 +62,10 @@ public class BDutils {
 
         em.persist(persona);
 
-        commit(em);
+        //em.getTransaction().commit(); // Asegúrate de confirmar la transacción al final
+        //em.close();
 
-        //em.persist(new Profesor());
 
-        //BDUtils.commit(em);
+        BDutils.commit(em);
     }
 }

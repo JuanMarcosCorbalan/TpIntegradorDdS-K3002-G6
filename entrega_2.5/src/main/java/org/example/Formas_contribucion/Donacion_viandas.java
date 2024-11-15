@@ -20,9 +20,14 @@ public class Donacion_viandas extends Contribucion{
     Vianda vianda; // en un inicio creo que son donaciones unitarias de viandas
 
     // ESTOS NOSE QUE ONDA
+    @Transient
     List<Vianda> viandas = new ArrayList<Vianda>(); // NOSE Q ONDA
     boolean contribucionExitosa; // NOSE Q ONDA
     boolean contribucionFinalizada; // NOSE Q ONDA
+
+    public Donacion_viandas() {
+
+    }
 
     public Integer cant_viandas()
     {

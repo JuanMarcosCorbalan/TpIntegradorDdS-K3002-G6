@@ -36,6 +36,10 @@ public class FallaTecnica extends Incidente{
         this.heladera = heladera;
     }
 
+    public FallaTecnica() {
+
+    }
+
     public void asignarTecnico(PuntoUbicacion ubicacion, List<Tecnico> tecnicos)
     {
         BuscarTecnico buscarTecnico = new BuscarTecnico();

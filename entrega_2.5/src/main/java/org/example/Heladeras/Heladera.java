@@ -45,10 +45,15 @@ public class Heladera {
     int temperaturaMaxima;
     int temperaturaMinima;
     Double temperaturaActual;
+
+    @Transient
     AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
 
     int cantidadViandasDonadas;
+
+    @Transient
     ValidadorTemperatura validadorTemp;
+    @Transient
     ValidadorMovimiento validadorMov;
     @Transient
     List<Validador> validadores = new ArrayList<Validador>();
@@ -76,6 +81,10 @@ public class Heladera {
     public Heladera(PuntoUbicacion puntoUbicacion ) {
         // habria q generar un id
         this.puntoUbicacion = puntoUbicacion;
+    }
+
+    public Heladera() {
+
     }
 
 

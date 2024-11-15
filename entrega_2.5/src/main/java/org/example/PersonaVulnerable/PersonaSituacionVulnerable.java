@@ -21,12 +21,14 @@ public class PersonaSituacionVulnerable extends Rol {
     Boolean poseeMenoresACargo;
     Integer cantidadMenoresACargo;
     //TarjetaSv tarjetaSv;
+
     //Domicilio domicilio;
 
     @ManyToOne
     private RegistrarPersonasSV registro;
 
     public PersonaSituacionVulnerable(String nombre, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Integer cantidadMenoresACargo, TarjetaSv tarjetaSv) {
+        //super(domicilio);
         this.fechaRegistroSistema = new Date();
         this.enSituacionCalle = enSituacionCalle;
         //this.domicilio = domicilio;
