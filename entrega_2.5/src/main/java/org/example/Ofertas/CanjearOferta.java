@@ -7,7 +7,7 @@ public class CanjearOferta {
     Colaborador colaborador;
 
     public boolean verificarPuntos(){
-        return colaborador.getPuntos() > ofertaSolicitada.getPuntosNecesarios();
+        return colaborador.obtenerPuntos() > ofertaSolicitada.getPuntosNecesarios();
     }
 
     public void otorgarBeneficio(){

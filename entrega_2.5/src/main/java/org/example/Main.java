@@ -1,5 +1,6 @@
 package org.example;
 
+import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
@@ -17,14 +18,12 @@ import org.example.Colaborador.ControladoresColaborador.*;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
 import org.example.Tarjetas.TarjetaColaborador;
+import org.example.Validadores_Sensores.FallaTecnica;
 
 public class Main {
 
@@ -429,12 +428,12 @@ public class Main {
                 // Obtener las ofertas desde tu dominio o base de datos
                 List<Oferta> ofertas = ofertasDisponibles; // Aquí iría la lógica para obtener las ofertas
                 Oferta ofertaNueva1 = new Oferta("Oferta 1", 200, 1);
-                Oferta ofertaNueva2 = new Oferta("Oferta 12", 500, 1);
+                Oferta ofertaNueva2 = new Oferta("Oferta 2", 500, 1);
 
                 ofertas.add(ofertaNueva1);
                 ofertas.add(ofertaNueva2);
 
-                double puntosColaborador = colaborador.getPuntos(); // Obtener los puntos del colaborador
+                double puntosColaborador = colaborador.obtenerPuntos(); // Obtener los puntos del colaborador
 
                 // Crear un modelo con la lista de ofertas y los puntos
                 Map<String, Object> model = new HashMap<>();
@@ -445,6 +444,63 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache", model);
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver las ofertas.");
+            }
+        });
+        app.post("/canjearOferta", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Obtener el ID de la oferta a canjear (por ejemplo, a través de un formulario)
+                String nombreOferta = ctx.formParam("nombreOferta");
+
+                // Buscar la oferta seleccionada en la lista de ofertas disponibles
+                Oferta ofertaSeleccionada = ofertasDisponibles.stream()
+                        .filter(oferta -> Objects.equals(oferta.getNombre(), nombreOferta))
+                        .findFirst()
+                        .orElse(null);
+
+                if (ofertaSeleccionada != null) {
+                    // Verificar si el colaborador tiene suficientes puntos
+                    if (colaborador.obtenerPuntos() >= ofertaSeleccionada.getPuntosNecesarios()) {
+                        // Restar los puntos del colaborador
+                        colaborador.canjearOferta(ofertaSeleccionada);
+                        ctx.sessionAttribute("colaborador", colaborador);
+
+                        // Actualizar la base de datos o la lista de colaboradores si es necesario
+                        // (Aquí iría la lógica para persistir los cambios)
+
+                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                    } else {
+                        ctx.status(400).result("No tienes suficientes puntos para canjear esta oferta.");
+                    }
+                } else {
+                    ctx.status(404).result("La oferta seleccionada no existe.");
+                }
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para canjear ofertas.");
+            }
+        });
+
+        app.post("/reportarFallaTecnica", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                Heladera heladeraprueba = new Heladera("heladeraPrueba");
+                String descripcion = ctx.formParam("inputDescripcion");
+                //UploadedFile foto = ctx.uploadedFile("inputFoto");
+                colaborador.reportarFallaTenica(heladeraprueba, descripcion, null);
+                ctx.result("Reporte de Falla generado con exito");
+                } else {
+                ctx.status(401).result("Por favor inicia sesión para reportar el fallo.");
+            }
+        });
+
+        app.post("/donarDinero", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
+                colaborador.donarMonto(monto);
+                ctx.result("Donacion generada con exito");
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }
         });
 

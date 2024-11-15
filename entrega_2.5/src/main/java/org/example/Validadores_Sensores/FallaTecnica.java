@@ -28,6 +28,16 @@ public class FallaTecnica extends Incidente{
         this.heladera = heladera;
     }
 
+    public FallaTecnica(Colaborador colaborador, String descripcion, Heladera heladera){
+        super();
+        this.colaborador = colaborador;
+        this.descripcion = descripcion;
+        this.fecha = LocalDate.now();
+        this.hora = LocalTime.now();
+        this.tipoIncidente = TipoIncidente.FALLA_TECNICA;
+        this.heladera = heladera;
+    }
+
     public void asignarTecnico(PuntoUbicacion ubicacion, List<Tecnico> tecnicos)
     {
         BuscarTecnico buscarTecnico = new BuscarTecnico();

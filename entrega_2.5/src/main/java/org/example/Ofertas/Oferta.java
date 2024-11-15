@@ -28,6 +28,10 @@ public class Oferta extends Contribucion {
         this.cant_instancias = cantInstancias;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     public Integer getPuntosNecesarios() {
         return puntosNecesarios;
     }

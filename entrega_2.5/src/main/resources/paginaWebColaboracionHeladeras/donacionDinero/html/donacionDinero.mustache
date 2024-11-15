@@ -32,7 +32,9 @@
     </div>
   </header>
 
+  <form method="post" action="/donarDinero">
   <div class="container my-3">
+
     <h3>Ingrese frecuencia de donación (Se debitara automaticamente)</h3>
     <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
     <label class="btn btn-secondary" for="option1">Donacion Unica</label>
@@ -51,12 +53,13 @@
     <div class="input-group mb-3">
       <span class="input-group-text">$</span>
       <span class="input-group-text">0.00</span>
-      <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+      <input type="text" class="form-control" name="inputMonto" aria-label="Dollar amount (with dot and two decimal places)">
     </div>
   </div>
   <div class="container my-3 custom-container">
     <button type="submit" class="btn btn-lg btn-custom">Confirmar Donacion</button>
   </div>
+  </form>
 
   <footer>Empresas que colaboran con nosotros:
     <img src="https://via.placeholder.com/20" alt="Logo de empresa A">

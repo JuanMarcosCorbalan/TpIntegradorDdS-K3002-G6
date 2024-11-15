@@ -23,7 +23,7 @@ public class Colaborador extends Rol {
     Forma_colaborar[] formas_de_colaborar;
     //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
-    //double puntos;
+    double puntos;
     Integer viandasDonadas = 0;
     TarjetaColaborador tarjetaColaborador;
 
@@ -51,6 +51,7 @@ public class Colaborador extends Rol {
 
     public void agregarContribucion(Contribucion nuevaContribucion){
         contribuciones.add(nuevaContribucion);
+        puntos+= nuevaContribucion.calcular_puntos();
     }
     /*
     public void realizar_contribucion(){
@@ -77,17 +78,26 @@ public class Colaborador extends Rol {
         {
             puntos+= contribucion.calcular_puntos();
         }
-        
+        this.puntos = puntos;
+        return puntos;
+    }
+
+    public double obtenerPuntos(){
         return puntos;
     }
 
     public void canjearOferta(Oferta oferta)
     {
-        if(oferta.getPuntosNecesarios()<=getPuntos())
+        if(oferta.getPuntosNecesarios()<=obtenerPuntos())
         {
             oferta.canjear();
+            this.restarPuntos(oferta.getPuntosNecesarios());
         }
         //QUE HAGA ALGO SI NO PUEDE CANJEAR
+    }
+
+    public void restarPuntos(double puntos){
+        this.puntos -= puntos;
     }
 
 
@@ -114,6 +124,7 @@ public class Colaborador extends Rol {
         FallaTecnica fallaTecnica = this.reportarIncidente(this,descripcion,foto,heladera);
         fallaTecnica.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
     }
+
 
     public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,File foto,Heladera heladera)
     {
@@ -146,6 +157,7 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
             contribuciones.add(Contribucion);
+            puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
         }
     }
@@ -173,6 +185,7 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
             contribuciones.add(Contribucion);
+            puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
         }
     }
@@ -192,6 +205,7 @@ public class Colaborador extends Rol {
         RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now());
         // enviar tarjetas qcyo algo asi
         contribuciones.add(registroPersonasSV);
+        puntos+= registroPersonasSV.calcular_puntos();
     }
 
     public void registrarPersonaSv(String nombre, String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
@@ -211,6 +225,12 @@ public class Colaborador extends Rol {
 
     public void setTarjetaColaborador(TarjetaColaborador tarjetaColaborador) {
         this.tarjetaColaborador = tarjetaColaborador;
+    }
+
+    public void donarMonto(Integer monto) {
+        Donacion_dinero donacionDinero = new Donacion_dinero(monto, Tipos_frecuencia.DONACION_UNICA);
+        contribuciones.add(donacionDinero);
+        puntos+= donacionDinero.calcular_puntos();
     }
 }
 

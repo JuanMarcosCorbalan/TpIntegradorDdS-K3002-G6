@@ -42,9 +42,7 @@
     </div>
 </div>
 
-
 <div class="container">
-
     <!-- Ofertas -->
     <div class="row">
         {{#ofertas}}
@@ -54,21 +52,15 @@
                     <div class="card-body">
                         <h5 class="card-title">{{nombre}}</h5>
                         <p class="puntos">Costo: {{puntosNecesarios}} puntos</p>
-                        {{#canjear}}
-                            <form method="post" action="/canjearOferta">
-                                <input type="hidden" name="ofertaId" value="{{id}}">
-                                <button type="submit" class="btn btn-success">Canjear</button>
-                            </form>
-                        {{/canjear}}
-                        {{^canjear}}
-                            <button class="btn btn-secondary" disabled>No tienes suficientes puntos</button>
-                        {{/canjear}}
+                        <form method="post" action="/canjearOferta">
+                            <input type="hidden" name="nombreOferta" value="{{nombre}}">
+                            <button type="submit" class="btn btn-success">Canjear</button>
+                        </form>
                     </div>
                 </div>
             </div>
         {{/ofertas}}
     </div>
-
 </div>
 
 <footer>Empresas que colaboran con nosotros:
