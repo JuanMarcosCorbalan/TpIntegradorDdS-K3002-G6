@@ -61,6 +61,14 @@ public class PersonaSituacionVulnerable extends Rol {
     public Integer getCantidadMenoresACargo() {
         return cantidadMenoresACargo;
     }
-
+    public void setEnSituacionCalle(Boolean enSituacionCalle) {
+        this.enSituacionCalle = enSituacionCalle;
+    }
+    public void setPoseeMenoresACargo(Boolean poseeMenoresACargo) {
+        this.poseeMenoresACargo = poseeMenoresACargo;
+    }
+    public void setCantidadMenoresACargo(Integer cantidadMenoresACargo) {
+        this.cantidadMenoresACargo = cantidadMenoresACargo;
+    }
    // public void setTarjetaSv(TarjetaSv tarjetaSv) {this.tarjetaSv = tarjetaSv;}
 }

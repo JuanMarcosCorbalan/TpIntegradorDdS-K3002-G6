@@ -15,6 +15,10 @@ public class Pais {
     {
         this.nombre = NombrePais;
     }
-    /*@OneToMany (mappedBy = "pais")
-    private List<Ciudad> ciudades;*/
+
+    public Pais() {}
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

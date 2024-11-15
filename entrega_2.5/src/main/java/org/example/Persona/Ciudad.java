@@ -22,6 +22,14 @@ public class Ciudad {
         this.pais = pais;
         this.nombre = nombreCiudad;
     }
-    /*@OneToMany (mappedBy = "ciudad", cascade = CascadeType.ALL)
-    public List<Localidad> localidades;*/
+
+    public Ciudad() {}
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
 }

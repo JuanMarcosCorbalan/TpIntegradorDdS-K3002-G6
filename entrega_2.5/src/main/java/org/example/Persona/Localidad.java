@@ -21,7 +21,13 @@ public class Localidad {
         this.ciudad = ciudad;
     }
 
-    public Localidad() {
+    public Localidad() {}
 
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }
