@@ -23,9 +23,9 @@ public class prueba_repo {
         Ciudad ciudad = new Ciudad("bsas",pais);
         Localidad localidad = new Localidad("almagro",ciudad);
         Domicilio domicilio = new Domicilio("323232","323233","yapeyu",localidad);
-        //PersonaSituacionVulnerable persona = new PersonaSituacionVulnerable("juan","corbalan",false,domicilio,4,null);
+        PersonaSituacionVulnerable persona = new PersonaSituacionVulnerable("juan","corbalan",false,domicilio,4,null);
 
-        em.persist(localidad);
+        em.persist(persona);
 
         //em.getTransaction().commit(); // Asegúrate de confirmar la transacción al final
         //em.close();

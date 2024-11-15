@@ -9,7 +9,6 @@ import java.util.List;
 public class Domicilio {
     String latitud;
     String longitud;
-    //Ciudad ciudad;
 
     /*****************************/
     //Persistencia
@@ -17,7 +16,7 @@ public class Domicilio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "domicilio_localidad")
     public Localidad localidad;
 
@@ -31,9 +30,6 @@ public class Domicilio {
 
 
     String direccion;
-    //Pais Pais;
-
-
 
     public Domicilio (String latitud, String longitud, String direccion, Localidad localidad) {
         this.latitud = latitud;

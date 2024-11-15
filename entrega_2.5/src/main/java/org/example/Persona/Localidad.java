@@ -21,4 +21,7 @@ public class Localidad {
         this.ciudad = ciudad;
     }
 
+    public Localidad() {
+
+    }
 }
