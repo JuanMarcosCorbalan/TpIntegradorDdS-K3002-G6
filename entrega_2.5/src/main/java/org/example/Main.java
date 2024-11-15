@@ -7,6 +7,7 @@ import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
 import org.example.MigracionCsv.DatosColaboracion;
+import org.example.Ofertas.Oferta;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
@@ -28,6 +29,7 @@ import org.example.Tarjetas.TarjetaColaborador;
 public class Main {
 
     static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
+    static List<Oferta> ofertasDisponibles = new ArrayList<>();
     static RepositorioColaboradores colaboradoresExistentes;
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
@@ -80,10 +82,6 @@ public class Main {
             ctx.render("/paginaWebColaboracionHeladeras/inicioAdminitrador/html/inicioAdminitrador.mustache");
         }); //server error
 
-        app.get("/puntosYCanjes", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache");
-        }); //server error
-
         app.get("/registroOpciones", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroOpciones/html/registroOpciones.mustache");
         }); //server error
@@ -134,6 +132,9 @@ public class Main {
                     case "juridica":
                         // Lógica para iniciar sesión como persona jurídica
                         ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                        break;
+                    case "administrador":
+                        ctx.render("/paginaWebColaboracionHeladeras/inicioAdministrador/html/inicioAdministrador.mustache");
                         break;
                     default:
                         ctx.status(400).result("Acción no reconocida");
@@ -421,6 +422,32 @@ public class Main {
             colaboradoresExistentes.agregarColaborador(colaborador);
             ctx.result("colaborador creado con exito");
         });
+
+        app.get("/puntosYCanjes", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Obtener las ofertas desde tu dominio o base de datos
+                List<Oferta> ofertas = ofertasDisponibles; // Aquí iría la lógica para obtener las ofertas
+                Oferta ofertaNueva1 = new Oferta("Oferta 1", 200, 1);
+                Oferta ofertaNueva2 = new Oferta("Oferta 12", 500, 1);
+
+                ofertas.add(ofertaNueva1);
+                ofertas.add(ofertaNueva2);
+
+                double puntosColaborador = colaborador.getPuntos(); // Obtener los puntos del colaborador
+
+                // Crear un modelo con la lista de ofertas y los puntos
+                Map<String, Object> model = new HashMap<>();
+                model.put("ofertas", ofertas); // Pasa la lista de ofertas al modelo
+                model.put("puntos", puntosColaborador); // Pasa los puntos del colaborador al modelo
+
+                // Renderizar la plantilla Mustache y pasar el modelo
+                ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache", model);
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver las ofertas.");
+            }
+        });
+
 
 
 

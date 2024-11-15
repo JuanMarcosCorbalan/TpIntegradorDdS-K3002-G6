@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #D6A3FF;
+  background-color: #E3E3E3;
   margin: 0;
   padding: 0;
 }
@@ -68,7 +68,7 @@ input[type="checkbox"] {
 }
 
 .submit-button {
-  background-color: rgb(117, 40, 241);
+  background-color: rgb(246, 144, 0);
   color: white;
   padding: 12px;
   font-size: 18px;
@@ -77,8 +77,15 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.btn-settings {
+  background: rgb(207, 142, 51); /* Sin fondo */
+  border-radius: 10px; /* Sin borde */
+  cursor: pointer; /* Apunta con el cursor */
+  padding: 5; /* Sin padding */
+}
+
 .submit-button:hover {
-  background-color: rgb(117, 40, 241);
+  background-color: rgb(0, 0, 0);
 }
 
 
@@ -112,12 +119,6 @@ header {
   height: 60px; /* Ajusta el tamaño del logo según tu preferencia */
 }
 
-.btn-settings {
-  background: rgb(163, 83, 238); /* Sin fondo */
-  border-radius: 10px; /* Sin borde */
-  cursor: pointer; /* Apunta con el cursor */
-  padding: 5; /* Sin padding */
-}
 
 .settings-icon {
   width: 30px; /* Ajusta el tamaño de la imagen */

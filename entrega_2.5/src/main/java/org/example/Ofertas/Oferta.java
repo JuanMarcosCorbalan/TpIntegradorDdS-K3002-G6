@@ -22,6 +22,12 @@ public class Oferta extends Contribucion {
     // GETTERS AND SETTERS
 
 
+    public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias) {
+        this.nombre = nombre;
+        this.puntosNecesarios = puntosNecesarios;
+        this.cant_instancias = cantInstancias;
+    }
+
     public Integer getPuntosNecesarios() {
         return puntosNecesarios;
     }

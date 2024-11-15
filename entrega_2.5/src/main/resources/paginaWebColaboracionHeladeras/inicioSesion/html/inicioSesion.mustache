@@ -18,7 +18,7 @@
     </div>
 </header>
 <div class="content">
-    <div class="login-container">
+    <div class="login-container col-6 my-5">
         <form method="post" action="/login">
             <img
                     src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSjggBHvGdbGJ-q6OaFZUqLNltyRR5ov5ejUohMhjvewlp88E-6"
@@ -47,10 +47,10 @@
             <button class="login-btn p-1" name="buttonType" value="juridica" type="submit">Iniciar sesión como persona
                 jurídica
             </button>
+            <button class="login-btn p-1" name="buttonType" value="administrador" type="submit">Iniciar sesión como administrador
+            </button>
         </form>
 
-
-    <a href="/inicioAdministrador/html/inicioAdministrador.mustache">Iniciar sesion como administrador</a>
     <p style="margin-top: 30px;margin-bottom: 5px;">No tiene cuenta?</p>
     <button onclick="location.href='/registroOpciones/html/registroOpciones.mustache'" type="button"
             class="btn btn-success btn-lg">Registrese ahora!
