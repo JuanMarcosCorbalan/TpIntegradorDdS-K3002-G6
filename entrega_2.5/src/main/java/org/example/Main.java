@@ -62,7 +62,7 @@ public class Main {
         });
 
         app.get("/donacionDinero", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/donacionDinero/html/donacionDinero.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/donacionDinero/html/donacionDineroFisica.mustache");
         });
         app.get("/donacionVianda", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
@@ -157,7 +157,7 @@ public class Main {
                 SolicitarDonacionViandaHandler.realizarDonacion(colaborador, nombre, cantidad, heladera, calorias, pesoGramos);
 
                 // Enviar una respuesta de confirmación
-                ctx.result("Donación realizada con éxito.");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.status(401).result("Por favor inicia sesión para realizar una donación.");
@@ -197,7 +197,7 @@ public class Main {
                 RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
 
                 // Enviar una respuesta de confirmación
-                ctx.result("Registro realizado con éxito.");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.status(401).result("Por favor inicia sesión para realizar un registro.");
@@ -239,7 +239,7 @@ public class Main {
                 SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
 
                 // Enviar una respuesta de confirmación
-                ctx.result("Solicitud realizada con éxito.");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
@@ -252,12 +252,11 @@ public class Main {
                 HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
                 SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
 
-                ctx.result("Solicitud realizada con éxito.");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
             }
-
         });
 
         app.post("/migrarCsv", ctx -> {
@@ -491,12 +490,22 @@ public class Main {
             }
         });
 
-        app.post("/donarDinero", ctx -> {
+        app.post("/donarDineroFisica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
-                ctx.result("Donacion generada con exito");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+            }
+        });
+        app.post("/donarDineroJuridica", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
+                colaborador.donarMonto(monto);
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }
