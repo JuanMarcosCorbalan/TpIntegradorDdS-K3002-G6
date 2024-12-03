@@ -14,6 +14,10 @@ public class Donacion_dinero extends Contribucion{
     @Enumerated(EnumType.STRING)
     private Tipos_frecuencia frecuencia;
 
+    public Donacion_dinero() {
+
+    }
+
     public Integer getMonto() {
         return monto;
     }

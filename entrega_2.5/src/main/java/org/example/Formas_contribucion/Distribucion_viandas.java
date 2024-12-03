@@ -33,6 +33,9 @@ public class Distribucion_viandas extends Contribucion{
     Boolean RetiroExitoso;
     Boolean IngresoExitoso;
 
+    public Distribucion_viandas() {
+
+    }
 
 
     public Integer getCantidadViandasAMover() {

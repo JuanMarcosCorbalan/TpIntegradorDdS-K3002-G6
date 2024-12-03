@@ -22,9 +22,20 @@ public class Persona_fisica extends Persona{
         this.documento_identidad = documento;
     }
 
-    public Persona_fisica() {
-
+    public Persona_fisica(String nombre, String apellido, Documento_identidad documento_identidad) {
+        super();
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.documento_identidad = documento_identidad;
     }
+
+    public Persona_fisica(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+
+    public Persona_fisica() {}
 
     public void setNombre(String nombre){
         this.nombre = nombre;
@@ -37,18 +48,6 @@ public class Persona_fisica extends Persona{
     }
     public Documento_identidad getDocumentoIdentidad(){
         return documento_identidad;
-    }
-
-    public Persona_fisica(String nombre, String apellido, Documento_identidad documento_identidad) {
-        super();
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.documento_identidad = documento_identidad;
-    }
-
-    public Persona_fisica(String nombre, String apellido) {
-        this.nombre = nombre;
-        this.apellido = apellido;
     }
 
     @Override

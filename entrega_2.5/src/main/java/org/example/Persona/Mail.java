@@ -7,19 +7,16 @@ import javax.persistence.*;
 import java.io.IOException;
 
 @Entity
-public class Mail implements Medio_contacto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Mail extends Medio_contacto {
 
     public String email;
 
-    @ManyToOne
-    @JoinColumn(name = "mail_persona", nullable = false)
-    public Persona persona;
-
     public Mail() {}
+
+    public Mail (Persona persona, String email_nuevo){
+        this.persona = persona;
+        this.email = email_nuevo;
+    }
 
     public void notificar(Medio_contacto[] medios) throws IOException {
         Email email = this.getMail(medios);
@@ -35,5 +32,10 @@ public class Mail implements Medio_contacto {
     }
     public String getMail() {
         return email;
+    }
+
+    @Override
+    public void setDetalle(String mail){
+        this.email = mail;
     }
 }

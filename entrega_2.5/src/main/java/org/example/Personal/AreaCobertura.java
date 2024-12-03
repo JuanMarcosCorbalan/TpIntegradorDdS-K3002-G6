@@ -21,6 +21,11 @@ public class AreaCobertura {
         this.longitud = longitud;
         this.radio = radio;
     }
+
+    public AreaCobertura() {
+
+    }
+
     public void setLatitud(String latitud) {
         this.latitud = latitud;
     }

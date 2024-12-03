@@ -24,7 +24,8 @@ public class Colaborador extends Rol {
     @OneToMany(mappedBy = "colaborador")
     List<Contribucion> contribuciones = new ArrayList<Contribucion>();
 
-    @Transient
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     List<Forma_colaborar> formas_de_colaborar;
     //List<Heladera> heladeras_a_cargo;
 
@@ -43,7 +44,8 @@ public class Colaborador extends Rol {
             joinColumns = @JoinColumn(name = "ID_Colaborador"),
             inverseJoinColumns = @JoinColumn(name = "ID_FormasColaborar")
     )*/
-    @Enumerated(EnumType.STRING) // Almacenamos el enum como String en la BD.
+    //@Enumerated(EnumType.STRING) // Almacenamos el enum como String en la BD.
+    @Transient
     Forma_colaborar formasColaborar;
 
     public Colaborador() {
@@ -89,9 +91,7 @@ public class Colaborador extends Rol {
         //this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
-    public Colaborador(Persona persona_colaboradora) {
-        this.persona = persona_colaboradora;
-    }
+    public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora;}
 
     public double getPuntos() {
         double puntos = 0;

@@ -19,6 +19,10 @@ public class HacerseCargoHeladera extends Contribucion{
     @Transient
     RepositorioHeladeras repositorioHeladeras;
 
+    public HacerseCargoHeladera() {
+
+    }
+
     public void hacerseCargo() {
         BusquedaPuntosSugeridos busquedaPuntosSugeridos = new BusquedaPuntosSugeridos();
         PuntoUbicacion puntoSeleccionado = this.sugerirPuntoODomicilio(busquedaPuntosSugeridos.getPuntosSugeridos());

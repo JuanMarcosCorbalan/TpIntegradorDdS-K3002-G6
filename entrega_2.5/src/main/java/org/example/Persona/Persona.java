@@ -22,8 +22,7 @@ abstract public class Persona {
     public Domicilio domicilio;
 
 
-    //@OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Transient
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Medio_contacto> mediosContacto;
 
 
