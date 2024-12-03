@@ -16,36 +16,32 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/carousel.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Carousel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+    <div class="header-container d-flex justify-content-between align-items-center">
+        <img class="img-logo" src="../img/logov2.png" alt="logo">
+        <div class="header-buttons d-flex align-items-center">
+            <button class="btn btn-canjear" onclick="location.href='/puntosYCanjes'">Canjear Puntos</button>
+            <div class="dropdown">
+                <button class="btn btn-settings dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../img/settings.png" alt="Settings" class="settings-icon">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'" class="dropdown-item">Ver reporte semanal</button></li>
+                    <li><button onclick="location.href='/puntosYCanjes'" class="dropdown-item">Ver Puntos Y Canjes Disponibles</button></li>
+                    <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Gestion Heladeras</button></li>
+                </ul>
+            </div>
         </div>
-    </nav>
+    </div>
 </header>
 
+
 <main role="main">
+
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -55,31 +51,30 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
+                <img class="first-slide" src="../img/fiesa_trabajos.png" alt="First slide">
                 <div class="container">
                     <div class="carousel-caption text-left">
-                        <h1>Example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <h1>Colaboraciones</h1>
+                        <p>Ahora podes colaborar con la causa, donando dinero, viandas, distribuyendolas entre heladeras y mucho mas!</p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
+                <img class="second-slide" src="../img/banner-with-megaphone-realistic-style-vector.jpg" alt="Second slide">
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h1>Suscripciones</h1>
+                        <p>Suscribite a una heladera para enterarte de las distintas novedades sobre ella!</p>
                         <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
+                <img class="third-slide" src="../img/tratamiento-descuentos-comerciales.png" style="color:black" alt="Third slide">
                 <div class="container">
                     <div class="carousel-caption text-right">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h1>Ofertas</h1>
+                        <p>Canjea tus puntos de colaboraciones por ofertas en los distintos negocios que nos apoyan!</p>
                         <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
                     </div>
                 </div>
@@ -95,39 +90,45 @@
         </a>
     </div>
 
-
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
     <div class="container marketing">
-
         <!-- Three columns of text below the carousel -->
         <div class="row">
-            <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="../img/donate-money-to-charity-concept-vector.jpg" alt="Generic placeholder image" width="140" height="140">
+                <h2>Donar Dinero</h2>
+                <p>Colaborar donando dinero a la organización!</p>
+                <p><a class="btn btn-secondary" href="#" role="button">Donar dinero &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="../img/499938.jpg" alt="Generic placeholder image" width="140" height="140">
+                <h2>Donar Vianda</h2>
+                <p>Colaborar donando una vianda en alguna de nuestras heladeras!</p>
+                <p><a class="btn btn-secondary" href="#" role="button">Donar vianda &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-                <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="../img/camion.jpg" alt="Generic placeholder image" width="140" height="140">
+                <h2>Distribuir Viandas</h2>
+                <p>Colaborar distribuyendo viandas entre dos heladeras!</p>
+                <p><a class="btn btn-secondary" href="#" role="button">Distribuir Viandas &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="../img/tarjetas.png" alt="Generic placeholder image" width="140" height="140">
+                <h2>Distribuir Tarjetas</h2>
+                <p>Colaborar repartiendo tarjetas a personas en situacion vulnerable y registrandolas!</p>
+                <p><a class="btn btn-secondary" href="#" role="button">Ver detalles de distribucion &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
 
 
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+
     <!-- FOOTER -->
-    <footer class="container">
+    <footer class="footer-container">
         <p class="float-right"><a href="#">Back to top</a></p>
         <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
     </footer>

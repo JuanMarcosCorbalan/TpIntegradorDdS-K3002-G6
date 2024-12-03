@@ -1,6 +1,5 @@
 package org.example;
 
-import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
@@ -23,7 +22,6 @@ import java.util.*;
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
 import org.example.Tarjetas.TarjetaColaborador;
-import org.example.Validadores_Sensores.FallaTecnica;
 
 public class Main {
 
