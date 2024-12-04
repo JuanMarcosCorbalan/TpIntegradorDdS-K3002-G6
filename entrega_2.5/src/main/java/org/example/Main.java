@@ -21,6 +21,7 @@ import java.util.*;
 
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
+import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Tarjetas.TarjetaColaborador;
 
 public class Main {
@@ -311,7 +312,7 @@ public class Main {
 
         app.post("/registarPersonaFisica", ctx -> {
             Tipo_documento tipoDocumento = null;
-            List<Medio_contacto> mediosContacto = new ArrayList<>() ;
+            List<Medio_contacto> mediosContacto = new ArrayList<>();
             String nombres = ctx.formParam("inputNombre");
             String apellidos = ctx.formParam("inputApellidos");
             String fechaNacimiento = ctx.formParam("inputFechaNacimiento");
@@ -334,7 +335,7 @@ public class Main {
             String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
             String localidad = ctx.formParam("inputLocalidad");
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
-            Persona_fisica persona = new Persona_fisica(nombres, apellidos,fechaNacimiento,documento, mediosContacto,
+            Persona_fisica persona = new Persona_fisica(nombres, apellidos, fechaNacimiento, documento, mediosContacto,
                     domicilioNuevo);
 
             String correo = ctx.formParam("inputCorreo");
@@ -362,7 +363,7 @@ public class Main {
 
         app.post("/registarPersonaJuridica", ctx -> {
             Tipo_juridico tipoJuridico = null;
-            List<Medio_contacto> mediosContacto = new ArrayList<>() ;
+            List<Medio_contacto> mediosContacto = new ArrayList<>();
             String razonSocial = ctx.formParam("inputRazonSocial");
             String tipoOrganizacionString = ctx.formParam("inputTipoOrganizacion");
             switch (tipoOrganizacionString) {
@@ -385,7 +386,7 @@ public class Main {
             String localidad = ctx.formParam("inputLocalidad");
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             String localALaCalle = ctx.formParam("LocalCalle");
-            switch (localALaCalle){
+            switch (localALaCalle) {
                 case "1":
                     domicilioNuevo.setDaALaCalle(true);
                     break;
@@ -394,7 +395,7 @@ public class Main {
                     break;
             }
 
-            Persona_juridica persona = new Persona_juridica(domicilioNuevo, mediosContacto,razonSocial,tipoJuridico);
+            Persona_juridica persona = new Persona_juridica(domicilioNuevo, mediosContacto, razonSocial, tipoJuridico);
 
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
@@ -485,7 +486,7 @@ public class Main {
                 //UploadedFile foto = ctx.uploadedFile("inputFoto");
                 colaborador.reportarFallaTenica(heladeraprueba, descripcion, null);
                 ctx.result("Reporte de Falla generado con exito");
-                } else {
+            } else {
                 ctx.status(401).result("Por favor inicia sesión para reportar el fallo.");
             }
         });
@@ -511,7 +512,37 @@ public class Main {
             }
         });
 
+        app.post("/suscribirse", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                String heladeraString = ctx.formParam("selectedHeladera");
+                
+                // ACA DEBERIA BUSCAR LA HELADERA EN LA BD, PERO POR AHORA CREO UNA NUEVA 
+                Heladera heladera = new Heladera(heladeraString);
+                String tipoSuscripcionString = ctx.formParam("tipoSuscripcion");
+                TipoSuscripcion tipoSuscripcion = null;
+                if (Objects.equals(tipoSuscripcionString, "quedanNViandas")) {
+                    tipoSuscripcion = TipoSuscripcion.QUEDANNVIANDAS;
+                } else {
+                    if (Objects.equals(tipoSuscripcionString, "faltanNViandas")) {
+                        tipoSuscripcion = TipoSuscripcion.FALTANNVIANDAS;
+                    } else {
+                        if (Objects.equals(tipoSuscripcionString, "avisoPorDesperfecto")) {
+                            tipoSuscripcion = TipoSuscripcion.AVISOPORDESPERFECTO;
+                        } else {
+                            ctx.status(404).result("tipo de suscripcion no reconocido");
+                        }
+                    }
+                }
+                Integer cantViandas = Integer.parseInt(ctx.formParam("cantidadViandas"));
 
+                colaborador.suscribirseAHeladera(heladera, tipoSuscripcion, cantViandas);
+                // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+            }
+        });
 
 
     }
