@@ -16,7 +16,7 @@ public class Tecnico extends Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
     private Long id;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     AreaCobertura areaCobertura;
 
     @OneToMany(mappedBy = "tecnicoAsignado")

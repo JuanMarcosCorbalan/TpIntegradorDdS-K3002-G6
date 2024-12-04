@@ -19,7 +19,7 @@ public class PuntoUbicacion {
     String direccion;
     String nombre;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     Localidad localidad;
 
     @OneToMany(mappedBy = "puntoUbicacion")
@@ -33,6 +33,15 @@ public class PuntoUbicacion {
         this.longitud = longitud;
         this.latitud = latitud;
     }
+
+    public PuntoUbicacion(String latitud, String longitud, String direccion, String nombre, Localidad localidad) {
+        this.longitud = longitud;
+        this.latitud = latitud;
+        this.direccion = direccion;
+        this.nombre = nombre;
+        this.localidad = localidad;
+    }
+
 
     public PuntoUbicacion() {
 

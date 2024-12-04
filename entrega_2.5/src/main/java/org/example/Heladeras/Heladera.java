@@ -7,6 +7,7 @@ import org.example.Validadores_Sensores.*;
 
 import javax.persistence.*;
 import java.awt.image.ImageProducer;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,19 +18,20 @@ public class Heladera {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.PERSIST)
     private PuntoUbicacion puntoUbicacion;
 
+    @Transient
     String idHeladera; // CREO QUE NO IRIA MAS
-    int unidadViandasActual;
+    //int unidadViandasActual;
     int unidadesMaximoViandas; //VIENE DEFINIDA
 
     @OneToMany(mappedBy = "heladera")
     List<Vianda> viandas = new LinkedList<Vianda>();
 
-    Date FechaFuncionamiento;
+    LocalDate FechaFuncionamiento;
 
     @Enumerated(EnumType.STRING)
     EstadoHeladera estado_actual = EstadoHeladera.INACTIVO; //ACTUALIZACION ENTREGA 2
@@ -37,7 +39,7 @@ public class Heladera {
     @OneToMany(mappedBy = "heladeraRetiro")
     List<RetiroVianda> retiros = new ArrayList<RetiroVianda>();
 
-    @OneToMany(mappedBy = "heladera")
+    @OneToMany(mappedBy = "heladera",cascade = CascadeType.ALL)
     List<Incidente> incidentes = new ArrayList<>();
 
     int cantidadFallas;
@@ -55,8 +57,7 @@ public class Heladera {
     ValidadorTemperatura validadorTemp;
     @Transient
     ValidadorMovimiento validadorMov;
-    @Transient
-    List<Validador> validadores = new ArrayList<Validador>();
+
 
     @ManyToOne
     private Colaborador colaboradores;
@@ -68,9 +69,20 @@ public class Heladera {
         this.validadorMov = new ValidadorMovimiento(this);
         this.validadorTemp = new ValidadorTemperatura(this);
     }
+
     public Heladera(String idHeladera) {
         this.idHeladera = idHeladera;
     }
+
+    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador ) {
+        this.idHeladera = idHeladera;
+        this.puntoUbicacion = puntoUbicacion;
+        this.FechaFuncionamiento = fechaFuncionamiento;
+        this.temperaturaMaxima = tempMax;
+        this.temperaturaMinima = temMin;
+        this.colaboradores = colaborador;
+    }
+
 
     public Heladera(String idHeladera, Integer unidadesMaximoViandas) {
         this.idHeladera = idHeladera;
@@ -249,5 +261,9 @@ public class Heladera {
 
     public ValidadorTemperatura getValidadorTemp() {
         return validadorTemp;
+    }
+
+    public List<Incidente> getIncidentes() {
+        return incidentes;
     }
 }

@@ -12,7 +12,7 @@ public class Localidad {
 
     String nombre;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.PERSIST)
     @JoinColumn (name = "localidad_ciudad")
     private Ciudad ciudad;
 
@@ -29,5 +29,9 @@ public class Localidad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }

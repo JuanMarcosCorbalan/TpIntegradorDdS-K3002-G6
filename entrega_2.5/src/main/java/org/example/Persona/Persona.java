@@ -17,7 +17,7 @@ abstract public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.PERSIST)
     @JoinColumn (name = "persona_domicilio")
     public Domicilio domicilio;
 

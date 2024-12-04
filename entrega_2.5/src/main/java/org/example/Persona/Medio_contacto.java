@@ -5,7 +5,7 @@ import java.io.IOException;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Medio_contacto {
+public class Medio_contacto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

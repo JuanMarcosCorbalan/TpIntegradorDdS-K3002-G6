@@ -16,7 +16,7 @@ public class Domicilio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn (name = "domicilio_localidad")
     public Localidad localidad;
 
