@@ -23,6 +23,20 @@ body::-webkit-scrollbar {
   flex: 1; /* Permite que el contenedor crezca */
 }
 
+
+/* Asegurar que las columnas ocupen el mismo tamaño */
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+}
+
+.card {
+    min-width: 250px; /* Ajusta este valor según sea necesario */
+    max-width: 100%; /* Mantén este valor para que no exceda el contenedor */
+    margin: auto
+}
 /* Puntos del cliente */
 .puntos-cliente {
   background-color: rgb(117, 40, 241); /* Fondo naranja */

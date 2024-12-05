@@ -425,11 +425,6 @@ public class Main {
             if (colaborador != null) {
                 // Obtener las ofertas desde tu dominio o base de datos
                 List<Oferta> ofertas = ofertasDisponibles; // Aquí iría la lógica para obtener las ofertas
-                Oferta ofertaNueva1 = new Oferta("Oferta 1", 200, 1);
-                Oferta ofertaNueva2 = new Oferta("Oferta 2", 500, 1);
-
-                ofertas.add(ofertaNueva1);
-                ofertas.add(ofertaNueva2);
 
                 double puntosColaborador = colaborador.obtenerPuntos(); // Obtener los puntos del colaborador
 
@@ -540,6 +535,22 @@ public class Main {
                 colaborador.suscribirseAHeladera(heladera, tipoSuscripcion, cantViandas);
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionSuscripcion.mustache");
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+            }
+        });
+
+        app.post("/cargarOferta", ctx-> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                String nombreOferta = ctx.formParam("inputNombre");
+                Integer cantidadPuntos = Integer.parseInt(ctx.formParam("inputPuntos"));
+                Integer cantidadInstancias = Integer.parseInt(ctx.formParam("inputInstancias"));
+
+                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias);
+                ofertasDisponibles.add(nuevaOferta);
+                // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionOfertaCargada.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }

@@ -40,14 +40,22 @@ body::-webkit-scrollbar {
 /* Asegurar que las columnas ocupen el mismo tamaño */
 .row {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: stretch;
+  width: 100%;
+}
+
+.card {
+    min-width: 250px; /* Ajusta este valor según sea necesario */
+    max-width: 100%; /* Mantén este valor para que no exceda el contenedor */
+    margin: auto
 }
 
 /* Agregar altura mínima a las columnas */
 .custom-column {
   min-height: 300px; /* Puedes ajustar este valor según el diseño */
-  max-width: 500px;
+  flex: 1;
+
 }
 
 /* Estilizar los títulos para que mantengan un tamaño uniforme */

@@ -41,20 +41,21 @@
         </div>
     </div>
 </div>
-
-<div class="container">
+<div class="container my-5">
+    <!-- Título -->
+    <h2 class="text-center mb-4">Ofertas Disponibles</h2>
     <!-- Ofertas -->
-    <div class="row">
+    <div class="row justify-content-center">
         {{#ofertas}}
-            <div class="col-md-4 my-3">
-                <div class="card custom-column">
-                    <img src="{{imagen}}" class="card-img-top" alt="{{nombre}}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{nombre}}</h5>
-                        <p class="puntos">Costo: {{puntosNecesarios}} puntos</p>
-                        <form method="post" action="/canjearOferta">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                <div class="card shadow-sm w-100">
+                    <img src="{{imagen}}" class="card-img-top" alt="{{nombre}}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">{{nombre}}</h5>
+                        <p class="puntos text-center">Costo: <strong>{{puntosNecesarios}} puntos</strong></p>
+                        <form method="post" action="/canjearOferta" class="mt-auto">
                             <input type="hidden" name="nombreOferta" value="{{nombre}}">
-                            <button type="submit" class="btn btn-success">Canjear</button>
+                            <button type="submit" class="btn btn-success w-100">Canjear</button>
                         </form>
                     </div>
                 </div>

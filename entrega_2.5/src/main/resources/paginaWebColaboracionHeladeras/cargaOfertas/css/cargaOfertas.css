@@ -1,0 +1,81 @@
+body, html {
+  width: 100%;
+  overflow-x: hidden; /* Oculta el desplazamiento horizontal */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #F5F5F5;
+}
+
+footer {
+  background-color: #2a4d69;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  margin-top: auto; /* Asegura que el footer esté al final */
+}
+
+.img-logo {
+  height: 60px; /* Altura del logo */
+}
+
+header {
+  background-color: #2A4D69;
+  height: 60px; /* Altura del encabezado */
+  width: 100vw;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.btn-settings {
+  background: #ff8c00;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.settings-icon {
+  width: 30px;
+  height: 30px;
+  background: none;
+}
+
+.btn-outline-primary {
+  background-color: #BDCADE;
+  border: none;
+  color: black;
+}
+
+.btn-outline-primary:hover {
+  background-color: #A0B3C1;
+}
+
+.btn-custom {
+  background-color: #F69000;
+  color: white;
+  border-radius: 20px;
+}
+
+.btn-custom:hover {
+  background-color: #D68A00;
+}
+
+.input-group-text {
+  background-color: #BDCADE; /* Color de fondo para el input de monto */
+  border: none; /* Sin borde */
+}
+
+.form-control {
+  background-color: #BDCADE; /* Color de fondo para el input de monto */
+  border: none; /* Sin borde */
+}
