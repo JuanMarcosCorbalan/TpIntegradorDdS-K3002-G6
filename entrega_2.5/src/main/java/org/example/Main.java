@@ -534,11 +534,12 @@ public class Main {
                         }
                     }
                 }
-                Integer cantViandas = Integer.parseInt(ctx.formParam("cantidadViandas"));
+                Integer cantViandas = 0;
+                cantViandas = Integer.parseInt(ctx.formParam("cantidadViandas"));
 
                 colaborador.suscribirseAHeladera(heladera, tipoSuscripcion, cantViandas);
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionSuscripcion.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }

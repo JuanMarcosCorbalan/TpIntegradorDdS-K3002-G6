@@ -79,22 +79,7 @@ async function initMap() {
     }
   });
 
-  document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
-    event.preventDefault();
 
-    const action = document.getElementById('selectAction').value;
-    const threshold = document.getElementById('viandaThreshold').value;
-
-    if (action && selectedHeladera) {
-      let message = `Acción seleccionada: ${action} para la heladera ${selectedHeladera}.`;
-      if (threshold) {
-        message += ` Notificación configurada con un umbral de ${threshold} viandas.`;
-      }
-      alert(message);
-    } else {
-      alert('Por favor, seleccione una heladera y una acción.');
-    }
-  });
 
   document.getElementById('selectAction').disabled = true;
   document.getElementById('notificationInputGroup').style.display = 'none';
