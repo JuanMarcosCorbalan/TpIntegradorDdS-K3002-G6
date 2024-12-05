@@ -56,6 +56,10 @@ body::-webkit-scrollbar {
   margin-bottom: 20px;
 }
 
+.btn-primary {
+    color: white !important; /* Cambia el color del texto a blanco */
+}
+
 /* Descripción con tamaño de fuente unificado */
 .custom-column h3 {
   font-size: 18px;

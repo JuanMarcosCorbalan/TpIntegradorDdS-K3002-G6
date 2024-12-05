@@ -69,6 +69,10 @@ header {
   transition: transform 0.2s;
 }
 
+.btn-primary {
+    color: white !important; /* Cambia el color del texto a blanco */
+}
+
 .custom-card:hover {
   transform: scale(1.05); /* Efecto de hover */
 }
