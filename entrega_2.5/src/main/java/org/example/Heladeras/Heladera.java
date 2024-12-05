@@ -23,7 +23,7 @@ public class Heladera {
     @ManyToOne (cascade = CascadeType.PERSIST)
     private PuntoUbicacion puntoUbicacion;
 
-    @Transient
+   // @Transient
     String idHeladera; // CREO QUE NO IRIA MAS
     //int unidadViandasActual;
     int unidadesMaximoViandas; //VIENE DEFINIDA

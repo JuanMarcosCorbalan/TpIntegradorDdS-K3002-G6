@@ -32,4 +32,8 @@ public class Ciudad {
     public void setPais(Pais pais) {
         this.pais = pais;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

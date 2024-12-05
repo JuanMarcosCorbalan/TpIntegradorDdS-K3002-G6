@@ -8,9 +8,13 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Persona.*;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
+import org.example.Personal.AreaCobertura;
+import org.example.Personal.Tecnico;
+import org.example.Personal.Visita;
 import org.example.Sistema.Usuario;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.Alerta;
+import org.example.Validadores_Sensores.FallaTecnica;
 import org.example.Validadores_Sensores.TipoAlerta;
 import org.example.Validadores_Sensores.TipoIncidente;
 
@@ -19,6 +23,7 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.example.Colaborador.Forma_colaborar.*;
 import static org.example.Persona.Tipo_documento.DNI;
@@ -28,8 +33,10 @@ public class prueba_repo {
 
     public static void main(String[] args) {
 
+
         EntityManager em = BDutils.getEntityManager();
         BDutils.comenzarTransaccion(em);
+        LocalidadDAO ldao = new LocalidadDAO(em);
 
         //5 personas vulnerables
         Pais pais = new Pais("Argentina");
@@ -86,7 +93,7 @@ public class prueba_repo {
         em.persist(user);
         em.persist(colab);
 
-        localidad = new Localidad("Parque patricios",ciudad);
+        localidad = new Localidad("Parque Patricios",ciudad);
         domicilio = new Domicilio("-34,639604","-58,401318","Zavaleta 200",localidad);
         doc = new Documento_identidad("447896578", DNI);
         wsp = new Whatsapp();
@@ -100,7 +107,7 @@ public class prueba_repo {
         em.persist(user);
         em.persist(colab);
 
-        localidad = new Localidad("Balvanera",ciudad);
+        localidad = ldao.findOrCreate("Balvanera","Buenos Aires","Argentina");
         domicilio = new Domicilio("-34,583280","-58,429110","Azcuenaga 67",localidad);
         doc = new Documento_identidad("321456987",DNI);
         wsp = new Whatsapp();
@@ -116,7 +123,7 @@ public class prueba_repo {
         //Domicilio domicilio, List<Medio_contacto> mediosContacto, String razon_social, Tipo_juridico tipo, String rubro
 
 
-        localidad = new Localidad("Balvanera",ciudad);
+        localidad = ldao.findOrCreate("Balvanera","Buenos Aires","Argentina");
         domicilio = new Domicilio("-34,609074","-58,401657","Larrea 88",localidad);
         Medio_contacto email = new Medio_contacto();
         email.setDetalle("autos@yahoo.com");
@@ -130,17 +137,13 @@ public class prueba_repo {
         em.persist(emp);
 
         // 3 heladeras
-//1er heladera
-        //long id = 2;
-        //localidad = em.find(Localidad.class, id);
-        //localidad = new Localidad("Balvanera",ciudad);
-        LocalidadDAO ldao = new LocalidadDAO(em);
-        localidad = ldao.findOrCreate("Almagro","Buenos Aires",pais);
+        //1er heladera
 
+        localidad = ldao.findOrCreate("Almagro","Buenos Aires","Argentina");
         PuntoUbicacion ubi1 = new PuntoUbicacion("-34,583280","-58,429110","Av Medrano 900","UTN Medrano",localidad) ;
-
         LocalDate fechaEspecifica = LocalDate.of(2024,10,2);
-        Heladera heladera = new Heladera ("H3L4D3R4M3DR4N0A1", ubi1, fechaEspecifica, 7, 2, null);
+        String codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
 
         Alerta alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
         heladera.getIncidentes().add(alerta);
@@ -148,40 +151,56 @@ public class prueba_repo {
         heladera.getIncidentes().add(alerta2);
 
         em.persist(heladera);
-        /*
-        //Alerta(Heladera heladera, TipoIncidente tipoIncidente, TipoAlerta tipoAlerta)
-//2da Heladera
 
-      //  id = 2;
-       // localidad = em.find(Localidad.class, id);
-
-
-       // ubi1 = new PuntoUbicacion("-34,583281","-58,429111","Av Medrano 900","UTN Medrano",localidad) ;
-
-        //fechaEspecifica = LocalDate.of(2024,10,2);
-        //heladera = new Heladera("H3L4D3R4M3DR4N0A2", ubi1, fechaEspecifica, 7, 2, null);
+        //2da Heladera
+        localidad = ldao.findOrCreate("San Telmo","Buenos Aires","Argentina");
+        ubi1 = new PuntoUbicacion("-34,614900","-58,373800","Defensa 1000","Plaza Dorrego",localidad) ;
+        fechaEspecifica = LocalDate.of(2024,7,15);
+        codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 8, 3, null);
+        em.persist(heladera);
 
 
-       // em.persist(heladera);
-
-//3era heladera
-
-        id = 3;
-        localidad = em.find(Localidad.class, id);
+        FallaTecnica falla = new FallaTecnica(colab, "titila el led rojo 5 veces cada 10 segundos", null, heladera);
+        em.persist(falla);
 
 
-        ubi1 = new PuntoUbicacion("-34,583271","-58,429122","Balvanera 70","Calle",localidad) ;
-
-        fechaEspecifica = LocalDate.of(2024,10,2);
-        heladera = new Heladera("H3L4D3R4B4LV4N3R4", ubi1, fechaEspecifica, 7, 2, null);
-
+        //3era heladera
+        localidad = ldao.findOrCreate("Constitucion","Buenos Aires","Argentina");
+        ubi1 = new PuntoUbicacion("-34,627700","-58,381400","Av Juan de Garay 1500","Estación Constitución",localidad) ;
+        fechaEspecifica = LocalDate.of(2024,4,9);
+        codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
+        alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
+        heladera.getIncidentes().add(alerta);
 
         em.persist(heladera);
-        */
 
-        // 9 usuarios
+        // faltan contibuciones,visitas(hay una creada)),incidentes,tarjetas,solicitudes,mensajes,retirovianda
+//
 
 
+        domicilio = new Domicilio("-34,583280","-58,429110","Azcuenaga 67",localidad);
+        doc = new Documento_identidad("251456987",DNI);
+        email.setDetalle("elsztain@aol.com");
+        empMedios = List.of(email);
+        // public AreaCobertura(String latitud, String longitud, String radio)
+        AreaCobertura area = new AreaCobertura("-34,627711","-58,381422","25");
+        Tecnico tecnico = new Tecnico("Edgardo","Elsztain","25-01-1962",doc, empMedios, domicilio, area);
+        em.persist(tecnico);
+
+        localidad = ldao.findOrCreate("Caballito","Buenos Aires","Argentina");
+        domicilio = new Domicilio("-34,583250","-58,429140","Bilbao 97",localidad);
+        doc = new Documento_identidad("341456777",DNI);
+        email.setDetalle("reinoso@gmail.com");
+        empMedios = List.of(email);
+        // public AreaCobertura(String latitud, String longitud, String radio)
+        area = new AreaCobertura("-34,623611", "-58,381142", "8");
+        tecnico = new Tecnico("Marcos", "Reinoso", "21-12-1977", doc, empMedios, domicilio, area);
+        em.persist(tecnico);
+//Visita
+        Visita visita = new Visita(falla, heladera, "problema led rojo", false, null);
+        em.persist(visita);
 
 
 

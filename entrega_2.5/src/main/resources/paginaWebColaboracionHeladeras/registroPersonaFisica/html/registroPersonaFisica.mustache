@@ -18,16 +18,28 @@
     </div>
 </header>
 
-<form>
+<form id="registroForm">
+    <!-- Nombre de Usuario y Contraseña -->
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6">
+            <label for="usuario" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control shadow-sm" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+        </div>
+        <div class="col-md-6">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input type="password" class="form-control shadow-sm" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+        </div>
+    </div>
+
     <!-- Nombres y Apellidos -->
     <div class="row mb-3 mx-3">
         <div class="col-md-6">
             <label for="nombres" class="form-label">Nombre/s</label>
-            <input type="text" class="form-control shadow-sm" id="nombres" name="nombres" placeholder="Nombre/s actual/es">
+            <input type="text" class="form-control shadow-sm" id="nombres" name="nombres" placeholder="Nombre/s actual/es" required>
         </div>
         <div class="col-md-6">
             <label for="apellidos" class="form-label">Apellido/s</label>
-            <input type="text" class="form-control shadow-sm" id="apellidos" name="apellidos" placeholder="Apellido/s actual/es">
+            <input type="text" class="form-control shadow-sm" id="apellidos" name="apellidos" placeholder="Apellido/s actual/es" required>
         </div>
     </div>
 
@@ -35,7 +47,7 @@
     <div class="row mb-3 mx-3">
         <div class="col-md-6">
             <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="text" class="form-control shadow-sm" id="fecha-nacimiento" name="fecha-nacimiento" placeholder="DD/MM/YYYY">
+            <input type="text" class="form-control shadow-sm" id="fecha-nacimiento" name="fecha-nacimiento" placeholder="DD/MM/YYYY" required>
         </div>
     </div>
 
@@ -44,15 +56,15 @@
     <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
         <div class="col-md-12">
             <label for="correo" class="form-label">Correo</label>
-            <input type="email" class="form-control shadow-sm input-smaller" id="correo" name="correo" placeholder="Correo Electrónico actual">
+            <input type="email" class="form-control shadow-sm input-smaller" id="correo" name="correo" placeholder="Correo Electrónico actual" required>
         </div>
         <div class="col-md-12">
             <label for="telefono" class="form-label">Número de teléfono</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="telefono" name="telefono" placeholder="Número de Teléfono actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="telefono" name="telefono" placeholder="Número de Teléfono actual" required>
         </div>
         <div class="col-md-12">
             <label for="whatsapp" class="form-label">Whatsapp</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="whatsapp" name="whatsapp" placeholder="Whatsapp actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="whatsapp" name="whatsapp" placeholder="Whatsapp actual" required>
         </div>
     </div>
 
@@ -61,19 +73,23 @@
     <div class="row mb-3 mx-3" style="background-color: #e7f3ff; padding: 10px; border-radius: 5px;">
         <div class="col-md-12">
             <label for="calle" class="form-label">Calle</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="calle" name="calle" placeholder="Calle actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="calle" name="calle" placeholder="Calle actual" required>
         </div>
         <div class="col-md-12">
             <label for="altura" class="form-label">Altura</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="altura" name="altura" placeholder="Altura actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="altura" name="altura" placeholder="Altura actual" required>
+        </div>
+        <div class="col-md-12">
+            <label for="localidad" class="form-label">Localidad</label>
+            <input type="text" class="form-control shadow-sm input-smaller" id="localidad" name="localidad" placeholder="Localidad Actual" required>
         </div>
         <div class="col-md-12">
             <label for="ciudad" class="form-label">Ciudad</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="ciudad" name="ciudad" placeholder="Ciudad actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="ciudad" name="ciudad" placeholder="Ciudad actual" required>
         </div>
         <div class="col-md-12">
             <label for="pais" class="form-label">País</label>
-            <input type="text" class="form-control shadow-sm input-smaller" id="pais" name="pais" placeholder="País actual">
+            <input type="text" class="form-control shadow-sm input-smaller" id="pais" name="pais" placeholder="País actual" required>
         </div>
     </div>
 

@@ -8,6 +8,7 @@ import org.example.Validadores_Sensores.Incidente;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class LocalidadDAO {
@@ -18,32 +19,27 @@ public class LocalidadDAO {
         this.entityManager = entityManager;
     }
 
-    public Localidad findOrCreate(String nombre_localidad, String nombre_ciudad, Pais pais) {
+    public Localidad findOrCreate(String nombre_localidad, String nombre_ciudad, String nombre_pais) {
         EntityTransaction transaction = entityManager.getTransaction();
 
-        Localidad localidad = entityManager
-                    .createQuery("select l from Localidad l join l.ciudad c" +
-                            " where l.nombre = ?1 and c.nombre = ?2", Localidad.class)
+        Localidad localidad = null;
+        try {
+            localidad = entityManager
+                    .createQuery("select l from Localidad l join l.ciudad c " +
+                            "join c.pais p where " +
+                            " l.nombre = ?1 and c.nombre = ?2 and p.nombre = ?3", Localidad.class)
                     .setParameter(1, nombre_localidad)
                     .setParameter(2, nombre_ciudad)
+                    .setParameter(3, nombre_pais)
                     .getSingleResult();
-        if(localidad != null){
-          //  System.out.println("Localidad: " + localidad.getNombre());
-            return localidad;
+        } catch (NoResultException e) {
+            CiudadDAO ciudadDAO = new CiudadDAO(entityManager);
+            Ciudad ciudad = ciudadDAO.findOrCreate(nombre_ciudad,nombre_pais);
+            localidad = new Localidad(nombre_localidad,ciudad);
+           // entityManager.persist(localidad);
         }
-        Ciudad ciudad = new Ciudad(nombre_ciudad,pais);
-        localidad = new Localidad(nombre_localidad,ciudad);
-        entityManager.persist(localidad);
-        //System.out.println("Localidad: no existia");
         return localidad;
-
     }
-    public static void main(String[] args){
-        EntityManager em = BDutils.getEntityManager();
-        LocalidadDAO localidadDAO = new LocalidadDAO(em);
 
-        Pais pais = new Pais("Argentina");
-        //Localidad localidad = findOrCreate("Almagro","Buenos Aires",pais);
-    }
 //*/
 }
