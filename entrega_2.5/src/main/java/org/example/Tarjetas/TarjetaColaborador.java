@@ -25,15 +25,16 @@ public class TarjetaColaborador extends Tarjeta{
     //String IdTarjeta;
     //Colaborador colaborador;
 
-    @OneToMany(mappedBy = "Colaborador")
+    @OneToMany(mappedBy = "Colaborador",cascade = CascadeType.ALL)
     List<SolicitudWeb> solicitudesWeb = new ArrayList<SolicitudWeb>();
 
-    @OneToMany(mappedBy = "Colaborador")
+    @OneToMany(mappedBy = "Colaborador",cascade = CascadeType.ALL)
     List<SolicitudApertura> solicitudAperturas = new ArrayList<SolicitudApertura>();
 
 
     public TarjetaColaborador(Colaborador colaborador) {
         super(colaborador);
+        colaborador.asignarTarjeta(this);
     }
 
     public TarjetaColaborador(String id,Colaborador colaborador) {
@@ -50,6 +51,7 @@ public class TarjetaColaborador extends Tarjeta{
     public void crearSolicitudWebDonacion(Heladera heladera){
         SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DONACION, LocalDate.now(), LocalTime.now(),heladera,this);
         solicitudesWeb.add(nuevaSolicitudWeb);
+
     }
     public SolicitudApertura crearSolicitudApertura(Heladera heladera){
         return new SolicitudApertura(heladera, LocalDate.now(), LocalTime.now(), colaborador,this);

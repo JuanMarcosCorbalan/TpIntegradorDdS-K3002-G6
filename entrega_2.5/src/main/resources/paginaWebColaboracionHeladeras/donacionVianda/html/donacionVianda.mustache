@@ -43,8 +43,91 @@
     </div>
     <div class="col-12">
       <label for="inputHeladera" class="form-label">Seleccione la heladera en la que desea donar la vianda</label>
-      <img src="/donacionVianda/img/mapa.png" alt="Mapa" class="mapa-foto">
+
+
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="menuHeladera" data-bs-toggle="dropdown" aria-expanded="false">
+                Seleccione una heladera
+            </button>
+            <input type="hidden" id="selectedHeladeraId" name="selectedHeladeraId">
+
+            <ul class="dropdown-menu w-100" id="dropdownHeladeras" aria-labelledby="menuHeladera">
+                <!-- Las opciones serán cargadas dinámicamente aquí -->
+            </ul>
+        </div>
+
     </div>
+
+      <script>
+          // URL de la API
+          const apiUrl = '/api/heladeras';
+
+          // Referencias a los elementos
+          const menuHeladera = document.getElementById('menuHeladera');
+          const dropdownHeladeras = document.getElementById('dropdownHeladeras');
+
+          // Función para cargar las heladeras
+          async function cargarHeladeras() {
+              try {
+                  // Fetch a la API
+                  const response = await fetch(apiUrl);
+                  if (!response.ok) {
+                      throw new Error('Error al obtener las heladeras');
+                  }
+
+                  // Convertir la respuesta a JSON
+                  const heladeras = await response.json();
+
+                  // Generar las opciones dinámicamente
+                  heladeras.forEach(heladera => {
+                      const li = document.createElement('li');
+                      li.innerHTML = `
+          <a class="dropdown-item d-flex align-items-center" href="#" data-id="${heladera.id}">
+            <img src="https://cdn-icons-png.flaticon.com/512/4151/4151152.png" alt="Ícono" class="me-2">
+            <div>
+              <strong>${heladera.nombre}</strong><br>
+              <small>ID: ${heladera.idHeladera}</small>
+            </div>
+          </a>
+        `;
+
+                      // Agregar evento de selección
+                      li.querySelector('a').addEventListener('click', function (event) {
+                          event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+
+                          // Actualizar el texto del botón principal
+                          menuHeladera.innerHTML = `
+        <img src="https://via.placeholder.com/20" alt="Ícono" class="me-2">
+        <strong>${heladera.nombre}</strong><br>
+        <small>ID: ${heladera.idHeladera}</small>
+    `;
+
+                          // Actualizar el campo oculto con el ID seleccionado
+                          document.getElementById('selectedHeladeraId').value = heladera.idHeladera;
+                      });
+
+                      // Añadir la opción al menú desplegable
+                      dropdownHeladeras.appendChild(li);
+                  });
+              } catch (error) {
+                  console.error('Error al cargar las heladeras:', error);
+              }
+          }
+
+          // Llamar a la función para cargar las heladeras al cargar la página
+          cargarHeladeras();
+      </script>
+
+      <style>
+          /* Asegura que los íconos sean consistentes */
+          .dropdown-item img {
+              width: 20px; /* Ancho máximo */
+              height: 20px; /* Alto máximo */
+              object-fit: contain; /* Asegura que la imagen mantenga su proporción */
+              margin-right: 8px; /* Espaciado entre el ícono y el texto */
+          }
+      </style>
     <div class="col-md-6">
       <label for="inputCalorias" class="form-label">Ingrese calorias de la comida (cal)</label>
       <input type="number" class="form-control" id="inputCalorias" name="inputCalorias">

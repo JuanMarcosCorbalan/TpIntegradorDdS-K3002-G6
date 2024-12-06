@@ -18,7 +18,7 @@ public class Heladera {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    public long id;
 
     @ManyToOne (cascade = CascadeType.PERSIST)
     private PuntoUbicacion puntoUbicacion;
@@ -74,13 +74,14 @@ public class Heladera {
         this.idHeladera = idHeladera;
     }
 
-    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador ) {
+    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador, int maxViandas ) {
         this.idHeladera = idHeladera;
         this.puntoUbicacion = puntoUbicacion;
         this.FechaFuncionamiento = fechaFuncionamiento;
         this.temperaturaMaxima = tempMax;
         this.temperaturaMinima = temMin;
         this.colaboradores = colaborador;
+        this.unidadesMaximoViandas = maxViandas;
     }
 
 
@@ -99,6 +100,7 @@ public class Heladera {
 
     }
 
+    public long getId(){return id;}
 
     public boolean tieneViandas(){
         return !viandas.isEmpty();

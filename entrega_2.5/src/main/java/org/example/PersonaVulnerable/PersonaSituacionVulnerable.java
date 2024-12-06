@@ -20,7 +20,8 @@ public class PersonaSituacionVulnerable extends Rol {
     Boolean enSituacionCalle;
     Boolean poseeMenoresACargo;
     Integer cantidadMenoresACargo;
-    //TarjetaSv tarjetaSv;
+    @Transient
+    TarjetaSv tarjetaSv;
 
     //Domicilio domicilio;
 
@@ -70,5 +71,5 @@ public class PersonaSituacionVulnerable extends Rol {
     public void setCantidadMenoresACargo(Integer cantidadMenoresACargo) {
         this.cantidadMenoresACargo = cantidadMenoresACargo;
     }
-   // public void setTarjetaSv(TarjetaSv tarjetaSv) {this.tarjetaSv = tarjetaSv;}
+    public void setTarjetaSv(TarjetaSv tarjetaSv) {this.tarjetaSv = tarjetaSv;}
 }

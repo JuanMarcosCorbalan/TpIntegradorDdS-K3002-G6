@@ -40,4 +40,23 @@ public class Vianda {
     public Vianda() {
 
     }
+
+    public void setFechaCaducidad(LocalDate fechaCaducidad) {
+            this.fechaCaducidad = fechaCaducidad;
+    }
+    public void setNombreComida(final String nombreComida) {
+        this.nombreComida = nombreComida;
+    }
+    public void setKiloCalorias(final String kiloCalorias) {
+        this.kiloCalorias = kiloCalorias;
+    }
+    public void setPeso(final String peso) {
+        this.peso = peso;
+    }
+    public void setRegistro(final Distribucion_viandas registro) {
+        this.registro = registro;
+    }
+    public void setHeladera(final Heladera heladera) {
+        this.heladera = heladera;
+    }
 }

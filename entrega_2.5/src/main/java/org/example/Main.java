@@ -8,6 +8,7 @@ import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO;
+import org.example.Heladeras.HeladeraDTO2;
 import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
 import org.example.Persona.*;
@@ -143,6 +144,7 @@ public class Main {
                         // Guardar al colaborador en la sesión
                         ctx.sessionAttribute("colaborador", colaborador);
                         if(colaborador.persona instanceof Persona_fisica personaFisica) {
+
                             ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
                             break;
                         } else {
@@ -175,16 +177,22 @@ public class Main {
         app.post("/solicitarDonacionVianda", ctx -> {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            TarjetaDAO tarjetaDAO = new TarjetaDAO(em);
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
             if (colaborador != null) {
                 // Recibir los datos del formulario
                 String nombre = ctx.formParam("inputComida");
                 LocalDate fechaVencimiento = LocalDate.parse(ctx.formParam("inputFechaVencimiento"));
-                Heladera heladera = new Heladera("heladera0Prueba", 10);
+                String idHeladera = ctx.formParam("selectedHeladeraId");
+                Heladera heladera = heladeraDAO.findHeladeraString(idHeladera);
+                //Heladera heladera = new Heladera("heladera0Prueba", 10);
                 String calorias = ctx.formParam("inputCalorias");
                 String pesoGramos = ctx.formParam("inputPeso");
                 // Llamar a la lógica de backend
                 SolicitarDonacionViandaHandler.realizarDonacion(colaborador, nombre, fechaVencimiento, heladera, calorias, pesoGramos);
-
+                colaboradorDAO.update(colaborador);
+                tarjetaDAO.update(colaborador.getTarjetaColaborador());
                 // Enviar una respuesta de confirmación
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
@@ -196,12 +204,13 @@ public class Main {
         app.post("/solicitarTarjetas", ctx -> {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
                 // Recibir los datos del formulario
                 Integer cantidadDeTarjetas = Integer.valueOf(ctx.formParam("inputCantidadTarjetas"));
                 // Llamar a la lógica de backend
                 SolicitarTarjetasParaRepartirHandler.realizarDonacion(colaborador, cantidadDeTarjetas);
-
+                colaboradorDAO.update(colaborador);
                 // Enviar una respuesta de confirmación
                 ctx.result("Solicitud de tarjetas realizada con éxito.");
             } else {
@@ -514,6 +523,7 @@ public class Main {
         });
         app.post("/canjearOferta", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
                 // Obtener el ID de la oferta a canjear (por ejemplo, a través de un formulario)
                 String nombreOferta = ctx.formParam("nombreOferta");
@@ -533,7 +543,7 @@ public class Main {
                         // Restar los puntos del colaborador
                         colaborador.canjearOferta(ofertaSeleccionada);
                         ctx.sessionAttribute("colaborador", colaborador);
-
+                        colaboradorDAO.update(colaborador);
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
                         ofertaDAO.update(ofertaSeleccionada);
@@ -641,10 +651,19 @@ public class Main {
         });
 
 
+        app.get("/api/heladerasDTO", ctx -> {
+            // Obtener las heladeras desde el DAO
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            List<HeladeraDTO> heladeras = heladeraDAO.findAllHeladerasDTO();
+
+            // Devolver las heladeras en formato JSON
+            ctx.json(heladeras);
+        });
+
         app.get("/api/heladeras", ctx -> {
             // Obtener las heladeras desde el DAO
             HeladeraDAO heladeraDAO = new HeladeraDAO(em);
-            List<HeladeraDTO> heladeras = heladeraDAO.findAllHeladeras();
+            List<HeladeraDTO2> heladeras = heladeraDAO.findAllHeladeras();
 
             // Devolver las heladeras en formato JSON
             ctx.json(heladeras);

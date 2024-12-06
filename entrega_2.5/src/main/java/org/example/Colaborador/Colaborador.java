@@ -33,7 +33,8 @@ public class Colaborador extends Rol {
     //List<Heladera> heladeras_a_cargo;
     Integer viandasDonadas = 0;
 
-    @Transient
+    //@Transient
+    @OneToOne(cascade = CascadeType.ALL)
     TarjetaColaborador tarjetaColaborador;
 
     @OneToMany(mappedBy = "colaborador")
@@ -149,6 +150,10 @@ public class Colaborador extends Rol {
         fallaTecnica.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
     }
 
+    public void asignarTarjeta(TarjetaColaborador tj){
+        this.tarjetaColaborador = tj;
+    }
+
     public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,File foto,Heladera heladera)
     {
         return new FallaTecnica(colaborador,descripcion,foto,heladera);
@@ -179,6 +184,7 @@ public class Colaborador extends Rol {
             // se agrega a la lista de contrib y se crea la solicitud
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
+            ViandaADonar.setHeladera(HeladeraAIngresarViandas);
             contribuciones.add(Contribucion);
             puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
@@ -229,6 +235,10 @@ public class Colaborador extends Rol {
         // enviar tarjetas qcyo algo asi
         contribuciones.add(registroPersonasSV);
         puntos+= registroPersonasSV.calcular_puntos();
+    }
+
+    public TarjetaColaborador getTarjetaColaborador(){
+        return tarjetaColaborador;
     }
 
     public void registrarPersonaSv(String nombre, String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){

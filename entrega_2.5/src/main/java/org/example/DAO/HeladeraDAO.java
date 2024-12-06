@@ -3,6 +3,7 @@ package org.example.DAO;
 import org.example.Heladeras.EstadoHeladera;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO;
+import org.example.Heladeras.HeladeraDTO2;
 import org.example.Ofertas.Oferta;
 
 import javax.persistence.EntityManager;
@@ -59,7 +60,7 @@ public class HeladeraDAO {
         return entityManager.find(Heladera.class, id);
     }
 
-    public List<HeladeraDTO> findAllHeladeras() {
+    public List<HeladeraDTO> findAllHeladerasDTO() {
         String query = "SELECT h FROM Heladera h";
         List<Heladera> heladeras = entityManager.createQuery(query, Heladera.class).getResultList();
         List<HeladeraDTO> heladeraDTOs = new ArrayList<HeladeraDTO>();
@@ -74,6 +75,31 @@ public class HeladeraDAO {
         }
 
         return heladeraDTOs;
+    }
+
+    public List<HeladeraDTO2> findAllHeladeras() {
+        String query = "SELECT h FROM Heladera h";
+        List<Heladera> heladeras = entityManager.createQuery(query, Heladera.class).getResultList();
+        List<HeladeraDTO2> heladeraDTOs = new ArrayList<HeladeraDTO2>();
+
+        for (Heladera heladera : heladeras) {
+            long id = heladera.getId();
+            String idHeladera = heladera.getIdHeladera();
+            String nombre = heladera.getPuntoUbicacion().getNombre();
+
+
+            HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre);
+            heladeraDTOs.add(heladeraDTO);
+        }
+
+        return heladeraDTOs;
+    }
+
+    public Heladera findHeladeraString(String id) {
+        String query = "SELECT h FROM Heladera h where h.idHeladera = ?1 ";
+        return entityManager.createQuery(query, Heladera.class)
+                .setParameter(1,id)
+                .getSingleResult();
     }
 
 

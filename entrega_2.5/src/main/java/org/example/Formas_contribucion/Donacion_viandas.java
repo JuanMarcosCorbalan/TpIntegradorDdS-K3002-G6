@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 public class Donacion_viandas extends Contribucion{
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     Heladera heladera;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -22,6 +22,7 @@ public class Donacion_viandas extends Contribucion{
     // ESTOS NOSE QUE ONDA
     @Transient
     List<Vianda> viandas = new ArrayList<Vianda>(); // NOSE Q ONDA
+
     boolean contribucionExitosa; // NOSE Q ONDA
     boolean contribucionFinalizada; // NOSE Q ONDA
 

@@ -201,7 +201,7 @@ async function initMap() {
     let selectedHeladera = null;
 
     // Obtener las heladeras desde la API
-    const response = await fetch('/api/heladeras');
+    const response = await fetch('/api/heladerasDTO');
     const locations = await response.json();
 
     const stateIcons = {

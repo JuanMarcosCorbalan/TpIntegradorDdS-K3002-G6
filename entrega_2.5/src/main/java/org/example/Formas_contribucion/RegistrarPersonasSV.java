@@ -7,9 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.example.Colaborador.Colaborador;
+import org.example.DAO.PersonaSituacionVulnerableDAO;
 import org.example.Persona.Domicilio;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Tarjetas.TarjetaSv;
+import org.example.Utils.BDutils;
 
 import javax.persistence.*;
 
@@ -54,7 +56,7 @@ public class RegistrarPersonasSV extends Contribucion{
             PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.remove(0);
             //TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
             TarjetaSv nueva_tarjetaSv = new TarjetaSv(colaborador, personaSituacion);
-            //personaSituacion.setTarjetaSv(nueva_tarjetaSv);
+            personaSituacion.setTarjetaSv(nueva_tarjetaSv);
             registrosPendientes--;
         }else {
             throw new IllegalArgumentException("NO QUEDAN REGISTROS PENDIENTES");
@@ -91,6 +93,10 @@ public class RegistrarPersonasSV extends Contribucion{
     }
 
     public void cargarDatosPersonaSv(String nombre,String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
+        EntityManager em = BDutils.getEntityManager();
+        BDutils.comenzarTransaccion(em);
+       // PersonaSituacionVulnerableDAO psvDAO = new PersonaSituacionVulnerableDAO(em);
+
         if (registrosPendientes > 0) {
             Domicilio domicilio = new Domicilio();
             domicilio.setDireccion(domicilioString);
@@ -103,6 +109,7 @@ public class RegistrarPersonasSV extends Contribucion{
                     domicilio,
                     menoresACargo);
 
+            em.persist(personaSituacionVulnerableNueva);
             // Añadimos la persona a la lista
             personasSituacionVulnerable.add(personaSituacionVulnerableNueva);
         } else {

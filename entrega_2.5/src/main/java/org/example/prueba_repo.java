@@ -13,6 +13,7 @@ import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
 import org.example.Personal.Visita;
 import org.example.Sistema.Usuario;
+import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.Alerta;
 import org.example.Validadores_Sensores.FallaTecnica;
@@ -91,8 +92,10 @@ public class prueba_repo {
         List<Forma_colaborar> forma = List.of(DONACION_DINERO,DONACION_VIANDAS,DISTRIBUCION_VIANDAS);
         Colaborador colab = new Colaborador(perColab,forma);
         Usuario user = new Usuario(perColab,"usuario1","pass123");
+        TarjetaColaborador tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
+        em.persist(tarj);
 
         localidad = new Localidad("Parque Patricios",ciudad);
         domicilio = new Domicilio("-34,639604","-58,401318","Zavaleta 200",localidad);
@@ -105,8 +108,10 @@ public class prueba_repo {
         forma = List.of(DONACION_VIANDAS);
         colab = new Colaborador(perColab,forma);
         user = new Usuario(perColab,"usuario2","123456");
+        tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
+        em.persist(tarj);
 
         localidad = ldao.findOrCreate("Balvanera","Buenos Aires","Argentina");
         domicilio = new Domicilio("-34,583280","-58,429110","Azcuenaga 67",localidad);
@@ -119,8 +124,10 @@ public class prueba_repo {
         forma = List.of(DISTRIBUCION_VIANDAS);
         colab = new Colaborador(perColab,forma);
         user = new Usuario(perColab,"usuario3","abc123");
+        tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
+        em.persist(tarj);
         //Domicilio domicilio, List<Medio_contacto> mediosContacto, String razon_social, Tipo_juridico tipo, String rubro
 
 
@@ -138,13 +145,15 @@ public class prueba_repo {
         em.persist(emp);
 
         // 3 heladeras
-        //1er heladera
+        //1er heladera chequear maximo cantidades
 
         localidad = ldao.findOrCreate("Almagro","Buenos Aires","Argentina");
         PuntoUbicacion ubi1 = new PuntoUbicacion("-34,59949215153663","-58,420667586506816","Av Medrano 900","UTN Medrano",localidad) ;
         LocalDate fechaEspecifica = LocalDate.of(2024,10,2);
         String codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
+        Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, colab,150);
+        heladera.activar();
+
 
         Alerta alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
         heladera.getIncidentes().add(alerta);
@@ -158,7 +167,8 @@ public class prueba_repo {
         ubi1 = new PuntoUbicacion("-34,61931090520509","-58,37143721859889","Defensa 1000","Plaza Dorrego",localidad) ;
         fechaEspecifica = LocalDate.of(2024,7,15);
         codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 8, 3, null);
+        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 8, 3, emp,150);
+        heladera.activar();
         em.persist(heladera);
 
 
@@ -171,10 +181,10 @@ public class prueba_repo {
         ubi1 = new PuntoUbicacion("-34,62681084639811","-58,38598781674918","Av Juan de Garay 1500","Estación Constitución",localidad) ;
         fechaEspecifica = LocalDate.of(2024,4,9);
         codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
+        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 7, 2, null,150);
         alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
         heladera.getIncidentes().add(alerta);
-
+        heladera.activar();
         em.persist(heladera);
 
         // faltan contibuciones,visitas(hay una creada)),tarjetas,solicitudes,mensajes,retirovianda
@@ -209,6 +219,11 @@ public class prueba_repo {
         em.persist(oferta);
         oferta = new Oferta("Descuento 15% easy", 8000, 140);
         em.persist(oferta);
+
+        // Tarjetas
+        
+
+
 
         BDutils.commit(em);
     }
