@@ -29,7 +29,7 @@ public class RegistroUsuariosController {
     public ResponseEntity<String> procesarRegistro(@RequestBody RegistroDTO registroDTO, Model model) throws IOException {
         // Aquí procesas el registro (por ejemplo, guardar en base de datos)
         // creo el usuario
-        UsuarioService us = new UsuarioService();
+        UsuarioService us = new UsuarioService(entityManager);
         Usuario user = null;
         try{
             user = us.registrarUsuario(registroDTO.getUsuario(), registroDTO.getContrasenia());

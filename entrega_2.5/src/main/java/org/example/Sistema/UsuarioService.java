@@ -1,16 +1,25 @@
 package org.example.Sistema;
 
+import org.example.Colaborador.Colaborador;
+import org.example.DAO.CiudadDAO;
+import org.example.Persona.Ciudad;
+import org.example.Persona.Localidad;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.io.IOException;
+import java.util.Objects;
 
 public class UsuarioService {
 
     private EntityManager entityManager;
-    private RegistrarUsuario servicioValidacion = new RegistrarUsuario(entityManager);
+    private RegistrarUsuario servicioValidacion;
 
-    public UsuarioService() {}
+    public UsuarioService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        this.servicioValidacion = new RegistrarUsuario(entityManager);
+    }
 
     public Usuario registrarUsuario(String nombreUsuario, String contrasenia) throws IOException {
         // Verificar si el nombre de usuario ya existe
@@ -37,13 +46,46 @@ public class UsuarioService {
 
 
     // Método para verificar la contraseña, para inicio de sesion
-    public boolean verificarContrasenia(String nombreUsuario, String contrasenia) {
+    public Usuario verificarInicioSesion(String nombreUsuario, String contrasenia) {
         Usuario usuario = servicioValidacion.validar_nombre_usuario(nombreUsuario);
         if (usuario == null) {
             throw new RuntimeException("Usuario no encontrado");
         }
         // Comparar la contraseña proporcionada con la almacenada
-        return BCrypt.checkpw(contrasenia,usuario.getContraseniaHash());
+        if(!servicioValidacion.validar_contrasenia_usuario(usuario, contrasenia)){
+            throw new RuntimeException("Contraseña Incorrecta");
+        }
+        return usuario;
+    }
+
+    public Colaborador obtenerColaborador(Usuario usuario){
+
+        Colaborador colaborador = null;
+        try {
+            colaborador = entityManager
+                    .createQuery("select c from Usuario u join u.persona p " +
+                            "join Colaborador c on " +
+                            "  c.id = p.id where u.nombre = ?1", Colaborador.class)
+                    .setParameter(1, usuario.getNombre())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            // quizas habria que verificar que no exista el colaborador pero no tendria que pasar
+        }
+
+        return colaborador;
+
+
+    }
+
+    public void esFisico(Colaborador colaborador){
+        /*
+        Bool fisico = null;
+        fisico = entityManager
+                .createQuery("select c from Colaborador c join c.persona p " +
+                        "where c.id = ?1", Colaborador.class)
+                .setParameter(1, colaborador.getId())
+                .getSingleResult();
+    */
     }
 
 }

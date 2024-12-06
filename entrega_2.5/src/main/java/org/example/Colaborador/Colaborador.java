@@ -21,7 +21,7 @@ import java.util.List;
 @Entity
 public class Colaborador extends Rol {
 
-    @OneToMany(mappedBy = "colaborador")
+    @OneToMany(mappedBy = "colaborador",cascade = CascadeType.ALL)
     List<Contribucion> contribuciones = new ArrayList<Contribucion>();
 
     @ElementCollection
@@ -30,7 +30,7 @@ public class Colaborador extends Rol {
     //List<Heladera> heladeras_a_cargo;
 
     double  puntos;
-    List<Heladera> heladeras_a_cargo;
+    //List<Heladera> heladeras_a_cargo;
     Integer viandasDonadas = 0;
 
     @Transient
@@ -251,9 +251,13 @@ public class Colaborador extends Rol {
     }
 
     public void donarMonto(Integer monto) {
-        Donacion_dinero donacionDinero = new Donacion_dinero(monto, Tipos_frecuencia.DONACION_UNICA);
+        Donacion_dinero donacionDinero = new Donacion_dinero(monto, Tipos_frecuencia.DONACION_UNICA,this);
         contribuciones.add(donacionDinero);
         puntos+= donacionDinero.calcular_puntos();
+    }
+
+    public long getId() {
+        return id;
     }
 }
 

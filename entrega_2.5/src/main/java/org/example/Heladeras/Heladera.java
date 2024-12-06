@@ -266,4 +266,25 @@ public class Heladera {
     public List<Incidente> getIncidentes() {
         return incidentes;
     }
+
+
+
+    // Getter para unidadesMaximoViandas
+    public int getUnidadesMaximoViandas() {
+        return unidadesMaximoViandas;
+    }
+
+    // Getter para FechaFuncionamiento
+    public LocalDate getFechaFuncionamiento() {
+        return FechaFuncionamiento;
+    }
+
+
+
+    // Getter para admin_suscr
+    public AdministradorSuscripciones getAdminSuscr() {
+        return admin_suscr;
+    }
+
+
 }

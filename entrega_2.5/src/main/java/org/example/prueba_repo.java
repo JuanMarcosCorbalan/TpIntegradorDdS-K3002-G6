@@ -6,6 +6,7 @@ import org.example.Colaborador.Forma_colaborar;
 import org.example.DAO.LocalidadDAO;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
+import org.example.Ofertas.Oferta;
 import org.example.Persona.*;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
@@ -140,7 +141,7 @@ public class prueba_repo {
         //1er heladera
 
         localidad = ldao.findOrCreate("Almagro","Buenos Aires","Argentina");
-        PuntoUbicacion ubi1 = new PuntoUbicacion("-34,583280","-58,429110","Av Medrano 900","UTN Medrano",localidad) ;
+        PuntoUbicacion ubi1 = new PuntoUbicacion("-34,59949215153663","-58,420667586506816","Av Medrano 900","UTN Medrano",localidad) ;
         LocalDate fechaEspecifica = LocalDate.of(2024,10,2);
         String codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
@@ -154,7 +155,7 @@ public class prueba_repo {
 
         //2da Heladera
         localidad = ldao.findOrCreate("San Telmo","Buenos Aires","Argentina");
-        ubi1 = new PuntoUbicacion("-34,614900","-58,373800","Defensa 1000","Plaza Dorrego",localidad) ;
+        ubi1 = new PuntoUbicacion("-34,61931090520509","-58,37143721859889","Defensa 1000","Plaza Dorrego",localidad) ;
         fechaEspecifica = LocalDate.of(2024,7,15);
         codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 8, 3, null);
@@ -167,7 +168,7 @@ public class prueba_repo {
 
         //3era heladera
         localidad = ldao.findOrCreate("Constitucion","Buenos Aires","Argentina");
-        ubi1 = new PuntoUbicacion("-34,627700","-58,381400","Av Juan de Garay 1500","Estación Constitución",localidad) ;
+        ubi1 = new PuntoUbicacion("-34,62681084639811","-58,38598781674918","Av Juan de Garay 1500","Estación Constitución",localidad) ;
         fechaEspecifica = LocalDate.of(2024,4,9);
         codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 7, 2, null);
@@ -176,7 +177,7 @@ public class prueba_repo {
 
         em.persist(heladera);
 
-        // faltan contibuciones,visitas(hay una creada)),incidentes,tarjetas,solicitudes,mensajes,retirovianda
+        // faltan contibuciones,visitas(hay una creada)),tarjetas,solicitudes,mensajes,retirovianda
 //
 
 
@@ -201,8 +202,13 @@ public class prueba_repo {
 //Visita
         Visita visita = new Visita(falla, heladera, "problema led rojo", false, null);
         em.persist(visita);
-
-
+//oferta public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias)
+        Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80);
+        em.persist(oferta);
+        oferta = new Oferta("Descuento 5% YPF", 25000, 45);
+        em.persist(oferta);
+        oferta = new Oferta("Descuento 15% easy", 8000, 140);
+        em.persist(oferta);
 
         BDutils.commit(em);
     }

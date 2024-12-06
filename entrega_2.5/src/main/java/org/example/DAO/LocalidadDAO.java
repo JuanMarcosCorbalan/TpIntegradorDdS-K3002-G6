@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import org.example.Persona.Ciudad;
+import org.example.Persona.Domicilio;
 import org.example.Persona.Localidad;
 import org.example.Persona.Pais;
 import org.example.Utils.BDutils;
@@ -41,5 +42,44 @@ public class LocalidadDAO {
         return localidad;
     }
 
-//*/
+    public void save(Localidad localidad) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(localidad);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void update(Localidad localidad) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(localidad);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Localidad localidad= entityManager.find(Localidad.class, id);
+            if (localidad!= null) {
+                entityManager.remove(localidad);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+
 }

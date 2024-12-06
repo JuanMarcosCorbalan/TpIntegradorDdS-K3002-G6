@@ -56,6 +56,8 @@ public class PuntoUbicacion {
 
     public String getLatitud() {return latitud;}
     public String getLongitud() {return longitud;}
+    public String getDireccion() {return direccion;}
+    public String getNombre(){return nombre;}
 
 
 }

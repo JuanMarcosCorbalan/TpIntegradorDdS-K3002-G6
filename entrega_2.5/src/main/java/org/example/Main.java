@@ -3,10 +3,11 @@ package org.example;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
-import org.example.DAO.LocalidadDAO;
+import org.example.DAO.*;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
+import org.example.Heladeras.HeladeraDTO;
 import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
 import org.example.Persona.*;
@@ -22,16 +23,19 @@ import java.util.*;
 
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
+import org.example.Sistema.Usuario;
+import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Utils.BDutils;
+import org.example.ValidarContrasenia.ValidarContrasenia;
 
 import javax.persistence.EntityManager;
 
 public class Main {
 
     static List<Colaborador> colaboradores = new ArrayList<Colaborador>();
-    static List<Oferta> ofertasDisponibles = new ArrayList<>();
+    //static List<Oferta> ofertasDisponibles = new ArrayList<>();
     static RepositorioColaboradores colaboradoresExistentes;
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
@@ -43,8 +47,6 @@ public class Main {
         System.out.println("Hello world!");
 
         EntityManager em = BDutils.getEntityManager();
-        BDutils.comenzarTransaccion(em);
-
 
         Javalin app = Javalin.create(javalinConfig -> {
                             javalinConfig.plugins.enableCors(cors -> {
@@ -112,22 +114,45 @@ public class Main {
         // login para guardar al colaborador
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
+            UsuarioService us = new UsuarioService(em);
 
+            /*
             Persona_fisica juan = new Persona_fisica("juan", "corbalan");
             Colaborador colaborador = new Colaborador(juan);
             colaborador.setTarjetaColaborador(new TarjetaColaborador("t1", colaborador));
+            */
+
             //ColaboradorController.login(ctx.formParam("email"), ctx.formParam("password"));
 
             String buttonType = ctx.formParam("buttonType");
             String username = ctx.formParam("nombreUsuario");
             String password = ctx.formParam("contraseniaUsuario");
 
-            if (colaborador != null) {
-                // Guardar al colaborador en la sesión
-                ctx.sessionAttribute("colaborador", colaborador);
                 switch (buttonType) {
                     case "principal":
+                        Usuario usuario;
                         // Lógica para iniciar sesión normal
+                        try{
+                            usuario = us.verificarInicioSesion(username, password);
+                        } catch (RuntimeException e) {
+                            ctx.status(400).result(e.getMessage());
+                            break;
+                        }
+
+                        Colaborador colaborador = us.obtenerColaborador(usuario);
+                        // Guardar al colaborador en la sesión
+                        ctx.sessionAttribute("colaborador", colaborador);
+                        if(colaborador.persona instanceof Persona_fisica personaFisica) {
+                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                            break;
+                        } else {
+                            if(colaborador.persona instanceof Persona_juridica personaJuridica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                                break;
+                            }
+                        }
+
+
                         ctx.result("Inicio de sesión principal, RECONOCERIA EL TIPO DE CUENTA Y LLEVA A SU INICIO, POR AHORA INGRESAR DE FORMA MANUAL CON EL BOTON DE CADA TIPO DE CUENTA");
                         break;
                     case "fisica":
@@ -145,10 +170,6 @@ public class Main {
                         ctx.status(400).result("Acción no reconocida");
                         break;
                 }
-
-            } else {
-                ctx.result("Credenciales incorrectas");
-            }
         });
         // Ruta para manejar la solicitud POST de realizar donación
         app.post("/solicitarDonacionVianda", ctx -> {
@@ -157,12 +178,12 @@ public class Main {
             if (colaborador != null) {
                 // Recibir los datos del formulario
                 String nombre = ctx.formParam("inputComida");
-                LocalDate cantidad = LocalDate.parse(ctx.formParam("inputFechaVencimiento"));
+                LocalDate fechaVencimiento = LocalDate.parse(ctx.formParam("inputFechaVencimiento"));
                 Heladera heladera = new Heladera("heladera0Prueba", 10);
                 String calorias = ctx.formParam("inputCalorias");
                 String pesoGramos = ctx.formParam("inputPeso");
                 // Llamar a la lógica de backend
-                SolicitarDonacionViandaHandler.realizarDonacion(colaborador, nombre, cantidad, heladera, calorias, pesoGramos);
+                SolicitarDonacionViandaHandler.realizarDonacion(colaborador, nombre, fechaVencimiento, heladera, calorias, pesoGramos);
 
                 // Enviar una respuesta de confirmación
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
@@ -318,8 +339,20 @@ public class Main {
         //instanciacion.migrarColaboradores(colaboradores);
 
         app.post("/registarPersonaFisica", ctx -> {
+            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
+
+            String usuarioNombre = ctx.formParam("usuario");
+            String contrasenia = ctx.formParam("contraseña");
+            ValidarContrasenia validadorContra = new ValidarContrasenia();
+            if(!validadorContra.validar(contrasenia)){
+                ctx.status(400).result("Contraseña poco segura");
+            }
+
             Tipo_documento tipoDocumento = null;
             List<Medio_contacto> mediosContacto = new ArrayList<>();
+
             String nombres = ctx.formParam("inputNombre");
             String apellidos = ctx.formParam("inputApellidos");
             String fechaNacimiento = ctx.formParam("inputFechaNacimiento");
@@ -339,15 +372,18 @@ public class Main {
                     ctx.status(400).result("por favor ingrese un tipo de documento");
             }
             Documento_identidad documento = new Documento_identidad(numeroDocumento, tipoDocumento);
-            String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
+            String domicilio = ctx.formParam("inputCalle") + " " + ctx.formParam("inputAltura");
             String ciudadString = ctx.formParam("ciudad");
             String paisString = ctx.formParam("pais");
             String localidadString = ctx.formParam("inputLocalidad");
-            LocalidadDAO localidadDAO = new LocalidadDAO(em);
             Localidad localidad = localidadDAO.findOrCreate(localidadString, ciudadString, paisString);
+
+
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             Persona_fisica persona = new Persona_fisica(nombres, apellidos, fechaNacimiento, documento, mediosContacto,
                     domicilioNuevo);
+
+            Usuario usuario = new Usuario(persona, usuarioNombre, contrasenia);
 
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
@@ -367,14 +403,29 @@ public class Main {
                 Medio_contacto nuevoWhatsapp = new Whatsapp(persona, numeroWhatsapp);
                 persona.agregarMedioContacto(nuevoWhatsapp);
             }
+
             Colaborador colaborador = new Colaborador(persona);
+            colaboradorDAO.save(colaborador);
+            usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
             ctx.result("colaborador creado con exito");
         });
 
         app.post("/registarPersonaJuridica", ctx -> {
+            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
+
+            String usuarioNombre = ctx.formParam("usuario");
+            String contrasenia = ctx.formParam("contraseña");
+            ValidarContrasenia validadorContra = new ValidarContrasenia();
+            if(!validadorContra.validar(contrasenia)){
+                ctx.status(400).result("Contraseña poco segura");
+            }
+
             Tipo_juridico tipoJuridico = null;
             List<Medio_contacto> mediosContacto = new ArrayList<>();
+
             String razonSocial = ctx.formParam("inputRazonSocial");
             String tipoOrganizacionString = ctx.formParam("inputTipoOrganizacion");
             switch (tipoOrganizacionString) {
@@ -397,7 +448,7 @@ public class Main {
             String ciudadString = ctx.formParam("ciudad");
             String paisString = ctx.formParam("pais");
             String localidadString = ctx.formParam("inputLocalidad");
-            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+
             Localidad localidad = localidadDAO.findOrCreate(localidadString, ciudadString, paisString);
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             String localALaCalle = ctx.formParam("LocalCalle");
@@ -411,6 +462,7 @@ public class Main {
             }
 
             Persona_juridica persona = new Persona_juridica(domicilioNuevo, mediosContacto, razonSocial, tipoJuridico);
+            Usuario usuario = new Usuario(persona, usuarioNombre, contrasenia);
 
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
@@ -431,6 +483,8 @@ public class Main {
                 persona.agregarMedioContacto(nuevoWhatsapp);
             }
             Colaborador colaborador = new Colaborador(persona);
+            colaboradorDAO.save(colaborador);
+            usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
             ctx.result("colaborador creado con exito");
         });
@@ -439,7 +493,11 @@ public class Main {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 // Obtener las ofertas desde tu dominio o base de datos
-                List<Oferta> ofertas = ofertasDisponibles; // Aquí iría la lógica para obtener las ofertas
+
+                //List<Oferta> ofertas = ofertasDisponibles; // Aquí iría la lógica para obtener las ofertas
+
+                OfertaDAO ofertaDAO = new OfertaDAO(em);
+                List<Oferta> ofertas = ofertaDAO.findAll();
 
                 double puntosColaborador = colaborador.obtenerPuntos(); // Obtener los puntos del colaborador
 
@@ -460,8 +518,11 @@ public class Main {
                 // Obtener el ID de la oferta a canjear (por ejemplo, a través de un formulario)
                 String nombreOferta = ctx.formParam("nombreOferta");
 
+                OfertaDAO ofertaDAO = new OfertaDAO(em);
+                List<Oferta> ofertas = ofertaDAO.findAll();
+
                 // Buscar la oferta seleccionada en la lista de ofertas disponibles
-                Oferta ofertaSeleccionada = ofertasDisponibles.stream()
+                Oferta ofertaSeleccionada = ofertas.stream()
                         .filter(oferta -> Objects.equals(oferta.getNombre(), nombreOferta))
                         .findFirst()
                         .orElse(null);
@@ -475,7 +536,7 @@ public class Main {
 
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
-
+                        ofertaDAO.update(ofertaSeleccionada);
                         ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
                     } else {
                         ctx.status(400).result("No tienes suficientes puntos para canjear esta oferta.");
@@ -503,9 +564,11 @@ public class Main {
 
         app.post("/donarDineroFisica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
+                colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
@@ -513,9 +576,11 @@ public class Main {
         });
         app.post("/donarDineroJuridica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
+                colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
@@ -563,12 +628,26 @@ public class Main {
                 Integer cantidadInstancias = Integer.parseInt(ctx.formParam("inputInstancias"));
 
                 Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias);
-                ofertasDisponibles.add(nuevaOferta);
+                //SE PERSISTE LA OFERTA
+                OfertaDAO ofertaDAO = new OfertaDAO (em);
+                ofertaDAO.save(nuevaOferta);
+                //NO HARIA FALTA ESTO:
+                //ofertasDisponibles.add(nuevaOferta);
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionOfertaCargada.mustache");
             } else {
                 ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }
+        });
+
+
+        app.get("/api/heladeras", ctx -> {
+            // Obtener las heladeras desde el DAO
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            List<HeladeraDTO> heladeras = heladeraDAO.findAllHeladeras();
+
+            // Devolver las heladeras en formato JSON
+            ctx.json(heladeras);
         });
 
 

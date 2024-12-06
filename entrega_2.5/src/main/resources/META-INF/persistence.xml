@@ -14,7 +14,7 @@
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="Juancho123"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
             <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
             <property name="hibernate.show_sql" value="true"/>

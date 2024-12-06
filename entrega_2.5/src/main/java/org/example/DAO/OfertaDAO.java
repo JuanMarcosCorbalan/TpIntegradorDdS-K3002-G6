@@ -1,23 +1,24 @@
 package org.example.DAO;
-
-import org.example.Persona.Ciudad;
+import java.util.List;
 import org.example.Persona.Pais;
-import javax.persistence.*;
+import org.example.Ofertas.Oferta;
 
-public class PaisDAO {
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+public class OfertaDAO {
 
     private EntityManager entityManager;
 
-    public PaisDAO(EntityManager entityManager) {
+    public OfertaDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-
-    public void save(Pais pais) {
+    public void save(Oferta oferta) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(pais);
+            entityManager.persist(oferta);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
@@ -26,11 +27,11 @@ public class PaisDAO {
     }
 
 
-    public void update(Pais pais) {
+    public void update(Oferta oferta) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(pais);
+            entityManager.merge(oferta);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
@@ -43,9 +44,9 @@ public class PaisDAO {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            Pais usuario = entityManager.find(Pais.class, id);
-            if (usuario != null) {
-                entityManager.remove(usuario);
+            Oferta oferta = entityManager.find(Oferta.class, id);
+            if (oferta != null) {
+                entityManager.remove(oferta);
             }
             transaction.commit();
         } catch (Exception e) {
@@ -54,24 +55,15 @@ public class PaisDAO {
         }
     }
 
+    public List<Oferta> findAll() {
 
-    public Pais findById(long id) {
-        return entityManager.find(Pais.class, id);
-    }
 
-    public Pais findOrCreate(String nombre_pais) {
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        Pais pais = null;
         try {
-            pais = entityManager
-                    .createQuery("select p from Pais p where p.nombre = ?1", Pais.class)
-                    .setParameter(1, nombre_pais)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            pais = new Pais(nombre_pais);
-            //entityManager.persist(pais);
+            return entityManager.createQuery("SELECT o FROM Oferta o", Oferta.class).getResultList();
+        } catch (Exception e) {
+            System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-        return pais;
     }
 }

@@ -27,8 +27,6 @@ public class Domicilio {
     public List<PuntoUbicacion> puntoUbicaciones;
 
     /*******************************/
-
-
     String direccion;
     Boolean daALaCalle;
 

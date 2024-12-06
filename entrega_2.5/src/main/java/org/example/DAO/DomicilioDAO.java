@@ -16,6 +16,46 @@ public class DomicilioDAO {
         this.entityManager = entityManager;
     }
 
+    public void save(Domicilio domicilio) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(domicilio);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void update(Domicilio domicilio) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(domicilio);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            Domicilio domicilio= entityManager.find(Domicilio.class, id);
+            if (domicilio!= null) {
+                entityManager.remove(domicilio);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+
     public Domicilio findOrCreate(String nombre_domicilio,String nombre_localidad ,String nombre_ciudad, String nombre_pais) {
 
         Domicilio domicilio = null;

@@ -22,6 +22,10 @@ public class Oferta extends Contribucion {
     //CAMBIO RESPECTO A LA ENTREGA 2
     Integer cant_instancias;
 
+    public Oferta() {
+
+    }
+
     // tendria que eliminarse de algun lado o son reutilizables las ofertas?
     public void canjear(){
         if(cant_instancias >= 1)
@@ -46,6 +50,10 @@ public class Oferta extends Contribucion {
     public Integer getPuntosNecesarios() {
         return puntosNecesarios;
     }
+
+    public Integer getCant_instancias(){return cant_instancias;}
+
+    public File getImagenIlustrativa(){return imagenIlustrativa;}
 
     public void setPuntosNecesarios(Integer puntosNecesarios) {
         this.puntosNecesarios = puntosNecesarios;

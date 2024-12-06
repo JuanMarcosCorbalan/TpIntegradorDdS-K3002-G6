@@ -18,7 +18,7 @@ public class Usuario {
 
     String nombre;
 
-    String contraseniaHash;
+    String contrasenia;
 
 
 
@@ -27,23 +27,27 @@ public class Usuario {
     public Usuario(Persona persona, String nombre, String contrasenia) {
         this.persona = persona;
         this.nombre = nombre;
-        this.contraseniaHash = contrasenia;
+        this.contrasenia = contrasenia;
     }
 
     private void setNombre(String nombreUsuario) {
         this.nombre = nombreUsuario;
     }
 
-    private void setContrasenaHash(String contrasenaHash) {
-        this.contraseniaHash = contrasenaHash;
+    private void setContrasenia(String contrasena) {
+        this.contrasenia = contrasena;
     }
 
 
-    public String getContraseniaHash() {
-        return contraseniaHash;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }

@@ -85,4 +85,9 @@ public class RegistrarUsuario {
         }
         return usuario;
     }
+
+    public boolean validar_contrasenia_usuario(Usuario usuario,String contrasenia){
+        return Objects.equals(usuario.getContrasenia(), contrasenia);
+    }
+
 }
