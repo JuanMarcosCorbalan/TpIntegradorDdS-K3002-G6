@@ -40,6 +40,6 @@ public class Mail extends Medio_contacto {
     }
 
     public Mail(String mail) {
-        this.mail = mail;
+        this.email = mail;
     }
 }

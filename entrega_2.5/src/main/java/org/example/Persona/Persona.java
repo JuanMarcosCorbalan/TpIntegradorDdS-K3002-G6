@@ -15,8 +15,6 @@ import javax.swing.text.Document;
 @Table (name = "Persona")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract public class Persona {
-    Domicilio domicilio;
-    List<Medio_contacto> medios_de_contacto = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,19 +28,15 @@ abstract public class Persona {
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Medio_contacto> mediosContacto;
 
-
-    public Persona(Domicilio domicilio , List<Medio_contacto> mediosDeContacto)
     public Persona(Domicilio domicilio , List<Medio_contacto> mediosContacto)
     {
             this.domicilio = domicilio;
-            this.mediosContacto = mediosDeContacto;
+            this.mediosContacto = mediosContacto;
     }
 
     public Persona() {
     }
 
-    public void setMediosDeContacto(List<Medio_contacto> mediosContacto) {
-        this.medios_de_contacto = mediosContacto;
     public void setMediosDeContacto(List<Medio_contacto> mediosContacto) {
         this.mediosContacto = mediosContacto;
     }
@@ -53,7 +47,7 @@ abstract public class Persona {
 
     //abstract void setNombre(String nombre);
     public void agregarMedioContacto(Medio_contacto medioContacto){
-        medios_de_contacto.add(medioContacto);
+        mediosContacto.add(medioContacto);
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.example;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
+import org.example.DAO.LocalidadDAO;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
@@ -23,6 +24,9 @@ import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Tarjetas.TarjetaColaborador;
+import org.example.Utils.BDutils;
+
+import javax.persistence.EntityManager;
 
 public class Main {
 
@@ -37,6 +41,9 @@ public class Main {
         colaboradoresExistentes = new RepositorioColaboradores(colaboradores);
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
+
+        EntityManager em = BDutils.getEntityManager();
+        BDutils.comenzarTransaccion(em);
 
 
         Javalin app = Javalin.create(javalinConfig -> {
@@ -333,7 +340,11 @@ public class Main {
             }
             Documento_identidad documento = new Documento_identidad(numeroDocumento, tipoDocumento);
             String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
-            String localidad = ctx.formParam("inputLocalidad");
+            String ciudadString = ctx.formParam("ciudad");
+            String paisString = ctx.formParam("pais");
+            String localidadString = ctx.formParam("inputLocalidad");
+            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+            Localidad localidad = localidadDAO.findOrCreate(localidadString, ciudadString, paisString);
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             Persona_fisica persona = new Persona_fisica(nombres, apellidos, fechaNacimiento, documento, mediosContacto,
                     domicilioNuevo);
@@ -343,17 +354,17 @@ public class Main {
             String numeroWhatsapp = ctx.formParam("inputWhatsapp");
 
             if (correo != null) {
-                Medio_contacto nuevoCorreo = new Mail(correo);
+                Medio_contacto nuevoCorreo = new Mail(persona, correo);
                 persona.agregarMedioContacto(nuevoCorreo);
             }
 
             if (numeroTelefono != null) {
-                Medio_contacto nuevoTelefono = new Telefono(numeroTelefono);
+                Medio_contacto nuevoTelefono = new Telefono(persona, numeroTelefono);
                 persona.agregarMedioContacto(nuevoTelefono);
             }
 
             if (numeroWhatsapp != null) {
-                Medio_contacto nuevoWhatsapp = new Whatsapp(numeroWhatsapp);
+                Medio_contacto nuevoWhatsapp = new Whatsapp(persona, numeroWhatsapp);
                 persona.agregarMedioContacto(nuevoWhatsapp);
             }
             Colaborador colaborador = new Colaborador(persona);
@@ -383,7 +394,11 @@ public class Main {
                     ctx.status(400).result("por favor ingrese un tipo de organización");
             }
             String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
-            String localidad = ctx.formParam("inputLocalidad");
+            String ciudadString = ctx.formParam("ciudad");
+            String paisString = ctx.formParam("pais");
+            String localidadString = ctx.formParam("inputLocalidad");
+            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+            Localidad localidad = localidadDAO.findOrCreate(localidadString, ciudadString, paisString);
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             String localALaCalle = ctx.formParam("LocalCalle");
             switch (localALaCalle) {
@@ -402,17 +417,17 @@ public class Main {
             String numeroWhatsapp = ctx.formParam("inputWhatsapp");
 
             if (correo != null) {
-                Medio_contacto nuevoCorreo = new Mail(correo);
+                Medio_contacto nuevoCorreo = new Mail(persona, correo);
                 persona.agregarMedioContacto(nuevoCorreo);
             }
 
             if (numeroTelefono != null) {
-                Medio_contacto nuevoTelefono = new Telefono(numeroTelefono);
+                Medio_contacto nuevoTelefono = new Telefono(persona, numeroTelefono);
                 persona.agregarMedioContacto(nuevoTelefono);
             }
 
             if (numeroWhatsapp != null) {
-                Medio_contacto nuevoWhatsapp = new Whatsapp(numeroWhatsapp);
+                Medio_contacto nuevoWhatsapp = new Whatsapp(persona, numeroWhatsapp);
                 persona.agregarMedioContacto(nuevoWhatsapp);
             }
             Colaborador colaborador = new Colaborador(persona);

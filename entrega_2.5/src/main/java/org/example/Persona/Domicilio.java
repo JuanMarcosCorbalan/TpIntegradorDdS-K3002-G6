@@ -30,8 +30,6 @@ public class Domicilio {
 
 
     String direccion;
-    Pais Pais;
-    String localidad;
     Boolean daALaCalle;
 
     public Domicilio (String latitud, String longitud, String direccion, Localidad localidad) {
@@ -43,7 +41,7 @@ public class Domicilio {
 
     public Domicilio () {}
 
-    public Domicilio(String localidad, String direccion) {
+    public Domicilio(Localidad localidad, String direccion) {
         this.localidad = localidad;
         this.direccion = direccion;
     }

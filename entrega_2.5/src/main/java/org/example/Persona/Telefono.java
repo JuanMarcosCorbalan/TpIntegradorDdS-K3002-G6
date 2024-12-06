@@ -22,6 +22,6 @@ public class Telefono extends Medio_contacto {
     public void notificar(Medio_contacto[] medios) {}
 
     public Telefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
+        this.numero = numeroTelefono;
     }
 }

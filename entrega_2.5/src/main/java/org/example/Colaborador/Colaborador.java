@@ -30,10 +30,7 @@ public class Colaborador extends Rol {
     //List<Heladera> heladeras_a_cargo;
 
     double  puntos;
-    Forma_colaborar[] formas_de_colaborar;
-    //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
-    double puntos;
     Integer viandasDonadas = 0;
 
     @Transient
