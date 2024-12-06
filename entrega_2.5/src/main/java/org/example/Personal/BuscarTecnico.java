@@ -30,8 +30,15 @@ public class BuscarTecnico {
     }
 
     public double distanciaA(PuntoUbicacion ubicacion,Tecnico tecnico) {
-        double latDiff = tecnico.getAreaCobertura().getLatitud() - ubicacion.getLatitud();
-        double longDiff = tecnico.getAreaCobertura().getLongitud()- ubicacion.getLongitud();
+
+        double latitud_tecnico = Double.parseDouble(tecnico.getAreaCobertura().getLatitud());
+        double latitud_ubicacion = Double.parseDouble(ubicacion.getLatitud());
+        double longitud_tecnico = Double.parseDouble(tecnico.getAreaCobertura().getLongitud());
+        double longitud_ubicacion = Double.parseDouble(ubicacion.getLongitud());
+
+
+        double latDiff = latitud_tecnico - latitud_ubicacion;
+        double longDiff = longitud_tecnico - longitud_ubicacion;
         return Math.sqrt(latDiff * latDiff + longDiff * longDiff);
     }
 }

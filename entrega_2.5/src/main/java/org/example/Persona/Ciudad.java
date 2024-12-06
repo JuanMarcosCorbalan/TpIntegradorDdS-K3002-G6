@@ -1,4 +1,39 @@
 package org.example.Persona;
 
-public enum Ciudad {
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+public class Ciudad {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne (cascade = CascadeType.PERSIST)
+    @JoinColumn (name = "ciudad_pais")
+    public Pais pais;
+
+    public String nombre;
+
+
+    public Ciudad(String nombreCiudad,Pais pais)
+    {
+        this.pais = pais;
+        this.nombre = nombreCiudad;
+    }
+
+    public Ciudad() {}
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

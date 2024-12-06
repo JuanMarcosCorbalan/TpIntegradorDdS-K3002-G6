@@ -2,22 +2,40 @@ package org.example.Formas_contribucion;
 
 import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
+import org.example.Heladeras.Vianda;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-
+@Entity
 public class Distribucion_viandas extends Contribucion{
+
+    @OneToOne(cascade = CascadeType.ALL)
     Heladera heladeraOrigen;
+
+    @OneToOne(cascade = CascadeType.ALL)
     Heladera heladeraDestino;
+
     Integer cantidadViandasAMover;
-//    Vianda viandas[];
+
+    @Enumerated(EnumType.STRING)
     Motivo_distribucion motivo_distribucion;
+
+    @OneToMany(mappedBy = "registro",cascade = CascadeType.ALL)
+    List<Vianda> viandas = new ArrayList<Vianda>();
+
+    // preguntar juan
     Boolean ContribucionFinalizada;
     Boolean ContribucionExitosa;
     Boolean RetiroExitoso;
     Boolean IngresoExitoso;
 
+    public Distribucion_viandas() {
+
+    }
 
 
     public Integer getCantidadViandasAMover() {

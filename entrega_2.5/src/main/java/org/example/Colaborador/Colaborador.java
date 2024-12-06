@@ -12,20 +12,49 @@ import org.example.Tarjetas.SolicitudApertura;
 import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Validadores_Sensores.FallaTecnica;
 
+import javax.persistence.*;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Colaborador extends Rol {
 
+    @OneToMany(mappedBy = "colaborador")
     List<Contribucion> contribuciones = new ArrayList<Contribucion>();
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    List<Forma_colaborar> formas_de_colaborar;
+    //List<Heladera> heladeras_a_cargo;
+
+    double  puntos;
     Forma_colaborar[] formas_de_colaborar;
     //Heladera heladeras_a_cargo[];
     List<Heladera> heladeras_a_cargo;
     double puntos;
     Integer viandasDonadas = 0;
+
+    @Transient
     TarjetaColaborador tarjetaColaborador;
+
+    @OneToMany(mappedBy = "colaborador")
+    List<MensajeAviso> mensajesAvisos;
+
+    /*@ManyToMany
+    @JoinTable(
+            name = "FormasColaborarxRol",
+            joinColumns = @JoinColumn(name = "ID_Colaborador"),
+            inverseJoinColumns = @JoinColumn(name = "ID_FormasColaborar")
+    )*/
+    //@Enumerated(EnumType.STRING) // Almacenamos el enum como String en la BD.
+    @Transient
+    Forma_colaborar formasColaborar;
+
+    public Colaborador() {
+
+    }
 
 
     public void aniadirMedioContacto(){
@@ -59,17 +88,15 @@ public class Colaborador extends Rol {
         contribucion_a_realizar.realizar_contribucion();
     }*/
 
-    public Colaborador(Persona persona,Forma_colaborar formas[])
+    public Colaborador(Persona persona, List<Forma_colaborar> formas)
     {
         this.persona = persona;
         this.contribuciones = new ArrayList<Contribucion>();
         this.formas_de_colaborar = formas;
-        this.heladeras_a_cargo = new ArrayList<Heladera>();
+        //this.heladeras_a_cargo = new ArrayList<Heladera>();
     }
 
-    public Colaborador(Persona persona_colaboradora) {
-        this.persona = persona_colaboradora;
-    }
+    public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora;}
 
     public double getPuntos() {
         double puntos = 0;
@@ -124,7 +151,6 @@ public class Colaborador extends Rol {
         FallaTecnica fallaTecnica = this.reportarIncidente(this,descripcion,foto,heladera);
         fallaTecnica.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
     }
-
 
     public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,File foto,Heladera heladera)
     {

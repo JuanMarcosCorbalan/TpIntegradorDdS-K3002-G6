@@ -6,11 +6,22 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Heladeras.RepositorioHeladeras;
 
+import javax.persistence.*;
 import java.util.List;
 
+
+@Entity
 public class HacerseCargoHeladera extends Contribucion{
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Heladera heladeraElegida;
+
+    @Transient
     RepositorioHeladeras repositorioHeladeras;
-    Heladera heladeraElegida;
+
+    public HacerseCargoHeladera() {
+
+    }
 
     public void hacerseCargo() {
         BusquedaPuntosSugeridos busquedaPuntosSugeridos = new BusquedaPuntosSugeridos();
@@ -29,7 +40,7 @@ public class HacerseCargoHeladera extends Contribucion{
         System.out.println("Seleccione longitud para colocar la heladera");
         String longitudString = System.console().readLine();
 
-        return new PuntoUbicacion(Integer.getInteger(latitudString), Integer.getInteger(longitudString));
+        return new PuntoUbicacion(latitudString, longitudString);
     };
 
     public HacerseCargoHeladera(Colaborador colaborador) {

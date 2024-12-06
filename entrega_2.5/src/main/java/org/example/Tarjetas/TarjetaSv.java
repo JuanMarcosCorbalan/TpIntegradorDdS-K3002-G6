@@ -4,24 +4,34 @@ import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TarjetaSv {
-    String id_tarjeta;
+@Entity
+public class TarjetaSv extends Tarjeta {
+    //String id_tarjeta;
     Integer cantidadUsos;
-    Colaborador colaborador;
-    PersonaSituacionVulnerable personaSV;
-    ArrayList<RetiroVianda> retirosVianda;
+    //Colaborador colaborador;
 
-    public TarjetaSv(String id_tarjeta, Colaborador colaborador, PersonaSituacionVulnerable personaSV) {
-        this.id_tarjeta = id_tarjeta;
-        this.colaborador = colaborador;
+    @OneToOne
+    PersonaSituacionVulnerable personaSV;
+
+    @OneToMany (mappedBy = "tarjetasv")
+    List<RetiroVianda> retirosVianda;
+
+    public TarjetaSv(Colaborador colaborador, PersonaSituacionVulnerable personaSV) {
+        super(colaborador);
         this.personaSV = personaSV;
         this.cantidadUsos = setCantidadUsos(personaSV);
         this.retirosVianda = new ArrayList<RetiroVianda>();
     }
+
+    public TarjetaSv() {}
 
     private Integer setCantidadUsos(PersonaSituacionVulnerable personaSV) {
         int numero_base = 4; //NUMERO BASE QUE DAN EN LA CONSIGNA
@@ -39,7 +49,8 @@ public class TarjetaSv {
         {
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
-            RetiroVianda nuevo_retiro = new RetiroVianda(personaSV,fecha,hora,heladera_retiro);
+            //RetiroVianda nuevo_retiro = new RetiroVianda(personaSV,fecha,hora,heladera_retiro);
+            RetiroVianda nuevo_retiro = new RetiroVianda(fecha,hora,heladera_retiro,this);
             retirosVianda.add(nuevo_retiro);
         }
     }

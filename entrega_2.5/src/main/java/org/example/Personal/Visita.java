@@ -5,10 +5,25 @@ import java.time.LocalDate;
 import org.example.Heladeras.Heladera;
 import org.example.Validadores_Sensores.FallaTecnica;
 
+import javax.persistence.*;
+
+@Entity
 public class Visita {
-    //String idVisita;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
+    private Long id;
+
+    @ManyToOne
+    Tecnico tecnico;
+
+    @ManyToOne
     FallaTecnica fallaRevisada;
+
+    @ManyToOne
     Heladera heladera;
+
+
     LocalDate fechaVisita;
     String descripcion;
     File imagen;
@@ -24,5 +39,9 @@ public class Visita {
         if(incidenteSolucionado) {
             heladera.activar();
         }
+    }
+
+    public Visita() {
+
     }
 }

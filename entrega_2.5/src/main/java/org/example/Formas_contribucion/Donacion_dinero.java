@@ -1,12 +1,22 @@
 package org.example.Formas_contribucion;
 
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
+
+@Entity
 public class Donacion_dinero extends Contribucion{
+
     Integer monto;
-    Tipos_frecuencia frecuencia;
+
+    @Enumerated(EnumType.STRING)
+    private Tipos_frecuencia frecuencia;
+
+    public Donacion_dinero() {
+
+    }
 
     public Integer getMonto() {
         return monto;

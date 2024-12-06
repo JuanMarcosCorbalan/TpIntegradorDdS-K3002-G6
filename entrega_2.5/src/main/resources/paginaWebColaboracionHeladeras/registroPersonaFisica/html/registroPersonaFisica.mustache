@@ -19,6 +19,17 @@
 </header>
 <div class="container mt-5 p-4 rounded shadow" style="background-color: #f5f2f2;">
 <form method="post" action="/registarPersonaFisica">
+    <!-- Nombre de Usuario y Contraseña -->
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6">
+            <label for="usuario" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control shadow-sm" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+        </div>
+        <div class="col-md-6">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input type="password" class="form-control shadow-sm" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+        </div>
+    </div>
     <!-- Nombres y Apellidos -->
     <div class="row mb-3 mx-3">
         <div class="col-md-6">
@@ -86,8 +97,12 @@
         <div class="col-md-12">
             <label for="inputLocalidad" class="form-label">Localidad</label>
             <input type="text" class="form-control shadow-sm input-smaller" id="inputLocalidad" name="inputLocalidad" placeholder="Localidad actual">
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input type="text" class="form-control shadow-sm input-smaller" id="ciudad" name="ciudad" placeholder="Ciudad actual" required>
         </div>
         <div class="col-md-12">
+            <label for="pais" class="form-label">País</label>
+            <input type="text" class="form-control shadow-sm input-smaller" id="pais" name="pais" placeholder="País actual" required>
             <button type="submit" class="btn submit-button mt-4">Completar Registro</button>
         </div>
     </div>

@@ -4,17 +4,30 @@ import org.example.Colaborador.Colaborador;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.Vianda;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+@Entity
 public class Donacion_viandas extends Contribucion{
+
+    @OneToOne
     Heladera heladera;
-    List<Vianda> viandas = new ArrayList<Vianda>();
+
+    @OneToOne(cascade = CascadeType.ALL)
     Vianda vianda; // en un inicio creo que son donaciones unitarias de viandas
-    boolean contribucionExitosa;
-    boolean contribucionFinalizada;
+
+    // ESTOS NOSE QUE ONDA
+    @Transient
+    List<Vianda> viandas = new ArrayList<Vianda>(); // NOSE Q ONDA
+    boolean contribucionExitosa; // NOSE Q ONDA
+    boolean contribucionFinalizada; // NOSE Q ONDA
+
+    public Donacion_viandas() {
+
+    }
 
     public Integer cant_viandas()
     {

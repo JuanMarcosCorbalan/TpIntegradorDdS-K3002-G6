@@ -2,12 +2,22 @@ package org.example.Persona;
 
 import com.sendgrid.helpers.mail.objects.Email;
 import org.example.Funcionalidades.EnvioMail;
+import javax.persistence.*;
 
 import java.io.IOException;
 
-public class Mail implements Medio_contacto {
+@Entity
+public class Mail extends Medio_contacto {
 
-    String mail;
+    public String email;
+
+    public Mail() {}
+
+    public Mail (Persona persona, String email_nuevo){
+        this.persona = persona;
+        this.email = email_nuevo;
+    }
+
     public void notificar(Medio_contacto[] medios) throws IOException {
         Email email = this.getMail(medios);
         //new EnvioMail().enviarEmail(email);
@@ -21,7 +31,12 @@ public class Mail implements Medio_contacto {
         return null;
     }
     public String getMail() {
-        return mail;
+        return email;
+    }
+
+    @Override
+    public void setDetalle(String mail){
+        this.email = mail;
     }
 
     public Mail(String mail) {

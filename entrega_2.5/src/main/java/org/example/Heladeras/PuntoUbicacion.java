@@ -1,23 +1,50 @@
 package org.example.Heladeras;
 
+import org.example.Persona.Domicilio;
+import org.example.Persona.Localidad;
+
+import javax.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
 
+@Entity
 public class PuntoUbicacion {
-    Integer latitud;
-    Integer longitud;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    String latitud;
+    String longitud;
     String direccion;
     String nombre;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    Localidad localidad;
+
+    @OneToMany(mappedBy = "puntoUbicacion")
     List<Heladera> heladeras = new ArrayList<Heladera>();
 
     public PuntoUbicacion(String direccion) {
         this.direccion = direccion;
     }
 
-    public PuntoUbicacion(Integer latitud, Integer longitud) {
+    public PuntoUbicacion(String latitud, String longitud) {
         this.longitud = longitud;
         this.latitud = latitud;
+    }
+
+    public PuntoUbicacion(String latitud, String longitud, String direccion, String nombre, Localidad localidad) {
+        this.longitud = longitud;
+        this.latitud = latitud;
+        this.direccion = direccion;
+        this.nombre = nombre;
+        this.localidad = localidad;
+    }
+
+
+    public PuntoUbicacion() {
+
     }
 
     public void aniadirHeladera(Heladera heladera){
@@ -27,8 +54,8 @@ public class PuntoUbicacion {
         heladeras.remove(heladera);
     }
 
-    public Integer getLatitud() {return latitud;}
-    public Integer getLongitud() {return longitud;}
+    public String getLatitud() {return latitud;}
+    public String getLongitud() {return longitud;}
 
 
 }
