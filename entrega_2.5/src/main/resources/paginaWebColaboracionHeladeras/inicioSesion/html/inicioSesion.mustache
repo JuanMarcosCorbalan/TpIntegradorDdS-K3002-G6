@@ -23,31 +23,27 @@
             <img
                     src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSjggBHvGdbGJ-q6OaFZUqLNltyRR5ov5ejUohMhjvewlp88E-6"
                     alt="Icono de usuario" style="border-radius: 6px;">
-            <div id="usuario-obligatorio" style="color: red; display: none;">* Campo obligatorio</div>
+
+            <!-- Mensajes de error dinámicos -->
+            {{#error}}
+                <div id="datos-invalidos" style="color: red; margin-top: 10px;">{{error}}</div>
+            {{/error}}
+
             <input type="text" placeholder="Nombre de usuario" id="usuario" name="nombreUsuario"
-                   style="border-width: 2px;">
+                   style="border-width: 2px; border-color: {{#error}}red{{/error}};">
 
-
-            <div id="contrasenia-obligatoria" style="color: red; display: none;">* Campo obligatorio</div>
-            <div id="contrasenia-invalida" style="color: red; display: none;">* Contraseña invalida</div>
             <input type="password" placeholder="Contraseña" id="contrasenia" name="contraseniaUsuario"
-                   style="border-width: 2px;">
+                   style="border-width: 2px; border-color: {{#error}}red{{/error}};">
 
-            <div id="datos-invalidos" style="color: red;width: 100%;margin-top: 10px; visibility: hidden;">Nombre de
-                usuario
-                y/o contraseña no válidos
-            </div>
             <!-- Botón principal de inicio de sesión -->
             <button class="login-btn" name="buttonType" value="principal" type="submit">Iniciar sesión</button>
 
-            <button class="login-btn p-1" name="buttonType" value="administrador" type="submit">Iniciar sesión como administrador
-            </button>
+            <button class="login-btn p-1" name="buttonType" value="administrador" type="submit">Iniciar sesión como administrador</button>
         </form>
 
-    <p style="margin-top: 30px;margin-bottom: 5px;">No tiene cuenta?</p>
-    <button onclick="location.href='/registroOpciones/html/registroOpciones.mustache'" type="button"
-            class="btn btn-success btn-lg">Registrese ahora!
-    </button>
+        <p style="margin-top: 30px; margin-bottom: 5px;">¿No tiene cuenta?</p>
+        <button onclick="location.href='/registroOpciones/html/registroOpciones.mustache'" type="button"
+                class="btn btn-success btn-lg">Regístrese ahora!</button>
     </div>
 </div>
 

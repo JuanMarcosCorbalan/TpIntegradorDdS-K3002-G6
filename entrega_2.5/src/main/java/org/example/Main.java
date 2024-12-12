@@ -129,48 +129,34 @@ public class Main {
             String username = ctx.formParam("nombreUsuario");
             String password = ctx.formParam("contraseniaUsuario");
 
+            Map<String, Object> model = new HashMap<>();
+
                 switch (buttonType) {
                     case "principal":
                         Usuario usuario;
                         // Lógica para iniciar sesión normal
                         try{
                             usuario = us.verificarInicioSesion(username, password);
+                            Colaborador colaborador = us.obtenerColaborador(usuario);
+                            // Guardar al colaborador en la sesión
+                            ctx.sessionAttribute("colaborador", colaborador);
+                            if(colaborador.persona instanceof Persona_fisica personaFisica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                                return;
+                            } else if(colaborador.persona instanceof Persona_juridica personaJuridica) {
+                                    ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                                    return;
+                                }
                         } catch (RuntimeException e) {
-                            ctx.status(400).result(e.getMessage());
-                            break;
+                            model.put("error", "Nombre de usuario");
                         }
-
-                        Colaborador colaborador = us.obtenerColaborador(usuario);
-                        // Guardar al colaborador en la sesión
-                        ctx.sessionAttribute("colaborador", colaborador);
-                        if(colaborador.persona instanceof Persona_fisica personaFisica) {
-
-                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
-                            break;
-                        } else {
-                            if(colaborador.persona instanceof Persona_juridica personaJuridica) {
-                                ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
-                                break;
-                            }
-                        }
-
-
-                        ctx.result("Inicio de sesión principal, RECONOCERIA EL TIPO DE CUENTA Y LLEVA A SU INICIO, POR AHORA INGRESAR DE FORMA MANUAL CON EL BOTON DE CADA TIPO DE CUENTA");
-                        break;
-                    case "fisica":
-                        // Lógica para iniciar sesión como persona física
-                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
-                        break;
-                    case "juridica":
-                        // Lógica para iniciar sesión como persona jurídica
-                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
                         break;
                     case "administrador":
                         ctx.render("/paginaWebColaboracionHeladeras/inicioAdministrador/html/inicioAdministrador.mustache");
-                        break;
+                        return;
                     default:
                         ctx.status(400).result("Acción no reconocida");
-                        break;
+                        return;
                 }
         });
         // Ruta para manejar la solicitud POST de realizar donación
