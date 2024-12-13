@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Contribuciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/historialCanjes/css/histCanjes.css" rel="stylesheet">
+
+</head>
+
+<body>
+<header>
+    <div class="header-container d-flex justify-content-between align-items-center">
+        <img class="img-logo" src="/puntosYCanjes/img/logov3.png" alt="logo">
+        <nav class="main-nav">
+        </nav>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-settings dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <img src="/puntosYCanjes/img/settings.png" alt="Settings" class="settings-icon">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'" class="dropdown-item">Ver Reporte Cemanal</button></li>
+                <li><button onclick="location.href='/puntosYCanjes'" class="dropdown-item">Ver Puntos Y Canjes Disponibles</button></li>
+                <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Gestion Heladeras</button></li>
+                <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Ver Contribuciones</button></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="container mt-4">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Donaciones de Dinero
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Contenido de marcador de posición para este acordeón, cuyo objetivo es demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del primer elemento.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Donación de Vianda
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Este es el cuerpo de acordeón del segundo elemento.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Distribución de Viandas
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Este es el cuerpo de acordeón del tercer elemento.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="container my-5">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Donaciones de Dinero
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Contenido de marcador de posición para este acordeón, cuyo objetivo es demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del primer elemento.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Donacion de Vianda
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    Contenido de marcador de posición para este acordeón, cuyo objetivo es
+                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del segundo
+                    elemento. Imaginemos que esto está lleno de contenido real.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Distribucion de Viandas
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Contenido de marcador de posición para este acordeón, cuyo objetivo es
+                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del tercer
+                    elemento. Aquí no sucede nada más interesante en términos de contenido, sino simplemente llenar
+                    el espacio para que parezca, al menos a primera vista, un poco más representativo de cómo se
+                    vería en una aplicación del mundo real.</div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Distribucion de Tarjetas
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Contenido de marcador de posición para este acordeón, cuyo objetivo es
+                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del tercer
+                    elemento. Aquí no sucede nada más interesante en términos de contenido, sino simplemente llenar
+                    el espacio para que parezca, al menos a primera vista, un poco más representativo de cómo se
+                    vería en una aplicación del mundo real.</div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!-- HASTA ACA VA SIEMPRE-->
+<footer class="text-center mt-5">
+    <p>Empresas que colaboran con nosotros</p>
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa A">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa B">
+    <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

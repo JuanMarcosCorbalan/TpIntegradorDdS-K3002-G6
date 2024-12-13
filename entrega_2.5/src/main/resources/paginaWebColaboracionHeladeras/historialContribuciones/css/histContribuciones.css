@@ -1,0 +1,183 @@
+body, html {
+    width: 100%;
+    overflow-x: hidden; /* Oculta el desplazamiento horizontal */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F5F5F5;
+}
+/* Para Chrome, Safari, Opera */
+body::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento en WebKit browsers */
+}
+
+
+/* Asegurar que las columnas ocupen el mismo tamaño */
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+}
+
+.card {
+    min-width: 250px; /* Ajusta este valor según sea necesario */
+    max-width: 100%; /* Mantén este valor para que no exceda el contenedor */
+    margin: auto
+}
+/* Estilos para el pie de página */
+footer {
+    background-color: #2a4d69;
+    padding: 1rem;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+}
+
+.img-logo {
+    height: 60px; /* Altura del logo */
+}
+
+header {
+    background-color: #2A4D69;
+    height: 60px; /* Altura del encabezado */
+    width: 100vw;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    padding: 10px 20px; /* Espaciado interno */
+}
+
+
+.btn-settings {
+    background: #F69000;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Estilos para el icono de configuración */
+.settings-icon {
+    width: 30px;
+    height: 30px;
+    background: none;
+}
+
+/* Título centrado */
+h2.text-center {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2A4D69;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* Tabla */
+.table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2; /* Efecto hover */
+}
+
+th {
+    background-color: #2A4D69;
+    color: white;
+    text-align: center;
+}
+
+
+/* acordeones */
+/* Contenedor principal */
+/* Acordeón */
+
+/* Asegura que el botón del acordeón ocupe todo el ancho, esté colapsado o no */
+.accordion-button {
+    width: 100%; /* Siempre ocupa el ancho completo del contenedor */
+    display: block; /* Se comporta como un bloque */
+}
+
+/* Quitar margen adicional del botón cuando está colapsado */
+.accordion-button:not(.collapsed) {
+    background-color: #e9ecef; /* Color cuando está expandido */
+    box-shadow: none; /* Elimina sombras al expandirse */
+    width: 100%; /* Reconfirma el 100% del ancho */
+}
+
+/* Mantener el borde y el ancho del contenedor */
+.accordion-item {
+    width: 100%; /* Asegura que el acordeón ocupe todo el ancho */
+    border: none; /* Opcional: Quita bordes entre los elementos */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra ligera entre elementos */
+}
+
+/* Estilos del contenedor principal del acordeón */
+.container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    width: 100%; /* Asegura que ocupa todo el ancho */
+    display: block; /* Añadido para evitar que cualquier otro estilo limite el ancho */
+}
+
+/* Opcional: si quieres que el contenido dentro del acordeón no se "apriete" */
+.accordion-body {
+    width: 100%; /* El cuerpo del acordeón ocupa todo el ancho */
+    padding: 15px; /* Espaciado adecuado dentro del cuerpo del acordeón */
+    text-align: justify; /* Alineación del texto justificada */
+}
+
+/*
+ acaa
+*/
+
+/* Estilo del acordeón azul con diseño del rojo */
+.accordion {
+    background-color: #f5f5f5; /* Fondo original del azul (o el que uses) */
+    border: none; /* Elimina bordes */
+    color: #000; /* Mantén el color del texto */
+    font-weight: bold; /* Negrita para texto */
+    padding: 15px; /* Ajusta padding para hacerlo igual al rojo */
+    margin-bottom: 5px; /* Separación entre acordeones */
+    cursor: pointer; /* Cursor al pasar por encima */
+    text-align: left; /* Alinea texto a la izquierda */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Hover para acordeón azul */
+.accordion:hover {
+    background-color: #e0e0e0; /* Color más claro al pasar el mouse */
+}
+
+/* Contenido expandido */
+.accordion-body {
+    background-color: white; /* Fondo del contenido */
+    color: #000; /* Color del texto */
+    padding: 15px; /* Ajusta el padding interno */
+    border: 1px solid #ccc; /* Borde fino alrededor del contenido */
+    border-top: none; /* Sin borde en la parte superior */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra igual al acordeón */
+    border-radius: 0 0 5px 5px; /* Bordes redondeados solo abajo */
+}

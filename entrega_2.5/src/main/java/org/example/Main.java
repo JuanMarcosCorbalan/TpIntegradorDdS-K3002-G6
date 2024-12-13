@@ -11,6 +11,7 @@ import org.example.Heladeras.HeladeraDTO;
 import org.example.Heladeras.HeladeraDTO2;
 import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
+import org.example.Ofertas.OfertaCanjeada;
 import org.example.Persona.*;
 import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
@@ -544,6 +545,32 @@ public class Main {
                 }
             } else {
                 ctx.status(401).result("Por favor inicia sesión para canjear ofertas.");
+            }
+        });
+        app.get("/historialCanjes", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Obtener la lista de canjes realizados por el colaborador
+                List<OfertaCanjeada> ofertasCanjeadas = colaborador.getOfertasCanjeadas();
+
+                // Crear el modelo para la plantilla
+                Map<String, Object> model = new HashMap<>();
+                model.put("historialCanjes", ofertasCanjeadas); // Pasa la lista al modelo
+
+                // Renderizar la plantilla Mustache y pasar el modelo
+                ctx.render("/paginaWebColaboracionHeladeras/historialCanjes/html/historialCanjes.mustache", model);
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+            }
+        });
+        app.get("/historialContribuciones", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+
+                // Renderizar la plantilla Mustache y pasar el modelo
+                ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribuciones.mustache");
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
             }
         });
 
