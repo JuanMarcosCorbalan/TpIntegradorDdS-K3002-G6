@@ -131,33 +131,35 @@ public class Main {
 
             Map<String, Object> model = new HashMap<>();
 
-                switch (buttonType) {
-                    case "principal":
-                        Usuario usuario;
-                        // Lógica para iniciar sesión normal
-                        try{
-                            usuario = us.verificarInicioSesion(username, password);
-                            Colaborador colaborador = us.obtenerColaborador(usuario);
-                            // Guardar al colaborador en la sesión
-                            ctx.sessionAttribute("colaborador", colaborador);
-                            if(colaborador.persona instanceof Persona_fisica personaFisica) {
-                                ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
-                                return;
-                            } else if(colaborador.persona instanceof Persona_juridica personaJuridica) {
-                                    ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
-                                    return;
-                                }
-                        } catch (RuntimeException e) {
-                            model.put("error", "Nombre de usuario");
+            switch (buttonType) {
+                case "principal":
+                    Usuario usuario;
+                    // Lógica para iniciar sesión normal
+                    try {
+                        usuario = us.verificarInicioSesion(username, password);
+                        Colaborador colaborador = us.obtenerColaborador(usuario);
+                        // Guardar al colaborador en la sesión
+                        ctx.sessionAttribute("colaborador", colaborador);
+                        if (colaborador.persona instanceof Persona_fisica personaFisica) {
+                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                            return;
+                        } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
+                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                            return;
                         }
-                        break;
-                    case "administrador":
-                        ctx.render("/paginaWebColaboracionHeladeras/inicioAdministrador/html/inicioAdministrador.mustache");
-                        return;
-                    default:
-                        ctx.status(400).result("Acción no reconocida");
-                        return;
-                }
+                    } catch (RuntimeException e) {
+                        model.put("error", e.getMessage());
+                    }
+                    break;
+                case "administrador":
+                    ctx.render("/paginaWebColaboracionHeladeras/inicioAdministrador/html/inicioAdministrador.mustache");
+                    return;
+                default:
+                    ctx.status(400).result("Acción no reconocida");
+                    return;
+            }
+            // Si hubo un error o no se reconoció el tipo de usuario, renderizar la misma página de login con el error
+            ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache", model);
         });
         // Ruta para manejar la solicitud POST de realizar donación
         app.post("/solicitarDonacionVianda", ctx -> {
@@ -403,7 +405,7 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
-            ctx.result("colaborador creado con exito");
+            ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionRegistroUsuario.mustache");
         });
 
         app.post("/registarPersonaJuridica", ctx -> {
@@ -481,7 +483,7 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
-            ctx.result("colaborador creado con exito");
+            ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionRegistroUsuario.mustache");
         });
 
         app.get("/puntosYCanjes", ctx -> {
