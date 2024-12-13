@@ -185,7 +185,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar una donación.");
+                ctx.render("/inicioSesion");
             }
         });
 
@@ -203,7 +203,7 @@ public class Main {
                 ctx.result("Solicitud de tarjetas realizada con éxito.");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar un registro.");
+                ctx.render("/inicioSesion");
             }
         });
 
@@ -226,7 +226,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar un registro.");
+                ctx.render("/inicioSesion");
             }
         });
         app.post("/distribucionViandas", ctx -> {
@@ -268,7 +268,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+                ctx.render("/inicioSesion");
             }
         });
 
@@ -281,7 +281,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+                ctx.render("/inicioSesion");
             }
         });
 
@@ -329,7 +329,7 @@ public class Main {
                     }
                 }
             } else {
-                ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
+                ctx.render("/inicioSesion");
             }
         });
         //instanciacion.crearColaboradores(colaboradores);
@@ -537,13 +537,13 @@ public class Main {
                         ofertaDAO.update(ofertaSeleccionada);
                         ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
                     } else {
-                        ctx.status(400).result("No tienes suficientes puntos para canjear esta oferta.");
+                        ctx.render("/paginaWebColaboracionHeladeras/resultados/html/rechazadoCanjeOferta.mustache");
                     }
                 } else {
                     ctx.status(404).result("La oferta seleccionada no existe.");
                 }
             } else {
-                ctx.status(401).result("Por favor inicia sesión para canjear ofertas.");
+                ctx.redirect("/inicioSesion");
             }
         });
 
@@ -569,7 +569,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
-                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+                ctx.render("/inicioSesion");
             }
         });
         app.post("/donarDineroJuridica", ctx -> {
@@ -581,7 +581,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
-                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+                ctx.redirect("/inicioSesion");
             }
         });
 
@@ -614,7 +614,7 @@ public class Main {
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionSuscripcion.mustache");
             } else {
-                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+                ctx.redirect("/inicioSesion");
             }
         });
 
