@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Contribuciones</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="/historialCanjes/css/histCanjes.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/historialContribuciones/css/histContribuciones.css" rel="stylesheet">
 
 </head>
 
@@ -26,117 +25,165 @@
                 <img src="/puntosYCanjes/img/settings.png" alt="Settings" class="settings-icon">
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'" class="dropdown-item">Ver Reporte Cemanal</button></li>
+                <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'" class="dropdown-item">Ver Reporte Semanal</button></li>
                 <li><button onclick="location.href='/puntosYCanjes'" class="dropdown-item">Ver Puntos Y Canjes Disponibles</button></li>
                 <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Gestion Heladeras</button></li>
-                <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Ver Contribuciones</button></li>
+                <li><button onclick="location.href='./historialCanjes'" class="dropdown-item">Ver Canjes</button></li>
             </ul>
         </div>
     </div>
 </header>
-
-<div class="container mt-4">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Donaciones de Dinero
-                </button>
-            </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    Contenido de marcador de posición para este acordeón, cuyo objetivo es demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del primer elemento.
-                </div>
+<div class="container">
+    <div class="row">
+        <!-- Panel Izquierdo -->
+        <div class="col-md-4">
+            <h2 class="text-center">Tipos de Donaciones</h2>
+            <div id="chatList">
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="dinero">Donaciones de Dinero</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="viandas">Donación de Viandas</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="distribucion-viandas">Distribución de Viandas</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="tarjetas">Distribución de Tarjetas</a>
             </div>
         </div>
 
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    Donación de Vianda
-                </button>
-            </h2>
-            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    Este es el cuerpo de acordeón del segundo elemento.
-                </div>
-            </div>
-        </div>
+        <!-- Panel Derecho -->
+        <div class="col-md-8">
+            <h3 id="tablaTitulo"></h3>
 
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    Distribución de Viandas
-                </button>
-            </h2>
-            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    Este es el cuerpo de acordeón del tercer elemento.
-                </div>
-            </div>
+            <!-- Mensaje inicial -->
+            <p id="mensajeNoSeleccionado" class="text-center">Selecciona un tipo de donación para ver los detalles.</p>
+
+            <table class="table table-bordered table-hover" id="tablaDonaciones" style="display: none;">
+                <thead>
+                <tr>
+                    <th>Monto Donado</th>
+                    <th>Frecuencia</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody id="tbodyDonaciones">
+                {{#donacionesDinero}}
+                    <tr>
+                        <td>{{monto}}</td>
+                        <td>{{frecuencia}}</td>
+                        <td>{{fecha_contribucion}}</td>
+                    </tr>
+                {{/donacionesDinero}}
+                </tbody>
+            </table>
+
+            <!-- Tabla Donaciones de Viandas -->
+            <table class="table table-bordered table-hover" id="tablaViandas" style="display: none;">
+                <thead>
+                <tr>
+                    <th>Contribución Finalizada</th>
+                    <th>Heladera ID</th>
+                    <th>Vianda</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody id="tbodyViandas">
+                {{#donacionesViandas}}
+                    <tr>
+                        <td>{{contribucionFinalizada}}</td>
+                        <td>{{heladera_id}}</td>
+                        <td>{{vianda_id}}</td>
+                        <td>{{fecha_contribucion}}</td>
+                    </tr>
+                {{/donacionesViandas}}
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-hover" id="tablaDistribucionViandas" style="display: none;">
+                <thead>
+                <tr>
+                    <th>Contribución Finalizada</th>
+                    <th>Viandas a Mover</th>
+                    <th>Motivo de Distribucion</th>
+                    <th>Heladera Origen</th>
+                    <th>Heladera Destino</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody id="tbodyViandas">
+                {{#distribucionViandas}}
+                    <tr>
+                        <td>{{contribucion_finalizada}}</td>
+                        <td>{{cantidadViandasAMover}}</td>
+                        <td>{{motivo_distribucion}}</td>
+                        <td>{{heladeraOrigen_id}}</td>
+                        <td>{{heladeraDestino_id}}</td>
+                        <td>{{fecha_contribucion}}</td>
+                    </tr>
+                {{/distribucionViandas}}
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-hover" id="tablaDistribucionTarjetas" style="display: none;">
+                <thead>
+                <tr>
+                    <th>Contribución Finalizada</th>
+                    <th>Heladera ID</th>
+                    <th>Vianda</th>
+                    <th>Fecha</th>
+                </tr>
+                </thead>
+                <tbody id="tbodyViandas">
+                {{#distribucionTarjetas}}
+                    <tr>
+                        <td>{{contribucionFinalizada}}</td>
+                        <td>{{heladera_id}}</td>
+                        <td>{{vianda_id}}</td>
+                        <td>{{fecha_contribucion}}</td>
+                    </tr>
+                {{/distribucionTarjetas}}
+                </tbody>
+            </table>
+
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Ocultar todas las tablas inicialmente
+            $('#tablaDonaciones, #tablaViandas,#tablaDistribucionViandas,#tablaDistribucionTarjetas').hide();
+            $('#mensajeNoSeleccionado').show();  // Mostrar mensaje de "selecciona un tipo"
+
+            // Evento cuando se hace clic en un botón de donación
+            $('.chat-item').click(function(e) {
+                e.preventDefault();  // Prevenir que el enlace se ejecute
+
+                // Obtener el tipo de donación
+                var tipo = $(this).data('tipo');
+
+                // Ocultar todos los mensajes y tablas
+                $('#mensajeNoSeleccionado').hide();
+                $('#tablaDonaciones, #tablaViandas,#tablaDonaciones, #tablaViandas,#tablaDistribucionViandas,#tablaDistribucionTarjetas').hide();
+
+                // Mostrar la tabla correspondiente según el tipo
+                if (tipo === 'dinero') {
+                    $('#tablaDonaciones').show();
+                    $('#tablaTitulo').text('Donaciones de Dinero');
+                } else if (tipo === 'viandas') {
+                    $('#tablaViandas').show();
+                    $('#tablaTitulo').text('Donaciones de Viandas');
+                } else if (tipo === 'distribucion-viandas') {
+                    $('#tablaDistribucionViandas').show();
+                    $('#tablaTitulo').text('Distribuciones de Viandas');
+                } else if (tipo === 'tarjetas') {
+                    $('#tablaDistribucionTarjetas').show();
+                    $('#tablaTitulo').text('Distribuciones de Tarjetas');
+                }
+            });
+        });
+    </script>
+
 </div>
-<!--
-<div class="container my-5">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    Donaciones de Dinero
-                </button>
-            </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    Contenido de marcador de posición para este acordeón, cuyo objetivo es demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del primer elemento.
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    Donacion de Vianda
-                </button>
-            </h2>
-            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    Contenido de marcador de posición para este acordeón, cuyo objetivo es
-                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del segundo
-                    elemento. Imaginemos que esto está lleno de contenido real.
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    Distribucion de Viandas
-                </button>
-            </h2>
-            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Contenido de marcador de posición para este acordeón, cuyo objetivo es
-                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del tercer
-                    elemento. Aquí no sucede nada más interesante en términos de contenido, sino simplemente llenar
-                    el espacio para que parezca, al menos a primera vista, un poco más representativo de cómo se
-                    vería en una aplicación del mundo real.</div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    Distribucion de Tarjetas
-                </button>
-            </h2>
-            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Contenido de marcador de posición para este acordeón, cuyo objetivo es
-                    demostrar la clase <code>.accordion-flush</code>. Este es el cuerpo de acordeón del tercer
-                    elemento. Aquí no sucede nada más interesante en términos de contenido, sino simplemente llenar
-                    el espacio para que parezca, al menos a primera vista, un poco más representativo de cómo se
-                    vería en una aplicación del mundo real.</div>
-            </div>
-        </div>
-    </div>
-</div>
--->
 <!-- HASTA ACA VA SIEMPRE-->
 <footer class="text-center mt-5">
     <p>Empresas que colaboran con nosotros</p>
@@ -145,7 +192,7 @@
     <img src="https://via.placeholder.com/20" alt="Logo de empresa C">
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

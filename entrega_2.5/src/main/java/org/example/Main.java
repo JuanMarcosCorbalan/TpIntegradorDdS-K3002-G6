@@ -4,8 +4,7 @@ import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
 import org.example.DAO.*;
-import org.example.Formas_contribucion.HacerseCargoHeladera;
-import org.example.Formas_contribucion.Motivo_distribucion;
+import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO;
 import org.example.Heladeras.HeladeraDTO2;
@@ -13,7 +12,6 @@ import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
 import org.example.Ofertas.OfertaCanjeada;
 import org.example.Persona.*;
-import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
@@ -28,7 +26,6 @@ import org.example.Sistema.MigracionColaboradores;
 import org.example.Sistema.Usuario;
 import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
-import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Utils.BDutils;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
@@ -566,9 +563,25 @@ public class Main {
         app.get("/historialContribuciones", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
+                DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
+                DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
+                DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
+                //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
+
+                List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
+                List<Donacion_viandas> donacionesViandas = donacionViandasDAO.findAllByColaborador(colaborador);
+                List<Distribucion_viandas> distribucionViandas = distribucionViandasDAO.findAllByColaborador(colaborador);
+                //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
+
+
+                Map<String, Object> model = new HashMap<>();
+                model.put("donacionesDinero", donacionesDinero);
+                model.put("donacionesViandas", donacionesViandas);
+                model.put("distribucionViandas", distribucionViandas);
+               // model.put("distribucionTarjetas", distribucionTarjetas);
 
                 // Renderizar la plantilla Mustache y pasar el modelo
-                ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribuciones.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribuciones.mustache",model);
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
             }

@@ -57,6 +57,11 @@
             <artifactId>javalin-rendering</artifactId>
             <version>5.6.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.15.2</version> <!-- Usa la versión de Jackson compatible con tu proyecto -->
+        </dependency>
 
         <!--libreria de renderizado de templates web-->
         <dependency>

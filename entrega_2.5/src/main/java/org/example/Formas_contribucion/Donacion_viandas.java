@@ -52,6 +52,7 @@ public class Donacion_viandas extends Contribucion{
         this.vianda = vianda;
         this.contribucionExitosa = false;
         this.contribucionFinalizada = false;
+        this.fecha_contribucion = LocalDate.now();
     }
 
     @Override
