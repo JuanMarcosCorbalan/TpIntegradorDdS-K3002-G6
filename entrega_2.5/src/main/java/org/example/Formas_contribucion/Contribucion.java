@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -46,4 +47,10 @@ abstract public class Contribucion {
     public void setFecha_contribucion(LocalDate fecha_contribucion) {
         this.fecha_contribucion = fecha_contribucion;
     }
+
+    public Boolean getContribucionTerminada() {
+        return Objects.requireNonNullElse(contribucionTerminada, false);
+    }
 }
+
+

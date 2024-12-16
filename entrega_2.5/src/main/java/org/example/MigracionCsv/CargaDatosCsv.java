@@ -39,7 +39,7 @@ public class CargaDatosCsv {
                 colaborador.agregarContribucion(distribucionViandas);
             }
             case "ENTREGA_TARJETAS" -> {
-                RegistrarPersonasSV entregaTarjetas = new RegistrarPersonasSV(cantidad, fechaColaboracion);
+                RegistrarPersonasSV entregaTarjetas = new RegistrarPersonasSV(cantidad, fechaColaboracion, colaborador);
                 colaborador.agregarContribucion(entregaTarjetas);
             }
             case "DONACION_VIANDAS" -> {

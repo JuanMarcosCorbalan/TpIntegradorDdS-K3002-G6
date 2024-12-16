@@ -50,6 +50,9 @@ public class Colaborador extends Rol {
     @Transient
     Forma_colaborar formasColaborar;
 
+
+    Integer tarjetasARepartir = 0;
+
     public Colaborador() {
 
     }
@@ -92,6 +95,7 @@ public class Colaborador extends Rol {
         this.contribuciones = new ArrayList<Contribucion>();
         this.formas_de_colaborar = formas;
         //this.heladeras_a_cargo = new ArrayList<Heladera>();
+        this.tarjetasARepartir = 0;
     }
 
     public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora;}
@@ -231,10 +235,14 @@ public class Colaborador extends Rol {
     }
 
     public void solicitarTarjetasParaRepartir(Integer cantidadTarjetas){
-        RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now());
+        RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now(), this);
         // enviar tarjetas qcyo algo asi
         contribuciones.add(registroPersonasSV);
         puntos+= registroPersonasSV.calcular_puntos();
+        if (tarjetasARepartir == null) {
+            tarjetasARepartir = 0;
+        }
+        tarjetasARepartir += cantidadTarjetas;
     }
 
     public TarjetaColaborador getTarjetaColaborador(){
@@ -243,11 +251,17 @@ public class Colaborador extends Rol {
 
     public void registrarPersonaSv(String nombre, String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
         for(Contribucion contribucion: contribuciones) {
-            if (contribucion instanceof RegistrarPersonasSV registroPersonasSV){
+            if (contribucion instanceof RegistrarPersonasSV registroPersonasSV && !contribucion.getContribucionTerminada()){
                 registroPersonasSV.cargarDatosPersonaSv(nombre, apellido, situacionCalle, domicilioString, menoresACargo);
                 registroPersonasSV.asignarTarjeta(this);
+                tarjetasARepartir -= 1;
+                return;
             }
         }
+    }
+
+    public Integer getTarjetasARepartir() {
+        return tarjetasARepartir;
     }
 
     public void solicitarHacerseCargoHeladera(){

@@ -59,25 +59,43 @@ public class Main {
                         }
 
                 )
-                .get("/", ctx -> ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache"))
+                .get("/", ctx -> ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache"))
                 .start(8081);
 
         app.get("/inicioSesion", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache");
         });
         app.get("/distribucionTarjetas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
         });
+        /*
         app.get("/distribucionViandas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionViandas/html/distribucionViandas.mustache");
+        });*/
+
+        app.get("/distribucionViandas", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionViandas.mustache");
         });
 
+/*
         app.get("/donacionDinero", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/donacionDinero/html/donacionDineroFisica.mustache");
         });
+
         app.get("/donacionVianda", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/donacionVianda/html/donacionVianda.mustache");
+        }); */
+        app.get("/donacionDineroFisica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/donacionDineroFisica.mustache");
         });
+        app.get("/donacionDineroJuridica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/donacionDineroJuridica.mustache");
+        });
+
+        app.get("/donacionVianda", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/donacionVianda.mustache");
+        });
+
         app.get("/gestionHeladeras", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/gestionHeladeras/html/gestionHeladeras.mustache");
         });//server error
@@ -141,10 +159,10 @@ public class Main {
                         // Guardar al colaborador en la sesión
                         ctx.sessionAttribute("colaborador", colaborador);
                         if (colaborador.persona instanceof Persona_fisica personaFisica) {
-                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
                             return;
                         } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
-                            ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
                             return;
                         }
                     } catch (RuntimeException e) {
@@ -159,7 +177,7 @@ public class Main {
                     return;
             }
             // Si hubo un error o no se reconoció el tipo de usuario, renderizar la misma página de login con el error
-            ctx.render("/paginaWebColaboracionHeladeras/inicioSesion/html/inicioSesion.mustache", model);
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache", model);
         });
         // Ruta para manejar la solicitud POST de realizar donación
         app.post("/solicitarDonacionVianda", ctx -> {
@@ -185,7 +203,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
 
@@ -199,36 +217,66 @@ public class Main {
                 // Llamar a la lógica de backend
                 SolicitarTarjetasParaRepartirHandler.realizarDonacion(colaborador, cantidadDeTarjetas);
                 colaboradorDAO.update(colaborador);
+
+                ctx.sessionAttribute("colaborador", colaborador);
                 // Enviar una respuesta de confirmación
-                ctx.result("Solicitud de tarjetas realizada con éxito.");
+                ctx.redirect("/registroPersonasSv");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
 
         app.post("/registrarPersonaSV", ctx -> {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
-                // Recibir los datos del formulario
-                String nombre = ctx.formParam("inputNombre");
-                String apellido = ctx.formParam("inputApellido");
-                LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
-                Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
-                String situacionDeCalleString = ctx.formParam("flexRadioDefault");
-                boolean situacionDeCalle = Boolean.parseBoolean(situacionDeCalleString);
-                String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
-                // Llamar a la lógica de backend
-                RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
-
-                // Enviar una respuesta de confirmación
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
-            } else {
+                    // Recibir los datos del formulario
+                    String nombre = ctx.formParam("inputNombre");
+                    String apellido = ctx.formParam("inputApellido");
+                    LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
+                    Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
+                    String situacionDeCalleString = ctx.formParam("flexRadioDefault");
+                    boolean situacionDeCalle = Boolean.parseBoolean(situacionDeCalleString);
+                    String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
+                    // Llamar a la lógica de backend
+                    RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
+                    colaboradorDAO.update(colaborador);
+                    // Enviar una respuesta de confirmación
+                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
+
+        app.get("/registroPersonasSv", ctx -> {
+            // Obtener al colaborador desde la sesión
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            if (colaborador != null) {
+
+                Integer tarjetasARepartir = colaborador.getTarjetasARepartir();
+                // Crear un modelo con la lista de ofertas y los puntos
+                Map<String, Object> model = new HashMap<>();
+
+                if (tarjetasARepartir != null) {
+                    // mostrar la cantidad de tarjetas restantes
+                    model.put("tarjetasRestantes", tarjetasARepartir);
+
+                    ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache",model);
+
+                } else {
+                    model.put("tarjetasRestantes", "0 tarjetas solicitadas, solicite tarjetas ahora!");
+                    ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache", model);
+                }
+            } else {
+                ctx.redirect("/inicioSesion");
+            }
+        });
+
+
         app.post("/distribucionViandas", ctx -> {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -268,7 +316,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
 
@@ -281,7 +329,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
 
@@ -329,7 +377,7 @@ public class Main {
                     }
                 }
             } else {
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
         //instanciacion.crearColaboradores(colaboradores);
@@ -504,7 +552,7 @@ public class Main {
                 model.put("puntos", puntosColaborador); // Pasa los puntos del colaborador al modelo
 
                 // Renderizar la plantilla Mustache y pasar el modelo
-                ctx.render("/paginaWebColaboracionHeladeras/puntosYCanjes/html/puntosYCanjes.mustache", model);
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/puntosYCanjes.mustache", model);
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver las ofertas.");
             }
@@ -535,7 +583,7 @@ public class Main {
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
                         ofertaDAO.update(ofertaSeleccionada);
-                        ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
                     } else {
                         ctx.render("/paginaWebColaboracionHeladeras/resultados/html/rechazadoCanjeOferta.mustache");
                     }
@@ -569,7 +617,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
-                ctx.render("/inicioSesion");
+                ctx.redirect("/inicioSesion");
             }
         });
         app.post("/donarDineroJuridica", ctx -> {

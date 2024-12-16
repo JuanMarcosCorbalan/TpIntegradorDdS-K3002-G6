@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla de Registro</title>
+
+    <!-- Agregar Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilo personalizado -->
+    <style>
+        body {
+            height: 100vh;
+            margin: 0; /* Elimina cualquier margen por defecto */
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px 0;
+            background-color: #2a4d69;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Asegura que el header esté por encima del contenido */
+            height: 80px; /* Altura fija para el header */
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo {
+            height: 70px; /* Controla la altura del logo */
+            width: auto;  /* Mantiene la proporción de la imagen */
+        }
+
+        /* Ajuste para el contenedor de botones */
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px); /* Resta el alto del header */
+            margin-top: 60px; /* Ajuste para que el contenido no se sobreponga con el header */
+        }
+
+        .btn-custom {
+            width: 250px;
+            height: 120px;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Imagen dentro del botón */
+        .btn-custom img {
+            width: 50px;  /* Tamaño de la imagen */
+            height: 50px;
+            margin-bottom: 10px;  /* Espacio entre la imagen y el texto */
+        }
+
+        /* Botón "Cerrar sesión" en la parte inferior */
+        .btn-close-session {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F5F5F5;">
+
+    <!-- Header con Logo -->
+    <header class="header d-flex justify-content-start align-items-center px-4">
+        <img src="/startbootstrap-sb-admin-2-gh-pages/img/LogoHobbitsB.png" alt="Logo" class="logo">
+        <!-- Puedes reemplazar la URL del logo con la imagen de tu logo -->
+    </header>
+
+    <!-- Contenedor Principal para los botones -->
+    <div class="content-container">
+        <!-- Botones grandes uno al lado del otro, responsive -->
+        <div class="d-flex flex-column flex-md-row justify-content-center mb-4">
+            <button class="btn btn-primary btn-custom mb-3 mb-md-0 mx-3" onclick="window.location.href='registropersonafisica.html'">
+                <img src="/startbootstrap-sb-admin-2-gh-pages/img/persoF.png" alt="Icono Persona Física"> <!-- Imagen de Persona Física -->
+                Registrarse como persona física
+            </button>
+            <button class="btn btn-success btn-custom mx-3" onclick="window.location.href='registropersonajuridica.html'"">
+                <img src="/startbootstrap-sb-admin-2-gh-pages/img/persoJ.png" alt="Icono Persona Jurídica"> <!-- Imagen de Persona Jurídica -->
+                Registrarse como persona jurídica
+            </button>
+        </div>
+
+        <!-- Botón Cerrar sesión abajo a la izquierda -->
+        <button class="btn btn-danger btn-close-session">Cerrar sesión</button>
+    </div>
+
+    <!-- Agregar Bootstrap JS y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

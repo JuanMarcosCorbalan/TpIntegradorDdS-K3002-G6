@@ -7,12 +7,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let tarjetasRestantes;
   
     // Actualiza el contador al cargar la página
+    /*
     cantidadTarjetasRepartir.addEventListener("input", function() {
       tarjetasRestantes = parseInt(cantidadTarjetasRepartir.value, 10) || 0;
       h5CantidadTarjetas.innerText = `Cantidad de tarjetas restantes: ${tarjetasRestantes}`;
     });
+    */
   
     // Maneja el clic en "Registrar Persona" para descontar una tarjeta
+    /*
     botonRegistrar.addEventListener("click", function(event) {
       event.preventDefault(); // Evita el envío del formulario por defecto
   
@@ -23,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("No quedan tarjetas por repartir.");
       }
     });
+    */
   });
 
   document.addEventListener("DOMContentLoaded", function() {

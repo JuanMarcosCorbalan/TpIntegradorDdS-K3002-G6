@@ -32,12 +32,9 @@ public class RegistrarPersonasSV extends Contribucion{
     List<PersonaSituacionVulnerable> personasSituacionVulnerable = new LinkedList<PersonaSituacionVulnerable>(); // esta no esta en el der
     @Transient
     Integer cantidadTarjetasRepartidas; // esta no esta en el der
-    @Transient
-    Integer registrosPendientes; // esta no esta en el der
 
-    public RegistrarPersonasSV() {
+    Integer registrosPendientes = 0; // esta no esta en el der
 
-    }
 
     public void asignarTarjetas(Colaborador colaborador){    //PRUEBA DE LOS PUNTOS SUGERIDOS
         int contador = 0;
@@ -52,7 +49,7 @@ public class RegistrarPersonasSV extends Contribucion{
 
     public void asignarTarjeta(Colaborador colaborador) {
         if (registrosPendientes > 0) {
-            String id_tarjeta = ids_tarjetas.remove(0);
+
             PersonaSituacionVulnerable personaSituacion = personasSituacionVulnerable.remove(0);
             //TarjetaSv nueva_tarjetaSv = new TarjetaSv(id_tarjeta, colaborador, personaSituacion);
             TarjetaSv nueva_tarjetaSv = new TarjetaSv(colaborador, personaSituacion);
@@ -121,10 +118,15 @@ public class RegistrarPersonasSV extends Contribucion{
         return ids_tarjetas.size();
     }
 
-    public RegistrarPersonasSV(Integer cantidadTarjetasRepartidas, LocalDate fechaColaboracion) {
+    public RegistrarPersonasSV(Integer cantidadTarjetasRepartidas, LocalDate fechaColaboracion, Colaborador colaborador) {
         super(fechaColaboracion);
         this.cantidadTarjetasRepartidas = cantidadTarjetasRepartidas;
-        this.registrosPendientes = cantidadTarjetasRepartidas;
+        registrosPendientes = cantidadTarjetasRepartidas;
+        this.colaborador = colaborador;
+    }
+
+    public RegistrarPersonasSV() {
+        // Constructor predeterminado necesario para Hibernate
     }
 
     @Override
