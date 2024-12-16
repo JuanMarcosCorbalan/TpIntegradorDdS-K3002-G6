@@ -1,5 +1,6 @@
 package org.example;
 
+import com.github.scribejava.apis.GoogleApi20;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
@@ -31,7 +32,14 @@ import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Utils.BDutils;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.oauth.OAuth20Service;
+
+
 import javax.persistence.EntityManager;
+
+import static org.example.OAuthService.getUserInfo;
 
 public class Main {
 
@@ -41,6 +49,18 @@ public class Main {
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
+    // Configuración para Google OAuth
+    private static final String CLIENT_ID = "390972271158-uuoiecg0rirqmmo3n5ceip4ii8mt9cdq.apps.googleusercontent.com";
+    private static final String CLIENT_SECRET = "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";
+    private static final String REDIRECT_URI = "http://localhost:8081/callback";
+    private static final String SCOPE = "profile email";
+    private static final String AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    private static final String ACCESS_TOKEN_URL = "https://oauth2.googleapis.com/token";
+    private static final String RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
+
+    private static OAuth20Service service;
+
+
     public static void main(String[] args) {
         List<Colaborador> colaboradoresNuevo = colaboradores;
         colaboradoresExistentes = new RepositorioColaboradores(colaboradores);
@@ -48,6 +68,15 @@ public class Main {
         System.out.println("Hello world!");
 
         EntityManager em = BDutils.getEntityManager();
+
+        // Crear un servicio OAuth2 con ScribeJava
+        service = new ServiceBuilder(CLIENT_ID)
+                .apiSecret(CLIENT_SECRET)
+                .callback(REDIRECT_URI)
+                .defaultScope(SCOPE)
+                .build(GoogleApi20.instance());
+
+
 
         Javalin app = Javalin.create(javalinConfig -> {
                             javalinConfig.plugins.enableCors(cors -> {
@@ -62,9 +91,36 @@ public class Main {
                 .get("/", ctx -> ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache"))
                 .start(8081);
 
-        app.get("/inicioSesion", ctx -> {
+        app.get("/login", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache");
         });
+
+        app.get("/inicioSesionGoogle", ctx -> {
+           // aca va la logica que tiene el login de google
+            String authorizationUrl = service.getAuthorizationUrl();
+            ctx.redirect(authorizationUrl); // Redirige al usuario a la URL de autorización de Google
+        });
+
+        // Callback que maneja la respuesta de Google después de la autenticación
+        app.get("/callback", ctx -> {
+            String code = ctx.queryParam("code");
+
+            if (code != null) {
+                try {
+                    OAuth2AccessToken accessToken = service.getAccessToken(code); // Intercambia el código por un token de acceso
+                    String userInfo = getUserInfo(accessToken, service); // Obtiene la información del usuario desde Google
+
+                    // Mostrar la información del usuario
+                    ctx.result(userInfo);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                    ctx.status(500).result("Error obteniendo el token de acceso.");
+                }
+            } else {
+                ctx.status(400).result("No authorization code provided.");
+            }
+        });
+
         app.get("/distribucionTarjetas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
         });
