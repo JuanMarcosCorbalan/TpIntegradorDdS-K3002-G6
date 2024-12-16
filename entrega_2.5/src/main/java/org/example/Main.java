@@ -37,6 +37,8 @@ import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.persistence.EntityManager;
 
@@ -99,6 +101,7 @@ public class Main {
         app.get("/inicioSesionGoogle", ctx -> {
             // aca va la logica que tiene el login de google
             String authorizationUrl = service.getAuthorizationUrl();
+            authorizationUrl += "&prompt=select_account";
             ctx.redirect(authorizationUrl); // Redirige al usuario a la URL de autorización de Google
         });
 
@@ -126,17 +129,47 @@ public class Main {
         // Callback que maneja la respuesta de Google después de la autenticación
         app.get("/inicioSesionGoogle/oauth2/code/google", ctx -> {
             String code = ctx.queryParam("code");
+            UsuarioService us = new UsuarioService(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
             if (code != null) {
                 try {
                     OAuth2AccessToken accessToken = service.getAccessToken(code); // Intercambia el código por un token de acceso
                     String userInfo = getUserInfo(accessToken, service); // Obtiene la información del usuario desde Google
 
-                    // Mostrar la información del usuario
-                    ctx.result(userInfo);
+                    // Parsear el JSON de userInfo
+                    ObjectMapper mapper = new ObjectMapper();
+                    Map<String, Object> userInfoMap = mapper.readValue(userInfo, new TypeReference<Map<String, Object>>() {});
 
-                    // Redirigir al usuario a la página de registro
-                    ctx.redirect("/registroPersonas");
+                    // Obtener el email del usuario
+                    String email = (String) userInfoMap.get("email");
+
+                    Usuario usuario = us.buscarUsuarioPorEmail(email);
+
+                    // Mostrar la información del usuario
+                    //ctx.result(userInfo);
+
+                    if (usuario != null) {
+                        // Usuario existe
+                        Colaborador colaborador = us.obtenerColaborador(usuario);
+                        // Guardar al colaborador en la sesión
+                        ctx.sessionAttribute("colaborador", colaborador);
+                        if (colaborador.persona instanceof Persona_fisica personaFisica) {
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                            return;
+                        } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                            return;
+                        }
+                    } else {
+                        // Usuario no existe, redirigir a la página de registro con datos prellenados
+                        ctx.sessionAttribute("datosGoogle", userInfoMap); // Guardar datos en la sesión para prellenar el formulario
+                        String sub = (String) userInfoMap.get("sub");
+                        usuario = new Usuario(sub);
+                        ctx.sessionAttribute("usuario", usuario);
+                        usuarioDAO.save(usuario);
+                        ctx.redirect("/registroPersonas");
+                    }
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                     ctx.status(500).result("Error obteniendo el token de acceso.");
@@ -196,15 +229,6 @@ public class Main {
         app.get("/registroOpciones", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroOpciones/html/registroOpciones.mustache");
         }); //server error
-
-        app.get("/registroPersonaFisica", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/registroPersonaFisica/html/registroPersonaFisica.mustache");
-        }); //server error
-
-
-        app.get("/registroPersonaJuridica", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/registroPersonaJuridica/html/registroPersonaJuridica.mustache");
-        });//server error
 
         app.get("/resultadoMigracionCSV", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache");
@@ -506,6 +530,30 @@ public class Main {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonas.mustache");
         });
 
+        app.get("/registroPersonaFisica", ctx -> {
+            Map<String, Object> datosGoogle = ctx.sessionAttribute("datosGoogle");
+            Map<String, Object> modelo = new HashMap<>();
+
+            // Rellenar valores predeterminados si no hay datos de Google
+            modelo.put("nombre", datosGoogle != null ? datosGoogle.getOrDefault("given_name", "") : "");
+            modelo.put("apellido", datosGoogle != null ? datosGoogle.getOrDefault("family_name", "") : "");
+            modelo.put("correo", datosGoogle != null ? datosGoogle.getOrDefault("email", "") : "");
+
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonafisica.mustache", modelo);
+        });
+
+        app.get("/registroPersonaJuridica", ctx -> {
+            Map<String, Object> datosGoogle = ctx.sessionAttribute("datosGoogle");
+            Map<String, Object> modelo = new HashMap<>();
+
+            // Rellenar valores predeterminados si no hay datos de Google
+            modelo.put("razonSocial", datosGoogle != null ? datosGoogle.getOrDefault("name", "") : "");
+            modelo.put("correo", datosGoogle != null ? datosGoogle.getOrDefault("email", "") : "");
+
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonajuridica.mustache", modelo);
+        });
+
+
         app.post("/registarPersonaFisica", ctx -> {
             LocalidadDAO localidadDAO = new LocalidadDAO(em);
             ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
@@ -513,6 +561,7 @@ public class Main {
 
             Tipo_documento tipoDocumento = null;
             List<Medio_contacto> mediosContacto = new ArrayList<>();
+
 
             String nombres = ctx.formParam("inputNombre");
             String apellidos = ctx.formParam("inputApellidos");

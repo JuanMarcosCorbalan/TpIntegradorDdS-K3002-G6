@@ -27,7 +27,7 @@ public class UsuarioService {
         if (usuario != null) {
             throw new RuntimeException("El nombre de usuario ya está registrado");
         }
-        if(!servicioValidacion.validar_contrasenia(contrasenia)){
+        if (!servicioValidacion.validar_contrasenia(contrasenia)) {
             throw new RuntimeException("La contraseña no es valida");
         }
 
@@ -52,14 +52,14 @@ public class UsuarioService {
             throw new RuntimeException("Usuario no encontrado");
         }
         // Comparar la contraseña proporcionada con la almacenada
-        if(!servicioValidacion.validar_contrasenia_usuario(usuario, contrasenia)){
+        if (!servicioValidacion.validar_contrasenia_usuario(usuario, contrasenia)) {
             throw new RuntimeException("Contraseña Incorrecta");
         }
         return usuario;
     }
 
 
-    public Colaborador obtenerColaborador(Usuario usuario){
+    public Colaborador obtenerColaborador(Usuario usuario) {
 
         Colaborador colaborador = null;
         try {
@@ -78,7 +78,19 @@ public class UsuarioService {
 
     }
 
-    public void esFisico(Colaborador colaborador){
+    public Usuario buscarUsuarioPorEmail(String email) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT u FROM Mail m join m.persona p join Usuario u on p.id = u.persona " +
+                                    " where  m.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // El usuario no existe
+        }
+    }
+
+    public void esFisico(Colaborador colaborador) {
         /*
         Bool fisico = null;
         fisico = entityManager

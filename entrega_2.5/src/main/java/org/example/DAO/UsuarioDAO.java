@@ -4,6 +4,7 @@ import org.example.Tarjetas.Tarjeta;
 import org.example.Sistema.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 
 public class UsuarioDAO {
     private EntityManager entityManager;
@@ -68,5 +69,6 @@ public class UsuarioDAO {
         return usuario;
 
     }
+
 
 }
