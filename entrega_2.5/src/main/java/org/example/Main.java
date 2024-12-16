@@ -28,7 +28,6 @@ import org.example.Sistema.RegistrarUsuario;
 import org.example.Sistema.Usuario;
 import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
-import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Utils.BDutils;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
@@ -126,17 +125,24 @@ public class Main {
             ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache");
         });//server error
 
-        app.get("/visualizadorReporteSemanal", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/visualizadorReporteSemanal/html/visualizadorReporteSemanal.html");
-        });//server error
-
+        app.get("/visualizadorReporteSemanalFisica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalFisica.mustache");
+        });
+        app.get("/visualizadorReporteSemanalJuridica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalJuridica.mustache");
+        });
         app.get("/registroUsuario", ctx -> {
            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache");
         });
 
-        app.get("/reporteFallaTecnica", ctx -> {
-           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnica.mustache");
+        app.get("/reporteFallaTecnicaFisica", ctx -> {
+           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaFisica.mustache");
         });
+        app.get("/reporteFallaTecnicaJuridica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaJuridica.mustache");
+        });
+
+
 
 
         // login para guardar al colaborador
