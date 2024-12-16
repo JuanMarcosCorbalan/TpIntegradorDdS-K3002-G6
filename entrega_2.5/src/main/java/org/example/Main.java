@@ -1,6 +1,7 @@
 package org.example;
 
 import com.github.scribejava.apis.GoogleApi20;
+import io.javalin.http.Context;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
@@ -50,9 +51,9 @@ public class Main {
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
 
     // Configuración para Google OAuth
-    private static final String CLIENT_ID = "390972271158-uuoiecg0rirqmmo3n5ceip4ii8mt9cdq.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";
-    private static final String REDIRECT_URI = "http://localhost:8081/callback";
+    private static final String CLIENT_ID = "326252094168-d315h9c9qq061944g2psi2fvhebremk3.apps.googleusercontent.com";
+    private static final String CLIENT_SECRET = "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";
+    private static final String REDIRECT_URI = "http://localhost:8081/inicioSesionGoogle/oauth2/code/google";
     private static final String SCOPE = "profile email";
     private static final String AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String ACCESS_TOKEN_URL = "https://oauth2.googleapis.com/token";
@@ -96,13 +97,34 @@ public class Main {
         });
 
         app.get("/inicioSesionGoogle", ctx -> {
-           // aca va la logica que tiene el login de google
+            // aca va la logica que tiene el login de google
             String authorizationUrl = service.getAuthorizationUrl();
             ctx.redirect(authorizationUrl); // Redirige al usuario a la URL de autorización de Google
         });
 
+//  FALTA VERIFICAR USUARIO CON LOS DE LA BASEEEEEEEEEEEEEEEEEEEEEEEE
+
         // Callback que maneja la respuesta de Google después de la autenticación
-        app.get("/callback", ctx -> {
+//        app.get("/localhost:8081/inicioSesionGoogle/oauth2/code/google", ctx -> {
+//            String code = ctx.queryParam("code");
+//
+//            if (code != null) {
+//                try {
+//                    OAuth2AccessToken accessToken = service.getAccessToken(code); // Intercambia el código por un token de acceso
+//                    String userInfo = getUserInfo(accessToken, service); // Obtiene la información del usuario desde Google
+//
+//                    // Mostrar la información del usuario
+//                    ctx.result(userInfo);
+//                } catch (IOException | InterruptedException e) {
+//                    e.printStackTrace();
+//                    ctx.status(500).result("Error obteniendo el token de acceso.");
+//                }
+//            } else {
+//                ctx.status(400).result("No authorization code provided.");
+//            }
+//        });
+        // Callback que maneja la respuesta de Google después de la autenticación
+        app.get("/inicioSesionGoogle/oauth2/code/google", ctx -> {
             String code = ctx.queryParam("code");
 
             if (code != null) {
@@ -112,6 +134,9 @@ public class Main {
 
                     // Mostrar la información del usuario
                     ctx.result(userInfo);
+
+                    // Redirigir al usuario a la página de registro
+                    ctx.redirect("/registroPersonas");
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                     ctx.status(500).result("Error obteniendo el token de acceso.");
@@ -120,7 +145,7 @@ public class Main {
                 ctx.status(400).result("No authorization code provided.");
             }
         });
-
+        ////
         app.get("/distribucionTarjetas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache");
         });
@@ -128,6 +153,10 @@ public class Main {
         app.get("/distribucionViandas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/distribucionViandas/html/distribucionViandas.mustache");
         });*/
+
+        app.get("/registroPersonas", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registroPersonas.mustache");
+        });
 
         app.get("/distribucionViandas", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionViandas.mustache");
@@ -792,7 +821,10 @@ public class Main {
 
     }
 
-        public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
+//    private static Colaborador verificarColaboradorSesion(Context ctx) {
+//    }
+
+    public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
         tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar> formas)
         {
             Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
