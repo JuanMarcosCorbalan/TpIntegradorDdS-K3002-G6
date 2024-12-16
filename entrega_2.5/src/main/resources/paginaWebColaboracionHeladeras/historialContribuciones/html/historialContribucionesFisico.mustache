@@ -57,7 +57,6 @@
                 <thead>
                 <tr>
                     <th>Monto Donado</th>
-                    <th>Frecuencia</th>
                     <th>Fecha</th>
                 </tr>
                 </thead>
@@ -65,7 +64,6 @@
                 {{#donacionesDinero}}
                     <tr>
                         <td>{{monto}}</td>
-                        <td>{{frecuencia}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
                 {{/donacionesDinero}}
@@ -76,8 +74,8 @@
             <table class="table table-bordered table-hover" id="tablaViandas" style="display: none;">
                 <thead>
                 <tr>
-                    <th>Contribución Finalizada</th>
-                    <th>Heladera ID</th>
+                    <th>Estado</th>
+                    <th>Heladera</th>
                     <th>Vianda</th>
                     <th>Fecha</th>
                 </tr>
@@ -85,9 +83,9 @@
                 <tbody id="tbodyViandas">
                 {{#donacionesViandas}}
                     <tr>
-                        <td>{{contribucionFinalizada}}</td>
-                        <td>{{heladera_id}}</td>
-                        <td>{{vianda_id}}</td>
+                        <td>{{estado}}</td>
+                        <td>{{nombre_heladera}}</td>
+                        <td>{{nombre_vianda}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
                 {{/donacionesViandas}}
@@ -97,7 +95,7 @@
             <table class="table table-bordered table-hover" id="tablaDistribucionViandas" style="display: none;">
                 <thead>
                 <tr>
-                    <th>Contribución Finalizada</th>
+                    <th>Estado</th>
                     <th>Viandas a Mover</th>
                     <th>Motivo de Distribucion</th>
                     <th>Heladera Origen</th>
@@ -108,12 +106,12 @@
                 <tbody id="tbodyViandas">
                 {{#distribucionViandas}}
                     <tr>
-                        <td>{{contribucion_finalizada}}</td>
-                        <td>{{cantidadViandasAMover}}</td>
-                        <td>{{motivo_distribucion}}</td>
-                        <td>{{heladeraOrigen_id}}</td>
-                        <td>{{heladeraDestino_id}}</td>
-                        <td>{{fecha_contribucion}}</td>
+                        <td>{{estado}}</td>
+                        <td>{{viandasAMover}}</td>
+                        <td>{{motivo}}</td>
+                        <td>{{heladera_origen}}</td>
+                        <td>{{heladera_destino}}</td>
+                        <td>{{fecha}}</td>
                     </tr>
                 {{/distribucionViandas}}
                 </tbody>

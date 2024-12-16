@@ -3,6 +3,8 @@ package org.example;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
+import org.example.Conversores.DistribucionViandaHistorial;
+import org.example.Conversores.DonacionViandaHistorial;
 import org.example.DAO.*;
 import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
@@ -563,25 +565,42 @@ public class Main {
         app.get("/historialContribuciones", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
-                DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
-                DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
-                DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
-                //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
-
-                List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
-                List<Donacion_viandas> donacionesViandas = donacionViandasDAO.findAllByColaborador(colaborador);
-                List<Distribucion_viandas> distribucionViandas = distribucionViandasDAO.findAllByColaborador(colaborador);
-                //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
-
-
                 Map<String, Object> model = new HashMap<>();
-                model.put("donacionesDinero", donacionesDinero);
-                model.put("donacionesViandas", donacionesViandas);
-                model.put("distribucionViandas", distribucionViandas);
-               // model.put("distribucionTarjetas", distribucionTarjetas);
+                if(colaborador.persona instanceof Persona_fisica personaFisica ){
+                    System.out.println("entre a fisico");
+                    DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
+                    DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
+                    DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
+                    //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
 
-                // Renderizar la plantilla Mustache y pasar el modelo
-                ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribuciones.mustache",model);
+                    List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
+                    List<DonacionViandaHistorial> donacionesViandas = donacionViandasDAO.obtenerHistorial(colaborador);
+                    List<DistribucionViandaHistorial> distribucionViandas = distribucionViandasDAO.obtenerHistorial(colaborador);
+                    //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
+
+                    model.put("donacionesDinero", donacionesDinero);
+                    model.put("donacionesViandas", donacionesViandas);
+                    model.put("distribucionViandas", distribucionViandas);
+                    // model.put("distribucionTarjetas", distribucionTarjetas);
+
+                    // Renderizar la plantilla Mustache y pasar el modelo
+                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesFisico.mustache",model);
+                }else{
+                    System.out.println("entre a juridico");
+                    DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
+                    HacerseCargoHeladeraDAO hacerseCargoHeladeraDAO = new HacerseCargoHeladeraDAO(em);
+                    OfertaDAO ofertaDAO = new OfertaDAO(em);
+
+                    List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
+                    List<HacerseCargoHeladera> hacerseCargoHeladeras = hacerseCargoHeladeraDAO.findAllByColaborador(colaborador);
+                    List<Oferta> ofertas = ofertaDAO.findAllByColaborador(colaborador);
+
+                    model.put("donacionesDinero", donacionesDinero);
+                    model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
+                    model.put("ofertas", ofertas);
+
+                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesJuridico.mustache",model);
+                }
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
             }
@@ -665,7 +684,7 @@ public class Main {
                 Integer cantidadPuntos = Integer.parseInt(ctx.formParam("inputPuntos"));
                 Integer cantidadInstancias = Integer.parseInt(ctx.formParam("inputInstancias"));
 
-                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias);
+                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias,colaborador);
                 //SE PERSISTE LA OFERTA
                 OfertaDAO ofertaDAO = new OfertaDAO (em);
                 ofertaDAO.save(nuevaOferta);

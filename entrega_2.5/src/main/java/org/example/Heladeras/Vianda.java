@@ -59,4 +59,8 @@ public class Vianda {
     public void setHeladera(final Heladera heladera) {
         this.heladera = heladera;
     }
+
+    public String getNombre() {
+        return nombreComida;
+    }
 }

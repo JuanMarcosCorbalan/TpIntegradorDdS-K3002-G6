@@ -213,11 +213,11 @@ public class prueba_repo {
         Visita visita = new Visita(falla, heladera, "problema led rojo", false, null);
         em.persist(visita);
 //oferta public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias)
-        Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80);
+        Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80,emp);
         em.persist(oferta);
-        oferta = new Oferta("Descuento 5% YPF", 25000, 45);
+        oferta = new Oferta("Descuento 5% YPF", 25000, 45,emp);
         em.persist(oferta);
-        oferta = new Oferta("Descuento 15% easy", 8000, 140);
+        oferta = new Oferta("Descuento 15% easy", 8000, 140,emp);
         em.persist(oferta);
 
         // Tarjetas

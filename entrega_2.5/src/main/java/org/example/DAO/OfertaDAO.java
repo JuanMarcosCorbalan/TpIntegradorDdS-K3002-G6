@@ -1,10 +1,13 @@
 package org.example.DAO;
 import java.util.List;
+
+import org.example.Colaborador.Colaborador;
 import org.example.Persona.Pais;
 import org.example.Ofertas.Oferta;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 
 public class OfertaDAO {
 
@@ -65,5 +68,18 @@ public class OfertaDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<Oferta> findAllByColaborador(Colaborador colaborador) {
+        List<Oferta> oferta;
+        try {
+            oferta = entityManager
+                    .createQuery("select d from Oferta d where d.colaborador = :colaborador", Oferta.class)
+                    .setParameter("colaborador", colaborador)
+                    .getResultList();
+        } catch (NoResultException e) {
+            oferta = null;
+        }
+        return oferta;
     }
 }

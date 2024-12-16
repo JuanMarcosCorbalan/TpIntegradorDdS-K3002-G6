@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
+import static org.example.Formas_contribucion.EstadoContribucion.EXITOSA;
+
 
 @Entity
 public class Donacion_dinero extends Contribucion{
@@ -29,8 +31,7 @@ public class Donacion_dinero extends Contribucion{
         this.monto = monto;
         this.frecuencia = frecuencia;
         this.colaborador = colaborador;
-        this.contribucionExitosa = true;
-        this.contribucionTerminada = true;
+        this.estado = EXITOSA;
     }
     public Donacion_dinero(Integer monto, Tipos_frecuencia frecuencia, LocalDate fechaContribucion) {
         super(fechaContribucion);

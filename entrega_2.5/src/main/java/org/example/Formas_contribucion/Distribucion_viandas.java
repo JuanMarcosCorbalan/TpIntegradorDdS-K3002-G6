@@ -86,4 +86,8 @@ public class Distribucion_viandas extends Contribucion{
     public void setIngresoExitoso(Boolean ingresoExitoso) {
         IngresoExitoso = ingresoExitoso;
     }
+
+    public Motivo_distribucion getMotivo() {
+        return motivo_distribucion;
+    }
 }

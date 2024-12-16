@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
+import static org.example.Formas_contribucion.EstadoContribucion.EN_CURSO;
+
 @Entity
 public class Donacion_viandas extends Contribucion{
 
@@ -50,8 +52,7 @@ public class Donacion_viandas extends Contribucion{
         super(colaborador);
         this.heladera = heladera;
         this.vianda = vianda;
-        this.contribucionExitosa = false;
-        this.contribucionFinalizada = false;
+        this.estado = EN_CURSO;
         this.fecha_contribucion = LocalDate.now();
     }
 
@@ -85,5 +86,15 @@ public class Donacion_viandas extends Contribucion{
 
     public void setContribucionFinalizada(boolean contribucionFinalizada) {
         this.contribucionFinalizada = contribucionFinalizada;
+    }
+
+    public Vianda getVianda() {
+        return vianda;
+    }
+    public Boolean getContribucionFinalizada(){
+        return contribucionFinalizada;
+    }
+    public Boolean getContribucionExitosa(){
+        return contribucionExitosa;
     }
 }
