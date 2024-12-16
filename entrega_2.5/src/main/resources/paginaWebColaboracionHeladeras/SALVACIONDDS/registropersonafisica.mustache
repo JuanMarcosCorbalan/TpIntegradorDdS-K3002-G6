@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pestaña de registro</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/SALVACIONDDS/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+<nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #2a4d69">
+
+    <!-- Logo a la izquierda -->
+    <a class="navbar-brand" href="#">
+        <img src="/SALVACIONDDS/img/LogoHobbitsB.png" alt="Logo" style="height: 70px; width: auto;">
+    </a>
+
+</nav>
+
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5 p-4">
+        <form method="post" action="/registarPersonaFisica">
+            <div class="justify-content-center">
+                <div class="row mb-3 mx-3">
+                    <div class="col-md-6">
+                        <label for="nombres" class="form-label">Nombre/s</label>
+                        <input type="text" class="form-control shadow-sm" id="nombres" name="inputNombre"
+                               placeholder="Nombre/s actual/es">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label">Apellido/s</label>
+                        <input type="text" class="form-control shadow-sm" id="apellidos" name="inputApellidos"
+                               placeholder="Apellido/s actual/es">
+                    </div>
+                </div>
+
+                <div class="row mb-3 mx-3">
+                    <div class="col-md-6">
+                        <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control shadow-sm" id="fecha-nacimiento"
+                               name="inputFechaNacimiento" placeholder="DD/MM/YYYY">
+                    </div>
+                </div>
+                <!-- TIPO DOCUMENTACION -->
+                <div class="row mb-3 mx-3">
+                    <div class="col-md-6">
+                        <label for="inputTipoDocumento" class="form-label">Tipo de Documento</label>
+                        <select class="form-control shadow-sm" id="inputTipoDocumento" name="inputTipoDocumento">
+                            <option selected>Seleccione tipo de documento</option>
+                            <option value="1">Documento Nacional de Identidad</option>
+                            <option value="2">Libreta de Enrolamiento</option>
+                            <option value="3">Libreta Civica</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Numero documento -->
+                        <label for="inputNumeroDocumento" class="form-label">Numero de documento</label>
+                        <input type="number" class="form-control shadow-sm" id="inputNumeroDocumento"
+                               name="inputNumeroDocumento" placeholder="1234567890">
+                    </div>
+                </div>
+
+
+                <!-- Medios de contact-->
+                <h5 class="mx-3" style="color: #000000;">Medios de contacto</h5>
+                <div class="row mb-3 mx-3 " style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
+                    <div class="col-md-6 mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control shadow-sm input-smaller" id="correo" name="inputCorreo"
+                               placeholder="Correo Electrónico actual">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="form-label">Número de teléfono</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="telefono"
+                               name="inputTelefono" placeholder="Número de Teléfono actual">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="whatsapp" class="form-label">Whatsapp</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="whatsapp"
+                               name="inputWhatsapp" placeholder="Whatsapp actual">
+                    </div>
+                </div>
+                <!-- Domicilio -->
+                <h5 class="mx-3" style="color:#000000">Domicilio</h5>
+                <div class="row mb-3 mx-3" style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
+                    <div class="col-md-6 mb-3">
+                        <label for="calle" class="form-label">Calle</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="calle" name="inputCalle"
+                               placeholder="Calle actual">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="altura" class="form-label">Altura</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="altura" name="inputAltura"
+                               placeholder="Altura actual">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="ciudad" class="form-label">Ciudad</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="ciudad" name="ciudad"
+                               placeholder="Ciudad actual">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="localidad" class="form-label">Localidad</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="localidad"
+                               name="inputLocalidad" placeholder="Localidad actual">
+
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-success btn-custom mx-3"
+                        style="background-color: #f69000; border-color: #f69000;">Completar Registro
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a href="registropersonas.html" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+    <i class="fas fa-arrow-left"></i> Volver
+</a>
+
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres terminar?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecciona "Salir" para cerrar sesión</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-danger" href="login.html">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+<script>
+    // Obtiene la fecha actual en formato YYYY-MM-DD
+    const today = new Date().toISOString().split('T')[0];
+
+    // Establece el valor máximo para el campo de fecha
+    document.getElementById('fecha-nacimiento').setAttribute('max', today);
+</script>
+</body>
+
+</html>

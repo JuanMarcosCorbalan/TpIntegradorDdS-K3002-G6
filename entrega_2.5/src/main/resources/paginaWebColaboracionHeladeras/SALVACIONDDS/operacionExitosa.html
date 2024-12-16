@@ -9,26 +9,28 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="/SALVACIONDDS/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
-<body id="page-top">
-
+<body>
     <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #2a4d69">
 
         <!-- Logo a la izquierda -->
         <a class="navbar-brand" href="#">
-            <img src="/SALVACIONDDS/img/LogoHobbitsB.png" alt="Logo" style="height: 70px; width: auto;">
+            <img src="/startbootstrap-sb-admin-2-gh-pages/img/LogoHobbitsB.png" alt="Logo" style="height: 70px; width: auto;">
         </a>
     
         <!-- Barra de navegación -->
@@ -37,8 +39,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-white-600 large">Usario</span>
-                    <img class="img-profile rounded-circle" src="/SALVACIONDDS/img/undraw_profile.svg">
+                    <span class="mr-2 d-none d-lg-inline text-white-600 large">Usuario</span>
+                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -58,34 +60,21 @@
         </ul>
     
     </nav>
-    <a href="/inicioSesion" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
-        <i class="fas fa-arrow-left"></i> Cerrar Sesion
-    </a>
 
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row">
-                <div class="col-lg-6 my-3">
-                    <img class="rounded-circle" src="/inicioPersonaFisica/img/donate-money-to-charity-concept-vector.jpg" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Donar Dinero</h2>
-                    <p>Colaborar donando dinero a la organización!</p>
-                    <p><a class="btn btn-primary" onclick="location.href='/SALVACIONDDS/donacionDineroJuridica.mustache'" role="button">Donar dinero &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
-                <div class="col-lg-6 my-3">
-                    <img class="rounded-circle" src="/inicioPersonaJuridica/img/logov2.png" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Hacerse Cargo de Heladera</h2>
-                    <p>Hacerse cargo de una heladera nueva!</p>
-                    <p><a class="btn btn-primary" onclick="location.href='/hacerseCargoHeladera/html/hacerseCargoHeladera.mustache'" role="button">Ver detalles &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
-                <div class="col-lg-6 my-3">
-                    <img class="rounded-circle" src="/inicioPersonaJuridica/img/2331729.png" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Ofrecer Ofertas y Descuentos</h2>
-                    <p>Colaborar ofreciendo descuentos y cupones para tu negocio!</p>
-                    <p><a class="btn btn-primary" onclick="location.href='/SALVACIONDDS/cargaOfertas.mustache'" role="button">Ofrecer Descuentos &raquo;</a></p>
-                </div><!-- /.col-lg-4 -->
-            </div><!-- /.row -->
+    <!-- Contenedor centralizado -->
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <div class="text-center">
+            <!-- Imagen encima de la frase -->
+            <img src="img/cruzverde.jpg" alt="Imagen" class="mb-4" style="max-width: 150px; height: auto;">
+            
+            <!-- Frase de éxito -->
+            <h1 class="display-4">Operación exitosa</h1>
+            
+            <!-- Botón de Volver -->
+            <a href="javascript:history.back()" class="btn btn-primary mt-4">Volver atrás</a>
         </div>
-    </section>
+    </div>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -112,21 +101,21 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
-    <script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="/SALVACIONDDS/js/sb-admin-2.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="/SALVACIONDDS/vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/SALVACIONDDS/js/demo/chart-area-demo.js"></script>
-    <script src="/SALVACIONDDS/js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/SALVACIONDDS/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="/SALVACIONDDS/distribuirTarjetas.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #2a4d69">
+
+    <!-- Logo a la izquierda -->
+    <a class="navbar-brand" href="#">
+        <img src="/SALVACIONDDS/img/LogoHobbitsB.png" alt="Logo"
+             style="height: 70px; width: auto;">
+    </a>
+
+</nav>
+
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5 p-4">
+        <div class="justify-content-center">
+
+
+            <form class="row g-3 mx-5 my-5" method="post" action="/solicitarTarjetas">
+                <h5 class="mx-3" style="color: #000000;">Solicitar tarjetas para repartir</h5>
+                <div class="row mb-3 mx-3 " style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
+                    <div class="col-md-6 mb-3">
+                        <label for="correo" class="form-label">Domicilio donde se enviarán las tarjetas</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="correo" name="correo"
+                               placeholder="Domicilio">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="inputCantidadTarjetas" class="form-label">Cantidad de tarjetas que desea
+                            solicitar</label>
+                        <input type="number" class="form-control shadow-sm input-smaller" id="inputCantidadTarjetas"
+                               name="inputCantidadTarjetas"
+                               placeholder="Nro. tarjetas">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-custom mx-3 mb-3 mt-3"
+                            style="background-color: #f69000; border-color: #f69000;">Solicitar envio de tarjetas
+                    </button>
+                </div>
+            </form>
+
+
+            <form method="post" action="/registrarPersonaSV">
+                <h5 class="mx-3 mt-5" style="color:#000000">Ya repartió sus tarjetas? Cargue los datos de las
+                    personas!</h5>
+                <h6 class="mx-3 ">Cantidad de personas a registrar: {{tarjetasRestantes}} </h6>
+                <div class="row mb-3 mx-3" style="background-color: #D0E5F8; padding: 10px; border-radius: 5px;">
+                    <div class="col-md-6 mb-3">
+                        <label for="inputNombre" class="form-label">Ingrese su/s nombre/s</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="inputNombre" name="inputNombre"
+                               placeholder="Nombre">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label for="inputApellido" class="form-label">Ingrese su/s apellidos</label>
+                        <input type="text" class="form-control shadow-sm input-smaller" id="inputApellido" name="inputApellido"
+                               placeholder="Apellido">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control shadow-sm" id="inputFechaNacimiento" name="inputFechaNacimiento"
+                               placeholder="DD/MM/YYYY">
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label for="inputCantidadMenores" class="form-label">Cantidad de hijos a cargo</label>
+                        <input type="number" class="form-control shadow-sm input-smaller" id="inputCantidadMenores" name="inputCantidadMenores"
+                               placeholder="Nro. hijos">
+
+                    </div>
+
+                    <h5 class="mx-3" style="color:#000000">Seleccione su situación</h5>
+                    <div class="row mb-3 mx-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault1" value="true"
+                                       checked>
+                                <label class="form-check-label" for="flexRadioDefault1" style="color: #333;">
+                                    Persona sin domicilio
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                       id="flexRadioDefault2" value="false">
+                                <label class="form-check-label" for="flexRadioDefault2" style="color: #333;">
+                                    Persona con domicilio
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="container mx-3 my-3" id="domicilio-container" style="display: none;">
+                        <h5>Datos del Domicilio</h5>
+                        <div class="row">
+                            <div class="col-md-6 my-1">
+                                <label for="inputCalle" class="form-label">Calle</label>
+                                <input type="text" class="form-control" id="inputCalle">
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <label for="inputNumero" class="form-label">Número</label>
+                                <input type="number" class="form-control" id="inputNumero">
+                            </div>
+                            <div class="col-md-6 my-1">
+                                <label for="inputLocalidad" class="form-label">Localidad</label>
+                                <input type="text" class="form-control" id="inputLocalidad">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-custom mx-3 mb-3 mt-3"
+                            style="background-color: #f69000; border-color: #f69000;">Solicitar envio de tarjetas
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<a href="/SALVACIONDDS/inicioPersonaFisica.mustache" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+    <i class="fas fa-arrow-left"></i> Volver
+</a>
+
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres terminar?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecciona "Salir" para cerrar sesión</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-danger" href="login.html">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
+<script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/SALVACIONDDS/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/SALVACIONDDS/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/SALVACIONDDS/js/demo/chart-area-demo.js"></script>
+<script src="/SALVACIONDDS/js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>

@@ -30,6 +30,11 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+    public Usuario(String nombre, String contrasenia) {
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
+    }
+
     private void setNombre(String nombreUsuario) {
         this.nombre = nombreUsuario;
     }

@@ -96,6 +96,7 @@ public class Colaborador extends Rol {
         this.formas_de_colaborar = formas;
         //this.heladeras_a_cargo = new ArrayList<Heladera>();
         this.tarjetasARepartir = 0;
+        this.tarjetaColaborador = new TarjetaColaborador(this);
     }
 
     public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora;}

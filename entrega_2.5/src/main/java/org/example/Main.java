@@ -105,8 +105,8 @@ public class Main {
         });//server error
 
         app.get("/inicioAdminitrador", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/inicioAdminitrador/html/inicioAdminitrador.mustache");
-        }); //server error
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
+        });
 
         app.get("/registroOpciones", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/registroOpciones/html/registroOpciones.mustache");
@@ -128,6 +128,10 @@ public class Main {
         app.get("/visualizadorReporteSemanal", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/visualizadorReporteSemanal/html/visualizadorReporteSemanal.html");
         });//server error
+
+        app.get("/registroUsuario", ctx -> {
+           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache");
+        });
 
 
         // login para guardar al colaborador
@@ -170,7 +174,7 @@ public class Main {
                     }
                     break;
                 case "administrador":
-                    ctx.render("/paginaWebColaboracionHeladeras/inicioAdministrador/html/inicioAdministrador.mustache");
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
                     return;
                 default:
                     ctx.status(400).result("Acción no reconocida");
@@ -265,11 +269,11 @@ public class Main {
                     // mostrar la cantidad de tarjetas restantes
                     model.put("tarjetasRestantes", tarjetasARepartir);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionTarjetas.mustache",model);
 
                 } else {
                     model.put("tarjetasRestantes", "0 tarjetas solicitadas, solicite tarjetas ahora!");
-                    ctx.render("/paginaWebColaboracionHeladeras/distribucionTarjetas/html/distribucionTarjetas.mustache", model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionTarjetas.mustache", model);
                 }
             } else {
                 ctx.redirect("/inicioSesion");
@@ -335,7 +339,6 @@ public class Main {
 
         app.post("/migrarCsv", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
-            if (colaborador != null) {
                 var archivoCsv = ctx.uploadedFile("archivoCsv");
                 if (archivoCsv != null) {
 
@@ -361,7 +364,7 @@ public class Main {
                     model.put("datosColaboraciones", datosAImprimir);
                     // Pasa la lista al contexto y renderiza la plantilla
                     ctx.attribute("datosColaboracion", datosAImprimir);
-                    ctx.render("/paginaWebColaboracionHeladeras/resultadoMigracionCSV/html/resultadoMigracionCSV.mustache", model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/resultadoMigracionCSV.mustache", model);
                     for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
                         Persona persona = colaboradorLista.getPersona_colaboradora();
                         if (persona instanceof Persona_fisica personaFisicaExistente) {
@@ -376,16 +379,12 @@ public class Main {
                         }
                     }
                 }
-            } else {
-                ctx.redirect("/inicioSesion");
-            }
+
         });
         //instanciacion.crearColaboradores(colaboradores);
         //instanciacion.migrarColaboradores(colaboradores);
 
-        app.post("/registarPersonaFisica", ctx -> {
-            LocalidadDAO localidadDAO = new LocalidadDAO(em);
-            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+        app.post("/registrarUsuario", ctx -> {
             UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
             String usuarioNombre = ctx.formParam("usuario");
@@ -394,6 +393,18 @@ public class Main {
             if(!validadorContra.validar(contrasenia)){
                 ctx.status(400).result("Contraseña poco segura");
             }
+            Usuario usuario = new Usuario(usuarioNombre, contrasenia);
+
+            ctx.sessionAttribute("usuario", usuario);
+            usuarioDAO.save(usuario);
+
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonas.mustache");
+        });
+
+        app.post("/registarPersonaFisica", ctx -> {
+            LocalidadDAO localidadDAO = new LocalidadDAO(em);
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
             Tipo_documento tipoDocumento = null;
             List<Medio_contacto> mediosContacto = new ArrayList<>();
@@ -428,8 +439,9 @@ public class Main {
             Persona_fisica persona = new Persona_fisica(nombres, apellidos, fechaNacimiento, documento, mediosContacto,
                     domicilioNuevo);
 
-            Usuario usuario = new Usuario(persona, usuarioNombre, contrasenia);
-
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            usuario.setPersona(persona);
+            ctx.sessionAttribute("usuario", usuario);
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
             String numeroWhatsapp = ctx.formParam("inputWhatsapp");
@@ -461,12 +473,6 @@ public class Main {
             ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
-            String usuarioNombre = ctx.formParam("usuario");
-            String contrasenia = ctx.formParam("contraseña");
-            ValidarContrasenia validadorContra = new ValidarContrasenia();
-            if(!validadorContra.validar(contrasenia)){
-                ctx.status(400).result("Contraseña poco segura");
-            }
 
             Tipo_juridico tipoJuridico = null;
             List<Medio_contacto> mediosContacto = new ArrayList<>();
@@ -507,7 +513,9 @@ public class Main {
             }
 
             Persona_juridica persona = new Persona_juridica(domicilioNuevo, mediosContacto, razonSocial, tipoJuridico);
-            Usuario usuario = new Usuario(persona, usuarioNombre, contrasenia);
+            Usuario usuario = ctx.sessionAttribute("usuario");
+            usuario.setPersona(persona);
+            ctx.sessionAttribute("usuario", usuario);
 
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
