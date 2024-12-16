@@ -58,6 +58,7 @@ public class UsuarioService {
         return usuario;
     }
 
+
     public Colaborador obtenerColaborador(Usuario usuario){
 
         Colaborador colaborador = null;

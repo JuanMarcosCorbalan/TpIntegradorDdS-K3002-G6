@@ -24,6 +24,7 @@ import java.util.*;
 
 import io.javalin.Javalin;
 import org.example.Sistema.MigracionColaboradores;
+import org.example.Sistema.RegistrarUsuario;
 import org.example.Sistema.Usuario;
 import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
@@ -131,6 +132,10 @@ public class Main {
 
         app.get("/registroUsuario", ctx -> {
            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache");
+        });
+
+        app.get("/reporteFallaTecnica", ctx -> {
+           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnica.mustache");
         });
 
 
@@ -386,14 +391,23 @@ public class Main {
 
         app.post("/registrarUsuario", ctx -> {
             UsuarioDAO usuarioDAO = new UsuarioDAO(em);
+            RegistrarUsuario servicioValidacion = new RegistrarUsuario(em);
+            Map<String, Object> model = new HashMap<>();
 
             String usuarioNombre = ctx.formParam("usuario");
+            Usuario usuario = servicioValidacion.validar_nombre_usuario(usuarioNombre);
+            if (usuario != null) {
+                model.put("error", "nombre de usuario ya utilizado");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
+                return;
+            }
+
             String contrasenia = ctx.formParam("contraseña");
             ValidarContrasenia validadorContra = new ValidarContrasenia();
             if(!validadorContra.validar(contrasenia)){
                 ctx.status(400).result("Contraseña poco segura");
             }
-            Usuario usuario = new Usuario(usuarioNombre, contrasenia);
+            usuario = new Usuario(usuarioNombre, contrasenia);
 
             ctx.sessionAttribute("usuario", usuario);
             usuarioDAO.save(usuario);
@@ -608,7 +622,7 @@ public class Main {
             if (colaborador != null) {
                 Heladera heladeraprueba = new Heladera("heladeraPrueba");
                 String descripcion = ctx.formParam("inputDescripcion");
-                //UploadedFile foto = ctx.uploadedFile("inputFoto");
+                var foto = ctx.uploadedFile("inputFoto");
                 colaborador.reportarFallaTenica(heladeraprueba, descripcion, null);
                 ctx.result("Reporte de Falla generado con exito");
             } else {

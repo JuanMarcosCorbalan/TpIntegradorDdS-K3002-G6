@@ -35,6 +35,10 @@
                         <h1 class="h4 text-gray-900 mb-4">Crear una nueva cuenta</h1>
                     </div>
                     <form class="user" method="post" action="/registrarUsuario"> <!---->
+                        <!-- Mensajes de error dinámicos -->
+                        {{#error}}
+                            <div id="datos-invalidos" style="color: red; margin-top: 10px;">{{error}}</div>
+                        {{/error}}
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user" id="exampleInputUser" name="usuario"
                                    placeholder="Usuario">
