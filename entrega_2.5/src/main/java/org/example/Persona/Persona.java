@@ -1,15 +1,14 @@
 package org.example.Persona;
 
-import java.util.ArrayList;
+import org.example.Suscripcion.MensajeAviso;
+
+import java.io.IOException;
 import java.util.List;
 
 
 import javax.persistence.*;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.text.Document;
 
 @Entity
 @Table (name = "Persona")
@@ -58,6 +57,13 @@ abstract public class Persona {
     @Override
     public int hashCode(){
         return 0;
+    }
+
+    public void notificarPorMedios(MensajeAviso mensaje){
+        for(Medio_contacto medioContacto : mediosContacto)
+        {
+            medioContacto.notificar(mensaje);
+        }
     }
 }
 

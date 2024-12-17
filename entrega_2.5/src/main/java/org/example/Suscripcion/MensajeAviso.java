@@ -28,4 +28,8 @@ public class MensajeAviso {
     public MensajeAviso() {
 
     }
+
+    public String getDescripcionMensaje() {
+        return descripcionMensaje;
+    }
 }

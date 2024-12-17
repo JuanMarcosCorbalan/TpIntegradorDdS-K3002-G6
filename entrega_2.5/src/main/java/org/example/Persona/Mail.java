@@ -1,10 +1,8 @@
 package org.example.Persona;
 
-import com.sendgrid.helpers.mail.objects.Email;
-import org.example.Funcionalidades.EnvioMail;
-import javax.persistence.*;
+import org.example.Suscripcion.MensajeAviso;
 
-import java.io.IOException;
+import javax.persistence.*;
 
 @Entity
 public class Mail extends Medio_contacto {
@@ -13,15 +11,17 @@ public class Mail extends Medio_contacto {
 
     public Mail() {}
 
-    public Mail (Persona persona, String email_nuevo){
-        this.persona = persona;
-        this.email = email_nuevo;
+    public Mail (Persona persona, String email){
+        super(persona);
+        this.email = email;
     }
 
+    /*
     public void notificar(Medio_contacto[] medios) throws IOException {
         Email email = this.getMail(medios);
         //new EnvioMail().enviarEmail(email);
-    }
+    }*/
+    /*
     public Email getMail(Medio_contacto[] medios) {
         for(Medio_contacto mc : medios) {
             if(mc instanceof Mail) {
@@ -29,17 +29,17 @@ public class Mail extends Medio_contacto {
             }
         }
         return null;
-    }
+    }*/
     public String getMail() {
         return email;
     }
 
+    public void setEmail(String email) {this.email = email;}
+
     @Override
-    public void setDetalle(String mail){
-        this.email = mail;
+    public void notificar (MensajeAviso mensaje) {
+        System.out.println("Notificando Mail");
     }
 
-    public Mail(String mail) {
-        this.email = mail;
-    }
+
 }

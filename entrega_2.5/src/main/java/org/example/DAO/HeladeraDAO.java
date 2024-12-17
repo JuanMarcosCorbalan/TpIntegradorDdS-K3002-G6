@@ -86,9 +86,10 @@ public class HeladeraDAO {
             long id = heladera.getId();
             String idHeladera = heladera.getIdHeladera();
             String nombre = heladera.getPuntoUbicacion().getNombre();
+            int capacidad = heladera.getUnidadesMaximoViandas();
 
 
-            HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre);
+            HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
             heladeraDTOs.add(heladeraDTO);
         }
 

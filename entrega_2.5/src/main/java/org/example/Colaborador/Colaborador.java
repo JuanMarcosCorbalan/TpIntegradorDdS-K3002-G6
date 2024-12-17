@@ -14,6 +14,7 @@ import org.example.Validadores_Sensores.FallaTecnica;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,11 @@ public class Colaborador extends Rol {
     @OneToOne(cascade = CascadeType.ALL)
     TarjetaColaborador tarjetaColaborador;
 
-    @OneToMany(mappedBy = "colaborador")
-    List<MensajeAviso> mensajesAvisos;
+    @OneToMany(mappedBy = "colaborador",cascade = CascadeType.ALL)
+    List<MensajeAviso> mensajesAvisos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "colaborador",cascade = CascadeType.ALL)
+    List<Suscripcion> suscripciones = new ArrayList<>();
 
     /*@ManyToMany
     @JoinTable(
@@ -58,9 +62,10 @@ public class Colaborador extends Rol {
     public void aniadirMedioContacto(){
 
     };
+    /*
     public void notificarPorMedios(){
 
-    };
+    };*/
 
     // si se pasa un parametro realiza esa contribucion
     // habria que validar que el colaborador pueda hacerlo
@@ -142,7 +147,7 @@ public class Colaborador extends Rol {
         this.contribuciones = contribuciones;
     }
 
-    public void reportarFallaTenica(Heladera heladera, String descripcion, File foto)
+    public void reportarFallaTenica(Heladera heladera, String descripcion, String foto)
     {
         heladera.desactivar();
         List<Tecnico> tecnicos = new ArrayList<>();//IRREAL, DEBERIA TOMAR LA LISTA REAL CON LOS TECNICOS
@@ -154,14 +159,14 @@ public class Colaborador extends Rol {
         this.tarjetaColaborador = tj;
     }
 
-    public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,File foto,Heladera heladera)
+    public FallaTecnica reportarIncidente(Colaborador colaborador,String descripcion,String foto,Heladera heladera)
     {
         return new FallaTecnica(colaborador,descripcion,foto,heladera);
     }
 
     public void suscribirseAHeladera(Heladera heladeraASuscribirse, TipoSuscripcion tipoSuscripcion, Integer numeroViandas){
-        Suscripcion suscripcion = CreacionSuscripcion.crearSuscripcion(tipoSuscripcion, numeroViandas);
-        heladeraASuscribirse.getAdmin_suscr().suscribirse(CreacionSuscripcion.definirEveneto(tipoSuscripcion,numeroViandas),suscripcion);
+        Suscripcion suscripcion = CreacionSuscripcion.crearSuscripcion(tipoSuscripcion, numeroViandas,this,heladeraASuscribirse);
+        heladeraASuscribirse.suscribirse(suscripcion);
     }
 
     public Integer getCantidadViandasDonadas(){
@@ -269,5 +274,13 @@ public class Colaborador extends Rol {
     public long getId() {
         return id;
     }
+
+
+    public void procesar_mensaje(MensajeAviso mensaje) {
+        mensajesAvisos.add(mensaje);
+        persona.notificarPorMedios(mensaje);
+    }
+
+    public List<MensajeAviso> getMensajesAvisos(){return mensajesAvisos;}
 }
 

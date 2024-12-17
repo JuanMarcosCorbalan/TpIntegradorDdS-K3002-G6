@@ -82,7 +82,8 @@ public class CargaDatosCsv {
 
             this.agregarColaboradorNuevoAExistentes(colaborador, nuevaPersonaFisica, colaboradoresExistentes, colaboradoresExistentesMap, personasFisicasExistentesMap, numeroDocumentoString);
             Email emailPersona = new Email(mail);
-            EnvioMail.enviarEmail(emailPersona);
+            EnvioMail envio = new EnvioMail();
+            envio.enviarEmail(emailPersona,"Carga realizada correctamente","Tu usuario fue cargado correctamente.","hola");
             return colaborador;
         } else {
             return colaboradoresExistentesMap.get(numeroDocumentoString);

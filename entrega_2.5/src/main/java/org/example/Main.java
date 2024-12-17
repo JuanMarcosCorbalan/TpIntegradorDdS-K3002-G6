@@ -1,9 +1,12 @@
 package org.example;
 
+import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
 import org.example.DAO.*;
+import org.example.DTO.IncidenteDTO;
+import org.example.DTO.VisitaDTO;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
 import org.example.Heladeras.Heladera;
@@ -29,6 +32,7 @@ import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Tarjetas.TarjetaColaborador;
 import org.example.Utils.BDutils;
+import org.example.Validadores_Sensores.FallaTecnica;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
 import javax.persistence.EntityManager;
@@ -142,6 +146,7 @@ public class Main {
                         ctx.sessionAttribute("colaborador", colaborador);
                         if (colaborador.persona instanceof Persona_fisica personaFisica) {
                             ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaFisica/html/inicioPersonaFisica.mustache");
+                            //ctx.render("/paginaWebColaboracionHeladeras/inicioTecnico/html/inicioTecnico.mustache");
                             return;
                         } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
                             ctx.render("/paginaWebColaboracionHeladeras/inicioPersonaJuridica/html/inicioPersonaJuridica.mustache");
@@ -229,15 +234,105 @@ public class Main {
                 ctx.render("/inicioSesion");
             }
         });
+
+        //REPORTAR FALLA TECNICA
+        app.post("/reportarFallaTecnica", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            TarjetaDAO tarjetaDAO = new TarjetaDAO(em);
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            if(colaborador !=null)
+            {
+                String descripcion = ctx.formParam("inputDescripcion");
+                String idHeladera = ctx.formParam("selectedHeladeraId");
+                Heladera heladera = heladeraDAO.findHeladeraString(idHeladera);
+
+                // Manejar la imagen (si se envía)
+                UploadedFile uploadedFile = ctx.uploadedFile("inputFoto");
+                String filePath = null;
+
+                if (uploadedFile != null) {
+                    try {
+                        // Directorio donde se almacenará la imagen
+                        String uploadDir = "uploads/fallas";
+                        File uploadDirFile = new File(uploadDir);
+                        if (!uploadDirFile.exists()) {
+                            uploadDirFile.mkdirs(); // Crear directorio si no existe
+                        }
+
+                        // Crear un nombre único para la imagen
+                        String uniqueFileName = UUID.randomUUID() + "_" + uploadedFile.filename();
+
+                        // Ruta completa para guardar el archivo
+                        filePath = uploadDir + File.separator + uniqueFileName;
+
+                        // Guardar el archivo en el sistema
+                        File file = new File(filePath);
+                        try (InputStream inputStream = uploadedFile.content();
+                             OutputStream outputStream = new FileOutputStream(file)) {
+                            inputStream.transferTo(outputStream);
+                        }
+
+                    } catch (IOException e) {
+                        ctx.status(500).result("Error al procesar la imagen.");
+                        return;
+                    }
+                }
+
+                FallaTecnica falla = new FallaTecnica(colaborador,descripcion,filePath,heladera);
+                incidenteDAO.save(falla);
+
+                ctx.status(201).json(Map.of("mensaje", "Falla técnica reportada exitosamente."));
+            }else{
+                ctx.render("/inicioSesion");
+            }
+
+
+
+
+
+        });
+
+
+
         app.post("/distribucionViandas", ctx -> {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            TarjetaDAO tarjetaDAO = new TarjetaDAO(em);
             if (colaborador != null) {
                 // Recibir los datos del formulario
-                Heladera heladera0 = new Heladera("heladera0Prueba", 10);
-                Heladera heladera1 = new Heladera("heladera1Prueba", 10);
+                String idHeladeraOrigen = ctx.formParam("selectedHeladeraIdOrigen");
+                String idHeladeraDestino = ctx.formParam("selectedHeladeraIdDestino");
+                Heladera heladera0 = heladeraDAO.findHeladeraString(idHeladeraOrigen);
+                Heladera heladera1 = heladeraDAO.findHeladeraString(idHeladeraDestino);
+
+
                 LocalDate fechaDistribucion = LocalDate.parse(ctx.formParam("inputFechaDistribucion"));
                 Integer cantidadViandasAMover = Integer.valueOf(ctx.formParam("inputCantidadViandas"));
+                String motivo = ctx.formParam("motivoDistribucion");
+                Motivo_distribucion motivoDistribucion = null;
+
+                if (motivo == null || motivo.trim().isEmpty()) {
+                    ctx.status(401).result("Seleccione un motivo de distribución");
+                    return;
+                }
+
+                switch (motivo) {
+                    case "desperfecto":
+                        motivoDistribucion = Motivo_distribucion.DESPERFECTO_HELADERA;
+                        break;
+                    case "faltantes":
+                        motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
+                        break;
+                    default:
+                        ctx.status(400).result("Motivo de distribución inválido");
+                        return;
+                }
+
+                /*
                 String desperfecto = ctx.formParam("opcionDesperfecto");
                 if (desperfecto == null) {
                     desperfecto = "false";
@@ -260,9 +355,11 @@ public class Main {
                         }
                     }
 
-                }
+                }*/
                 // Llamar a la lógica de backend
                 SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
+                colaboradorDAO.update(colaborador);
+                tarjetaDAO.update(colaborador.getTarjetaColaborador());
 
                 // Enviar una respuesta de confirmación
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
@@ -546,7 +643,7 @@ public class Main {
                 ctx.redirect("/inicioSesion");
             }
         });
-
+/*
         app.post("/reportarFallaTecnica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
@@ -558,7 +655,7 @@ public class Main {
             } else {
                 ctx.status(401).result("Por favor inicia sesión para reportar el fallo.");
             }
-        });
+        });*/
 
         app.post("/donarDineroFisica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -656,6 +753,26 @@ public class Main {
             // Devolver las heladeras en formato JSON
             ctx.json(heladeras);
         });
+
+        app.get("/api/tecnicos/{idTecnico}/fallasTecnicas", ctx -> {
+            Long idTecnico = Long.valueOf(ctx.pathParam("idTecnico"));
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(idTecnico);
+
+            ctx.json(fallas);
+
+        });
+
+        app.get("/api/fallasTecnicas/{idFalla}/visitas", ctx -> {
+           Long idFalla = Long.valueOf(ctx.pathParam("idFalla"));
+           VisitaDAO visitaDAO = new VisitaDAO(em);
+           List<VisitaDTO> visitas = visitaDAO.findVisitas(idFalla);
+
+           ctx.json(visitas);
+        });
+
+
+
 
 
     }

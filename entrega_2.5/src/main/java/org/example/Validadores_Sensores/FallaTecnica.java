@@ -20,12 +20,12 @@ public class FallaTecnica extends Incidente{
     Colaborador colaborador;
 
     String descripcion;
-    File foto;
+    String foto;
 
     @ManyToOne
     Tecnico tecnicoAsignado;
 
-    public FallaTecnica(Colaborador colaborador, String descripcion, File foto, Heladera heladera){
+    public FallaTecnica(Colaborador colaborador, String descripcion, String foto, Heladera heladera){
         super();
         this.colaborador = colaborador;
         this.descripcion = descripcion;
@@ -55,5 +55,15 @@ public class FallaTecnica extends Incidente{
         BuscarTecnico buscarTecnico = new BuscarTecnico();
         this.tecnicoAsignado = buscarTecnico.buscarTecnico(tecnicos,ubicacion);
         tecnicoAsignado.asignarFalla(this);
+    }
+
+    public Tecnico getTecnicoAsignado() {
+        return tecnicoAsignado;
+    }
+
+    public String getDescripcion() {return descripcion;
+    }
+
+    public String getFoto() {return foto;
     }
 }

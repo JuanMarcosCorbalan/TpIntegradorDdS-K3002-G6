@@ -14,7 +14,7 @@ public class Tecnico extends Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
-    private Long id;
+    public Long id;
 
     @ManyToOne (cascade = CascadeType.ALL)
     AreaCobertura areaCobertura;
@@ -46,9 +46,11 @@ public class Tecnico extends Rol {
         fallasTecnicasAsignadas.add(fallaTecnica);
     }
 
-    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, File imagen)
+    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen)
     {
         Visita visitaRealizada = new Visita(fallaARevisar,heladera,descripcion,incidenteSolucionado,imagen);
         visitasRealizadas.add(visitaRealizada);
     }
+
+    public Long getId(){return id;}
 }

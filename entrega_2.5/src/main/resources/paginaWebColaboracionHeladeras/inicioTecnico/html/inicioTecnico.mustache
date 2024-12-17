@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/paginaWebColaboracionHeladeras/bootstrap-4.0.0/docs/assets/img/favicons/favicon.ico">
+
+    <title>Hobbits Heladeras Comunitarias</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/inicioTecnico/css/inicioTecnico.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="header-container d-flex justify-content-between align-items-center">
+        <img class="img-logo" src="/inicioPersonaFisica/img/logov3.png" alt="logo">
+        <div class="header-buttons d-flex align-items-center">
+            <button class="btn btn-canjear" onclick="location.href='/puntosYCanjes'">Canjear Puntos</button>
+            <div class="dropdown">
+                <button class="btn btn-settings dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/inicioPersonaFisica/img/settings.png" alt="Settings" class="settings-icon">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><button onclick="location.href='../../visualizadorReporteSemanal/html/visualizadorReporteSemanal.html'" class="dropdown-item">Ver reporte semanal</button></li>
+                    <li><button onclick="location.href='/puntosYCanjes'" class="dropdown-item">Ver Puntos Y Canjes Disponibles</button></li>
+                    <li><button onclick="location.href='../../gestionHeladeras/html/gestionHeladeras.html'" class="dropdown-item">Gestion Heladeras</button></li>
+                    <li><button onclick="location.href='../../reportarFallaTecnica/reportarFallaTecnica.mustache'" class="dropdown-item">Reportar falla tecnica</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main role="main">
+    <div class="container marketing">
+        <!-- Two columns of text below the header -->
+        <div class="row">
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="/inicioTecnico/img/falla.png" alt="Reportar Falla Tecnica" width="140" height="140">
+                <h2>Ver fallas tecnicas</h2>
+                <p>Visualize las fallas tecnicas asignadas</p>
+                <p><a class="btn btn-primary" onclick="location.href='/donacionDinero/html/donacionDineroFisica.mustache'" role="button">Ver fallas &raquo;</a></p>
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-6 my-3">
+                <img class="rounded-circle" src="/inicioTecnico/img/visita.png" alt="Registrar visita" width="140" height="140">
+                <h2>Registrar visita</h2>
+                <p>Registre visita asociada a una falla tecnica</p>
+                <p><a class="btn btn-primary" onclick="location.href='/donacionVianda/html/donacionVianda.mustache'" role="button">Registrar visita &raquo;</a></p>
+            </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+    <!-- FOOTER -->
+    <footer class="footer-container">
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>
+</main>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
+<script src="../../bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

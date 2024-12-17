@@ -38,5 +38,5 @@ function validar_contrasenia(contrasenia)
     return false;
 }
 
-const apiUrl = '/api/heladeras';
+
 

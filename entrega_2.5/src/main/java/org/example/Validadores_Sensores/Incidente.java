@@ -13,7 +13,7 @@ public class Incidente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @ManyToOne
     Heladera heladera;
@@ -21,7 +21,7 @@ public class Incidente {
     LocalDate fecha;
     LocalTime hora;
 
-    @Transient
+    @Enumerated(EnumType.STRING)
     TipoIncidente tipoIncidente;
 
     public Incidente(Heladera heladera, TipoIncidente tipoIncidente) {
@@ -33,4 +33,16 @@ public class Incidente {
 
     public Incidente() {
     }
+
+    public Heladera getHeladera() {
+        return heladera;
+    }
+
+    public LocalDate getFecha() { return fecha;
+    }
+
+    public LocalTime getHora() {return hora;
+    }
+
+    public Long getId(){return id;}
 }
