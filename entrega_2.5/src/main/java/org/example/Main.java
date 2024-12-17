@@ -580,6 +580,8 @@ public class Main {
 
         app.post("/migrarCsv", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            UsuarioService us = new UsuarioService(em);
+
                 var archivoCsv = ctx.uploadedFile("archivoCsv");
                 if (archivoCsv != null) {
 
@@ -598,7 +600,12 @@ public class Main {
                         return;
                     }
                     // esto podria ir en el handler
-                    MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colaboradoresExistentes);
+
+                    // tengo que traer de la base de datos los colaboradores existentes
+                    List<Colaborador> colaboradores = us.findAllColaborador();
+                    RepositorioColaboradores colabExistentes = new RepositorioColaboradores(colaboradores);
+
+                    MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colabExistentes);
                     List<DatosColaboracion> datosAImprimir = migracionColaboradores.migrarCsv();
                     System.out.println(datosAImprimir);
                     Map<String, Object> model = new HashMap<>();
@@ -606,7 +613,7 @@ public class Main {
                     // Pasa la lista al contexto y renderiza la plantilla
                     ctx.attribute("datosColaboracion", datosAImprimir);
                     ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/resultadoMigracionCSV.mustache", model);
-                    for (Colaborador colaboradorLista : colaboradoresExistentes.getColaboradores()) {
+                    for (Colaborador colaboradorLista : colabExistentes.getColaboradores()) {
                         Persona persona = colaboradorLista.getPersona_colaboradora();
                         if (persona instanceof Persona_fisica personaFisicaExistente) {
                             System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());

@@ -87,7 +87,8 @@ public class Colaborador extends Rol {
 
     public void agregarContribucion(Contribucion nuevaContribucion){
         contribuciones.add(nuevaContribucion);
-        puntos+= nuevaContribucion.calcular_puntos();
+        puntos += nuevaContribucion.calcular_puntos();
+        this.getCantidadViandasDonadas();
     }
     /*
     public void realizar_contribucion(){
@@ -179,9 +180,10 @@ public class Colaborador extends Rol {
     }
 
     public Integer getCantidadViandasDonadas(){
+        viandasDonadas = 0;
         for(Contribucion contribucion: contribuciones){
-            if(contribucion instanceof Donacion_viandas){
-                viandasDonadas += 1;
+            if(contribucion instanceof Donacion_viandas donacionViandas){
+                viandasDonadas += donacionViandas.cant_viandas();
             }
         }
         return viandasDonadas;
@@ -247,8 +249,9 @@ public class Colaborador extends Rol {
     public void solicitarTarjetasParaRepartir(Integer cantidadTarjetas){
         RegistrarPersonasSV registroPersonasSV = new RegistrarPersonasSV(cantidadTarjetas, LocalDate.now(), this);
         // enviar tarjetas qcyo algo asi
-        contribuciones.add(registroPersonasSV);
-        puntos+= registroPersonasSV.calcular_puntos();
+        //contribuciones.add(registroPersonasSV);
+        //puntos+= registroPersonasSV.calcular_puntos();
+        this.agregarContribucion(registroPersonasSV);
         if (tarjetasARepartir == null) {
             tarjetasARepartir = 0;
         }

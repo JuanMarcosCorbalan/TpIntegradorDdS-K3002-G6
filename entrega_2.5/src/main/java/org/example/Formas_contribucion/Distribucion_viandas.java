@@ -42,6 +42,11 @@ public class Distribucion_viandas extends Contribucion{
         return cantidadViandasAMover;
     }
 
+    public Distribucion_viandas(Colaborador colaborador, Integer cantidadViandasAMover, LocalDate fechaColaboracion) {
+        super(colaborador, fechaColaboracion);
+        this.cantidadViandasAMover = cantidadViandasAMover;
+    }
+
     public Distribucion_viandas(Integer cantidadViandasAMover, LocalDate fechaColaboracion) {
         super(fechaColaboracion);
         this.cantidadViandasAMover = cantidadViandasAMover;

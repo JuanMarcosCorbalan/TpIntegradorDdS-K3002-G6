@@ -25,6 +25,8 @@ public class Donacion_viandas extends Contribucion{
     @Transient
     List<Vianda> viandas = new ArrayList<Vianda>(); // NOSE Q ONDA
 
+    Integer cantidadViandas;
+
     boolean contribucionExitosa; // NOSE Q ONDA
     boolean contribucionFinalizada; // NOSE Q ONDA
 
@@ -34,7 +36,7 @@ public class Donacion_viandas extends Contribucion{
 
     public Integer cant_viandas()
     {
-        return viandas.size();
+        return cantidadViandas;
     }
 
     public Donacion_viandas(Heladera heladera, boolean contribucionExitosa, List<Vianda> viandas, LocalDate fecha_contribucion) {
@@ -44,8 +46,9 @@ public class Donacion_viandas extends Contribucion{
         this.viandas = viandas;
     }
 
-    public Donacion_viandas(LocalDate fecha_contribucion) {
-        super(fecha_contribucion);
+    public Donacion_viandas(Colaborador colaborador, LocalDate fecha_contribucion, Integer cantidad) {
+        super(colaborador, fecha_contribucion);
+        this.cantidadViandas = cantidad;
     }
 
     public Donacion_viandas(Colaborador colaborador, Heladera heladera, Vianda vianda){
@@ -54,11 +57,12 @@ public class Donacion_viandas extends Contribucion{
         this.vianda = vianda;
         this.estado = EN_CURSO;
         this.fecha_contribucion = LocalDate.now();
+        this.cantidadViandas = 1;
     }
 
     @Override
     public double calcular_puntos() {
-        return cant_viandas()*ConstCalculo.VIANDAS_DONADAS.getValor();
+        return cantidadViandas*ConstCalculo.VIANDAS_DONADAS.getValor();
     }
 
     @Override

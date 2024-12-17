@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.*;
 
 public class UsuarioService {
 
@@ -88,6 +89,13 @@ public class UsuarioService {
         } catch (NoResultException e) {
             return null; // El usuario no existe
         }
+    }
+
+    public List<Colaborador> findAllColaborador() {
+        String query = "SELECT c FROM Colaborador c";
+        List<Colaborador> colaboradores = entityManager.createQuery(query, Colaborador.class).getResultList();
+
+        return colaboradores;
     }
 
     public void esFisico(Colaborador colaborador) {

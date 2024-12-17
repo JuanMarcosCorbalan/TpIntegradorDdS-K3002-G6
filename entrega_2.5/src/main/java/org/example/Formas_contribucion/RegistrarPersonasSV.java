@@ -30,7 +30,7 @@ public class RegistrarPersonasSV extends Contribucion{
 
     @OneToMany(mappedBy = "registro")
     List<PersonaSituacionVulnerable> personasSituacionVulnerable = new LinkedList<PersonaSituacionVulnerable>(); // esta no esta en el der
-    @Transient
+
     Integer cantidadTarjetasRepartidas; // esta no esta en el der
 
     Integer registrosPendientes = 0; // esta no esta en el der
@@ -125,6 +125,14 @@ public class RegistrarPersonasSV extends Contribucion{
         registrosPendientes = cantidadTarjetasRepartidas;
         this.colaborador = colaborador;
         this.estado = EstadoContribucion.EN_CURSO;
+    }
+
+    public RegistrarPersonasSV(Integer cantidadTarjetasRepartidas, Integer registrosPendientes, LocalDate fechaColaboracion, Colaborador colaborador) {
+        super(fechaColaboracion);
+        this.cantidadTarjetasRepartidas = cantidadTarjetasRepartidas;
+        this.registrosPendientes = registrosPendientes;
+        this.colaborador = colaborador;
+        this.estado = EstadoContribucion.EXITOSA;
     }
 
     public RegistrarPersonasSV() {

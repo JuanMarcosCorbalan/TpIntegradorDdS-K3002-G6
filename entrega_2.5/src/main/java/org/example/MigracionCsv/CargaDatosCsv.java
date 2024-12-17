@@ -2,13 +2,16 @@ package org.example.MigracionCsv;
 
 import com.sendgrid.helpers.mail.objects.Email;
 import org.example.Colaborador.Colaborador;
+import org.example.DAO.ColaboradorDAO;
 import org.example.Formas_contribucion.*;
 import org.example.Funcionalidades.EnvioMail;
 import org.example.Persona.Documento_identidad;
 import org.example.Persona.Persona;
 import org.example.Persona.Persona_fisica;
 import org.example.Persona.Tipo_documento;
+import org.example.Utils.BDutils;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -29,26 +32,33 @@ public class CargaDatosCsv {
     }
 
     public void identificarYCrearColaboracion(Colaborador colaborador, String formaColaboracion, Integer cantidad, LocalDate fechaColaboracion){
+        EntityManager em = BDutils.getEntityManager();
+        ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
         switch (formaColaboracion) {
             case "DINERO" -> {
                 Donacion_dinero donacionDinero = new Donacion_dinero(cantidad, Tipos_frecuencia.DONACION_UNICA, fechaColaboracion);
+                donacionDinero.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(donacionDinero);
             }
             case "REDISTRIBUCION_VIANDAS" -> {
-                Distribucion_viandas distribucionViandas = new Distribucion_viandas(cantidad, fechaColaboracion);
+                Distribucion_viandas distribucionViandas = new Distribucion_viandas(colaborador, cantidad, fechaColaboracion);
+                distribucionViandas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(distribucionViandas);
             }
             case "ENTREGA_TARJETAS" -> {
-                RegistrarPersonasSV entregaTarjetas = new RegistrarPersonasSV(cantidad, fechaColaboracion, colaborador);
+                RegistrarPersonasSV entregaTarjetas = new RegistrarPersonasSV(cantidad,0,fechaColaboracion, colaborador);
+                entregaTarjetas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(entregaTarjetas);
             }
             case "DONACION_VIANDAS" -> {
                 // no seteo la cantidad de viandas porque deberia agregar la vianda a la lista de viandas pero seria una vianda vacia
-                Donacion_viandas donacionViandas = new Donacion_viandas(fechaColaboracion);
+                Donacion_viandas donacionViandas = new Donacion_viandas(colaborador, fechaColaboracion, cantidad);
+                donacionViandas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(donacionViandas);
             }
             default -> throw new Error("FORMA DE COLABORACION INVALIDA");
         }
+        colaboradorDAO.update(colaborador);
     }
 
     public Documento_identidad crearDocumento(String numeroDocumentoString, Tipo_documento tipoDocumento){
@@ -91,8 +101,12 @@ public class CargaDatosCsv {
     }
 
     public void agregarColaboradorNuevoAExistentes(Colaborador nuevoColaborador, Persona_fisica nuevaPersonaFisica, List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap, String numeroDocumentoString){
+        EntityManager em = BDutils.getEntityManager();
+        ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
         colaboradoresExistentes.add(nuevoColaborador);
         personasFisicasExistentesMap.put(numeroDocumentoString, nuevaPersonaFisica);
         colaboradoresExistentesMap.put(numeroDocumentoString, nuevoColaborador);
+        colaboradorDAO.save(nuevoColaborador);
+
     }
 }

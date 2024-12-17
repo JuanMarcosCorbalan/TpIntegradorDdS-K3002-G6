@@ -24,7 +24,7 @@ abstract public class Persona {
     public Domicilio domicilio;
 
 
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
     public List<Medio_contacto> mediosContacto;
 
     public Persona(Domicilio domicilio , List<Medio_contacto> mediosContacto)

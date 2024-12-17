@@ -44,6 +44,12 @@ abstract public class Contribucion {
     public Contribucion(Colaborador colaborador){
         this.colaborador = colaborador;
     }
+
+    public Contribucion(Colaborador colaborador, LocalDate fecha_contribucion) {
+        this.colaborador = colaborador;
+        this.fecha_contribucion = fecha_contribucion;
+    }
+
     public Contribucion() {
     }
 
@@ -57,5 +63,9 @@ abstract public class Contribucion {
 
     public EstadoContribucion getEstado() {
         return estado;
+    }
+
+    public void setEstado(EstadoContribucion estado) {
+        this.estado = estado;
     }
 }
