@@ -59,5 +59,6 @@ abstract public class Persona {
     public int hashCode(){
         return 0;
     }
+
 }
 

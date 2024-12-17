@@ -17,10 +17,17 @@ abstract public class Contribucion {
     private Long id;
 
     @ManyToOne
-    Colaborador colaborador;
+    public Colaborador colaborador;
 
-    LocalDate fecha_contribucion;
+    public LocalDate fecha_contribucion;
+
+    @Enumerated(EnumType.STRING)
+    protected EstadoContribucion estado;
+
+    @Transient
     Boolean contribucionExitosa;
+
+    @Transient
     Boolean contribucionTerminada;
 
 
@@ -48,9 +55,7 @@ abstract public class Contribucion {
         this.fecha_contribucion = fecha_contribucion;
     }
 
-    public Boolean getContribucionTerminada() {
-        return Objects.requireNonNullElse(contribucionTerminada, false);
+    public EstadoContribucion getEstado() {
+        return estado;
     }
 }
-
-

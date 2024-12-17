@@ -4,7 +4,10 @@ import org.example.Formas_contribucion.Contribucion;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+
 import org.example.Persona.*;
+import org.example.Sistema.Usuario;
 
 public class PersonaDAO {
 
@@ -52,6 +55,19 @@ public class PersonaDAO {
             e.printStackTrace();
         }
     }
+
+    public Usuario buscarUsuarioPorEmail(String email) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT u FROM Mail m join m.persona p join Usuario u on p.id = u.persona " +
+                                    " where  m.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // El usuario no existe
+        }
+    }
+
 
     public Persona findById(long id) {
         return entityManager.find(Persona.class, id);

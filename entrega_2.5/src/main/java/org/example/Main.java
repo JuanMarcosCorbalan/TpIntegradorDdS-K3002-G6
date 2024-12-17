@@ -5,16 +5,17 @@ import io.javalin.http.Context;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
+import org.example.Conversores.DistribucionViandaHistorial;
+import org.example.Conversores.DonacionViandaHistorial;
 import org.example.DAO.*;
-import org.example.Formas_contribucion.HacerseCargoHeladera;
-import org.example.Formas_contribucion.Motivo_distribucion;
+import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO;
 import org.example.Heladeras.HeladeraDTO2;
 import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
+import org.example.Ofertas.OfertaCanjeada;
 import org.example.Persona.*;
-import org.example.Formas_contribucion.Contribucion;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
@@ -446,11 +447,33 @@ public class Main {
 
         app.post("/hacerseCargoHeladera", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
             if (colaborador != null) {
-                HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
-                SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
+                //HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                //SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
 
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                //si lo coloca en su local
+                if(true){
+                    String nombre_heladera = ctx.formParam("nombre_heladera");
+                    int temMin = Integer.parseInt(ctx.formParam("tempMinima"));
+                    int temMax = Integer.parseInt(ctx.formParam("tempMaxima"));
+                    int cantViandas = Integer.parseInt(ctx.formParam("viandasMax"));
+
+                    HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                    colaborador.agregarContribucion(hacerseCargoHeladera);
+                    SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,em);
+
+                    //persistir heladera
+                    heladeraDAO.save(hacerseCargoHeladera.getHeladera());
+                    //update colaborador
+                    colaboradorDAO.update(colaborador);
+
+                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+
+                }
+
+                //ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/inicioSesion");
@@ -649,7 +672,7 @@ public class Main {
                 default:
                     ctx.status(400).result("por favor ingrese un tipo de organización");
             }
-            String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
+            String domicilio = ctx.formParam("inputCalle")+ " " + ctx.formParam("inputAltura");
             String ciudadString = ctx.formParam("ciudad");
             String paisString = ctx.formParam("pais");
             String localidadString = ctx.formParam("inputLocalidad");
@@ -756,6 +779,65 @@ public class Main {
                 ctx.redirect("/inicioSesion");
             }
         });
+        app.get("/historialCanjes", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                // Obtener la lista de canjes realizados por el colaborador
+                List<OfertaCanjeada> ofertasCanjeadas = colaborador.getOfertasCanjeadas();
+
+                // Crear el modelo para la plantilla
+                Map<String, Object> model = new HashMap<>();
+                model.put("historialCanjes", ofertasCanjeadas); // Pasa la lista al modelo
+
+                // Renderizar la plantilla Mustache y pasar el modelo
+                ctx.render("/paginaWebColaboracionHeladeras/historialCanjes/html/historialCanjes.mustache", model);
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+            }
+        });
+        app.get("/historialContribuciones", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            if (colaborador != null) {
+                Map<String, Object> model = new HashMap<>();
+                if(colaborador.persona instanceof Persona_fisica personaFisica ){
+                    System.out.println("entre a fisico");
+                    DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
+                    DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
+                    DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
+                    //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
+
+                    List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
+                    List<DonacionViandaHistorial> donacionesViandas = donacionViandasDAO.obtenerHistorial(colaborador);
+                    List<DistribucionViandaHistorial> distribucionViandas = distribucionViandasDAO.obtenerHistorial(colaborador);
+                    //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
+
+                    model.put("donacionesDinero", donacionesDinero);
+                    model.put("donacionesViandas", donacionesViandas);
+                    model.put("distribucionViandas", distribucionViandas);
+                    // model.put("distribucionTarjetas", distribucionTarjetas);
+
+                    // Renderizar la plantilla Mustache y pasar el modelo
+                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesFisico.mustache",model);
+                }else{
+                    System.out.println("entre a juridico");
+                    DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
+                    HacerseCargoHeladeraDAO hacerseCargoHeladeraDAO = new HacerseCargoHeladeraDAO(em);
+                    OfertaDAO ofertaDAO = new OfertaDAO(em);
+
+                    List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
+                    List<HacerseCargoHeladera> hacerseCargoHeladeras = hacerseCargoHeladeraDAO.findAllByColaborador(colaborador);
+                    List<Oferta> ofertas = ofertaDAO.findAllByColaborador(colaborador);
+
+                    model.put("donacionesDinero", donacionesDinero);
+                    model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
+                    model.put("ofertas", ofertas);
+
+                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesJuridico.mustache",model);
+                }
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+            }
+        });
 
         app.post("/reportarFallaTecnica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -835,7 +917,7 @@ public class Main {
                 Integer cantidadPuntos = Integer.parseInt(ctx.formParam("inputPuntos"));
                 Integer cantidadInstancias = Integer.parseInt(ctx.formParam("inputInstancias"));
 
-                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias);
+                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias,colaborador);
                 //SE PERSISTE LA OFERTA
                 OfertaDAO ofertaDAO = new OfertaDAO (em);
                 ofertaDAO.save(nuevaOferta);

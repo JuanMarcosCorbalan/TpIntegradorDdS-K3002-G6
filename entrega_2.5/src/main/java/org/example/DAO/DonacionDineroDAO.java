@@ -1,27 +1,27 @@
 package org.example.DAO;
-import java.util.List;
 
 import org.example.Colaborador.Colaborador;
-import org.example.Persona.Pais;
-import org.example.Ofertas.Oferta;
+import org.example.Formas_contribucion.Donacion_dinero;
+import org.example.Persona.Ciudad;
+import org.example.Persona.Localidad;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import java.util.List;
 
-public class OfertaDAO {
-
+public class DonacionDineroDAO {
     private EntityManager entityManager;
 
-    public OfertaDAO(EntityManager entityManager) {
+    public DonacionDineroDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public void save(Oferta oferta) {
+    public void save(Donacion_dinero donacion_dinero) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(oferta);
+            entityManager.persist(donacion_dinero);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
@@ -29,27 +29,25 @@ public class OfertaDAO {
         }
     }
 
-
-    public void update(Oferta oferta) {
+    public void update(Donacion_dinero donacion_dinero) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.merge(oferta);
+            entityManager.merge(donacion_dinero);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
             e.printStackTrace();
         }
     }
-
 
     public void delete(long id) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            Oferta oferta = entityManager.find(Oferta.class, id);
-            if (oferta != null) {
-                entityManager.remove(oferta);
+            Donacion_dinero donacion_dinero = entityManager.find(Donacion_dinero.class, id);
+            if (donacion_dinero != null) {
+                entityManager.remove(donacion_dinero);
             }
             transaction.commit();
         } catch (Exception e) {
@@ -58,28 +56,22 @@ public class OfertaDAO {
         }
     }
 
-    public List<Oferta> findAll() {
-
-
-        try {
-            return entityManager.createQuery("SELECT o FROM Oferta o", Oferta.class).getResultList();
-        } catch (Exception e) {
-            System.err.println("Error al ejecutar la consulta: " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+    public Donacion_dinero findById(long id) {
+        return entityManager.find(Donacion_dinero.class, id);
     }
 
-    public List<Oferta> findAllByColaborador(Colaborador colaborador) {
-        List<Oferta> oferta;
-        try {
-            oferta = entityManager
-                    .createQuery("select d from Oferta d where d.colaborador = :colaborador", Oferta.class)
-                    .setParameter("colaborador", colaborador)
-                    .getResultList();
+    public List<Donacion_dinero> findAllByColaborador(Colaborador colaborador) {
+        List<Donacion_dinero> donacion_dineros;
+
+        try{
+        donacion_dineros = entityManager
+                .createQuery("select d from Donacion_dinero d where d.colaborador = :colaborador", Donacion_dinero.class)
+                .setParameter("colaborador", colaborador)
+                .getResultList();
         } catch (NoResultException e) {
-            oferta = null;
+            donacion_dineros = null;
         }
-        return oferta;
+        return donacion_dineros;
     }
+
 }

@@ -1,0 +1,137 @@
+body, html {
+    width: 100%;
+    overflow-x: hidden; /* Oculta el desplazamiento horizontal */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F5F5F5;
+}
+/* Para Chrome, Safari, Opera */
+body::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento en WebKit browsers */
+}
+
+.container {
+    width: 100%; /* Asegura que el contenido no exceda el ancho de la pantalla */
+    box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho */
+    flex: 1; /* Permite que el contenedor crezca */
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+}
+
+.card {
+    min-width: 250px; /* Ajusta este valor según sea necesario */
+    max-width: 100%; /* Mantén este valor para que no exceda el contenedor */
+    margin: auto;
+}
+
+footer {
+    background-color: #2a4d69;
+    padding: 1rem;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+}
+
+.img-logo {
+    height: 60px; /* Altura del logo */
+}
+
+header {
+    background-color: #2A4D69;
+    height: 60px; /* Altura del encabezado */
+    width: 100vw;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    padding: 10px 20px; /* Espaciado interno */
+}
+
+.btn-settings {
+    background: #F69000;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.settings-icon {
+    width: 30px;
+    height: 30px;
+    background: none;
+}
+
+.container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+h2.text-center {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2A4D69;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2; /* Efecto hover */
+}
+
+th {
+    background-color: #2A4D69;
+    color: white;
+    text-align: center;
+}
+
+p.text-center {
+    font-size: 1.2rem;
+    color: #777; /* Gris suave */
+    margin-top: 20px;
+}
+
+/* Estilos específicos para la lista de donaciones */
+#chatList {
+    max-height: 80vh;
+    overflow-y: auto; /* Permite desplazamiento si la lista es muy larga */
+}
+
+.chat-item {
+    text-align: left;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+.chat-item:hover {
+    background-color: #2A4D69;
+    color: white;
+}

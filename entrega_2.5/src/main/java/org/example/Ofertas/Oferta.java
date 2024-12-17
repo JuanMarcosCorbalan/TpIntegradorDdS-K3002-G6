@@ -1,9 +1,13 @@
 package org.example.Ofertas;
 
+import org.example.Colaborador.Colaborador;
 import org.example.Formas_contribucion.Contribucion;
 
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
+
+import static org.example.Formas_contribucion.EstadoContribucion.EXITOSA;
 
 @Entity
 public class Oferta extends Contribucion {
@@ -37,10 +41,13 @@ public class Oferta extends Contribucion {
     // GETTERS AND SETTERS
 
 
-    public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias) {
+    public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias, Colaborador colaborador) {
         this.nombre = nombre;
         this.puntosNecesarios = puntosNecesarios;
         this.cant_instancias = cantInstancias;
+        this.colaborador = colaborador;
+        this.fecha_contribucion = LocalDate.now();
+        this.estado = EXITOSA;
     }
 
     public String getNombre() {

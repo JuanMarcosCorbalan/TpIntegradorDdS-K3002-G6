@@ -4,6 +4,7 @@ import org.example.Formas_contribucion.*;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.Vianda;
 import org.example.Ofertas.Oferta;
+import org.example.Ofertas.OfertaCanjeada;
 import org.example.Persona.Persona;
 import org.example.Persona.Rol;
 import org.example.Suscripcion.*;
@@ -39,6 +40,9 @@ public class Colaborador extends Rol {
 
     @OneToMany(mappedBy = "colaborador")
     List<MensajeAviso> mensajesAvisos;
+
+    @OneToMany(mappedBy = "colaborador",cascade = CascadeType.ALL)
+    List<OfertaCanjeada> ofertasCanjeadas;
 
     /*@ManyToMany
     @JoinTable(
@@ -120,8 +124,11 @@ public class Colaborador extends Rol {
     {
         if(oferta.getPuntosNecesarios()<=obtenerPuntos())
         {
+            Integer puntos = oferta.getPuntosNecesarios();
             oferta.canjear();
-            this.restarPuntos(oferta.getPuntosNecesarios());
+            this.restarPuntos(puntos);
+            OfertaCanjeada ofertaCanjeada = new OfertaCanjeada(oferta.getNombre(),puntos, LocalDate.now(),this);
+            ofertasCanjeadas.add(ofertaCanjeada);
         }
         //QUE HAGA ALGO SI NO PUEDE CANJEAR
     }
@@ -283,6 +290,10 @@ public class Colaborador extends Rol {
 
     public long getId() {
         return id;
+    }
+
+    public List<OfertaCanjeada> getOfertasCanjeadas() {
+        return ofertasCanjeadas;
     }
 }
 

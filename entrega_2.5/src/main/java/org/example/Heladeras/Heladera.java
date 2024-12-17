@@ -96,6 +96,15 @@ public class Heladera {
         this.puntoUbicacion = puntoUbicacion;
     }
 
+    public Heladera(PuntoUbicacion puntoUbicacion,int temperaturaMinima,int temperaturaMaxima,int cantidadViandasMax,Colaborador colaborador) {
+        // habria q generar un id
+        this.puntoUbicacion = puntoUbicacion;
+        this.temperaturaMaxima = temperaturaMaxima;
+        this.temperaturaMinima = temperaturaMinima;
+        this.unidadesMaximoViandas = cantidadViandasMax;
+        this.colaboradores = colaborador;
+    }
+
     public Heladera() {
 
     }
@@ -289,4 +298,7 @@ public class Heladera {
     }
 
 
+    public String getNombre() {
+        return puntoUbicacion.getNombre();
+    }
 }
