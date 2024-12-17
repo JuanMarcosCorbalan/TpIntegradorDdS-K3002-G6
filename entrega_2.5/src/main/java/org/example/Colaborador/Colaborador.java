@@ -259,7 +259,7 @@ public class Colaborador extends Rol {
 
     public void registrarPersonaSv(String nombre, String apellido, boolean situacionCalle, String domicilioString, Integer menoresACargo){
         for(Contribucion contribucion: contribuciones) {
-            if (contribucion instanceof RegistrarPersonasSV registroPersonasSV && !contribucion.getContribucionTerminada()){
+            if (contribucion instanceof RegistrarPersonasSV registroPersonasSV && contribucion.getEstado().equals(EstadoContribucion.EN_CURSO) ){
                 registroPersonasSV.cargarDatosPersonaSv(nombre, apellido, situacionCalle, domicilioString, menoresACargo);
                 registroPersonasSV.asignarTarjeta(this);
                 tarjetasARepartir -= 1;

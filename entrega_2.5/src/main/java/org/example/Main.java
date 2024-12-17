@@ -220,7 +220,7 @@ public class Main {
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache");
         });//server error
 
         app.get("/inicioAdminitrador", ctx -> {
@@ -790,7 +790,7 @@ public class Main {
                 model.put("historialCanjes", ofertasCanjeadas); // Pasa la lista al modelo
 
                 // Renderizar la plantilla Mustache y pasar el modelo
-                ctx.render("/paginaWebColaboracionHeladeras/historialCanjes/html/historialCanjes.mustache", model);
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialCanjes.mustache", model);
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
             }
@@ -817,7 +817,7 @@ public class Main {
                     // model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
-                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesFisico.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribuciones.mustache",model);
                 }else{
                     System.out.println("entre a juridico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
