@@ -23,6 +23,32 @@
     <!-- Custom styles for this page -->
     <link href="/SALVACIONDDS/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <style>
+
+        .dropdown-item img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            margin-right: 8px;
+        }
+
+    .btn-secondary.dropdown-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 15px;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 20px;
+    }
+
+    .btn-secondary.dropdown-toggle img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      margin-right: 10px;
+    }
+    </style>
 </head>
 
 <body>
@@ -41,7 +67,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-white-600 large">Usario</span>
-                <img class="img-profile rounded-circle" src="SALVACIONDDS/img/undraw_profile.svg">
+                <img class="img-profile rounded-circle" src="/SALVACIONDDS/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -70,7 +96,8 @@
 
 </nav>
 <div>
-    <a href="/SALVACIONDDS/inicioPersonaFisica.mustache" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+    <a href="/SALVACIONDDS/inicioPersonaFisica.mustache"
+       style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
         <i class="fas fa-arrow-left"></i> Volver
     </a>
 </div>
@@ -86,76 +113,81 @@
                         <h1 class="h4 text-gray-900 mb-2">Distribución de viandas</h1>
                     </div>
                     <div class="col-12">
-                        <label for="inputHeladeraOrigen" class="form-label">Seleccione la heladera origen de la
-                            distribución</label>
+                        <label for="inputHeladeraOrigen" class="form-label">Seleccione la heladera origen</label>
+
+
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button"
                                     id="menuHeladeraOrigen" data-bs-toggle="dropdown" aria-expanded="false">
                                 Seleccione una heladera
                             </button>
-                            <input type="hidden" id="selectedHeladeraIdOrigen" name="heladeraOrigen">
-                            <ul class="dropdown-menu w-100" id="dropdownHeladerasOrigen"
-                                aria-labelledby="menuHeladeraOrigen">
+                            <input type="hidden" id="selectedHeladeraIdOrigen" name="selectedHeladeraIdOrigen">
+
+                            <ul class="dropdown-menu w-100" id="dropdownHeladerasOrigen" aria-labelledby="menuHeladera">
                                 <!-- Las opciones serán cargadas dinámicamente aquí -->
                             </ul>
                         </div>
+
                     </div>
 
                     <div class="col-12">
-                        <label for="inputHeladeraDestino" class="form-label">Seleccione la heladera destino de la
-                            distribución</label>
+                        <label for="inputHeladeraDestino" class="form-label">Seleccione la heladera destino</label>
+
+
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button"
                                     id="menuHeladeraDestino" data-bs-toggle="dropdown" aria-expanded="false">
                                 Seleccione una heladera
                             </button>
-                            <input type="hidden" id="selectedHeladeraIdDestino" name="heladeraDestino">
+                            <input type="hidden" id="selectedHeladeraIdDestino" name="selectedHeladeraIdDestino">
+
                             <ul class="dropdown-menu w-100" id="dropdownHeladerasDestino"
-                                aria-labelledby="menuHeladeraDestino">
+                                aria-labelledby="menuHeladera">
                                 <!-- Las opciones serán cargadas dinámicamente aquí -->
                             </ul>
                         </div>
-                    </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="inputCantidadViandas" class="form-label">Ingrese cantidad de viandas a mover</label>
-                        <input type="number" class="form-control shadow-sm" id="inputCantidadViandas"
-                               name="inputCantidadViandas" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="inputFechaDistribucion" class="form-label">Fecha a realizar distribución</label>
-                        <input type="date" class="form-control shadow-sm" id="inputFechaDistribucion"
-                               name="inputFechaDistribucion" placeholder="DD/MM/YYYY">
+                        <div class="col-md-6 mb-3">
+                            <label for="inputCantidadViandas" class="form-label">Ingrese cantidad de viandas a
+                                mover</label>
+                            <input type="number" class="form-control shadow-sm" id="inputCantidadViandas"
+                                   name="inputCantidadViandas" placeholder="Cantidad">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="inputFechaDistribucion" class="form-label">Fecha a realizar distribución</label>
+                            <input type="date" class="form-control shadow-sm" id="inputFechaDistribucion"
+                                   name="inputFechaDistribucion" placeholder="DD/MM/YYYY">
 
-                    </div>
-                </div>
-                <h5 class="mx-3" style="color:#000000">Seleccione motivo de distribución</h5>
-                <div class="row mb-3 mx-3">
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="desperfecto" id="flexCheckDefault"
-                                   name="opcionDesperfecto">
-                            <label class="form-check-label" for="flexCheckDefault">Desperfecto de la heladera</label>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="faltantes" id="flexCheckChecked"
-                                   name="opcionFaltantes" checked>
-                            <label class="que puform-check-label" for="flexCheckChecked">Falta de viandas en heladera
-                                destino</label>
+                    <h5 class="mx-3" style="color:#000000">Seleccione motivo de distribución</h5>
+                    <div class="row mb-3 mx-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="desperfecto" id="motivoDesperfecto"
+                                       name="motivoDistribucion" required>
+                                <label class="form-check-label" for="motivoDesperfecto">Desperfecto de la
+                                    heladera</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="faltantes" id="motivoFaltantes"
+                                       name="motivoDistribucion" required>
+                                <label class="form-check-label" for="motivoFaltantes">Falta de viandas en heladera
+                                    destino</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 mx-3">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-success btn-custom"
+                                    style="background-color: #f69000; border-color: #f69000;">Colaborar ahora
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                <div class="row mb-3 mx-3">
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-success btn-custom"
-                                style="background-color: #f69000; border-color: #f69000;">Colaborar ahora
-                        </button>
-                    </div>
-                </div>
-            </div>
         </form>
     </div>
 </div>
@@ -183,12 +215,15 @@
             </div>
         </div>
     </div>
+
 </div>
 
-
+<!--
 <script>
+
+
     // URL de la API
-    const apiUrl = '/api/heladeras';
+    const apiUrl = '/api/heladerasDTO';
 
     // Función para cargar las heladeras en un desplegable específico
     async function cargarHeladeras(menuId, dropdownId, inputId) {
@@ -245,17 +280,108 @@
         cargarHeladeras('menuHeladeraOrigen', 'dropdownHeladerasOrigen', 'selectedHeladeraIdOrigen');
         cargarHeladeras('menuHeladeraDestino', 'dropdownHeladerasDestino', 'selectedHeladeraIdDestino');
     });
+</script>-->
+<script>const apiUrl = '/api/heladeras';
+
+// Referencias a los elementos
+const menuHeladeraOrigen = document.getElementById('menuHeladeraOrigen');
+const dropdownHeladerasOrigen = document.getElementById('dropdownHeladerasOrigen');
+const menuHeladeraDestino = document.getElementById('menuHeladeraDestino');
+const dropdownHeladerasDestino = document.getElementById('dropdownHeladerasDestino');
+const inputCantidadViandas = document.getElementById('inputCantidadViandas');
+const botonCargar = document.querySelector('button[type="submit"]');
+const mensajeError = document.createElement('div');
+
+// Variables para mantener las selecciones actuales y capacidades
+let heladeraOrigenSeleccionada = null;
+let heladeraDestinoSeleccionada = null;
+let heladeras = [];
+
+// Función para cargar las heladeras en los desplegables
+async function cargarHeladeras() {
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('Error al obtener las heladeras');
+
+        heladeras = await response.json();
+        cargarHeladerasEnDropdown(menuHeladeraOrigen, dropdownHeladerasOrigen, 'selectedHeladeraIdOrigen', heladeras, 'origen');
+        cargarHeladerasEnDropdown(menuHeladeraDestino, dropdownHeladerasDestino, 'selectedHeladeraIdDestino', heladeras, 'destino');
+    } catch (error) {
+        console.error('Error al cargar las heladeras:', error);
+    }
+}
+
+// Función para cargar opciones en un desplegable
+function cargarHeladerasEnDropdown(menu, dropdown, inputHiddenId, heladeras, tipo) {
+    dropdown.innerHTML = '';
+    heladeras.forEach(heladera => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <a class="dropdown-item d-flex align-items-center ${isOptionDisabled(heladera.idHeladera, tipo) ? 'disabled' : ''}" href="#" data-id="${heladera.idHeladera}">
+                <img style="height:20px ; width:auto;" src="https://cdn-icons-png.flaticon.com/512/4151/4151152.png" alt="Ícono" class="me-2">
+                <div>
+                    <strong>${heladera.nombre}</strong><br>
+                    <small>ID: ${heladera.idHeladera}</small>
+                </div>
+            </a>
+        `;
+
+        const link = li.querySelector('a');
+        if (!link.classList.contains('disabled')) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                menu.innerHTML = `
+                    <img src="https://cdn-icons-png.flaticon.com/512/4151/4151152.png" alt="Ícono" class="me-2">
+                    <strong>${heladera.nombre}</strong><br>
+                    <small>ID: ${heladera.idHeladera}</small>
+                `;
+                document.getElementById(inputHiddenId).value = heladera.idHeladera;
+                if (tipo === 'origen') heladeraOrigenSeleccionada = heladera.idHeladera;
+                else heladeraDestinoSeleccionada = heladera.idHeladera;
+                cargarHeladeras();
+                validarCapacidad();
+            });
+        }
+        dropdown.appendChild(li);
+    });
+}
+
+// Función para verificar si una opción debe estar deshabilitada
+function isOptionDisabled(heladeraId, tipo) {
+    return (tipo === 'origen' && heladeraId === heladeraDestinoSeleccionada) ||
+        (tipo === 'destino' && heladeraId === heladeraOrigenSeleccionada);
+}
+
+// Validar capacidad máxima de la heladera destino
+function validarCapacidad() {
+    const heladeraDestino = heladeras.find(h => h.idHeladera === heladeraDestinoSeleccionada);
+    const cantidadViandas = parseInt(inputCantidadViandas.value, 10);
+    mensajeError.className = 'text-danger mt-2';
+    mensajeError.innerHTML = '';
+
+    if (heladeraDestino && cantidadViandas > heladeraDestino.capacidad_maxima) {
+        mensajeError.textContent = `Error: La cantidad de viandas (${cantidadViandas}) excede la capacidad máxima (${heladeraDestino.capacidad_maxima}).`;
+        if (!inputCantidadViandas.parentNode.contains(mensajeError)) {
+            inputCantidadViandas.parentNode.appendChild(mensajeError);
+        }
+        inputCantidadViandas.classList.add('is-invalid');
+        botonCargar.disabled = true;
+    } else {
+        inputCantidadViandas.classList.remove('is-invalid');
+        if (inputCantidadViandas.parentNode.contains(mensajeError)) {
+            inputCantidadViandas.parentNode.removeChild(mensajeError);
+        }
+        botonCargar.disabled = false;
+    }
+}
+
+// Evento para validar al cambiar la cantidad de viandas
+inputCantidadViandas.addEventListener('input', validarCapacidad);
+
+// Cargar las heladeras al cargar la página
+document.addEventListener('DOMContentLoaded', cargarHeladeras);
 </script>
 
-<style>
-    /* Asegura que los íconos sean consistentes */
-    .dropdown-item img {
-        width: 20px; /* Ancho máximo */
-        height: 20px; /* Alto máximo */
-        object-fit: contain; /* Asegura que la imagen mantenga su proporción */
-        margin-right: 8px; /* Espaciado entre el ícono y el texto */
-    }
-</style>
 <!-- Bootstrap core JavaScript-->
 <script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
 <script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
