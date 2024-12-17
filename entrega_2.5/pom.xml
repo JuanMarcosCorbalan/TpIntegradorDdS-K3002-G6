@@ -154,6 +154,13 @@
             <version>4.9.3</version> <!-- Usa la última versión estable -->
         </dependency>
 
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

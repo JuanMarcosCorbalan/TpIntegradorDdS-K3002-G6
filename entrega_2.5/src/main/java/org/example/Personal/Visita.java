@@ -12,7 +12,7 @@ public class Visita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
-    private Long id;
+    public Long id;
 
     @ManyToOne
     Tecnico tecnico;
@@ -26,10 +26,10 @@ public class Visita {
 
     LocalDate fechaVisita;
     String descripcion;
-    File imagen;
+    String imagen;
     Boolean incidenteSolucionado;
 
-    public Visita(FallaTecnica fallaTecnica, Heladera heladera, String descripcion, Boolean incidenteSolucionado,File imagen) {
+    public Visita(FallaTecnica fallaTecnica, Heladera heladera, String descripcion, Boolean incidenteSolucionado,String imagen) {
         this.fallaRevisada = fallaTecnica;
         this.heladera = heladera;
         this.descripcion = descripcion;
@@ -44,4 +44,13 @@ public class Visita {
     public Visita() {
 
     }
+
+    public Long getId() {return id;}
+    public Tecnico getTecnico() {return tecnico;}
+    public FallaTecnica getFallaRevisada() {return fallaRevisada;}
+    public Heladera getHeladera() {return heladera;}
+    public LocalDate getFechaVisita() {return fechaVisita;}
+    public String getDescripcion() {return descripcion;}
+    public String getImagen() {return imagen;}
+    public Boolean getIncidenteSolucionado() {return incidenteSolucionado;}
 }

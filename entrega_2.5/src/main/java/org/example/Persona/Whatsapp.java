@@ -1,5 +1,7 @@
 package org.example.Persona;
 
+import org.example.Suscripcion.MensajeAviso;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,10 +18,11 @@ public class Whatsapp extends Medio_contacto {
         this.numero = numero_nuevo;
     }
 
-    @Override
-    public void setDetalle(String numero){
-        this.numero = numero;
-    }
+    public void setNumero (String numero){this.numero = numero;}
+    public String getNumero (){return this.numero;}
 
-    public void notificar(Medio_contacto[] medios) {}
+    @Override
+    public void notificar (MensajeAviso mensaje) {
+        System.out.println("Notificando Whatsapp");
+    }
 }

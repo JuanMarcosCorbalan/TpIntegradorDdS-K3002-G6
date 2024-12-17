@@ -1,19 +1,32 @@
 package org.example.Suscripcion;
 
-public class QuedanNViandas implements Suscripcion{
-    static Integer cantViandas;
+import org.example.Colaborador.Colaborador;
+import org.example.Heladeras.Heladera;
 
-    public QuedanNViandas(Integer cantViandas) {
-        QuedanNViandas.cantViandas = cantViandas;
+import javax.persistence.Entity;
+import java.io.IOException;
+
+@Entity
+public class QuedanNViandas extends Suscripcion{
+    Integer cantViandasRest;
+
+    public QuedanNViandas(Integer cantViandas, Colaborador colaborador, Heladera heladera) {
+        this.cantViandasRest = cantViandas;
+        this.colaborador = colaborador;
+        this.heladera= heladera;
+    }
+
+    public QuedanNViandas() {
+
     }
 
     public Integer getCantViandas() {
-        return cantViandas;
+        return cantViandasRest;
     }
 
     @Override
-    public void darAviso(){
-        MensajeAviso mensaje = new MensajeAviso(TipoSuscripcion.QUEDANNVIANDAS,"Quedan menos de " + Integer.toString(cantViandas));
-        //enviarMensaje
+    public void darAviso() {
+        MensajeAviso mensaje = new MensajeAviso(TipoSuscripcion.QUEDANNVIANDAS,"Quedan menos de " + Integer.toString(cantViandasRest));
+        colaborador.procesar_mensaje(mensaje);
     }
 }

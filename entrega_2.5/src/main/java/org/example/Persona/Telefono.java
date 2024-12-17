@@ -1,5 +1,7 @@
 package org.example.Persona;
 
+import org.example.Suscripcion.MensajeAviso;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,18 +12,13 @@ public class Telefono extends Medio_contacto {
     public Telefono() {}
 
     public Telefono (Persona persona, String numero_nuevo){
-        this.persona = persona;
+        super(persona);
         this.numero = numero_nuevo;
     }
 
+    public void setNumero(String numero) {this.numero = numero;}
     @Override
-    public void setDetalle(String numero){
-        this.numero = numero;
-    }
-
-    public void notificar(Medio_contacto[] medios) {}
-
-    public Telefono(String numeroTelefono) {
-        this.numero = numeroTelefono;
+    public void notificar (MensajeAviso mensaje) {
+        System.out.println("Notificando Telefono");
     }
 }

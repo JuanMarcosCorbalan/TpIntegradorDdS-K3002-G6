@@ -10,11 +10,10 @@ import java.io.IOException;
 public class EnvioMail {
 
 
-    public static void enviarEmail(Email email) throws IOException {
+    public void enviarEmail(Email email, String asunto, String mensaje, String api_key) {
         Email from = new Email("grupo.hobbits@gmail.com");
-        String subject = "Carga realizada correctamente";
-        Content content = new Content("text/plain", "Tu usuario fue cargado correctamente.");
-        Mail mail = new Mail(from, subject, email, content);
+        Content content = new Content("text/plain", mensaje);
+        Mail mail = new Mail(from, asunto, email, content);
 
         String apiKey = "insertarApiKey";
         SendGrid sg = new SendGrid(apiKey);
@@ -28,10 +27,11 @@ public class EnvioMail {
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
         } catch (IOException ex) {
-            throw ex;
+            ex.printStackTrace();
         }
     }
     // CASO DE PRUEBA
+    /*
     public static void main(String[] args) throws IOException {
         Email from = new Email("grupo.hobbits@gmail.com");
         String subject = "Carga realizada correctamente";
@@ -52,5 +52,5 @@ public class EnvioMail {
         } catch (IOException ex) {
             throw ex;
         }
-    }
+    }*/
 }

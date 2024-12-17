@@ -118,6 +118,32 @@ input[type="number"] {
   opacity: 1; /* Evita que el color se vea más claro */
 }
 
+/* Asegura que los íconos sean consistentes */
+.dropdown-item img {
+  width: 20px; /* Ancho máximo */
+  height: 20px; /* Alto máximo */
+  object-fit: contain; /* Asegura que la imagen mantenga su proporción */
+  margin-right: 8px; /* Espaciado entre el ícono y el texto */
+}
+
+/* Estilo para el botón de heladera */
+.btn-secondary.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px; /* Ajustar el espaciado interno */
+  width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+  max-width: 100%; /* Evitar que se agrande más allá del límite */
+  border-radius: 20px; /* Mantener bordes redondeados */
+}
+
+.btn-secondary.dropdown-toggle img {
+  width: 20px; /* Asegurarse de que la imagen no sea demasiado grande */
+  height: 20px; /* Ajustar la altura de la imagen */
+  object-fit: contain; /* Mantener la proporción de la imagen */
+  margin-right: 10px; /* Espaciado entre la imagen y el texto */
+}
+
 /* Estilos específicos cuando un campo está enfocado */
 input[type="text"]:focus,
 input[type="email"]:focus,
@@ -126,3 +152,4 @@ input[type="number"]:focus {
   outline: none; /* Elimina el contorno predeterminado al enfocar */
   box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra más pronunciada al enfocar */
 }
+

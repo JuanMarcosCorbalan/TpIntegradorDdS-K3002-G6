@@ -1,12 +1,13 @@
 package org.example.Heladeras;
 
 import org.example.Colaborador.Colaborador;
-import org.example.Suscripcion.AdministradorSuscripciones;
+import org.example.Suscripcion.*;
 import org.example.Tarjetas.RetiroVianda;
 import org.example.Validadores_Sensores.*;
 
 import javax.persistence.*;
 import java.awt.image.ImageProducer;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,14 +43,20 @@ public class Heladera {
     @OneToMany(mappedBy = "heladera",cascade = CascadeType.ALL)
     List<Incidente> incidentes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "heladera",cascade = CascadeType.ALL)
+    List<Suscripcion> suscripciones = new ArrayList<>();
+
+
+
+
     int cantidadFallas;
 
     int temperaturaMaxima;
     int temperaturaMinima;
     Double temperaturaActual;
 
-    @Transient
-    AdministradorSuscripciones admin_suscr = new AdministradorSuscripciones();
+
+
 
     int cantidadViandasDonadas;
 
@@ -74,7 +81,7 @@ public class Heladera {
         this.idHeladera = idHeladera;
     }
 
-    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador, int maxViandas ) {
+    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador, int maxViandas) {
         this.idHeladera = idHeladera;
         this.puntoUbicacion = puntoUbicacion;
         this.FechaFuncionamiento = fechaFuncionamiento;
@@ -207,7 +214,9 @@ public class Heladera {
     public void desactivar(){this.estado_actual = EstadoHeladera.INACTIVO;}
     public void activar(){this.estado_actual = EstadoHeladera.ACTIVA;}
 
-    public AdministradorSuscripciones getAdmin_suscr() {return admin_suscr;}
+    //public AdministradorSuscripciones getAdmin_suscr() {return admin_suscr;}
+
+    //public void setAdmin_suscr(AdministradorSuscripciones admin){this.admin_suscr = admin;}
 
     public int getCantidadViandasActuales(){return viandas.size();}
 
@@ -231,18 +240,17 @@ public class Heladera {
         return this.getCantidadViandasActuales() == this.unidadesMaximoViandas;
     }
 
-    public void notificar_viandas_sobrantes() {
+    public void notificar_viandas_sobrantes()  {
         int viandasActuales = getCantidadViandasActuales();
-        admin_suscr.notificar("Quedan"+Integer.toString(viandasActuales)+"Viandas");
+        notificarViandasSobrantes(viandasActuales);
     }
     public void notificar_viandas_faltantes() {
-        Integer viandasActuales = getCantidadViandasActuales();
-        int viandas_faltantes = (Integer) unidadesMaximoViandas - viandasActuales;
-        admin_suscr.notificar("Faltan"+Integer.toString(viandas_faltantes) +"Viandas");
+        int viandasActuales = getCantidadViandasActuales();
+        int viandas_faltantes = unidadesMaximoViandas - viandasActuales;
+        notificarViandasFaltantes(viandas_faltantes);
     }
-    public void notificar_desperfecto()
-    {
-        admin_suscr.notificar("Aviso-Desperfecto");
+    public void notificar_desperfecto()  {
+        notificarDesperfecto();
     }
 
     public void procesar_Alerta(Alerta alerta)
@@ -292,9 +300,49 @@ public class Heladera {
 
 
 
-    // Getter para admin_suscr
-    public AdministradorSuscripciones getAdminSuscr() {
-        return admin_suscr;
+    //SUSCRIPCIONES
+
+    public void suscribirse(Suscripcion suscripcion){suscripciones.add(suscripcion);
+    }
+
+    public void desuscribirse(Suscripcion suscripcion){suscripciones.remove(suscripcion);}
+
+    public void notificarViandasFaltantes(Integer cantidadViandas)  {
+        //ITERO SOBRE LAS CLAVES, BUSCANDO LOS EVENTOS IGUALES
+        for(Suscripcion suscripcion : suscripciones)
+        {
+            if(suscripcion instanceof FaltanNViandas suscripcionFaltante)
+            {
+                if(suscripcionFaltante.getCantViandas().equals(cantidadViandas))
+                {
+                    suscripcionFaltante.darAviso();
+                }
+            }
+        }
+
+    }
+
+    public void notificarViandasSobrantes(Integer cantidadViandas) {
+        for(Suscripcion suscripcion : suscripciones)
+        {
+            if(suscripcion instanceof QuedanNViandas suscripcionSobrante)
+            {
+                if(suscripcionSobrante.getCantViandas().equals(cantidadViandas))
+                {
+                    suscripcionSobrante.darAviso();
+                }
+            }
+        }
+    }
+
+    public void notificarDesperfecto()  {
+        for(Suscripcion suscripcion : suscripciones)
+        {
+            if(suscripcion instanceof AvisoPorDesperfecto suscripcionDesperfecto)
+            {
+                suscripcionDesperfecto.darAviso();
+            }
+        }
     }
 
 

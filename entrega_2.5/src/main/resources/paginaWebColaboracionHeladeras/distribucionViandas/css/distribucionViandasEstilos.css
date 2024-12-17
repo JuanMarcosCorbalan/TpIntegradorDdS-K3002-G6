@@ -83,12 +83,43 @@ input[type="date"] {
 }
 
 /* Estilo para el footer */
+
+
+
+
+
 footer {
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #3E3E3E;
+  background-color: #2a4d69;
   padding: 1rem;
   text-align: center;
   color: white;
+  margin-top: auto;
 }
+
+
+.dropdown-item img {
+  width: 20px; /* Ancho máximo */
+  height: 20px; /* Alto máximo */
+  object-fit: contain; /* Asegura que la imagen mantenga su proporción */
+  margin-right: 8px; /* Espaciado entre el ícono y el texto */
+}
+
+/* Estilo para el botón de heladera */
+.btn-secondary.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px; /* Ajustar el espaciado interno */
+  width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+  max-width: 100%; /* Evitar que se agrande más allá del límite */
+  border-radius: 20px; /* Mantener bordes redondeados */
+}
+
+.btn-secondary.dropdown-toggle img {
+  width: 20px; /* Asegurarse de que la imagen no sea demasiado grande */
+  height: 20px; /* Ajustar la altura de la imagen */
+  object-fit: contain; /* Mantener la proporción de la imagen */
+  margin-right: 10px; /* Espaciado entre la imagen y el texto */
+}
+
 
