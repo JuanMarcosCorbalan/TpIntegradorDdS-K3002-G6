@@ -41,24 +41,20 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-white-600 large">Usario</span>
-                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                <img class="img-profile rounded-circle" src="/SALVACIONDDS/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <!-- Dropdown Menu Items -->
-                <a class="dropdown-item" href="#"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte
-                    semanal</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar
-                    heladeras</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver
-                    contribuciones</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Historial de canjes</a>
+                <a class="dropdown-item" href="/generarReporteFisica"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
+                <a class="dropdown-item" href="/puntosYCanjes"><i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i> Canje de puntos</a>
+                <a class="dropdown-item" href="/gestionHeladerasFisica"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
+                <a class="dropdown-item" href="/historialContribuciones"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
+                <a class="dropdown-item" href="/historialCanjes"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i> Historial de canjes</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Configuración</a>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i
-                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
+                <a class="dropdown-item" href="/reporteFallaTecnicaFisica"><i class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
             </div>
         </li>
 
@@ -67,7 +63,7 @@
 </nav>
 
 <div>
-    <a href="/SALVACIONDDS/inicioPersonaFisica.mustache" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+    <a href="/inicioPersonaFisica" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
         <i class="fas fa-arrow-left"></i> Volver
     </a>
 </div>
@@ -243,21 +239,21 @@
     }
 </style>
 <!-- Bootstrap core JavaScript-->
-<script src="/SALVACIODDS/vendor/jquery/jquery.min.js"></script>
-<script src="/SALVACIODDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
+<script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="/SALVACIODDS/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="/SALVACIODDS/js/sb-admin-2.min.js"></script>
+<script src="/SALVACIONDDS/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="/SALVACIODDS/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/SALVACIODDS/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/SALVACIONDDS/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/SALVACIONDDS/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="/SALVACIODDS/js/demo/datatables-demo.js"></script>
+<script src="/SALVACIONDDS/js/demo/datatables-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

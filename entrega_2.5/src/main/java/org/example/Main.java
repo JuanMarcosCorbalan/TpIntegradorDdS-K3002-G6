@@ -109,27 +109,6 @@ public class Main {
             ctx.redirect(authorizationUrl); // Redirige al usuario a la URL de autorización de Google
         });
 
-//  FALTA VERIFICAR USUARIO CON LOS DE LA BASEEEEEEEEEEEEEEEEEEEEEEEE
-
-        // Callback que maneja la respuesta de Google después de la autenticación
-//        app.get("/localhost:8081/inicioSesionGoogle/oauth2/code/google", ctx -> {
-//            String code = ctx.queryParam("code");
-//
-//            if (code != null) {
-//                try {
-//                    OAuth2AccessToken accessToken = service.getAccessToken(code); // Intercambia el código por un token de acceso
-//                    String userInfo = getUserInfo(accessToken, service); // Obtiene la información del usuario desde Google
-//
-//                    // Mostrar la información del usuario
-//                    ctx.result(userInfo);
-//                } catch (IOException | InterruptedException e) {
-//                    e.printStackTrace();
-//                    ctx.status(500).result("Error obteniendo el token de acceso.");
-//                }
-//            } else {
-//                ctx.status(400).result("No authorization code provided.");
-//            }
-//        });
         // Callback que maneja la respuesta de Google después de la autenticación
         app.get("/inicioSesionGoogle/oauth2/code/google", ctx -> {
             String code = ctx.queryParam("code");
@@ -151,7 +130,6 @@ public class Main {
                     Usuario usuario = us.buscarUsuarioPorEmail(email);
 
                     // Mostrar la información del usuario
-                    //ctx.result(userInfo);
 
                     if (usuario != null) {
                         // Usuario existe
@@ -218,8 +196,11 @@ public class Main {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/donacionVianda.mustache");
         });
 
-        app.get("/gestionHeladeras", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladeras.mustache");
+        app.get("/gestionHeladerasFisica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladerasFisica.mustache");
+        });//server error
+        app.get("/gestionHeladerasJuridica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladerasJuridica.mustache");
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
@@ -253,6 +234,12 @@ public class Main {
         });
         app.get("/reporteFallaTecnicaJuridica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaJuridica.mustache");
+        });
+        app.get("/inicioPersonaFisica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+        });
+        app.get("/inicioPersonaJuridica", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
         });
 
 
@@ -331,7 +318,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -351,7 +338,7 @@ public class Main {
                 ctx.redirect("/registroPersonasSv");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -375,7 +362,7 @@ public class Main {
                     ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
                 } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -400,7 +387,7 @@ public class Main {
                     ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionTarjetas.mustache", model);
                 }
             } else {
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -456,7 +443,7 @@ public class Main {
 
                 ctx.status(201).json(Map.of("mensaje", "Falla técnica reportada exitosamente."));
             }else{
-                ctx.render("/inicioSesion");
+                ctx.redirect("/login");
             }
 
 
@@ -503,30 +490,7 @@ public class Main {
                         return;
                 }
 
-                /*
-                String desperfecto = ctx.formParam("opcionDesperfecto");
-                if (desperfecto == null) {
-                    desperfecto = "false";
-                }
-                String faltantes = ctx.formParam("opcionFaltantes");
-                if (faltantes == null) {
-                    faltantes = "false";
-                }
-                Motivo_distribucion motivoDistribucion = null;
-                if (desperfecto.equals("desperfecto") && faltantes.equals("faltantes")) {
-                    motivoDistribucion = Motivo_distribucion.AMBOS;
-                } else {
-                    if (desperfecto.equals("desperfecto")) {
-                        motivoDistribucion = Motivo_distribucion.DESPERFECTO_HELADERA;
-                    } else {
-                        if (faltantes.equals("faltantes")) {
-                            motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
-                        } else {
-                            ctx.status(401).result("Seleccione un motivo de distribucion");
-                        }
-                    }
 
-                }*/
                 // Llamar a la lógica de backend
                 SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
                 colaboradorDAO.update(colaborador);
@@ -536,7 +500,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -571,7 +535,7 @@ public class Main {
                 //ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -841,7 +805,7 @@ public class Main {
                 // Renderizar la plantilla Mustache y pasar el modelo
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/puntosYCanjes.mustache", model);
             } else {
-                ctx.status(401).result("Por favor inicia sesión para ver las ofertas.");
+                ctx.redirect("/login");
             }
         });
         app.post("/canjearOferta", ctx -> {
@@ -878,7 +842,7 @@ public class Main {
                     ctx.status(404).result("La oferta seleccionada no existe.");
                 }
             } else {
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
         app.get("/historialCanjes", ctx -> {
@@ -894,9 +858,10 @@ public class Main {
                 // Renderizar la plantilla Mustache y pasar el modelo
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialCanjes.mustache", model);
             } else {
-                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+                ctx.redirect("/login");
             }
         });
+
         app.get("/historialContribuciones", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
@@ -919,7 +884,7 @@ public class Main {
                     // model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribuciones.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache",model);
                 }else{
                     System.out.println("entre a juridico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
@@ -934,26 +899,12 @@ public class Main {
                     model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
                     model.put("ofertas", ofertas);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesJuridico.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridica.mustache",model);
                 }
             } else {
-                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+                ctx.redirect("/login");
             }
         });
-
-/*
-        app.post("/reportarFallaTecnica", ctx -> {
-            Colaborador colaborador = ctx.sessionAttribute("colaborador");
-            if (colaborador != null) {
-                Heladera heladeraprueba = new Heladera("heladeraPrueba");
-                String descripcion = ctx.formParam("inputDescripcion");
-                var foto = ctx.uploadedFile("inputFoto");
-                colaborador.reportarFallaTenica(heladeraprueba, descripcion, null);
-                ctx.result("Reporte de Falla generado con exito");
-            } else {
-                ctx.status(401).result("Por favor inicia sesión para reportar el fallo.");
-            }
-        });*/
 
         app.post("/donarDineroFisica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -964,7 +915,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
         app.post("/donarDineroJuridica", ctx -> {
@@ -976,7 +927,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
@@ -1009,7 +960,7 @@ public class Main {
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionSuscripcion.mustache");
             } else {
-                ctx.redirect("/inicioSesion");
+                ctx.redirect("/login");
             }
         });
 
