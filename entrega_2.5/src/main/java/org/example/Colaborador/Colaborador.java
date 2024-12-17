@@ -99,7 +99,7 @@ public class Colaborador extends Rol {
         this.tarjetaColaborador = new TarjetaColaborador(this);
     }
 
-    public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora;}
+    public Colaborador(Persona persona_colaboradora) {this.persona = persona_colaboradora; this.tarjetaColaborador = new TarjetaColaborador(this);}
 
     public double getPuntos() {
         double puntos = 0;

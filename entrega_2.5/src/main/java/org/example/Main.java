@@ -215,7 +215,7 @@ public class Main {
         });
 
         app.get("/gestionHeladeras", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/gestionHeladeras/html/gestionHeladeras.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladeras.mustache");
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
