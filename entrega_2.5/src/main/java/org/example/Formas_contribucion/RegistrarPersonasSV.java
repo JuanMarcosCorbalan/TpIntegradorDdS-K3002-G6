@@ -107,6 +107,7 @@ public class RegistrarPersonasSV extends Contribucion{
                     menoresACargo);
 
             em.persist(personaSituacionVulnerableNueva);
+            BDutils.commit(em);
             // Añadimos la persona a la lista
             personasSituacionVulnerable.add(personaSituacionVulnerableNueva);
         } else {
@@ -123,6 +124,7 @@ public class RegistrarPersonasSV extends Contribucion{
         this.cantidadTarjetasRepartidas = cantidadTarjetasRepartidas;
         registrosPendientes = cantidadTarjetasRepartidas;
         this.colaborador = colaborador;
+        this.estado = EstadoContribucion.EN_CURSO;
     }
 
     public RegistrarPersonasSV() {
