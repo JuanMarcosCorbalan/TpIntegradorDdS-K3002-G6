@@ -1,10 +1,13 @@
 package org.example.ReporteSemanal;
 
 import org.example.Colaborador.Colaborador;
+import org.example.DAO.ReporteDAO;
 import org.example.Heladeras.Heladera;
 import org.example.ReporteSemanal.GeneradorReporte;
 import org.example.ReporteSemanal.Reporte;
+import org.example.Utils.BDutils;
 
+import javax.persistence.EntityManager;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -49,10 +52,15 @@ public class PlanificadorReporte {
     }
 
     private void generateAndStoreReport() {
+        EntityManager em = BDutils.getEntityManager();
+        ReporteDAO reporteDAO = new ReporteDAO(em);
+
         reporteActual = generadorReporte.generarReporte();
+
         // Aquí puedes guardar el reporte en una base de datos o en un archivo si es necesario
         System.out.println("Reporte generado: " + reporteActual.getContenido());
         System.out.println("Reporte guardado en: " + reporteActual.getFilePath());
+        reporteDAO.save(reporteActual);
     }
 
     public Reporte getReporteActual() {

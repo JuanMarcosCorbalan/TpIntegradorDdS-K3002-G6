@@ -1,7 +1,6 @@
 package org.example;
 
 import com.github.scribejava.apis.GoogleApi20;
-import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
@@ -31,10 +30,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 import io.javalin.Javalin;
-import org.example.Sistema.MigracionColaboradores;
-import org.example.Sistema.RegistrarUsuario;
-import org.example.Sistema.Usuario;
-import org.example.Sistema.UsuarioService;
+import org.example.ReporteSemanal.Reporte;
+import org.example.ReporteSemanal.ServicioReporte;
+import org.example.Sistema.*;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.FallaTecnica;
@@ -86,14 +84,13 @@ public class Main {
                 .defaultScope(SCOPE)
                 .build(GoogleApi20.instance());
 
-
-
         Javalin app = Javalin.create(javalinConfig -> {
                             javalinConfig.plugins.enableCors(cors -> {
                                 cors.add(it -> it.anyHost());
                             }); // para poder hacer requests de un dominio a otro
 
                             javalinConfig.staticFiles.add("/paginaWebColaboracionHeladeras"); //recursos estaticos (HTML, CSS, JS, IMG)
+                            javalinConfig.staticFiles.add("/static");
                             //JavalinMustache.init();  // Configurar Mustache
                         }
 
@@ -1023,7 +1020,30 @@ public class Main {
                 Integer cantidadPuntos = Integer.parseInt(ctx.formParam("inputPuntos"));
                 Integer cantidadInstancias = Integer.parseInt(ctx.formParam("inputInstancias"));
 
-                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias,colaborador);
+                // Manejar la imagen (si se envía)
+                UploadedFile uploadedFile = ctx.uploadedFile("uploadFotos");
+                String filePath = null;
+
+                if (uploadedFile != null) {
+                    String uploadDir = new File("src/main/resources/static/uploads").getAbsolutePath();
+                    File uploadDirFile = new File(uploadDir);
+                    if (!uploadDirFile.exists()) {
+                        uploadDirFile.mkdirs(); // Crear directorio si no existe
+                    }
+
+                    String uniqueFileName = UUID.randomUUID() + "_" + uploadedFile.filename();
+                    File file = new File(uploadDir, uniqueFileName);
+
+                    try (InputStream inputStream = uploadedFile.content();
+                         OutputStream outputStream = new FileOutputStream(file)) {
+                        inputStream.transferTo(outputStream);
+                    }
+
+                    // Solo necesitas guardar la ruta relativa para el frontend
+                    filePath = "/uploads/" + uniqueFileName;
+                }
+
+                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias,colaborador, filePath);
                 //SE PERSISTE LA OFERTA
                 OfertaDAO ofertaDAO = new OfertaDAO (em);
                 ofertaDAO.save(nuevaOferta);
@@ -1036,6 +1056,108 @@ public class Main {
             }
         });
 
+        app.get("/generarReporteFisica", ctx -> {
+            UsuarioService us = new UsuarioService(em);
+            ReporteServiceDB rs = new ReporteServiceDB(em);
+            Reporte reporte;
+
+            List<Heladera> heladeras = us.findAllHeladera();
+            List<Colaborador> colaboradores = us.findAllColaborador();
+            LocalDate fechaReporte = null;
+            LocalDate fechaActual = LocalDate.now();
+
+            reporte = rs.findLast();
+            if (reporte != null) {
+                fechaReporte = reporte.getFechaGeneracion();
+            }
+
+            // Verificar si el reporte es de la semana actual
+            if (reporte == null || fechaReporte == null || fechaReporte.isBefore(fechaActual.minusDays(fechaActual.getDayOfWeek().getValue() - 1))) {
+                // El reporte no corresponde a la semana actual o no existe (primer reporte)
+                // Generar un nuevo reporte
+                ServicioReporte servicio = new ServicioReporte(colaboradores, heladeras);
+                reporte = servicio.getReporteActual();
+
+                // Obtener los 5 reportes anteriores (en orden descendente)
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+
+                // Renderizar la página pasando el reporte actual y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalFisica.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            } else {
+                // El reporte corresponde a la semana actual, usarlo
+                // Obtener los 5 reportes anteriores
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+
+                // Renderizar la página pasando el reporte actual y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalFisica.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            }
+
+        });
+        app.get("/generarReporteJuridica", ctx -> {
+            UsuarioService us = new UsuarioService(em);
+            ReporteServiceDB rs = new ReporteServiceDB(em);
+            Reporte reporte;
+
+            List<Heladera> heladeras = us.findAllHeladera();
+            List<Colaborador> colaboradores = us.findAllColaborador();
+            LocalDate fechaReporte = null;
+            LocalDate fechaActual = LocalDate.now();
+
+            reporte = rs.findLast();
+            if (reporte != null) {
+                fechaReporte = reporte.getFechaGeneracion();
+            }
+
+            // Verificar si el reporte es de la semana actual
+            if (reporte == null || fechaReporte == null || fechaReporte.isBefore(fechaActual.minusDays(fechaActual.getDayOfWeek().getValue() - 1))) {
+                // El reporte no corresponde a la semana actual o no existe (primer reporte)
+                // Generar un nuevo reporte
+                ServicioReporte servicio = new ServicioReporte(colaboradores, heladeras);
+                reporte = servicio.getReporteActual();
+
+                // Obtener los 5 reportes anteriores (en orden descendente)
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+
+                // Renderizar la página pasando el nuevo reporte y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalJuridica.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            } else {
+                // El reporte corresponde a la semana actual, usarlo
+                // Obtener los 5 reportes anteriores
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+
+                // Renderizar la página pasando el reporte actual y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalJuridica.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            }
+
+        });
+
+        app.get("/descargarReporte/{id}", ctx -> {
+            Long id = Long.parseLong(ctx.pathParam("id"));
+            ReporteServiceDB rs = new ReporteServiceDB(em);
+            Reporte reporte = rs.findById(id);
+
+            if (reporte != null) {
+                // Configurar la respuesta para descarga del archivo
+                String filePath = reporte.getFilePath();
+                ctx.result(new FileInputStream(filePath))
+                        .contentType("application/octet-stream")
+                        .header("Content-Disposition", "attachment; filename=" + filePath);
+            } else {
+                ctx.status(404).result("Reporte no encontrado");
+            }
+        });
 
         app.get("/api/heladerasDTO", ctx -> {
             // Obtener las heladeras desde el DAO

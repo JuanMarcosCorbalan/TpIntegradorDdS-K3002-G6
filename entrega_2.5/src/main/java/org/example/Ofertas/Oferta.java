@@ -22,7 +22,7 @@ public class Oferta extends Contribucion {
 
     String nombre;
     Integer puntosNecesarios;
-    File imagenIlustrativa;
+    String imagenIlustrativa;
     //CAMBIO RESPECTO A LA ENTREGA 2
     Integer cant_instancias;
 
@@ -41,12 +41,13 @@ public class Oferta extends Contribucion {
     // GETTERS AND SETTERS
 
 
-    public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias, Colaborador colaborador) {
+    public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias, Colaborador colaborador, String foto) {
         this.nombre = nombre;
         this.puntosNecesarios = puntosNecesarios;
         this.cant_instancias = cantInstancias;
         this.colaborador = colaborador;
         this.fecha_contribucion = LocalDate.now();
+        this.imagenIlustrativa = foto;
         this.estado = EXITOSA;
     }
 
@@ -60,7 +61,7 @@ public class Oferta extends Contribucion {
 
     public Integer getCant_instancias(){return cant_instancias;}
 
-    public File getImagenIlustrativa(){return imagenIlustrativa;}
+    public String getImagenIlustrativa(){return imagenIlustrativa;}
 
     public void setPuntosNecesarios(Integer puntosNecesarios) {
         this.puntosNecesarios = puntosNecesarios;

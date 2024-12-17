@@ -67,101 +67,49 @@
     </div>
 
     <div class="card shadow mb-4 p-2 ml-4 mr-4" style="margin-top: 90px;">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Reporte semanal por heladera</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Id heladera</th>
-                            <th>Cantidad de fallas</th>
-                            <th>Cantidad de viandas colocadas</th>
-                            <th>Cantidad de viandas retiradas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <th>1</th>
-                          <td>123456</td>
-                          <td>0</td>
-                          <td>10</td>
-                          <td>9</td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>123456</td>
-                            <td>0</td>
-                            <td>10</td>
-                            <td>9</td>
-                          </tr><tr>
-                            <th>1</th>
-                            <td>123456</td>
-                            <td>0</td>
-                            <td>10</td>
-                            <td>9</td>
-                          </tr><tr>
-                            <th>1</th>
-                            <td>123456</td>
-                            <td>0</td>
-                            <td>10</td>
-                            <td>9</td>
-                          </tr>
-                      </tbody>
-                </table>
+        <!-- Título principal -->
+        <h1>Visualizador de Reporte Semanal</h1>
+
+        <!-- Sección del reporte actual -->
+        <h2>Reporte Actual</h2>
+        {{#reporteActual}}
+            <div>
+                <p><strong>Nombre:</strong> Reporte semanal generado el {{fechaGeneracion}}</p>
+                <p><strong>Fecha:</strong> {{fechaGeneracion}}</p>
+                <a href="/descargarReporte/{{id}}" class="boton-descargar">Descargar Reporte</a>
             </div>
-        </div>
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Reporte semanal por colaborador</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>DNI</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Cantidad de viandas donadas</th>
-                        </tr>
-                    </thead>
-                <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>43871010</th>
-                        <th>Santiago</th>
-                        <th>Rivera</th>
-                        <th>9</th>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <th>43871010</th>
-                        <th>Santiago</th>
-                        <th>Rivera</th>
-                        <th>9</th>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <th>43871010</th>
-                        <th>Santiago</th>
-                        <th>Rivera</th>
-                        <th>9</th>
-                    </tr>
-                    <tr>
-                        <th>1</th>
-                        <th>43871010</th>
-                        <th>Santiago</th>
-                        <th>Rivera</th>
-                        <th>9</th>
-                    </tr>
-                    
-                </tbody>
-                </table>
-            </div>
-        </div>
+        {{/reporteActual}}
+
+        <!-- Separador -->
+        <hr>
+
+        <!-- Sección de reportes anteriores -->
+        <h3>Últimos 5 Reportes Anteriores</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#reportesAnteriores}}
+                <tr>
+                    <td>Reporte semanal generado el {{fechaGeneracion}}</td>
+                    <td>{{fechaGeneracion}}</td>
+                    <td>
+                        <a href="/descargarReporte/{{id}}" class="boton-descargar">Descargar</a>
+                    </td>
+                </tr>
+            {{/reportesAnteriores}}
+            {{^reportesAnteriores}}
+                <tr>
+                    <td colspan="3">No hay reportes anteriores disponibles.</td>
+                </tr>
+            {{/reportesAnteriores}}
+            </tbody>
+        </table>
     </div>
 
 

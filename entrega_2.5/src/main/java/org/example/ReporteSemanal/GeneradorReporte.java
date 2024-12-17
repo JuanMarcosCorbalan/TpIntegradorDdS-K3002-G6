@@ -5,6 +5,7 @@ import org.example.Heladeras.Heladera;
 import org.example.Persona.Persona_fisica;
 import org.example.Persona.Persona_juridica;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.io.FileWriter;
@@ -44,14 +45,14 @@ public class GeneradorReporte {
             }
 
         }
-        Date fechaGeneracion = new Date();
+        LocalDate fechaGeneracion = LocalDate.now();
         String filePath = guardarReporteEnArchivo(contenido.toString(), fechaGeneracion);
 
-        return new Reporte(++contadorReportes, contenido.toString(), fechaGeneracion, filePath);
+        return new Reporte(contenido.toString(), fechaGeneracion, filePath);
     }
 
-    private String guardarReporteEnArchivo(String contenido, Date fechaGeneracion){
-        String nombreArchivo = "reporte_semanal_" + fechaGeneracion.getTime()+".txt";
+    private String guardarReporteEnArchivo(String contenido, LocalDate fechaGeneracion){
+        String nombreArchivo = "reporte_semanal_" + fechaGeneracion.getDayOfYear()+".txt";
         try (FileWriter writer = new FileWriter(nombreArchivo)){
             writer.write(contenido);
         } catch (IOException e) {

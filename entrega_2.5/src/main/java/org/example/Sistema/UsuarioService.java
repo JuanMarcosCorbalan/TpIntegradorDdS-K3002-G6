@@ -1,15 +1,12 @@
 package org.example.Sistema;
 
 import org.example.Colaborador.Colaborador;
-import org.example.DAO.CiudadDAO;
-import org.example.Persona.Ciudad;
-import org.example.Persona.Localidad;
+import org.example.Heladeras.Heladera;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.*;
 
 public class UsuarioService {
@@ -97,6 +94,14 @@ public class UsuarioService {
 
         return colaboradores;
     }
+
+    public List<Heladera> findAllHeladera() {
+        String query = "SELECT h FROM Heladera h";
+        List<Heladera> heladeras = entityManager.createQuery(query, Heladera.class).getResultList();
+
+        return heladeras;
+    }
+
 
     public void esFisico(Colaborador colaborador) {
         /*

@@ -1,30 +1,42 @@
 package org.example.ReporteSemanal;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
+@Entity
 public class Reporte {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Transient
     private String contenido;
-    private Date fechaGeneracion;
+
+    private LocalDate fechaGeneracion;
+
     private String filePath;  // Nueva ruta del archivo
 
-    public Reporte(Integer id, String contenido, Date generationDate, String filePath) {
-        this.id = id;
+    public Reporte(String contenido, LocalDate generationDate, String filePath) {
         this.contenido = contenido;
         this.fechaGeneracion = generationDate;
         this.filePath = filePath;
     }
 
-    public int getId() {
-        return id;
+    public Reporte() {
     }
 
     public String getContenido() {
         return contenido;
     }
 
-    public Date getFechaGeneracion() {
+    public LocalDate getFechaGeneracion() {
         return fechaGeneracion;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getFilePath() {

@@ -1,0 +1,19 @@
+CANTIDAD_FALLAS_POR_HELADERA
+Heladera 15608cdd: 0
+Heladera e8260a3a: 0
+Heladera 5c35bea3: 0
+
+CANTIDAD_DE_VIANDAS_RETIRADAS_POR_HELADERA
+Heladera 15608cdd: 0
+Heladera e8260a3a: 0
+Heladera 5c35bea3: 0
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_HELADERA
+Heladera: 15608cdd: 0
+Heladera: e8260a3a: 0
+Heladera: 5c35bea3: 0
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_COLABORADOR
+Colaborador: Pablo Diaz: 0
+Colaborador: Juan Meza: 0
+Colaborador: Esteban Karagounis: 0
