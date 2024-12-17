@@ -60,4 +60,22 @@ public class PuntoUbicacion {
     public String getNombre(){return nombre;}
 
 
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public void setLocalidad(Localidad localidad) {
+        this.localidad = localidad;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setNombre(String nombreHeladera) {
+        this.nombre = nombreHeladera;
+    }
 }

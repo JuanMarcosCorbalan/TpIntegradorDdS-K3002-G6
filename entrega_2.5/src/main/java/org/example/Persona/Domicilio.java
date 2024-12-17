@@ -62,4 +62,12 @@ public class Domicilio {
     public void setDaALaCalle(Boolean daALaCalle) {
         this.daALaCalle = daALaCalle;
     }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public Localidad getLocalidad() {
+        return localidad;
+    }
 }

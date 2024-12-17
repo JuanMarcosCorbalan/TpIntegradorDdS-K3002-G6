@@ -34,4 +34,8 @@ public class Localidad {
     public String getNombre() {
         return nombre;
     }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
 }

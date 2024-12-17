@@ -274,11 +274,33 @@ public class Main {
 
         app.post("/hacerseCargoHeladera", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
+            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
             if (colaborador != null) {
-                HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
-                SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
+                //HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                //SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
 
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                //si lo coloca en su local
+                if(true){
+                    String nombre_heladera = ctx.formParam("nombre_heladera");
+                    int temMin = Integer.parseInt(ctx.formParam("tempMinima"));
+                    int temMax = Integer.parseInt(ctx.formParam("tempMaxima"));
+                    int cantViandas = Integer.parseInt(ctx.formParam("viandasMax"));
+
+                    HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                    colaborador.agregarContribucion(hacerseCargoHeladera);
+                    SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,em);
+
+                    //persistir heladera
+                    heladeraDAO.save(hacerseCargoHeladera.getHeladera());
+                    //update colaborador
+                    colaboradorDAO.update(colaborador);
+
+                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+
+                }
+
+                //ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.status(401).result("Por favor inicia sesión para realizar la solicitud.");
@@ -441,7 +463,7 @@ public class Main {
                 default:
                     ctx.status(400).result("por favor ingrese un tipo de organización");
             }
-            String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputAltura");
+            String domicilio = ctx.formParam("inputCalle")+ " " + ctx.formParam("inputAltura");
             String ciudadString = ctx.formParam("ciudad");
             String paisString = ctx.formParam("pais");
             String localidadString = ctx.formParam("inputLocalidad");

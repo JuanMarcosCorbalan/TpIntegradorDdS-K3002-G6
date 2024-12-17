@@ -36,4 +36,12 @@ public class Ciudad {
     public Long getId() {
         return id;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
 }
