@@ -31,6 +31,9 @@ import org.example.Personal.Tecnico;
 import org.example.Colaborador.ControladoresColaborador.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -1368,6 +1371,20 @@ public class Main {
            List<VisitaDTO> visitas = visitaDAO.findVisitas(idFalla);
 
            ctx.json(visitas);
+        });
+
+        app.get("/static/uploads/{imagenIlustrativa}", ctx -> {
+            String nombreArchivo = ctx.pathParam("imagenIlustrativa"); // Usando llaves {}
+            Path rutaArchivo = Paths.get("src/main/resources/static/uploads/", nombreArchivo); // Cambiado el path
+
+            if (!Files.exists(rutaArchivo)) {
+                ctx.status(404).result("Imagen no encontrada");
+                return;
+            }
+
+            String mimeType = Files.probeContentType(rutaArchivo);
+            ctx.contentType(mimeType != null ? mimeType : "application/octet-stream");
+            ctx.result(Files.newInputStream(rutaArchivo));
         });
 
 
