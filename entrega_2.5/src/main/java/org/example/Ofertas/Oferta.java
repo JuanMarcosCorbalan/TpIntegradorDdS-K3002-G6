@@ -16,7 +16,7 @@ public class Oferta extends Contribucion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @Transient
     @JoinColumn(name = "id_ofertaRubro")
     private OfertasRubro ofertaRubro;
 

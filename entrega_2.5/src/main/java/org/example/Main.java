@@ -8,15 +8,18 @@ import org.example.Colaborador.Forma_colaborar;
 import org.example.Colaborador.RepositorioColaboradores;
 import org.example.Conversores.DistribucionViandaHistorial;
 import org.example.Conversores.DonacionViandaHistorial;
+import org.example.Conversores.HacerseCargoHeladeraHistorial;
 import org.example.DAO.*;
 import org.example.Formas_contribucion.*;
 import org.example.DTO.IncidenteDTO;
 import org.example.DTO.VisitaDTO;
 import org.example.Formas_contribucion.HacerseCargoHeladera;
 import org.example.Formas_contribucion.Motivo_distribucion;
+import org.example.Funcionalidades.BusquedaPuntosSugeridos;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO;
 import org.example.Heladeras.HeladeraDTO2;
+import org.example.Heladeras.PuntoUbicacion;
 import org.example.MigracionCsv.DatosColaboracion;
 import org.example.Ofertas.Oferta;
 import org.example.Ofertas.OfertaCanjeada;
@@ -226,7 +229,13 @@ public class Main {
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache");
+            BusquedaPuntosSugeridos buscadorPuntos = new BusquedaPuntosSugeridos();
+            List<PuntoUbicacion> puntosSugeridos = buscadorPuntos.solicitar_ubicaciones();
+            System.out.println(puntosSugeridos);
+            Map<String, Object> model = new HashMap<>();
+            model.put("puntosSugeridos", puntosSugeridos);
+
+            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache",model);
         });//server error
 
         app.get("/inicioAdminitrador", ctx -> {
@@ -506,32 +515,8 @@ public class Main {
                         return;
                 }
 
-                /*
-                String desperfecto = ctx.formParam("opcionDesperfecto");
-                if (desperfecto == null) {
-                    desperfecto = "false";
-                }
-                String faltantes = ctx.formParam("opcionFaltantes");
-                if (faltantes == null) {
-                    faltantes = "false";
-                }
-                Motivo_distribucion motivoDistribucion = null;
-                if (desperfecto.equals("desperfecto") && faltantes.equals("faltantes")) {
-                    motivoDistribucion = Motivo_distribucion.AMBOS;
-                } else {
-                    if (desperfecto.equals("desperfecto")) {
-                        motivoDistribucion = Motivo_distribucion.DESPERFECTO_HELADERA;
-                    } else {
-                        if (faltantes.equals("faltantes")) {
-                            motivoDistribucion = Motivo_distribucion.FALTA_VIANDAS_HELADERA_DESTINO;
-                        } else {
-                            ctx.status(401).result("Seleccione un motivo de distribucion");
-                        }
-                    }
-
-                }*/
                 // Llamar a la lógica de backend
-                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion);
+                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion,fechaDistribucion);
                 colaboradorDAO.update(colaborador);
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
 
@@ -547,31 +532,44 @@ public class Main {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            PuntoUbicacionDAO puntoUbicacionDAO = new PuntoUbicacionDAO(em);
             if (colaborador != null) {
-                //HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
-                //SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladera(hacerseCargoHeladera);
+                String nombre_heladera = ctx.formParam("nomHeladera");
+                Integer temMin = Integer.parseInt(ctx.formParam("tempMinima"));
+                Integer temMax = Integer.parseInt(ctx.formParam("tempMaxima"));
+                Integer cantViandas = Integer.parseInt(ctx.formParam("viandasMax"));
 
-                //si lo coloca en su local
-                if(true){
-                    String nombre_heladera = ctx.formParam("nombre_heladera");
-                    int temMin = Integer.parseInt(ctx.formParam("tempMinima"));
-                    int temMax = Integer.parseInt(ctx.formParam("tempMaxima"));
-                    int cantViandas = Integer.parseInt(ctx.formParam("viandasMax"));
+                HacerseCargoHeladera hacerseCargoHeladera;
+                String decision = ctx.formParam("eleccionUbicacion");
+                switch (decision) {
+                    case "enDomicilio" :
+                        hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                        colaborador.agregarContribucion(hacerseCargoHeladera);
+                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,em);
+                        //persistir heladera
+                        heladeraDAO.save(hacerseCargoHeladera.getHeladera());
+                        colaboradorDAO.update(colaborador);
+                        break;
+                    case "puntoSugerido":
+                        String coordenadas = ctx.formParam("puntoSugerido");
+                        System.out.println(coordenadas);
+                        hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
+                        colaborador.agregarContribucion(hacerseCargoHeladera);
+                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraConApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,coordenadas,em);
+                        colaboradorDAO.update(colaborador);
+                        //puntoUbicacionDAO.save(hacerseCargoHeladera.getHeladera().getPuntoUbicacion());
 
-                    HacerseCargoHeladera hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
-                    colaborador.agregarContribucion(hacerseCargoHeladera);
-                    SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,em);
 
-                    //persistir heladera
-                    heladeraDAO.save(hacerseCargoHeladera.getHeladera());
-                    //update colaborador
-                    colaboradorDAO.update(colaborador);
-
-                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
-
+                        break;
+                    default:
+                        ctx.status(400).result("Eleccion invalida");
+                        return;
                 }
 
-                //ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                //update colaborador
+
+
+                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/inicioSesion");
@@ -915,7 +913,7 @@ public class Main {
                     // model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribuciones.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisico.mustache",model);
                 }else{
                     System.out.println("entre a juridico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
@@ -923,14 +921,14 @@ public class Main {
                     OfertaDAO ofertaDAO = new OfertaDAO(em);
 
                     List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
-                    List<HacerseCargoHeladera> hacerseCargoHeladeras = hacerseCargoHeladeraDAO.findAllByColaborador(colaborador);
+                    List<HacerseCargoHeladeraHistorial> hacerseCargoHeladeras = hacerseCargoHeladeraDAO.obtenerHistorial(colaborador);
                     List<Oferta> ofertas = ofertaDAO.findAllByColaborador(colaborador);
 
                     model.put("donacionesDinero", donacionesDinero);
                     model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
                     model.put("ofertas", ofertas);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/historialContribuciones/html/historialContribucionesJuridico.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridico.mustache",model);
                 }
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
@@ -970,7 +968,7 @@ public class Main {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
                 colaboradorDAO.update(colaborador);
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 ctx.redirect("/inicioSesion");
             }

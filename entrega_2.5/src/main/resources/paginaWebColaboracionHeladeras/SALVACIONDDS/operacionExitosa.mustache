@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{title}}</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #2a4d69">
+    <!-- Logo a la izquierda -->
+    <a class="navbar-brand" href="#">
+        <img src="{{logoPath}}" alt="Logo" style="height: 70px; width: auto;">
+    </a>
+
+    <!-- Usuario y menú desplegable -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-white-600 large">{{username}}</span>
+                <img class="img-profile rounded-circle" src="{{profileImage}}">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                {{#menuItems}}
+                    <a class="dropdown-item" href="{{link}}">
+                        <i class="{{iconClass}} fa-sm fa-fw mr-2 text-gray-400"></i>{{text}}
+                    </a>
+                {{/menuItems}}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Cerrar Sesión
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<!-- Contenedor centralizado -->
+<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="text-center">
+        <img src="{{successImage}}" alt="Imagen" class="mb-4" style="max-width: 150px; height: auto;">
+        <h1 class="display-4">{{successMessage}}</h1>
+        <a href="javascript:history.back()" class="btn btn-primary mt-4">{{backButtonText}}</a>
+    </div>
+</div>
+
+<!-- Scroll to Top -->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Modal de Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{logoutTitle}}</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">{{logoutMessage}}</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">{{cancelText}}</button>
+                <a class="btn btn-danger" href="{{logoutLink}}">{{logoutButtonText}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="js/sb-admin-2.min.js"></script>
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="js/demo/datatables-demo.js"></script>
+</body>
+
+</html>

@@ -25,6 +25,8 @@
 
     <!--<link href="/hacerseCargoHeladera/css/hacerseCargoHeladera.css" rel="stylesheet">-->
     <script src="/SALVACIONDDS/distribuirTarjetas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+
 </head>
 
 <body>
@@ -104,7 +106,8 @@
                     <div class="row mb-3 mx-3">
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                <input class="form-check-input" type="radio"  value="enDomicilio" id="flexRadioDefault1"
+                                       name="eleccionUbicacion" required>
                                 <label class="form-check-label" for="flexRadioDefault1" style="color: #333;">
                                     Sí
                                 </label>
@@ -112,7 +115,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                <input class="form-check-input" type="radio" value="puntoSugerido" id="flexRadioDefault2"
+                                       name="eleccionUbicacion" required>
                                 <label class="form-check-label" for="flexRadioDefault2" style="color: #333;">
                                     No
                                 </label>
@@ -121,12 +125,16 @@
                         <div class="container mx-3 my-3" id="domicilio-container" style="display: none;">
                             <h5>Puntos sugeridos</h5>
                             <div class="col-md-12">
-                                <select class="form-select mt-3" id="puntosSugeridos" style="display: block; width: 100%; padding: .375rem 2.25rem .375rem .75rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff; border-color: #dee2e6; border-radius: 7px;">
+                                <select class="form-select mt-3" id="puntosSugeridos" name="puntoSugerido" style="display: block; width: 100%; padding: .375rem 2.25rem .375rem .75rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff; border-color: #dee2e6; border-radius: 7px;">
                                     <option selected>Seleccione una ubicación</option>
-                                    <option value="1">Punto 1</option>
-                                    <option value="2">Punto 2</option>
-                                    <option value="3">Punto 3</option>
-                                    <option value="4">Punto 4</option>
+                                    {{#puntosSugeridos}}
+                                        <option value="{{latitud}},{{longitud}},{{direccion}}">
+                                            {{direccion}}
+                                        </option>
+                                    {{/puntosSugeridos}}
+                                    {{^puntosSugeridos}}
+                                        <option disabled>No hay puntos sugeridos</option>
+                                    {{/puntosSugeridos}}
                                 </select>
                             </div>
                         </div>

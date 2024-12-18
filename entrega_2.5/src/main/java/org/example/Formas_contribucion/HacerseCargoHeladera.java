@@ -1,8 +1,11 @@
 package org.example.Formas_contribucion;
 
 import org.example.Colaborador.Colaborador;
+import org.example.DAO.HeladeraDAO;
 import org.example.DAO.LocalidadDAO;
+import org.example.DAO.PuntoUbicacionDAO;
 import org.example.Funcionalidades.BuscadorCordenadas;
+import org.example.Funcionalidades.BuscadorDireccion;
 import org.example.Funcionalidades.BusquedaPuntosSugeridos;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
@@ -19,7 +22,7 @@ import static org.example.Formas_contribucion.EstadoContribucion.EXITOSA;
 @Entity
 public class HacerseCargoHeladera extends Contribucion{
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Heladera heladeraElegida;
 
     @Transient
@@ -29,18 +32,33 @@ public class HacerseCargoHeladera extends Contribucion{
 
     }
 
-    public void hacerseCargo() {
-        BusquedaPuntosSugeridos busquedaPuntosSugeridos = new BusquedaPuntosSugeridos();
-        PuntoUbicacion puntoSeleccionado = this.sugerirPuntoODomicilio(busquedaPuntosSugeridos.getPuntosSugeridos());
-        heladeraElegida = new Heladera(puntoSeleccionado);
-        puntoSeleccionado.aniadirHeladera(heladeraElegida);
-        repositorioHeladeras.aniadirHeladera(heladeraElegida);
+    public void hacerseCargoConApi(String nombre_heladera,Integer temMin,Integer temMax,Integer cantViandas,String datosPuntoUbicacion,EntityManager em) {
+        PuntoUbicacionDAO puntoUbicacionDAO = new PuntoUbicacionDAO(em);
 
+        PuntoUbicacion puntoSeleccionado = new PuntoUbicacion(datosPuntoUbicacion);
+        puntoSeleccionado.completarUbicacion(em);
+
+
+        puntoSeleccionado.setNombre(nombre_heladera);
+        puntoUbicacionDAO.save(puntoSeleccionado);
+
+        HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+        Heladera heladera = new Heladera(puntoSeleccionado,temMin,temMax,cantViandas,colaborador);
+        heladeraDAO.save(heladera);
+
+
+
+        puntoSeleccionado.aniadirHeladera(heladeraElegida);
+        puntoUbicacionDAO.update(puntoSeleccionado);
+        // repositorioHeladeras.aniadirHeladera(heladeraElegida);
+        this.heladeraElegida = heladera;
+        //return heladeraElegida;
     }
 
-    public Heladera hacerseCargoSinApi(String nombre_heladera,int temMin,int temMax,int cantViandas,EntityManager em) {
+    public void hacerseCargoSinApi(String nombre_heladera,Integer temMin,Integer temMax,Integer cantViandas,EntityManager em) {
         BuscadorCordenadas buscadorCordenadas = new BuscadorCordenadas();
         String direccion = colaborador.getPersona_colaboradora().getDomicilio().getDireccion();
+        PuntoUbicacionDAO puntoUbicacionDAO = new PuntoUbicacionDAO(em);
 
         LocalidadDAO ldao = new LocalidadDAO(em);
         String n_localidad = colaborador.getPersona_colaboradora().getDomicilio().getLocalidad().getNombre();
@@ -51,18 +69,24 @@ public class HacerseCargoHeladera extends Contribucion{
         //obtener latitudes
         String direccion_Completa = direccion+","+n_localidad+","+n_ciudad+","+n_pais;
         System.out.println(direccion_Completa);
-        PuntoUbicacion puntoSeleccionado = buscadorCordenadas.buscarCoordenadas(direccion_Completa+","+n_localidad+","+n_ciudad+","+n_pais);
+        PuntoUbicacion puntoSeleccionado = buscadorCordenadas.buscarCoordenadas(direccion_Completa,em);
 
         puntoSeleccionado.setDireccion(direccion);
         puntoSeleccionado.setNombre(nombre_heladera);
         puntoSeleccionado.setLocalidad(localidad);
-        this.heladeraElegida = new Heladera(puntoSeleccionado,temMin,temMax,cantViandas,colaborador);
+        puntoUbicacionDAO.save(puntoSeleccionado);
+        HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+        Heladera heladera = new Heladera(puntoSeleccionado,temMin,temMax,cantViandas,colaborador);
+        heladeraDAO.save(heladera);
 
         puntoSeleccionado.aniadirHeladera(heladeraElegida);
-       // repositorioHeladeras.aniadirHeladera(heladeraElegida);
+        puntoUbicacionDAO.update(puntoSeleccionado);
 
-        return heladeraElegida;
+        this.heladeraElegida = heladera;
 
+        // repositorioHeladeras.aniadirHeladera(heladeraElegida);
+
+        //return heladeraElegida;
     }
 
     public PuntoUbicacion sugerirPuntoODomicilio(List<PuntoUbicacion> puntosSugeridos){
@@ -90,4 +114,6 @@ public class HacerseCargoHeladera extends Contribucion{
     public Heladera getHeladera(){
         return heladeraElegida;
     }
+
+
 }

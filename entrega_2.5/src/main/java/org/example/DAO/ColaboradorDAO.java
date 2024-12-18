@@ -1,9 +1,12 @@
 package org.example.DAO;
 
 import org.example.Colaborador.Colaborador;
+import org.example.Heladeras.Heladera;
+import org.example.Heladeras.HeladeraDTO2;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ColaboradorDAO {
@@ -50,6 +53,8 @@ public class ColaboradorDAO {
             if (transaction.isActive()) transaction.rollback();
             e.printStackTrace();
         }
+
+
     }
 
     public Colaborador findById(long id) {
