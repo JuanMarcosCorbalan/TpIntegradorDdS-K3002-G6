@@ -32,10 +32,10 @@
         <a class="navbar-brand" href="#">
             <img src="/SALVACIONDDS/img/LogoHobbitsB.png" alt="Logo" style="height: 70px; width: auto;">
         </a>
-    
+
         <!-- Barra de navegación -->
         <ul class="navbar-nav ml-auto">
-    
+
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,58 +45,35 @@
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                     <!-- Dropdown Menu Items -->
-                    <a class="dropdown-item" href="/generarReporteFisica"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
-                    <a class="dropdown-item" href="/puntosYCanjes"><i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i> Canje de puntos</a>
-                    <a class="dropdown-item" href="/gestionHeladerasFisica"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
-                    <a class="dropdown-item" href="/historialContribuciones"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
-                    <a class="dropdown-item" href="/historialCanjes"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i> Historial de canjes</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i> Canje de puntos</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i> Historial de canjes</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/reporteFallaTecnicaFisica"><i class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
                     <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración</a>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
                 </div>
             </li>
-    
+
         </ul>
-    
+
     </nav>
-    <div>
-        <a href="/inicioPersonaFisica" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
-            <i class="fas fa-arrow-left"></i> Volver
-        </a>
-    </div>
 
-    <div class="card shadow mb-4 p-2 ml-4 mr-4" style="margin-top: 90px;">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Mis canjes</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <!-- Tabla de canjes -->
-                <table class="table table-bordered table-hover ">
-                    <thead>
-                    <tr>
-                        <th>Oferta</th>
-                        <th>Puntos Utilizados</th>
-                        <th>Fecha del Canje</th>
-                        <th>Codigo de Canje</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#historialCanjes}}
-                        <tr>
-                            <td>{{nombre}}</td>
-                            <td>{{puntos}}</td>
-                            <td>{{fecha}}</td>
-                            <td>{{codigoUnico}}</td>
-                        </tr>
-                    {{/historialCanjes}}
-                    </tbody>
-                </table>
-            </div>
+    <!-- Contenedor centralizado -->
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <div class="text-center">
+            <!-- Imagen encima de la frase -->
+            <img src="/SALVACIONDDS/img/cruzverde.jpg" alt="Imagen" class="mb-4" style="max-width: 150px; height: auto;">
+
+            <!-- Frase de éxito -->
+            <h1 class="display-4">Operación exitosa, su codigo de canje es: {{codigoUnico}}</h1>
+
+            <!-- Botón de Volver -->
+            <a href="javascript:history.back()" class="btn btn-primary mt-4">Volver atrás</a>
         </div>
     </div>
-
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

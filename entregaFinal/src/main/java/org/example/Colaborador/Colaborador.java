@@ -47,7 +47,7 @@ public class Colaborador extends Rol {
     List<Suscripcion> suscripciones = new ArrayList<>();
 
     @OneToMany(mappedBy = "colaborador",cascade = CascadeType.ALL)
-    List<OfertaCanjeada> ofertasCanjeadas;
+    List<OfertaCanjeada> ofertasCanjeadas = new ArrayList<>();
 
     /*@ManyToMany
     @JoinTable(
@@ -124,7 +124,7 @@ public class Colaborador extends Rol {
         return puntos;
     }
 
-    public void canjearOferta(Oferta oferta)
+    public OfertaCanjeada canjearOferta(Oferta oferta)
     {
         if(oferta.getPuntosNecesarios()<=obtenerPuntos())
         {
@@ -133,8 +133,10 @@ public class Colaborador extends Rol {
             this.restarPuntos(puntos);
             OfertaCanjeada ofertaCanjeada = new OfertaCanjeada(oferta.getNombre(),puntos, LocalDate.now(),this);
             ofertasCanjeadas.add(ofertaCanjeada);
+            return ofertaCanjeada;
         }
         //QUE HAGA ALGO SI NO PUEDE CANJEAR
+        return null;
     }
 
     public void restarPuntos(double puntos){

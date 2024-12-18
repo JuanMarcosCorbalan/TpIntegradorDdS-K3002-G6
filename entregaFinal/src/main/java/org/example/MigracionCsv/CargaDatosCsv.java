@@ -9,6 +9,7 @@ import org.example.Persona.Documento_identidad;
 import org.example.Persona.Persona;
 import org.example.Persona.Persona_fisica;
 import org.example.Persona.Tipo_documento;
+import org.example.Sistema.LoggerToFile;
 import org.example.Utils.BDutils;
 
 import javax.persistence.EntityManager;
@@ -34,27 +35,34 @@ public class CargaDatosCsv {
     public void identificarYCrearColaboracion(Colaborador colaborador, String formaColaboracion, Integer cantidad, LocalDate fechaColaboracion){
         EntityManager em = BDutils.getEntityManager();
         ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+        LoggerToFile.logInfo("Identificando Colaboración");
         switch (formaColaboracion) {
             case "DINERO" -> {
                 Donacion_dinero donacionDinero = new Donacion_dinero(cantidad, Tipos_frecuencia.DONACION_UNICA, fechaColaboracion);
                 donacionDinero.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(donacionDinero);
+                LoggerToFile.logInfo("Colaboracion identificada como donacion de dinero, con una cantidad de " + cantidad + " pesos, en la fecha: " + fechaColaboracion);
             }
             case "REDISTRIBUCION_VIANDAS" -> {
                 Distribucion_viandas distribucionViandas = new Distribucion_viandas(colaborador, cantidad, fechaColaboracion);
                 distribucionViandas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(distribucionViandas);
+                LoggerToFile.logInfo("Colaboracion identificada como distrubucion de dinero, con una cantidad de " + cantidad + "  viandas distribuidas, en la fecha: " + fechaColaboracion);
+
             }
             case "ENTREGA_TARJETAS" -> {
                 RegistrarPersonasSV entregaTarjetas = new RegistrarPersonasSV(cantidad,0,fechaColaboracion, colaborador);
                 entregaTarjetas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(entregaTarjetas);
+                LoggerToFile.logInfo("Colaboracion identificada como registro de personas en situacion vulnerable, con una cantidad de " + cantidad + " tarjetas repartidas, en la fecha: " + fechaColaboracion);
+
             }
             case "DONACION_VIANDAS" -> {
                 // no seteo la cantidad de viandas porque deberia agregar la vianda a la lista de viandas pero seria una vianda vacia
                 Donacion_viandas donacionViandas = new Donacion_viandas(colaborador, fechaColaboracion, cantidad);
                 donacionViandas.setEstado(EstadoContribucion.EXITOSA);
                 colaborador.agregarContribucion(donacionViandas);
+                LoggerToFile.logInfo("Colaboracion identificada como donacion de viandas, con una cantidad de " + cantidad + " viandas, en la fecha: " + fechaColaboracion);
             }
             default -> throw new Error("FORMA DE COLABORACION INVALIDA");
         }
@@ -80,7 +88,9 @@ public class CargaDatosCsv {
 
     public Colaborador obtenerColaborador(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap,String nombre, String apellido, String numeroDocumentoString, Tipo_documento tipoDocumento, String mail) throws IOException {
         Boolean existeColaborador = this.validarExistencia(personasFisicasExistentesMap, numeroDocumentoString);
+        LoggerToFile.logInfo("Verificando existencia de colaborador: " + nombre + " " + apellido + " - " + numeroDocumentoString);
         if (!existeColaborador){
+            LoggerToFile.logInfo("Colaborador no encontrado, creando nuevo Colaborador");
             // creo los objetos con cada uno de los parametros recibidos
             // para crear a la persona necesito el objeto documento
             Documento_identidad documento = this.crearDocumento(numeroDocumentoString, tipoDocumento);
@@ -94,8 +104,10 @@ public class CargaDatosCsv {
             Email emailPersona = new Email(mail);
             EnvioMail envio = new EnvioMail();
             envio.enviarEmail(emailPersona,"Carga realizada correctamente","Tu usuario fue cargado correctamente.","hola");
+            LoggerToFile.logInfo("Colaborador creado!");
             return colaborador;
         } else {
+            LoggerToFile.logInfo("Colaborador ya existente!");
             return colaboradoresExistentesMap.get(numeroDocumentoString);
         }
     }
@@ -103,10 +115,11 @@ public class CargaDatosCsv {
     public void agregarColaboradorNuevoAExistentes(Colaborador nuevoColaborador, Persona_fisica nuevaPersonaFisica, List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap, String numeroDocumentoString){
         EntityManager em = BDutils.getEntityManager();
         ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+        LoggerToFile.logInfo("Agregando colaborador a existentes");
         colaboradoresExistentes.add(nuevoColaborador);
         personasFisicasExistentesMap.put(numeroDocumentoString, nuevaPersonaFisica);
         colaboradoresExistentesMap.put(numeroDocumentoString, nuevoColaborador);
         colaboradorDAO.save(nuevoColaborador);
-
+        LoggerToFile.logInfo("Colaborador persistido con exito");
     }
 }

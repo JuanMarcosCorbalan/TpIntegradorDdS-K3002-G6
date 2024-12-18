@@ -20,13 +20,18 @@ public class OfertaCanjeada {
     @ManyToOne
     Colaborador colaborador;
 
+    String codigoUnico;
+
     public OfertaCanjeada() {}
     public OfertaCanjeada(String nombre, int puntos, LocalDate fecha,Colaborador colaborador) {
         this.nombre = nombre;
         this.puntos = puntos;
         this.fecha = fecha;
         this.colaborador = colaborador;
+        this.codigoUnico = GeneradorCodigoCanje.generarCodigoUnico();
     }
 
-
+    public String getCodigoUnico() {
+        return codigoUnico;
+    }
 }

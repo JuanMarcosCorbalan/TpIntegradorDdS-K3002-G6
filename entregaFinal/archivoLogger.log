@@ -1,0 +1,222 @@
+dic 18, 2024 4:07:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:07:34 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 1000 PESOS REGISTRADA CON EXITO
+dic 18, 2024 4:07:52 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE VIANDA SOLICITADA EN HELADERA81147734
+CON EL NOMBRE DE VIANDA arroz
+CON FECHA DE VENCIMIENTO 2920-12-19
+CON 10 CALORiAS Y 100 GRAMOS
+dic 18, 2024 4:12:21 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA SOLICITUD DE DISTRIBUCION DE VIANDAS DESDE LA HELADERA: 6fb460f4
+ A LA HELADERA DESTINO:  81147734
+ CON UNA CANTIDAD DE : 120 VIANDAS A MOVER, PARA LA FECHA 2024-12-19
+ CON EL MOTIVO DE: faltantes
+dic 18, 2024 4:14:50 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+EL USUARIO REALIZO UNA SOLICITUD DE 12 TARJETAS
+dic 18, 2024 4:15:22 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA PERSONA EN SITUACION VULNERABLE CON: 
+NOMBRE Y APELLIDO: claudio gonzales
+FECHA DE NACIMIENTO 1989-12-11
+CANTIDAD DE MENORES A CARGO 3
+Y SITUACION DE CALLE true
+dic 18, 2024 4:16:33 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA PERSONA EN SITUACION VULNERABLE CON: 
+NOMBRE Y APELLIDO: SANTIAGO CORBALAN
+FECHA DE NACIMIENTO 2001-12-11
+CANTIDAD DE MENORES A CARGO 1
+Y SITUACION DE CALLE false
+dic 18, 2024 4:16:54 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+GENERANDO NUEVO REPORTE SEMANAL
+dic 18, 2024 4:17:19 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Archivo guardado correctamente en la direccion /csvs/csvColaboradores.csv
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: COMENZANDO MIGRACION
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Juan Corbalan - 43871010
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 18, 2024 4:18:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 4 viandas, en la fecha: 2023-12-11
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Ignacio Montero - 43871011
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 18, 2024 4:18:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 1000 pesos, en la fecha: 2024-05-09
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 18, 2024 4:18:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 900 pesos, en la fecha: 2023-09-20
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Lorenzo Atierri - 65987554
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 18, 2024 4:18:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 2 viandas, en la fecha: 2024-03-08
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador ya existente!
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como registro de personas en situacion vulnerable, con una cantidad de 5 tarjetas repartidas, en la fecha: 2023-09-19
+dic 18, 2024 4:18:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+MIGRACION FINALIZADA CON EXITO
+dic 18, 2024 4:26:55 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 18, 2024 4:27:01 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:27:04 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 100000 PESOS REGISTRADA CON EXITO
+dic 18, 2024 4:27:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:27:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:27:13 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+CANJE NO POSIBLE, COLABORADOR SIN PUNTOS NECESARIOS
+dic 18, 2024 4:42:20 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:42:23 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 1111111 PESOS REGISTRADA CON EXITO
+dic 18, 2024 4:42:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:45:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:45:30 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:47:48 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:47:51 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:47:58 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:49:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:49:53 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+USUARIO DE GOOGLE NO REGISTRADO
+dic 18, 2024 4:49:53 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Registro de persona fisica seleccionado
+dic 18, 2024 4:50:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Nueva persona fisica registrada! Datos: 
+
+ Nombre/s: Juan Marcos
+ Apellido/s: Corbalan
+ Fecha de Nacimiento: 1111-11-11
+ Numero de Documento: 11111
+ Domicilio: calel 112
+ Ciudad: ciudad
+ Localidad: localidad
+ medios de contacto:
+ correo: jcorbalan@frba.utn.edu.ar
+ telefono: 111
+ Whatsapp: 111
+dic 18, 2024 4:50:13 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA CON GOOGLE
+dic 18, 2024 4:50:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+CANJE NO POSIBLE, COLABORADOR SIN PUNTOS NECESARIOS
+dic 18, 2024 4:50:32 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 100000 PESOS REGISTRADA CON EXITO
+dic 18, 2024 4:51:14 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+CANJE NO POSIBLE, COLABORADOR SIN PUNTOS NECESARIOS
+dic 18, 2024 4:52:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 18, 2024 4:52:15 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA CON GOOGLE
+dic 18, 2024 4:52:19 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 100000 PESOS REGISTRADA CON EXITO
+dic 18, 2024 4:52:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:52:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:52:28 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador
+dic 18, 2024 4:52:29 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador

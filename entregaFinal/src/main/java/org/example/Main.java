@@ -36,6 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Logger;
 
 import io.javalin.Javalin;
 import org.example.ReporteSemanal.Reporte;
@@ -78,7 +79,6 @@ public class Main {
     private static final String AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String ACCESS_TOKEN_URL = "https://oauth2.googleapis.com/token";
     private static final String RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
-
     private static OAuth20Service service;
 
 
@@ -96,7 +96,6 @@ public class Main {
                 .callback(REDIRECT_URI)
                 .defaultScope(SCOPE)
                 .build(GoogleApi20.instance());
-
 
 
         Javalin app = Javalin.create(javalinConfig -> {
@@ -137,7 +136,8 @@ public class Main {
 
                     // Parsear el JSON de userInfo
                     ObjectMapper mapper = new ObjectMapper();
-                    Map<String, Object> userInfoMap = mapper.readValue(userInfo, new TypeReference<Map<String, Object>>() {});
+                    Map<String, Object> userInfoMap = mapper.readValue(userInfo, new TypeReference<Map<String, Object>>() {
+                    });
 
                     // Obtener el email del usuario
                     String email = (String) userInfoMap.get("email");
@@ -154,9 +154,11 @@ public class Main {
                         ctx.sessionAttribute("colaborador", colaborador);
                         if (colaborador.persona instanceof Persona_fisica personaFisica) {
                             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                            LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA CON GOOGLE");
                             return;
                         } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
                             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                            LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA CON GOOGLE");
                             return;
                         }
                     } else {
@@ -167,13 +169,16 @@ public class Main {
                         ctx.sessionAttribute("usuario", usuario);
                         usuarioDAO.save(usuario);
                         ctx.redirect("/registroPersonas");
+                        LoggerToFile.logInfo("\nUSUARIO DE GOOGLE NO REGISTRADO");
                     }
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                     ctx.status(500).result("Error obteniendo el token de acceso.");
+                    LoggerToFile.logError("\nError obteniendo el token de acceso.", e);
                 }
             } else {
                 ctx.status(400).result("No authorization code provided.");
+                LoggerToFile.logWarning("\nNo authorization code provided.");
             }
         });
         ////
@@ -226,7 +231,7 @@ public class Main {
             Map<String, Object> model = new HashMap<>();
             model.put("puntosSugeridos", puntosSugeridos);
 
-            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache",model);
+            ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache", model);
         });//server error
 
         app.get("/inicioAdminitrador", ctx -> {
@@ -248,11 +253,11 @@ public class Main {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalJuridica.mustache");
         });
         app.get("/registroUsuario", ctx -> {
-           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache");
         });
 
         app.get("/reporteFallaTecnicaFisica", ctx -> {
-           ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaFisica.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaFisica.mustache");
         });
         app.get("/reporteFallaTecnicaJuridica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/reportarFallaTecnicaJuridica.mustache");
@@ -263,8 +268,6 @@ public class Main {
         app.get("/inicioPersonaJuridica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
         });
-
-
 
 
         // login para guardar al colaborador
@@ -294,28 +297,31 @@ public class Main {
                         usuario = us.verificarInicioSesion(username, password);
                         Rol rol = us.obtenerRolAsociado(usuario);
                         // Guardar al colaborador en la sesión
-                        if(rol instanceof Colaborador)
-                        {
+                        if (rol instanceof Colaborador) {
                             Colaborador colaborador = (Colaborador) rol;
                             ctx.sessionAttribute("colaborador", colaborador);
                             if (colaborador.persona instanceof Persona_fisica personaFisica) {
                                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                                LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA");
+
                                 return;
                             } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
                                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                                LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA");
                                 return;
                             }
-                        } else if(rol instanceof Tecnico)
-                        {
+                        } else if (rol instanceof Tecnico) {
                             Tecnico tecnico = (Tecnico) rol;
                             ctx.sessionAttribute("tecnico", tecnico);
                             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
+                            LoggerToFile.logInfo("\nTECNICO LOGUEADO");
                             return;
                         }
                     } catch (RuntimeException e) {
-                        if (username.equals("administrador") && password.equals("administrador")){
+                        if (username.equals("administrador") && password.equals("administrador")) {
                             ctx.sessionAttribute("administrador", 1);
                             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
+                            LoggerToFile.logInfo("\nADMINISTRADOR LOGUEADO");
                             return;
                         } else {
                             model.put("error", e.getMessage());
@@ -354,9 +360,12 @@ public class Main {
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
                 // Enviar una respuesta de confirmación
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+                LoggerToFile.logInfo("\nDONACION DE VIANDA SOLICITADA EN HELADERA" + idHeladera + "\nCON EL NOMBRE DE VIANDA "
+                        + nombre + "\nCON FECHA DE VENCIMIENTO " + fechaVencimiento + "\nCON " + calorias + " CALORiAS Y " + pesoGramos + " GRAMOS");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -370,6 +379,7 @@ public class Main {
                 // Llamar a la lógica de backend
                 SolicitarTarjetasParaRepartirHandler.realizarDonacion(colaborador, cantidadDeTarjetas);
                 colaboradorDAO.update(colaborador);
+                LoggerToFile.logInfo("\nEL USUARIO REALIZO UNA SOLICITUD DE " + cantidadDeTarjetas + " TARJETAS");
 
                 ctx.sessionAttribute("colaborador", colaborador);
                 // Enviar una respuesta de confirmación
@@ -377,6 +387,7 @@ public class Main {
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -385,22 +396,26 @@ public class Main {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
             if (colaborador != null) {
-                    // Recibir los datos del formulario
-                    String nombre = ctx.formParam("inputNombre");
-                    String apellido = ctx.formParam("inputApellido");
-                    LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
-                    Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
-                    String situacionDeCalleString = ctx.formParam("flexRadioDefault");
-                    boolean situacionDeCalle = Boolean.parseBoolean(situacionDeCalleString);
-                    String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
-                    // Llamar a la lógica de backend
-                    RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
-                    colaboradorDAO.update(colaborador);
-                    // Enviar una respuesta de confirmación
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
-                } else {
+                // Recibir los datos del formulario
+                String nombre = ctx.formParam("inputNombre");
+                String apellido = ctx.formParam("inputApellido");
+                LocalDate fechaNacimiento = LocalDate.parse(ctx.formParam("inputFechaNacimiento"));
+                Integer cantidadMenoresACargo = Integer.valueOf(ctx.formParam("inputCantidadMenores"));
+                String situacionDeCalleString = ctx.formParam("flexRadioDefault");
+                boolean situacionDeCalle = Boolean.parseBoolean(situacionDeCalleString);
+                String domicilio = ctx.formParam("inputCalle") + ctx.formParam("inputNumero");
+                // Llamar a la lógica de backend
+                RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
+                LoggerToFile.logInfo("\nSE REGISTRO UNA NUEVA PERSONA EN SITUACION VULNERABLE CON: \nNOMBRE Y APELLIDO: " + nombre + " " + apellido
+                        + "\nFECHA DE NACIMIENTO " + fechaNacimiento + "\nCANTIDAD DE MENORES A CARGO " + cantidadMenoresACargo + "\nY SITUACION DE CALLE " + situacionDeCalleString);
+
+                colaboradorDAO.update(colaborador);
+                // Enviar una respuesta de confirmación
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+            } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -418,7 +433,7 @@ public class Main {
                     // mostrar la cantidad de tarjetas restantes
                     model.put("tarjetasRestantes", tarjetasARepartir);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionTarjetas.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/distribucionTarjetas.mustache", model);
 
                 } else {
                     model.put("tarjetasRestantes", "0 tarjetas solicitadas, solicite tarjetas ahora!");
@@ -426,9 +441,9 @@ public class Main {
                 }
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
-
 
 
         //REPORTAR FALLA TECNICA
@@ -437,8 +452,7 @@ public class Main {
             HeladeraDAO heladeraDAO = new HeladeraDAO(em);
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
             TecnicoDAO tecnicoDAO = new TecnicoDAO(em);
-            if(colaborador !=null)
-            {
+            if (colaborador != null) {
                 String descripcion = ctx.formParam("inputDescripcion");
                 String idHeladera = ctx.formParam("selectedHeladeraId");
                 Heladera heladera = heladeraDAO.findHeladeraString(idHeladera);
@@ -475,22 +489,22 @@ public class Main {
                     }
                 }
 
-                FallaTecnica falla = new FallaTecnica(colaborador,descripcion,filePath,heladera);
+                FallaTecnica falla = new FallaTecnica(colaborador, descripcion, filePath, heladera);
+                LoggerToFile.logInfo("\nSE REGISTRO UNA NUEVA FALLA TECNICA EN LA HELADERA: " + heladera.getId() +
+                        "\nCON DESCRIPCION:  " + descripcion);
+
                 List<Tecnico> tecnicos = tecnicoDAO.findAlltecnicos();
-                falla.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
+                falla.asignarTecnico(heladera.getPuntoUbicacion(), tecnicos);
                 incidenteDAO.save(falla);
 
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
-            }else{
+            } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
 
 
-
-
-
         });
-
 
 
         app.post("/distribucionViandas", ctx -> {
@@ -531,7 +545,10 @@ public class Main {
 
 
                 // Llamar a la lógica de backend
-                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion,fechaDistribucion);
+                SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion, fechaDistribucion);
+                LoggerToFile.logInfo("\nSE REGISTRO UNA SOLICITUD DE DISTRIBUCION DE VIANDAS DESDE LA HELADERA: " + idHeladeraOrigen +
+                        "\n A LA HELADERA DESTINO:  " + idHeladeraDestino + "\n CON UNA CANTIDAD DE : " + cantidadViandasAMover + " VIANDAS A MOVER, PARA LA FECHA " + fechaDistribucion
+                + "\n CON EL MOTIVO DE: " + motivo);
                 colaboradorDAO.update(colaborador);
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
 
@@ -540,6 +557,7 @@ public class Main {
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -557,38 +575,40 @@ public class Main {
                 HacerseCargoHeladera hacerseCargoHeladera;
                 String decision = ctx.formParam("eleccionUbicacion");
                 switch (decision) {
-                    case "enDomicilio" :
+                    case "enDomicilio":
                         hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
                         colaborador.agregarContribucion(hacerseCargoHeladera);
-                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,em);
+                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraSinApi(hacerseCargoHeladera, nombre_heladera, temMin, temMax, cantViandas, em);
                         //persistir heladera
                         heladeraDAO.save(hacerseCargoHeladera.getHeladera());
                         colaboradorDAO.update(colaborador);
+                        LoggerToFile.logInfo("\nSE REGISTRO UNA SOLICITUD DE HACERSE CARGO DE HELADERA CON EL NOMBRE: " + nombre_heladera +
+                                "\n CON TEMPERATURA MINIMA:  " + temMax + "\n Y TEMPERATURA MAXIMA DE : " + temMax + " EN EL DOMICILIO DEL COLABORADOR");
                         break;
                     case "puntoSugerido":
                         String coordenadas = ctx.formParam("puntoSugerido");
                         System.out.println(coordenadas);
                         hacerseCargoHeladera = new HacerseCargoHeladera(colaborador);
                         colaborador.agregarContribucion(hacerseCargoHeladera);
-                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraConApi(hacerseCargoHeladera,nombre_heladera,temMin,temMax,cantViandas,coordenadas,em);
+                        SolicitarHacerseCargoHeladeraHandler.hacerseCargoHeladeraConApi(hacerseCargoHeladera, nombre_heladera, temMin, temMax, cantViandas, coordenadas, em);
                         colaboradorDAO.update(colaborador);
                         //puntoUbicacionDAO.save(hacerseCargoHeladera.getHeladera().getPuntoUbicacion());
-
-
+                        LoggerToFile.logInfo("\nSE REGISTRO UNA SOLICITUD DE HACERSE CARGO DE HELADERA CON EL NOMBRE: " + nombre_heladera +
+                                "\n CON TEMPERATURA MINIMA:  " + temMax + "\n Y TEMPERATURA MAXIMA DE : " + temMax + " EN EL PUNTO SUGERIDO: " + coordenadas);
 
                         break;
                     default:
                         ctx.status(400).result("Eleccion invalida");
+                        LoggerToFile.logWarning("\nELECCION NO VALIDA");
                         return;
                 }
 
                 //update colaborador
-
-
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -596,51 +616,57 @@ public class Main {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             UsuarioService us = new UsuarioService(em);
 
-                var archivoCsv = ctx.uploadedFile("archivoCsv");
-                if (archivoCsv != null) {
+            var archivoCsv = ctx.uploadedFile("archivoCsv");
+            if (archivoCsv != null) {
 
-                    String directorioDestino = "/csvs/";
-                    File directorio = new File(directorioDestino);
+                String directorioDestino = "/csvs/";
+                File directorio = new File(directorioDestino);
 
-                    if (!directorio.exists()) {
-                        directorio.mkdirs(); // Crea el directorio si no existe
-                    }
-                    String pathArchivo = directorioDestino + archivoCsv.filename();
-                    try (OutputStream out = new FileOutputStream(pathArchivo)) {
-                        archivoCsv.content().transferTo(out);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        ctx.status(500).result("Error al guardar el archivo.");
-                        return;
-                    }
-                    // esto podria ir en el handler
+                if (!directorio.exists()) {
+                    directorio.mkdirs(); // Crea el directorio si no existe
+                }
+                String pathArchivo = directorioDestino + archivoCsv.filename();
+                try (OutputStream out = new FileOutputStream(pathArchivo)) {
+                    archivoCsv.content().transferTo(out);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ctx.status(500).result("Error al guardar el archivo.");
+                    LoggerToFile.logError("\nError al guardar el archivo", e);
+                    return;
+                }
 
-                    // tengo que traer de la base de datos los colaboradores existentes
-                    List<Colaborador> colaboradores = us.findAllColaborador();
-                    RepositorioColaboradores colabExistentes = new RepositorioColaboradores(colaboradores);
+                LoggerToFile.logInfo("\nArchivo guardado correctamente en la direccion " + pathArchivo);
+                // esto podria ir en el handler
 
-                    MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colabExistentes);
-                    List<DatosColaboracion> datosAImprimir = migracionColaboradores.migrarCsv();
-                    System.out.println(datosAImprimir);
-                    Map<String, Object> model = new HashMap<>();
-                    model.put("datosColaboraciones", datosAImprimir);
-                    // Pasa la lista al contexto y renderiza la plantilla
-                    ctx.attribute("datosColaboracion", datosAImprimir);
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/resultadoMigracionCSV.mustache", model);
-                    for (Colaborador colaboradorLista : colabExistentes.getColaboradores()) {
-                        Persona persona = colaboradorLista.getPersona_colaboradora();
-                        if (persona instanceof Persona_fisica personaFisicaExistente) {
-                            System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
-                            String nombre = personaFisicaExistente.getNombre();
-                            List<Contribucion> contribuciones = colaboradorLista.getContribuciones();
-                            if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
-                            else System.out.println("No tiene colaboraciones realizadas");
-                            for (Contribucion contribucion : contribuciones) {
-                                System.out.println(contribucion.getFecha_contribucion());
-                            }
+                // tengo que traer de la base de datos los colaboradores existentes
+                List<Colaborador> colaboradores = us.findAllColaborador();
+                RepositorioColaboradores colabExistentes = new RepositorioColaboradores(colaboradores);
+
+                LoggerToFile.logInfo("COMENZANDO MIGRACION");
+                MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colabExistentes);
+                List<DatosColaboracion> datosAImprimir = migracionColaboradores.migrarCsv();
+                System.out.println(datosAImprimir);
+                Map<String, Object> model = new HashMap<>();
+                model.put("datosColaboraciones", datosAImprimir);
+                // Pasa la lista al contexto y renderiza la plantilla
+                ctx.attribute("datosColaboracion", datosAImprimir);
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/resultadoMigracionCSV.mustache", model);
+                LoggerToFile.logInfo("\nMIGRACION FINALIZADA CON EXITO");
+
+                for (Colaborador colaboradorLista : colabExistentes.getColaboradores()) {
+                    Persona persona = colaboradorLista.getPersona_colaboradora();
+                    if (persona instanceof Persona_fisica personaFisicaExistente) {
+                        System.out.println("DNI: " + personaFisicaExistente.getDocumento_identidad().getNumeroDocumento());
+                        String nombre = personaFisicaExistente.getNombre();
+                        List<Contribucion> contribuciones = colaboradorLista.getContribuciones();
+                        if (!contribuciones.isEmpty()) System.out.println("Colaboraciones: ");
+                        else System.out.println("No tiene colaboraciones realizadas");
+                        for (Contribucion contribucion : contribuciones) {
+                            System.out.println(contribucion.getFecha_contribucion());
                         }
                     }
                 }
+            }
 
         });
         //instanciacion.crearColaboradores(colaboradores);
@@ -655,18 +681,20 @@ public class Main {
             Usuario usuario = servicioValidacion.validar_nombre_usuario(usuarioNombre);
             if (usuario != null) {
                 model.put("error", "nombre de usuario ya utilizado");
+                LoggerToFile.logWarning("\nUSUARIO YA EXISTENTE");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
                 return;
             }
 
             String contrasenia = ctx.formParam("contraseña");
             ValidarContrasenia validadorContra = new ValidarContrasenia();
-            if(!validadorContra.validar(contrasenia)){
+            if (!validadorContra.validar(contrasenia)) {
                 ctx.status(400).result("Contraseña poco segura");
             }
             usuario = new Usuario(usuarioNombre, contrasenia);
 
             ctx.sessionAttribute("usuario", usuario);
+            LoggerToFile.logInfo("Nuevo usuario registrado con el nombre de usuario: " + usuarioNombre);
             usuarioDAO.save(usuario);
 
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonas.mustache");
@@ -681,6 +709,7 @@ public class Main {
             modelo.put("apellido", datosGoogle != null ? datosGoogle.getOrDefault("family_name", "") : "");
             modelo.put("correo", datosGoogle != null ? datosGoogle.getOrDefault("email", "") : "");
 
+            LoggerToFile.logInfo("\nRegistro de persona fisica seleccionado");
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonafisica.mustache", modelo);
         });
 
@@ -692,6 +721,7 @@ public class Main {
             modelo.put("razonSocial", datosGoogle != null ? datosGoogle.getOrDefault("name", "") : "");
             modelo.put("correo", datosGoogle != null ? datosGoogle.getOrDefault("email", "") : "");
 
+            LoggerToFile.logInfo("\nRegistro de persona juridica seleccionado");
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonajuridica.mustache", modelo);
         });
 
@@ -730,7 +760,6 @@ public class Main {
             String localidadString = ctx.formParam("inputLocalidad");
             Localidad localidad = localidadDAO.findOrCreate(localidadString, ciudadString, paisString);
 
-
             Domicilio domicilioNuevo = new Domicilio(localidad, domicilio);
             Persona_fisica persona = new Persona_fisica(nombres, apellidos, fechaNacimiento, documento, mediosContacto,
                     domicilioNuevo);
@@ -761,6 +790,12 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
+            LoggerToFile.logInfo("\nNueva persona fisica registrada! Datos: \n" +
+                    "\n Nombre/s: "+ nombres + "\n Apellido/s: " + apellidos + "\n Fecha de Nacimiento: " + fechaNacimiento
+                    + "\n Numero de Documento: " + numeroDocumento + "\n Domicilio: " + domicilio + "\n Ciudad: " + ciudadString +
+                    "\n Localidad: " + localidadString + "\n medios de contacto:\n correo: " + correo + "\n telefono: " + numeroTelefono
+                    + "\n Whatsapp: " + numeroWhatsapp);
+
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             ctx.redirect("/login");
         });
@@ -792,7 +827,7 @@ public class Main {
                 default:
                     ctx.status(400).result("por favor ingrese un tipo de organización");
             }
-            String domicilio = ctx.formParam("inputCalle")+ " " + ctx.formParam("inputAltura");
+            String domicilio = ctx.formParam("inputCalle") + " " + ctx.formParam("inputAltura");
             String ciudadString = ctx.formParam("ciudad");
             String paisString = ctx.formParam("pais");
             String localidadString = ctx.formParam("inputLocalidad");
@@ -836,6 +871,11 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
+            LoggerToFile.logInfo("\nNueva persona juridica registrada! Datos: \n" +
+                    "\n Razon Social: "+ razonSocial + "\n Tipo: " + tipoJuridico + "\n Domicilio: " + domicilio + "\n Ciudad: " + ciudadString +
+                    "\n Localidad: " + localidadString + "\n medios de contacto:\n correo: " + correo + "\n telefono: " + numeroTelefono
+                    + "\n Whatsapp: " + numeroWhatsapp);
+
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             ctx.redirect("/login");
         });
@@ -861,6 +901,7 @@ public class Main {
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/puntosYCanjes.mustache", model);
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
         app.post("/canjearOferta", ctx -> {
@@ -873,6 +914,8 @@ public class Main {
                 OfertaDAO ofertaDAO = new OfertaDAO(em);
                 List<Oferta> ofertas = ofertaDAO.findAll();
 
+                Map<String, Object> model = new HashMap<>();
+
                 // Buscar la oferta seleccionada en la lista de ofertas disponibles
                 Oferta ofertaSeleccionada = ofertas.stream()
                         .filter(oferta -> Objects.equals(oferta.getNombre(), nombreOferta))
@@ -883,21 +926,27 @@ public class Main {
                     // Verificar si el colaborador tiene suficientes puntos
                     if (colaborador.obtenerPuntos() >= ofertaSeleccionada.getPuntosNecesarios()) {
                         // Restar los puntos del colaborador
-                        colaborador.canjearOferta(ofertaSeleccionada);
+                        OfertaCanjeada ofertaCanjeada = colaborador.canjearOferta(ofertaSeleccionada);
                         ctx.sessionAttribute("colaborador", colaborador);
                         colaboradorDAO.update(colaborador);
+                        model.put("codigoUnico" , ofertaCanjeada.getCodigoUnico());
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
                         ofertaDAO.update(ofertaSeleccionada);
-                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosaCanje.mustache", model);
+                        LoggerToFile.logInfo("\nOferta: " + ofertaSeleccionada.getNombre() + "Canjeada con exito\n " + ofertaSeleccionada.getPuntosNecesarios()
+                                + " fueron substraidos con exito del colaborador");
                     } else {
                         ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
+                        LoggerToFile.logInfo("\nCANJE NO POSIBLE, COLABORADOR SIN PUNTOS NECESARIOS");
                     }
                 } else {
                     ctx.status(404).result("La oferta seleccionada no existe.");
+                    LoggerToFile.logWarning("\nOFERTA INEXISTENTE");
                 }
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
         app.get("/historialCanjes", ctx -> {
@@ -918,7 +967,6 @@ public class Main {
         });
 
 
-
         app.get("/historialVisitas", ctx -> {
             Tecnico tecnico = ctx.sessionAttribute("tecnico");
             VisitaDAO visitaDAO = new VisitaDAO(em);
@@ -933,27 +981,26 @@ public class Main {
                 // Renderizar la plantilla Mustache y pasar el modelo
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialVisitas.mustache", model);
             } else {
-                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+                ctx.redirect("/login");
+                LoggerToFile.logWarning("\nTECNICO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
-        app.get("/verFallasTecnicas", ctx ->{
-           Tecnico tecnico = ctx.sessionAttribute("tecnico");
-           IncidenteDAO incidenteDAO = new IncidenteDAO(em);
-           if(tecnico != null)
-           {
-               List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(tecnico.getId());
+        app.get("/verFallasTecnicas", ctx -> {
+            Tecnico tecnico = ctx.sessionAttribute("tecnico");
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            if (tecnico != null) {
+                List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(tecnico.getId());
 
-               Map<String, Object> model = new HashMap<>();
-               model.put("fallas", fallas);
-
+                Map<String, Object> model = new HashMap<>();
+                model.put("fallas", fallas);
 
 
-               ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/vistaHeladerasTecnico.mustache", model);
-           }
-           else{
-               ctx.status(401).result("Por favor inicia sesión para ver las fallas tecnicas.");
-           }
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/vistaHeladerasTecnico.mustache", model);
+            } else {
+                ctx.redirect("/login");
+                LoggerToFile.logWarning("\nTECNICO NO LOGUEADO, LLEVANDO AL LOGIN");
+            }
         });
 
         app.get("/registrarVisita/{idFalla}", ctx -> {
@@ -1005,9 +1052,9 @@ public class Main {
                              OutputStream outputStream = new FileOutputStream(file)) {
                             inputStream.transferTo(outputStream);
                         }
-
                     } catch (IOException e) {
                         ctx.status(500).result("Error al procesar la imagen.");
+                        LoggerToFile.logError("\nError al procesar la imagen.", e);
                         return;
                     }
                 }
@@ -1023,14 +1070,15 @@ public class Main {
                 //BUSCO LA FALLA TECNICA EN LA BD
                 FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
                 //CREO LA VISITA
-                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado());
-
+                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath, falla.getTecnicoAsignado());
                 falla.agregarVisita(visita);
                 incidenteDAO.update(falla);
+                LoggerToFile.logInfo("\nVisita registrada con exito");
                 //ctx.status(201).result("Registrado la visita con exito!");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
-                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
+                ctx.redirect("/login");
+                LoggerToFile.logWarning("\nTECNICO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -1039,7 +1087,7 @@ public class Main {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 Map<String, Object> model = new HashMap<>();
-                if(colaborador.persona instanceof Persona_fisica personaFisica ){
+                if (colaborador.persona instanceof Persona_fisica personaFisica) {
                     System.out.println("entre a fisico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
                     DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
@@ -1057,8 +1105,8 @@ public class Main {
                     // model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache",model);
-                }else{
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache", model);
+                } else {
                     System.out.println("entre a juridico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
                     HacerseCargoHeladeraDAO hacerseCargoHeladeraDAO = new HacerseCargoHeladeraDAO(em);
@@ -1072,7 +1120,7 @@ public class Main {
                     model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
                     model.put("ofertas", ofertas);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridica.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridica.mustache", model);
                 }
             } else {
                 ctx.redirect("/login");
@@ -1086,9 +1134,11 @@ public class Main {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
                 colaboradorDAO.update(colaborador);
+                LoggerToFile.logInfo("\nDONACION DE DINERO DE: " + monto + " PESOS REGISTRADA CON EXITO");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
         app.post("/donarDineroJuridica", ctx -> {
@@ -1098,9 +1148,11 @@ public class Main {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
                 colaboradorDAO.update(colaborador);
+                LoggerToFile.logInfo("\nDONACION DE DINERO DE: " + monto + " PESOS REGISTRADA CON EXITO");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -1130,14 +1182,17 @@ public class Main {
                 cantViandas = Integer.parseInt(ctx.formParam("cantidadViandas"));
 
                 colaborador.suscribirseAHeladera(heladera, tipoSuscripcion, cantViandas);
+
+                LoggerToFile.logInfo("\nCOLABORADOR SUSCRIPTO A HELADERA: " + heladera.getIdHeladera());
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
                 ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionSuscripcion.mustache");
             } else {
                 ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
-        app.post("/cargarOferta", ctx-> {
+        app.post("/cargarOferta", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 String nombreOferta = ctx.formParam("inputNombre");
@@ -1167,17 +1222,19 @@ public class Main {
                     filePath = "/uploads/" + uniqueFileName;
                 }
 
-                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias,colaborador, filePath);
+                Oferta nuevaOferta = new Oferta(nombreOferta, cantidadPuntos, cantidadInstancias, colaborador, filePath);
                 //SE PERSISTE LA OFERTA
-                OfertaDAO ofertaDAO = new OfertaDAO (em);
+                OfertaDAO ofertaDAO = new OfertaDAO(em);
                 ofertaDAO.save(nuevaOferta);
                 //NO HARIA FALTA ESTO:
                 //ofertasDisponibles.add(nuevaOferta);
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
+                LoggerToFile.logInfo("\nNUEVA OFERTA CARGADA BAJO EL NOMBRE DE: " + nombreOferta + "\n CON UNA CANTIDAD DE " + cantidadPuntos
+                        + " REQUERIDOS Y " + cantidadInstancias + " INSTANCIAS");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
-                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
-                //ctx.status(401).result("Por favor inicia sesión para donar dinero");
+                ctx.redirect("/login");
+                LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
 
@@ -1200,6 +1257,7 @@ public class Main {
             if (reporte == null || fechaReporte == null || fechaReporte.isBefore(fechaActual.minusDays(fechaActual.getDayOfWeek().getValue() - 1))) {
                 // El reporte no corresponde a la semana actual o no existe (primer reporte)
                 // Generar un nuevo reporte
+                LoggerToFile.logInfo("\nGENERANDO NUEVO REPORTE SEMANAL");
                 ServicioReporte servicio = new ServicioReporte(colaboradores, heladeras);
                 reporte = servicio.getReporteActual();
 
@@ -1211,10 +1269,12 @@ public class Main {
                         "reporteActual", reporte,
                         "reportesAnteriores", reportesAnteriores
                 ));
+
             } else {
                 // El reporte corresponde a la semana actual, usarlo
                 // Obtener los 5 reportes anteriores
                 List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+                LoggerToFile.logInfo("\nREPORTE SEMANAL YA GENERADO");
 
                 // Renderizar la página pasando el reporte actual y los 5 anteriores
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalFisica.mustache", Map.of(
@@ -1243,6 +1303,7 @@ public class Main {
             if (reporte == null || fechaReporte == null || fechaReporte.isBefore(fechaActual.minusDays(fechaActual.getDayOfWeek().getValue() - 1))) {
                 // El reporte no corresponde a la semana actual o no existe (primer reporte)
                 // Generar un nuevo reporte
+                LoggerToFile.logInfo("\nGENERANDO NUEVO REPORTE SEMANAL");
                 ServicioReporte servicio = new ServicioReporte(colaboradores, heladeras);
                 reporte = servicio.getReporteActual();
 
@@ -1258,6 +1319,7 @@ public class Main {
                 // El reporte corresponde a la semana actual, usarlo
                 // Obtener los 5 reportes anteriores
                 List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+                LoggerToFile.logInfo("\nREPORTE SEMANAL YA GENERADO");
 
                 // Renderizar la página pasando el reporte actual y los 5 anteriores
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalJuridica.mustache", Map.of(
@@ -1293,6 +1355,7 @@ public class Main {
                 oferta.setEstadoOferta();
                 oferta.activar();
                 ofertaDAO.save(oferta);
+                LoggerToFile.logInfo("Oferta: " + oferta.getNombre() + " activada");
                 ctx.redirect("/altaBajaOferta");
             } else {
                 ctx.status(404).result("Oferta no encontrada");
@@ -1308,6 +1371,7 @@ public class Main {
                 oferta.setEstadoOferta();
                 oferta.desactivar();
                 ofertaDAO.save(oferta);
+                LoggerToFile.logInfo("Oferta: " + oferta.getNombre() + " desactivada");
                 ctx.redirect("/altaBajaOferta");
             } else {
                 ctx.status(404).result("Oferta no encontrada");
@@ -1317,12 +1381,12 @@ public class Main {
         app.get("/altaBajaOferta", ctx -> {
             Integer administrador = ctx.sessionAttribute("administrador");
             if (administrador != null) {
-                if(administrador  ==  1) {
+                if (administrador == 1) {
                     // Obtener las ofertas desde tu dominio o base de datos
 
                     OfertaDAO ofertaDAO = new OfertaDAO(em);
                     List<Oferta> ofertas = ofertaDAO.findAll();
-                    for(Oferta oferta : ofertas){
+                    for (Oferta oferta : ofertas) {
                         oferta.setEstadoOferta();
                     }
 
@@ -1366,11 +1430,11 @@ public class Main {
         });
 
         app.get("/api/fallasTecnicas/{idFalla}/visitas", ctx -> {
-           Long idFalla = Long.valueOf(ctx.pathParam("idFalla"));
-           VisitaDAO visitaDAO = new VisitaDAO(em);
-           List<VisitaDTO> visitas = visitaDAO.findVisitas(idFalla);
+            Long idFalla = Long.valueOf(ctx.pathParam("idFalla"));
+            VisitaDAO visitaDAO = new VisitaDAO(em);
+            List<VisitaDTO> visitas = visitaDAO.findVisitas(idFalla);
 
-           ctx.json(visitas);
+            ctx.json(visitas);
         });
 
         app.get("/static/uploads/{imagenIlustrativa}", ctx -> {
@@ -1388,50 +1452,46 @@ public class Main {
         });
 
 
-
-
-
     }
 
 //    private static Colaborador verificarColaboradorSesion(Context ctx) {
 //    }
 
-    public void dar_alta_colaborador_fisico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar> formas)
-        {
-            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
-            Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
-            Colaborador colaborador = new Colaborador(nueva_persona, formas);
-            colaboradores.add(colaborador);
-        }
-        public void dar_alta_colaborador_juridico (String razonSocial, Tipo_juridico tipo, String rubro, List<Medio_contacto>
-        medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar>formas)
-        {
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
-            Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
-            Colaborador colaborador = new Colaborador(nueva_persona, formas);
-            colaboradores.add(colaborador);
-        }
-        void darBajaColaborador (Colaborador colaborador){
-            colaboradores.remove(colaborador);
-        }
+    public void dar_alta_colaborador_fisico(String nombre, String apellido, String fechaNacimiento, Tipo_documento
+            tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar> formas) {
+        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
+        Persona_fisica nueva_persona = new Persona_fisica(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio);
+        Colaborador colaborador = new Colaborador(nueva_persona, formas);
+        colaboradores.add(colaborador);
+    }
+
+    public void dar_alta_colaborador_juridico(String razonSocial, Tipo_juridico tipo, String rubro, List<Medio_contacto>
+            medios, String latDom, String longDom, String direccion, Localidad localidad, List<Forma_colaborar> formas) {
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
+        Persona_juridica nueva_persona = new Persona_juridica(nuevo_domicilio, medios, razonSocial, tipo, rubro);
+        Colaborador colaborador = new Colaborador(nueva_persona, formas);
+        colaboradores.add(colaborador);
+    }
+
+    void darBajaColaborador(Colaborador colaborador) {
+        colaboradores.remove(colaborador);
+    }
 
 
-        public void dar_alta_tecnico (String nombre, String apellido, String fechaNacimiento, Tipo_documento
-        tipoDoc, String numeroDocumento, List<Medio_contacto>medios, String latDom, String longDom, String direccion,Localidad localidad,
-                                      String latitud, String longitud, String radio)
-        {
-            Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
-            AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
-            Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
-            Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
-            tecnicos.add(nueva_tecnico);
-        }
-        void dar_baja_tecnico (Tecnico tecnico)
-        {
-            tecnicos.remove(tecnico);
-        }
+    public void dar_alta_tecnico(String nombre, String apellido, String fechaNacimiento, Tipo_documento
+            tipoDoc, String numeroDocumento, List<Medio_contacto> medios, String latDom, String longDom, String direccion, Localidad localidad,
+                                 String latitud, String longitud, String radio) {
+        Documento_identidad nuevo_documento = new Documento_identidad(numeroDocumento, tipoDoc);
+        AreaCobertura nueva_area = new AreaCobertura(latitud, longitud, radio);
+        Domicilio nuevo_domicilio = new Domicilio(latDom, longDom, direccion, localidad);
+        Tecnico nueva_tecnico = new Tecnico(nombre, apellido, fechaNacimiento, nuevo_documento, medios, nuevo_domicilio, nueva_area);
+        tecnicos.add(nueva_tecnico);
+    }
+
+    void dar_baja_tecnico(Tecnico tecnico) {
+        tecnicos.remove(tecnico);
+    }
 
 
     public List<Colaborador> getColaboradores() {
