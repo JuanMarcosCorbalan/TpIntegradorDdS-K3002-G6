@@ -28,7 +28,7 @@
         .container {
             max-width: 90%; /* Aumenta el ancho del contenedor */
         }
-        
+
         .row {
             display: flex;
             justify-content: space-between;
@@ -41,7 +41,7 @@
         .col-md-10 {
             flex: 0 0 78%; /* Ajusta el tamaño del panel derecho */
         }
-        
+
         /* Ajuste de la tabla para que ocupe el espacio disponible */
         table {
             width: 100%;
@@ -63,27 +63,22 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-white-600 large">Usuario</span>
                 <img class="img-profile rounded-circle" src="/SALVACIONDDS/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <!-- Dropdown Menu Items -->
-                <a class="dropdown-item" href="/generarReporteJuridica"><i
-                        class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
-                <a class="dropdown-item" href="/gestionHeladerasJuridica"><i
-                        class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
-                <a class="dropdown-item" href="/historialContribuciones"><i
-                        class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i> Canje de puntos</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i> Historial de canjes</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/reporteFallaTecnicaJuridica"><i
-                        class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Configuración</a>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i
-                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
             </div>
         </li>
 
@@ -91,8 +86,7 @@
 
 </nav>
 <div>
-    <a href="/inicioPersonaJuridica"
-       style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+    <a href="SALVACIONDDS/inicioPersonaJuridica.mustache" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
         <i class="fas fa-arrow-left"></i> Volver
     </a>
 </div>
@@ -104,14 +98,9 @@
         <div class="col-md-2">
             <h2 class="text-center">Tipos de Donaciones</h2>
             <div id="chatList">
-                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="dinero">Donaciones
-                    de Dinero</a>
-                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="viandas">Donación
-                    de Viandas</a>
-                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2"
-                   data-tipo="distribucion-viandas">Distribución de Viandas</a>
-                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="tarjetas">Distribución
-                    de Tarjetas</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="dinero">Donaciones de Dinero</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="heladeras">Heladeras a Cargo</a>
+                <a href="#" class="chat-item btn btn-outline-primary d-block text-center mb-2" data-tipo="ofertas">Ofertas añadidas</a>
             </div>
         </div>
 
@@ -126,15 +115,13 @@
                 <thead>
                 <tr>
                     <th>Monto Donado</th>
-                    <th>Frecuencia</th>
-                    <th>Fecha</th>
+                    <th>Fecha Contribucion</th>
                 </tr>
                 </thead>
                 <tbody id="tbodyDonaciones">
                 {{#donacionesDinero}}
                     <tr>
                         <td>{{monto}}</td>
-                        <td>{{frecuencia}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
                 {{/donacionesDinero}}
@@ -142,70 +129,41 @@
             </table>
 
             <!-- Tabla Donaciones de Viandas -->
-            <table class="table table-bordered table-hover" id="tablaViandas" style="display: none;">
+            <table class="table table-bordered table-hover" id="tablaHeladeras" style="display: none;">
                 <thead>
                 <tr>
-                    <th>Contribución Finalizada</th>
-                    <th>Heladera ID</th>
-                    <th>Vianda</th>
-                    <th>Fecha</th>
+                    <th>Heladera</th>
+                    <th>Estado de Heladera</th>
+                    <th>Fecha Contribucion</th>
                 </tr>
                 </thead>
                 <tbody id="tbodyViandas">
-                {{#donacionesViandas}}
+                {{#hacerseCargoHeladeras}}
                     <tr>
-                        <td>{{contribucionFinalizada}}</td>
-                        <td>{{heladera_id}}</td>
-                        <td>{{vianda_id}}</td>
+                        <td>{{heladera}}</td>
+                        <td>{{estado}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
-                {{/donacionesViandas}}
+                {{/hacerseCargoHeladeras}}
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-hover" id="tablaDistribucionViandas" style="display: none;">
+            <table class="table table-bordered table-hover" id="tablaOfertas" style="display: none;">
                 <thead>
                 <tr>
-                    <th>Contribución Finalizada</th>
-                    <th>Viandas a Mover</th>
-                    <th>Motivo de Distribucion</th>
-                    <th>Heladera Origen</th>
-                    <th>Heladera Destino</th>
-                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Puntos Necesarios</th>
+                    <th>Fecha Contribucion</th>
                 </tr>
                 </thead>
                 <tbody id="tbodyViandas">
-                {{#distribucionViandas}}
+                {{#ofertas}}
                     <tr>
-                        <td>{{contribucion_finalizada}}</td>
-                        <td>{{cantidadViandasAMover}}</td>
-                        <td>{{motivo_distribucion}}</td>
-                        <td>{{heladeraOrigen_id}}</td>
-                        <td>{{heladeraDestino_id}}</td>
+                        <td>{{nombre}}</td>
+                        <td>{{puntosNecesarios}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
-                {{/distribucionViandas}}
-                </tbody>
-            </table>
-
-            <table class="table table-bordered table-hover" id="tablaDistribucionTarjetas" style="display: none;">
-                <thead>
-                <tr>
-                    <th>Contribución Finalizada</th>
-                    <th>Heladera ID</th>
-                    <th>Vianda</th>
-                    <th>Fecha</th>
-                </tr>
-                </thead>
-                <tbody id="tbodyViandas">
-                {{#distribucionTarjetas}}
-                    <tr>
-                        <td>{{contribucionFinalizada}}</td>
-                        <td>{{heladera_id}}</td>
-                        <td>{{vianda_id}}</td>
-                        <td>{{fecha_contribucion}}</td>
-                    </tr>
-                {{/distribucionTarjetas}}
+                {{/ofertas}}
                 </tbody>
             </table>
 
@@ -236,7 +194,7 @@
     <script>
         $(document).ready(function() {
             // Ocultar todas las tablas inicialmente
-            $('#tablaDonaciones, #tablaViandas,#tablaDistribucionViandas,#tablaDistribucionTarjetas').hide();
+            $('#tablaDonaciones, #tablaHeladeras,#tablaOfertas').hide();
             $('#mensajeNoSeleccionado').show();  // Mostrar mensaje de "selecciona un tipo"
 
             // Evento cuando se hace clic en un botón de donación
@@ -248,21 +206,18 @@
 
                 // Ocultar todos los mensajes y tablas
                 $('#mensajeNoSeleccionado').hide();
-                $('#tablaDonaciones, #tablaViandas,#tablaDonaciones, #tablaViandas,#tablaDistribucionViandas,#tablaDistribucionTarjetas').hide();
+                $('#tablaDonaciones, #tablaHeladeras,#tablaOfertas').hide();
 
                 // Mostrar la tabla correspondiente según el tipo
                 if (tipo === 'dinero') {
                     $('#tablaDonaciones').show();
                     $('#tablaTitulo').text('Donaciones de Dinero');
-                } else if (tipo === 'viandas') {
-                    $('#tablaViandas').show();
-                    $('#tablaTitulo').text('Donaciones de Viandas');
-                } else if (tipo === 'distribucion-viandas') {
-                    $('#tablaDistribucionViandas').show();
-                    $('#tablaTitulo').text('Distribuciones de Viandas');
-                } else if (tipo === 'tarjetas') {
-                    $('#tablaDistribucionTarjetas').show();
-                    $('#tablaTitulo').text('Distribuciones de Tarjetas');
+                } else if (tipo === 'heladeras') {
+                    $('#tablaHeladeras').show();
+                    $('#tablaTitulo').text('Heladeras a Cargo');
+                } else if (tipo === 'ofertas') {
+                    $('#tablaOfertas').show();
+                    $('#tablaTitulo').text('Ofertas Añanidas');
                 }
             });
         });

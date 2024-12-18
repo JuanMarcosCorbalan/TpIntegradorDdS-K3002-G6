@@ -34,8 +34,7 @@ public class PruebaSuscripcion {
         //UN COLABORADOR
         PuntoUbicacion ubi1 = new PuntoUbicacion("-34.59949215153663","-58.420667586506816","Av Medrano 900","UTN Medrano",localidad) ;
         LocalDate fechaEspecifica = LocalDate.of(2024,10,2);
-        String codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, null,150);
+        Heladera heladera = new Heladera (ubi1, fechaEspecifica, 7, 2, null,150);
 
         //SUSCRIPCION
         //CADA SUSCRIPCION ESTA EN UNA HELADERA, PUEDO AGARRAR TODAS ESAS Y DARLE A NOTIFICAR, ESTAS CREAN EL MENSAJE DE AVISO

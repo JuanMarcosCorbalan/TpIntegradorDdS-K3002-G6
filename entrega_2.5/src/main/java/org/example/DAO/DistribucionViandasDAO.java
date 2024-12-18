@@ -39,7 +39,7 @@ public class DistribucionViandasDAO {
             String heladera_destino = distribucion.getHeladeraDestino().getNombre();
             String heladera_origen = distribucion.getHeladeraOrigen().getNombre();
 
-            DistribucionViandaHistorial dvh = new DistribucionViandaHistorial(distribucion.getEstado(),distribucion.getCantidadViandasAMover(),distribucion.getMotivo(),heladera_origen,heladera_origen,distribucion.getFecha_contribucion());
+            DistribucionViandaHistorial dvh = new DistribucionViandaHistorial(distribucion.getEstado(),distribucion.getCantidadViandasAMover(),distribucion.getMotivo(),heladera_origen,heladera_origen,distribucion.getFecha_contribucion(),distribucion.getFechaDistribucion());
             distribucionHistorial.add(dvh);
         }
         return distribucionHistorial;

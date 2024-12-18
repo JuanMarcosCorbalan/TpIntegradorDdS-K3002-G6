@@ -9,10 +9,7 @@ import javax.persistence.*;
 import java.awt.image.ImageProducer;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Heladera {
@@ -21,11 +18,12 @@ public class Heladera {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     private PuntoUbicacion puntoUbicacion;
 
-   // @Transient
-    String idHeladera; // CREO QUE NO IRIA MAS
+    @Column(unique = true)
+    String idHeladera;
+    // CREO QUE NO IRIA MAS
     //int unidadViandasActual;
     int unidadesMaximoViandas; //VIENE DEFINIDA
 
@@ -81,14 +79,14 @@ public class Heladera {
         this.idHeladera = idHeladera;
     }
 
-    public Heladera(String idHeladera, PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador, int maxViandas) {
-        this.idHeladera = idHeladera;
+    public Heladera( PuntoUbicacion puntoUbicacion, LocalDate fechaFuncionamiento, int tempMax, int temMin, Colaborador colaborador, int maxViandas) {
         this.puntoUbicacion = puntoUbicacion;
         this.FechaFuncionamiento = fechaFuncionamiento;
         this.temperaturaMaxima = tempMax;
         this.temperaturaMinima = temMin;
         this.colaboradores = colaborador;
         this.unidadesMaximoViandas = maxViandas;
+        this.idHeladera= UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     }
 
 
@@ -349,4 +347,5 @@ public class Heladera {
     public String getNombre() {
         return puntoUbicacion.getNombre();
     }
+
 }

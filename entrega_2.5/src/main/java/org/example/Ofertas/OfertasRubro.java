@@ -13,7 +13,8 @@ public class OfertasRubro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "ofertaRubro")
+    //@OneToMany(mappedBy = "ofertaRubro")
+    @Transient
     private List<Oferta> ofertas;
 
     Rubro rubro;

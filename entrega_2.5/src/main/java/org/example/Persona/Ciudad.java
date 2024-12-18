@@ -10,7 +10,7 @@ public class Ciudad {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn (name = "ciudad_pais")
     public Pais pais;
 

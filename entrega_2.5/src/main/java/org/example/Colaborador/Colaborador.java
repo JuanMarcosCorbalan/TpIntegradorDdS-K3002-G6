@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -216,7 +217,7 @@ public class Colaborador extends Rol {
     }
 
 
-    public void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion){
+    public void solicitarDistribucionViandas(Heladera HeladeraOrigen, Heladera HeladeraDestino, Integer cantidadViandasAMover , Motivo_distribucion motivo_distribucion, LocalDate fechaDistribucion){
         int flagHeladeraOrigen = HeladeraOrigen.verificarEspacioUnitarioDisponible();
         Boolean flagHeladeraDestino = HeladeraDestino.tieneEspacioDisponible(cantidadViandasAMover);
         if (flagHeladeraOrigen == 0 || !flagHeladeraDestino) {
@@ -228,7 +229,7 @@ public class Colaborador extends Rol {
             // la heladera destino tiene lugar al momento de solicitar hacer la colaboracion,
             // se crea, se agrega a la lista de contrib y se crea la solicitud
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
-            Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion);
+            Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion,fechaDistribucion);
             contribuciones.add(Contribucion);
             puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
@@ -279,7 +280,7 @@ public class Colaborador extends Rol {
 
     public void solicitarHacerseCargoHeladera(){
         HacerseCargoHeladera cargoHeladera = new HacerseCargoHeladera(this);
-        cargoHeladera.hacerseCargo();
+        //cargoHeladera.hacerseCargo();
         contribuciones.add(cargoHeladera);
     }
 

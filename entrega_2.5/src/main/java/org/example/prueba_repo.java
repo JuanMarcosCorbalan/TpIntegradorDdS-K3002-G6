@@ -44,15 +44,15 @@ public class prueba_repo {
 
         //5 personas vulnerables
         Pais pais = new Pais("Argentina");
-        Ciudad ciudad = new Ciudad("Buenos Aires",pais);
+        Ciudad ciudad = new Ciudad("Cdad. Autónoma de Buenos Aires",pais);
         Localidad localidad = new Localidad("Caballito",ciudad);
-        Domicilio domicilio = new Domicilio("-87,322","-145,29","Av Rivadavia 5400",localidad);
+        Domicilio domicilio = new Domicilio("-87,322","-145,29","Av. Rivadavia 5400",localidad);
         PersonaSituacionVulnerable persona = new PersonaSituacionVulnerable("Joaquin","Bergara",false,domicilio,3,null);
 
         em.persist(persona);
 
         localidad = new Localidad("Almagro",ciudad);
-        domicilio = new Domicilio("-64,322","45,29","Av Medrano 653",localidad);
+        domicilio = new Domicilio("-64,322","45,29","Av. Medrano 653",localidad);
         persona = new PersonaSituacionVulnerable("Robert","Rodas",false,domicilio,0,null);
 
         em.persist(persona);
@@ -70,13 +70,13 @@ public class prueba_repo {
         em.persist(persona);
 
         localidad = new Localidad("Boedo",ciudad);
-        domicilio = new Domicilio("-34,624400","-58,413300","Av Independencia 3800",localidad);
+        domicilio = new Domicilio("-34,624400","-58,413300","Av. Independencia 3800",localidad);
         persona = new PersonaSituacionVulnerable("Tomas","Laurenzano",false,domicilio,2,null);
 
         em.persist(persona);
 
         localidad = new Localidad("Belgrano",ciudad);
-        domicilio = new Domicilio("-34,561100","-58,448200","Av Cabildo 2700",localidad);
+        domicilio = new Domicilio("-34,561100","-58,448200","Av. Cabildo 2700",localidad);
         persona = new PersonaSituacionVulnerable("Juan","Corbalan",true,null,1,null);
 
 
@@ -115,7 +115,7 @@ public class prueba_repo {
         em.persist(colab);
         em.persist(tarj);
 
-        localidad = ldao.findOrCreate("Balvanera","Buenos Aires","Argentina");
+        localidad = ldao.findOrCreate("Balvanera","Cdad. Autónoma de Buenos Aires","Argentina");
         domicilio = new Domicilio("-34,583280","-58,429110","Azcuenaga 67",localidad);
         doc = new Documento_identidad("321456987",DNI);
         wsp = new Whatsapp();
@@ -133,7 +133,7 @@ public class prueba_repo {
         //Domicilio domicilio, List<Medio_contacto> mediosContacto, String razon_social, Tipo_juridico tipo, String rubro
 
 
-        localidad = ldao.findOrCreate("Balvanera","Buenos Aires","Argentina");
+        localidad = ldao.findOrCreate("Balvanera","Cdad. Autónoma de Buenos Aires","Argentina");
         domicilio = new Domicilio("-34,609074","-58,401657","Larrea 88",localidad);
         Mail email = new Mail();
         email.setEmail("autos@yahoo.com");
@@ -149,11 +149,10 @@ public class prueba_repo {
         // 3 heladeras
         //1er heladera chequear maximo cantidades
 
-        localidad = ldao.findOrCreate("Almagro","Buenos Aires","Argentina");
-        PuntoUbicacion ubi1 = new PuntoUbicacion("-34.59949215153663","-58.420667586506816","Av Medrano 900","UTN Medrano",localidad) ;
+        localidad = ldao.findOrCreate("Almagro","Cdad. Autónoma de Buenos Aires","Argentina");
+        PuntoUbicacion ubi1 = new PuntoUbicacion("-34.59949215153663","-58.420667586506816","Av. Medrano 900","UTN Medrano",localidad) ;
         LocalDate fechaEspecifica = LocalDate.of(2024,10,2);
-        String codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        Heladera heladera = new Heladera (codigoUnico, ubi1, fechaEspecifica, 7, 2, colab,150);
+        Heladera heladera = new Heladera (ubi1, fechaEspecifica, 7, 2, colab,150);
         heladera.activar();
 
 
@@ -162,33 +161,35 @@ public class prueba_repo {
         Alerta alerta2 = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FALLA_CONEX);
         heladera.getIncidentes().add(alerta2);
 
-        em.persist(heladera);
+        heladera.setPuntoUbicacion(ubi1);
+        ubi1.aniadirHeladera(heladera);
+        em.persist(ubi1);
 
         //2da Heladera
-        localidad = ldao.findOrCreate("San Telmo","Buenos Aires","Argentina");
+        localidad = ldao.findOrCreate("San Telmo","Cdad. Autónoma de Buenos Aires","Argentina");
         ubi1 = new PuntoUbicacion("-34.61931090520509","-58.37143721859889","Defensa 1000","Plaza Dorrego",localidad) ;
         fechaEspecifica = LocalDate.of(2024,7,15);
-        codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-
-        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 8, 3, emp,150);
+        heladera = new Heladera( ubi1, fechaEspecifica, 8, 3, emp,150);
         heladera.activar();
-        em.persist(heladera);
+        heladera.setPuntoUbicacion(ubi1);
+        ubi1.aniadirHeladera(heladera);
+        em.persist(ubi1);
 
 
 
 
 
         //3era heladera
-        localidad = ldao.findOrCreate("Constitucion","Buenos Aires","Argentina");
-        ubi1 = new PuntoUbicacion("-34.62681084639811","-58.38598781674918","Av Juan de Garay 1500","Estación Constitución",localidad) ;
+        localidad = ldao.findOrCreate("Constitucion","Cdad. Autónoma de Buenos Aires","Argentina");
+        ubi1 = new PuntoUbicacion("-34.62681084639811","-58.38598781674918","Av. Juan de Garay 1500","Estación Constitución",localidad) ;
         fechaEspecifica = LocalDate.of(2024,4,9);
-        codigoUnico = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-
-        heladera = new Heladera(codigoUnico, ubi1, fechaEspecifica, 7, 2, null,150);
+        heladera = new Heladera(ubi1, fechaEspecifica, 7, 2, null,150);
         alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
         heladera.getIncidentes().add(alerta);
         heladera.activar();
-        em.persist(heladera);
+        heladera.setPuntoUbicacion(ubi1);
+        ubi1.aniadirHeladera(heladera);
+        em.persist(ubi1);
 
         // faltan contibuciones,visitas(hay una creada)),tarjetas,solicitudes,mensajes,retirovianda
 //
@@ -205,6 +206,7 @@ public class prueba_repo {
         em.persist(usuario_tecnico1);
         em.persist(tecnico);
 
+        localidad = ldao.findOrCreate("Caballito","Cdad. Autónoma de Buenos Aires","Argentina");
         FallaTecnica falla = new FallaTecnica(colab, "titila el led rojo 5 veces cada 10 segundos", null, heladera);
         List<Tecnico> tecnicos = new ArrayList<>();
         tecnicos.add(tecnico);

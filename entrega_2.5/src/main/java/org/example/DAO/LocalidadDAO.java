@@ -37,7 +37,7 @@ public class LocalidadDAO {
             CiudadDAO ciudadDAO = new CiudadDAO(entityManager);
             Ciudad ciudad = ciudadDAO.findOrCreate(nombre_ciudad,nombre_pais);
             localidad = new Localidad(nombre_localidad,ciudad);
-           // entityManager.persist(localidad);
+            //entityManager.persist(localidad);
         }
         return localidad;
     }

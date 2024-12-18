@@ -21,6 +21,8 @@ public class Distribucion_viandas extends Contribucion{
 
     Integer cantidadViandasAMover;
 
+    LocalDate fechaDistribucion;
+
     @Enumerated(EnumType.STRING)
     Motivo_distribucion motivo_distribucion;
 
@@ -55,12 +57,15 @@ public class Distribucion_viandas extends Contribucion{
         super(fechaColaboracion);
         this.cantidadViandasAMover = cantidadViandasAMover;
     }
-    public Distribucion_viandas(Integer cantidadViandasAMover, Colaborador colaborador, Heladera heladeraOrigen, Heladera heladeraDestino, Motivo_distribucion motivo_distribucion) {
+    public Distribucion_viandas(Integer cantidadViandasAMover, Colaborador colaborador, Heladera heladeraOrigen, Heladera heladeraDestino, Motivo_distribucion motivo_distribucion,LocalDate fecha_distribucion) {
         super(colaborador);
         this.cantidadViandasAMover = cantidadViandasAMover;
         this.heladeraDestino = heladeraDestino;
         this.heladeraOrigen = heladeraOrigen;
         this.motivo_distribucion = motivo_distribucion;
+        this.fecha_contribucion = LocalDate.now();
+        this.estado = EstadoContribucion.EN_CURSO;
+        this.fechaDistribucion = fecha_distribucion;
     }
 
     @Override
@@ -98,5 +103,9 @@ public class Distribucion_viandas extends Contribucion{
 
     public Motivo_distribucion getMotivo() {
         return motivo_distribucion;
+    }
+
+    public LocalDate getFechaDistribucion() {
+        return fechaDistribucion;
     }
 }
