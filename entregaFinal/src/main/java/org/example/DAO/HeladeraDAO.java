@@ -69,8 +69,9 @@ public class HeladeraDAO {
             String latitud = heladera.getPuntoUbicacion().getLatitud();
             String longitud = heladera.getPuntoUbicacion().getLongitud();
             EstadoHeladera estado = heladera.getEstado();
+            String idHeladera = heladera.getIdHeladera();
 
-            HeladeraDTO heladeraDTO = new HeladeraDTO(latitud, longitud, estado);
+            HeladeraDTO heladeraDTO = new HeladeraDTO(latitud, longitud, estado, idHeladera);
             heladeraDTOs.add(heladeraDTO);
         }
 

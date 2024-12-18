@@ -1,6 +1,7 @@
 package org.example.Ofertas;
 
 import org.example.Colaborador.Colaborador;
+import org.example.GeneradorId;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class OfertaCanjeada {
     String nombre;
     int puntos;
     LocalDate fecha;
+    String codigo_canje;
 
     @ManyToOne
     Colaborador colaborador;
@@ -26,6 +28,7 @@ public class OfertaCanjeada {
         this.puntos = puntos;
         this.fecha = fecha;
         this.colaborador = colaborador;
+        this.codigo_canje = GeneradorId.generar();
     }
 
 

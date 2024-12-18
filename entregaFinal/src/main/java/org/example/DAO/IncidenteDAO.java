@@ -1,5 +1,6 @@
 package org.example.DAO;
 
+import org.example.DTO.AlertaDTO;
 import org.example.DTO.IncidenteDTO;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO2;
@@ -95,6 +96,34 @@ public class IncidenteDAO {
             }
         }
         return incidenteDTOs;
+    }
+
+    public List<AlertaDTO> findAlertas(String idHeladeraBuscado)
+    {
+        String query = "SELECT i FROM Incidente i WHERE TYPE(i) = Alerta";
+
+        List<Incidente> incidentes = entityManager.createQuery(query,Incidente.class)
+                .getResultList();
+
+        List<AlertaDTO> alertas = new ArrayList<>();
+
+        for(Incidente incidente : incidentes){
+
+
+            Alerta alerta = (Alerta) incidente;
+            String idHeladera = alerta.getHeladera().getIdHeladera();
+            if(idHeladera.equals(idHeladeraBuscado)){
+                LocalDate fecha = alerta.getFecha();
+                LocalTime hora = alerta.getHora();
+                TipoAlerta tipo = alerta.getTipoAlerta();
+
+                AlertaDTO dto = new AlertaDTO(fecha,hora,tipo);
+                alertas.add(dto);
+            }
+
+        }
+
+        return alertas;
     }
 
 

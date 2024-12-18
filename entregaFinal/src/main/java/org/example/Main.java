@@ -10,6 +10,7 @@ import org.example.Conversores.DistribucionViandaHistorial;
 import org.example.Conversores.DonacionViandaHistorial;
 import org.example.Conversores.HacerseCargoHeladeraHistorial;
 import org.example.DAO.*;
+import org.example.DTO.AlertaDTO;
 import org.example.DTO.VisitaDTO2;
 import org.example.Formas_contribucion.*;
 import org.example.DTO.IncidenteDTO;
@@ -36,7 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-
+import org.mindrot.jbcrypt.BCrypt;
 import io.javalin.Javalin;
 import org.example.ReporteSemanal.Reporte;
 import org.example.ReporteSemanal.ServicioReporte;
@@ -49,6 +50,7 @@ import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.FallaTecnica;
+import org.example.Validadores_Sensores.Incidente;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -271,6 +273,7 @@ public class Main {
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
             UsuarioService us = new UsuarioService(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
             /*
             Persona_fisica juan = new Persona_fisica("juan", "corbalan");
@@ -291,7 +294,11 @@ public class Main {
                     Usuario usuario;
                     // Lógica para iniciar sesión normal
                     try {
-                        usuario = us.verificarInicioSesion(username, password);
+                        usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
+                        if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
+                            ctx.status(401).result("Usuario o contraseña incorrecta");
+                            return;
+                        }
                         Rol rol = us.obtenerRolAsociado(usuario);
                         // Guardar al colaborador en la sesión
                         if(rol instanceof Colaborador)
@@ -663,8 +670,12 @@ public class Main {
             ValidarContrasenia validadorContra = new ValidarContrasenia();
             if(!validadorContra.validar(contrasenia)){
                 ctx.status(400).result("Contraseña poco segura");
+                return;
             }
-            usuario = new Usuario(usuarioNombre, contrasenia);
+            String hashedContrasenia = BCrypt.hashpw(contrasenia, BCrypt.gensalt());
+            usuario = new Usuario(usuarioNombre, hashedContrasenia);
+
+            //usuario = new Usuario(usuarioNombre, contrasenia);
 
             ctx.sessionAttribute("usuario", usuario);
             usuarioDAO.save(usuario);
@@ -1023,7 +1034,7 @@ public class Main {
                 //BUSCO LA FALLA TECNICA EN LA BD
                 FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
                 //CREO LA VISITA
-                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado());
+                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado(),fechaVisita);
 
                 falla.agregarVisita(visita);
                 incidenteDAO.update(falla);
@@ -1044,17 +1055,17 @@ public class Main {
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
                     DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
                     DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
-                    //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
+                    DistribucionTarjetasDAO distribucionTarjetasDAO = new DistribucionTarjetasDAO(em);
 
                     List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
                     List<DonacionViandaHistorial> donacionesViandas = donacionViandasDAO.obtenerHistorial(colaborador);
                     List<DistribucionViandaHistorial> distribucionViandas = distribucionViandasDAO.obtenerHistorial(colaborador);
-                    //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
+                    List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
 
                     model.put("donacionesDinero", donacionesDinero);
                     model.put("donacionesViandas", donacionesViandas);
                     model.put("distribucionViandas", distribucionViandas);
-                    // model.put("distribucionTarjetas", distribucionTarjetas);
+                    model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
                     ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache",model);
@@ -1354,6 +1365,15 @@ public class Main {
 
             // Devolver las heladeras en formato JSON
             ctx.json(heladeras);
+        });
+
+        app.get("/api/alertas/{idHeladera}", ctx -> {
+            String idHeladera = ctx.pathParam("idHeladera");
+            System.out.println(idHeladera);
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            List<AlertaDTO> alertas = incidenteDAO.findAlertas(idHeladera);
+
+            ctx.json(alertas);
         });
 
         app.get("/api/tecnicos/{idTecnico}/fallasTecnicas", ctx -> {

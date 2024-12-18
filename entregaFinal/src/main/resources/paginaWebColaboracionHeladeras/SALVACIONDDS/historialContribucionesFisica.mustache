@@ -194,18 +194,18 @@
             <table class="table table-bordered table-hover" id="tablaDistribucionTarjetas" style="display: none;">
                 <thead>
                 <tr>
-                    <th>Contribución Finalizada</th>
-                    <th>Heladera ID</th>
-                    <th>Vianda</th>
+                    <th>Estado</th>
+                    <th>Cantidad de Tarjetas Repartidas</th>
+                    <th>Registros Pendientes</th>
                     <th>Fecha Contribucion</th>
                 </tr>
                 </thead>
                 <tbody id="tbodyViandas">
                 {{#distribucionTarjetas}}
                     <tr>
-                        <td>{{contribucionFinalizada}}</td>
-                        <td>{{heladera_id}}</td>
-                        <td>{{vianda_id}}</td>
+                        <td>{{estado}}</td>
+                        <td>{{cantidadTarjetasRepartidas}}</td>
+                        <td>{{registrosPendientes}}</td>
                         <td>{{fecha_contribucion}}</td>
                     </tr>
                 {{/distribucionTarjetas}}

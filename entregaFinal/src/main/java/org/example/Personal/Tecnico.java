@@ -6,6 +6,7 @@ import org.example.Validadores_Sensores.FallaTecnica;
 
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,9 +48,9 @@ public class Tecnico extends Rol {
         fallasTecnicasAsignadas.add(fallaTecnica);
     }
 
-    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen, Tecnico tecnico)
+    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen, Tecnico tecnico, LocalDate fecha)
     {
-        Visita visitaRealizada = new Visita(fallaARevisar,heladera,descripcion,incidenteSolucionado,imagen,tecnico);
+        Visita visitaRealizada = new Visita(fallaARevisar,heladera,descripcion,incidenteSolucionado,imagen,tecnico,fecha);
         visitasRealizadas.add(visitaRealizada);
     }
 

@@ -22,8 +22,6 @@ public class RegistrarPersonasSV extends Contribucion{
     @JoinColumn (name = "id_colaborador")
     Colaborador colaborador;
 
-    Date fecha_contribucion;
-
     //List<Tarjeta> tarjetas = new ArrayList<Tarjeta>(); podria utilizar repo de tarjetas que ya tiene el sistema y q dio de alta antes
     @Transient
     List<String> ids_tarjetas = new LinkedList<String>(); // esta no esta en el der

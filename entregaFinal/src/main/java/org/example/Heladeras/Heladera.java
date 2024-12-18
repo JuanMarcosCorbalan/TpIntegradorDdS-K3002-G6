@@ -1,6 +1,7 @@
 package org.example.Heladeras;
 
 import org.example.Colaborador.Colaborador;
+import org.example.GeneradorId;
 import org.example.Suscripcion.*;
 import org.example.Tarjetas.RetiroVianda;
 import org.example.Validadores_Sensores.*;
@@ -86,9 +87,12 @@ public class Heladera {
         this.temperaturaMinima = temMin;
         this.colaboradores = colaborador;
         this.unidadesMaximoViandas = maxViandas;
-        this.idHeladera= UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        this.idHeladera = GeneradorId.generar();
     }
 
+    public void setIdHeladera(String idHeladera){
+        this.idHeladera = idHeladera;
+    }
 
     public Heladera(String idHeladera, Integer unidadesMaximoViandas) {
         this.idHeladera = idHeladera;
@@ -102,7 +106,7 @@ public class Heladera {
     }
 
     public Heladera(PuntoUbicacion puntoUbicacion,int temperaturaMinima,int temperaturaMaxima,int cantidadViandasMax,Colaborador colaborador) {
-        // habria q generar un id
+        this.idHeladera = GeneradorId.generar();
         this.puntoUbicacion = puntoUbicacion;
         this.temperaturaMaxima = temperaturaMaxima;
         this.temperaturaMinima = temperaturaMinima;
@@ -253,7 +257,7 @@ public class Heladera {
 
     public void procesar_Alerta(Alerta alerta)
     {
-        switch(alerta.getTipo()){
+        switch(alerta.getTipoAlerta()){
             case ALERT_TEMPERATURA -> {
                 validadorTemp.darAviso(TipoAlerta.ALERT_TEMPERATURA);
                 desactivar();
