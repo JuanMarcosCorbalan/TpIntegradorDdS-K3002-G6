@@ -1,23 +1,20 @@
 CANTIDAD_FALLAS_POR_HELADERA
-Heladera f47e5e17: 0
-Heladera 8de29cd8: 0
-Heladera b53f627a: 0
+Heladera 5a212093: 0
+Heladera 9a80e966: 0
+Heladera 40e14991: 0
 
 CANTIDAD_DE_VIANDAS_RETIRADAS_POR_HELADERA
-Heladera f47e5e17: 0
-Heladera 8de29cd8: 0
-Heladera b53f627a: 0
+Heladera 5a212093: 0
+Heladera 9a80e966: 0
+Heladera 40e14991: 0
 
 CANTIDAD_DE_VIANDAS_DONADAS_POR_HELADERA
-Heladera: f47e5e17: 0
-Heladera: 8de29cd8: 0
-Heladera: b53f627a: 0
+Heladera: 5a212093: 0
+Heladera: 9a80e966: 0
+Heladera: 40e14991: 0
 
 CANTIDAD_DE_VIANDAS_DONADAS_POR_COLABORADOR
 Colaborador: Pablo Diaz: 0
 Colaborador: Juan Meza: 0
 Colaborador: Esteban Karagounis: 0
-Colaborador: Juan Corbalan: 8
-Colaborador: Ignacio Montero: 0
-Colaborador: Penelope Lavalle: 0
-Colaborador: Lorenzo Atierri: 4
+Colaborador: Juan Marcos Corbalan: 0

@@ -1,6 +1,7 @@
 package org.example;
 
 import com.github.scribejava.apis.GoogleApi20;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
@@ -62,11 +63,11 @@ public class Main {
     static RepositorioColaboradores colaboradoresExistentes;
     List<PersonaSituacionVulnerable> personasVulnerables = new ArrayList<PersonaSituacionVulnerable>();
     public List<Tecnico> tecnicos = new ArrayList<Tecnico>();
-
+    private static final Dotenv dotenv = Dotenv.configure().load();
     // Configuración para Google OAuth
-    private static final String CLIENT_ID = "326252094168-d315h9c9qq061944g2psi2fvhebremk3.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";
-    private static final String REDIRECT_URI = "http://localhost:8081/inicioSesionGoogle/oauth2/code/google";
+    private static final String CLIENT_ID = dotenv.get("CLIENT_ID");
+    private static final String CLIENT_SECRET = dotenv.get("CLIENT_SECRET");
+    private static final String REDIRECT_URI = dotenv.get("REDIRECT_URI");
     private static final String SCOPE = "profile email";
     private static final String AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String ACCESS_TOKEN_URL = "https://oauth2.googleapis.com/token";
