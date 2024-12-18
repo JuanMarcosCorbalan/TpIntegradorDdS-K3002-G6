@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Tables</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="/SALVACIONDDS/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="/SALVACIONDDS/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #2a4d69">
+
+        <!-- Logo a la izquierda -->
+        <a class="navbar-brand" href="#">
+            <img src="/SALVACIONDDS/img/LogoHobbitsB.png" alt="Logo" style="height: 70px; width: auto;">
+        </a>
+    
+        <!-- Barra de navegación -->
+        <ul class="navbar-nav ml-auto">
+    
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-white-600 large">Usario</span>
+                    <img class="img-profile rounded-circle" src="/SALVACIONDDS/img/undraw_profile.svg">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                    <!-- Dropdown Menu Items -->
+                    <a class="dropdown-item" href="#"><i class="fas fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i> Reporte semanal</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-coins fa-sm fa-fw mr-2 text-gray-400"></i> Canje de puntos</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i> Gestionar heladeras</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-lightbulb fa-sm fa-fw mr-2 text-gray-400"></i> Ver contribuciones</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i> Historial de canjes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"><i class="fas fa-flag fa-sm fa-fw mr-2 text-gray-400"></i> Reportar falla técnica</a>
+                    <a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Configuración</a>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar Sesión</a>
+                </div>
+            </li>
+    
+        </ul>
+    
+    </nav>
+    <div>
+        <a href="/verFallasTecnicas" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    
+    <div class="container mt-5">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <form method="POST" action="/registrarVisita/{{falla.id}}" enctype="multipart/form-data">
+            <div class="row justify-content-center">
+                <!-- Título centrado arriba -->
+                <div class="col-12 text-center p-3">
+                    <h1 class="h4 text-gray-900 mb-2">Registrar visita</h1>
+                </div>
+                <!-- Campo de entrada -->
+                <div class="col-md-9">
+
+                        <input type="hidden" name="fallaId" id="fallaId" value="{{falla.id}}">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción de la visita:</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="5" placeholder="Cómo le fue en la visita?"></textarea>
+                    </div>
+                    <div class="row mb-3 mx-3">
+                        <div class="col-md-6">
+                          <label for="fechaVisita" class="form-label">Fecha de la visita</label>
+                          <input type="date" class="form-control shadow-sm" id="fechaVisita" name="fechaVisita" placeholder="DD/MM/YYYY">
+                        </div>
+                    
+                        <div class="col-md-6">
+                        <label for="nombres" class="form-label">Estado heladera</label>
+                        <select class="form-select" id="estadoHeladera" name="estadoHeladera" style="display: block; width: 100%; padding: .375rem 2.25rem .375rem .75rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff; border-color: #dee2e6; border-radius: 7px;">
+                          <option selected>Seleccione un estado</option>
+                          <option value="1">Reparado</option>
+                          <option value="2">No pudo ser reparado</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputFoto" class="form-label">Subir foto:</label>
+                        <input type="file" class="form-control" id="inputFoto" name="inputFoto" accept="image/*" multiple onchange="previewImages(event)">
+                    </div>
+                    <div class="mb-3" id="previsualizacion" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <!-- Las vistas previas de las imágenes aparecerán aquí -->
+                    </div>
+                    
+                    <script>
+                        function previewImages(event) {
+                            const container = document.getElementById('previsualizacion');
+                            container.innerHTML = ''; // Limpia vistas previas previas
+                    
+                            Array.from(event.target.files).forEach(file => {
+                                const reader = new FileReader();
+                                reader.onload = function () {
+                                    const img = document.createElement('img');
+                                    img.src = reader.result;
+                                    img.style.maxWidth = '150px';
+                                    img.style.height = 'auto';
+                                    img.style.border = '1px solid #ccc';
+                                    img.style.borderRadius = '5px';
+                                    container.appendChild(img);
+                                };
+                                reader.readAsDataURL(file);
+                            });
+                        }
+                    </script>
+
+                </div>
+                
+                <!-- Botón centrado -->
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-success btn-custom mb-3" 
+                        style="background-color: #f69000; border-color: #f69000;">Confirmar</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    
+    
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres terminar?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Selecciona "Salir" para cerrar sesión</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-danger" href="login.mustache">Salir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
+    <script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/SALVACIONDDS/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/SALVACIONDDS/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/SALVACIONDDS/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/SALVACIONDDS/js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

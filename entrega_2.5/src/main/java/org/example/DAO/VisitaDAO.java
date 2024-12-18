@@ -2,6 +2,7 @@ package org.example.DAO;
 
 import org.example.DTO.IncidenteDTO;
 import org.example.DTO.VisitaDTO;
+import org.example.DTO.VisitaDTO2;
 import org.example.Personal.Visita;
 import org.example.Validadores_Sensores.FallaTecnica;
 import org.example.Validadores_Sensores.Incidente;
@@ -89,6 +90,37 @@ public class VisitaDAO {
 
                 }
             }
+
+        return visitasDTOs;
+    }
+
+    public List<VisitaDTO2> findVisitasHistorial(Long idTecnico) {
+        // Query para obtener todos los incidentes que sean de tipo 'FALLA_TECNICA'
+        String query = "SELECT i FROM Visita i";
+
+        List<Visita> visitas = entityManager.createQuery(query, Visita.class)
+                .getResultList();
+
+        List<VisitaDTO2> visitasDTOs = new ArrayList<>();
+
+        for (Visita visita : visitas) {
+
+            // Filtrar por el id del técnico asignado
+            if (visita.getTecnico().getId().equals(idTecnico)) {
+
+
+                LocalDate fecha = visita.getFechaVisita();
+                String descripcion = visita.getDescripcion();
+                String idHeladera = visita.getHeladera().getIdHeladera();
+                Boolean solucionado = visita.getIncidenteSolucionado();
+
+                //fecha, descr, id, estado
+                VisitaDTO2 dto = new VisitaDTO2(fecha, descripcion, idHeladera, solucionado);
+
+                visitasDTOs.add(dto);
+
+            }
+        }
 
         return visitasDTOs;
     }

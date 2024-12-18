@@ -1,10 +1,15 @@
 package org.example.DAO;
 
 import org.example.Colaborador.Colaborador;
+import org.example.DTO.VisitaDTO;
 import org.example.Personal.Tecnico;
+import org.example.Personal.Visita;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TecnicoDAO {
     private EntityManager entityManager;
@@ -50,6 +55,15 @@ public class TecnicoDAO {
             if (transaction.isActive()) transaction.rollback();
             e.printStackTrace();
         }
+    }
+
+    public List<Tecnico> findAlltecnicos() {
+        // Query para obtener todos los incidentes que sean de tipo 'FALLA_TECNICA'
+        String query = "SELECT i FROM Tecnico i";
+
+
+        return entityManager.createQuery(query, Tecnico.class)
+                .getResultList();
     }
 
     public Tecnico findById(long id) {

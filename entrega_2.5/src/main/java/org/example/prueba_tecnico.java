@@ -14,7 +14,7 @@ import java.util.List;
 public class prueba_tecnico {
 
     public static void main(String[] args){
-
+/*
         EntityManager em = BDutils.getEntityManager();
         IncidenteDAO dao = new IncidenteDAO(em);
         FallaTecnica fallaTecnica = (FallaTecnica) dao.findById(3);
@@ -36,7 +36,7 @@ public class prueba_tecnico {
         String nombre = persona.getNombre();
 
         dao.update(fallaTecnica);
-
+*/
 
 
     }

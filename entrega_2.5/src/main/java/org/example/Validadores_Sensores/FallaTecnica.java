@@ -5,12 +5,15 @@ import org.example.Heladeras.Heladera;
 import org.example.Heladeras.PuntoUbicacion;
 import org.example.Personal.BuscarTecnico;
 import org.example.Personal.Tecnico;
+import org.example.Personal.Visita;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.io.File;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +27,10 @@ public class FallaTecnica extends Incidente{
 
     @ManyToOne
     Tecnico tecnicoAsignado;
+
+    @OneToMany(mappedBy = "fallaRevisada",cascade = CascadeType.ALL)
+    List<Visita> visitas = new ArrayList<>();
+
 
     public FallaTecnica(Colaborador colaborador, String descripcion, String foto, Heladera heladera){
         super();
@@ -49,7 +56,10 @@ public class FallaTecnica extends Incidente{
     public FallaTecnica() {
 
     }
-
+    public void agregarVisita(Visita visita)
+    {
+        visitas.add(visita);
+    }
     public void asignarTecnico(PuntoUbicacion ubicacion, List<Tecnico> tecnicos)
     {
         BuscarTecnico buscarTecnico = new BuscarTecnico();

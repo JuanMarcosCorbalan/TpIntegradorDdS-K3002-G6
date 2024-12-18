@@ -71,7 +71,7 @@
 
 <div class="container mt-5">
     <div class="card o-hidden border-0 shadow-lg my-5">
-        <form action="/reportarFalla" method="post">
+        <form action="/reportarFallaTecnica" method="post" enctype="multipart/form-data">
             <div class="row justify-content-center">
                 <!-- Título centrado arriba -->
                 <div class="col-12 text-center p-3">
@@ -97,12 +97,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción del problema:</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" rows="5"
+                        <textarea class="form-control" id="inputDescripcion" name="inputDescripcion" rows="5"
                                   placeholder="Detalle el problema detectado en la heladera..."></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="uploadFotos" class="form-label">Subir fotos:</label>
-                        <input type="file" class="form-control" id="uploadFotos" name="uploadFotos[]" accept="image/*"
+                        <label for="inputFoto" class="form-label">Subir fotos:</label>
+                        <input type="file" class="form-control" id="inputFoto" name="inputFoto" accept="image/*"
                                multiple onchange="previewImages(event)">
                     </div>
                     <div class="mb-3" id="previsualizacion" style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -113,7 +113,7 @@
                         function previewImages(event) {
                             const container = document.getElementById('previsualizacion');
                             container.innerHTML = ''; // Limpia vistas previas previas
-                    
+
                             Array.from(event.target.files).forEach(file => {
                                 const reader = new FileReader();
                                 reader.onload = function () {
@@ -169,7 +169,7 @@
 
                                         // Actualizar el texto del botón principal
                                         menuHeladera.innerHTML = `
-                      <img src="https://via.placeholder.com/20" alt="Ícono" class="me-2">
+                      <img src="https://cdn-icons-png.flaticon.com/512/4151/4151152.png" alt="Ícono" class="me-2">
                       <strong>${heladera.nombre}</strong><br>
                       <small>ID: ${heladera.idHeladera}</small>
                     `;
@@ -236,6 +236,23 @@
         height: 20px; /* Alto máximo */
         object-fit: contain; /* Asegura que la imagen mantenga su proporción */
         margin-right: 8px; /* Espaciado entre el ícono y el texto */
+    }
+
+    .btn-secondary.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    .btn-secondary.dropdown-toggle img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin-right: 10px;
     }
 </style>
 <!-- Bootstrap core JavaScript-->

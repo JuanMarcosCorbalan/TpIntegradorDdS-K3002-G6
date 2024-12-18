@@ -60,7 +60,7 @@ public class IncidenteDAO {
         }
     }
 
-    public Incidente findById(long id) {
+    public Incidente findById(Long id) {
         return entityManager.find(Incidente.class, id);
     }
 
@@ -87,8 +87,9 @@ public class IncidenteDAO {
                     Long idTecnicoAsignado = (fallaTecnica.getTecnicoAsignado() != null)
                             ? fallaTecnica.getTecnicoAsignado().getId() : 0;
                     String nombreUbicacion = fallaTecnica.getHeladera().getPuntoUbicacion().getNombre();
+                    Long idFalla = fallaTecnica.getId();
                     // Crear el DTO
-                    IncidenteDTO dto = new IncidenteDTO(heladeraId, fecha, hora, descripcion, rutaFoto, idTecnicoAsignado,nombreUbicacion);
+                    IncidenteDTO dto = new IncidenteDTO(idFalla,heladeraId, fecha, hora, descripcion, rutaFoto, idTecnicoAsignado,nombreUbicacion);
                     incidenteDTOs.add(dto);
                 }
             }

@@ -69,7 +69,7 @@
 
 <div class="container mt-5">
     <div class="card o-hidden border-0 shadow-lg my-5">
-        <form action="/reportarFalla" method="post">
+        <form action="/reportarFallaTecnica" method="post" enctype="multipart/form-data">
             <div class="row justify-content-center">
                 <!-- Título centrado arriba -->
                 <div class="col-12 text-center p-3">
@@ -167,7 +167,7 @@
 
                                         // Actualizar el texto del botón principal
                                         menuHeladera.innerHTML = `
-                      <img src="https://via.placeholder.com/20" alt="Ícono" class="me-2">
+                      <img src="https://cdn-icons-png.flaticon.com/512/4151/4151152.png" alt="Ícono" class="me-2">
                       <strong>${heladera.nombre}</strong><br>
                       <small>ID: ${heladera.idHeladera}</small>
                     `;
@@ -234,6 +234,23 @@
         height: 20px; /* Alto máximo */
         object-fit: contain; /* Asegura que la imagen mantenga su proporción */
         margin-right: 8px; /* Espaciado entre el ícono y el texto */
+    }
+
+    .btn-secondary.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    .btn-secondary.dropdown-toggle img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        margin-right: 10px;
     }
 </style>
 <!-- Bootstrap core JavaScript-->

@@ -25,6 +25,7 @@ import java.time.LocalDate;
 
 import javax.persistence.EntityManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -174,8 +175,7 @@ public class prueba_repo {
         em.persist(heladera);
 
 
-        FallaTecnica falla = new FallaTecnica(colab, "titila el led rojo 5 veces cada 10 segundos", null, heladera);
-        em.persist(falla);
+
 
 
         //3era heladera
@@ -201,7 +201,15 @@ public class prueba_repo {
         // public AreaCobertura(String latitud, String longitud, String radio)
         AreaCobertura area = new AreaCobertura("-34.627711","-58.381422","25");
         Tecnico tecnico = new Tecnico("Edgardo","Elsztain","25-01-1962",doc, empMedios, domicilio, area);
+        Usuario usuario_tecnico1 = new Usuario(tecnico.getPersona(),"tecnico1","tec123");
+        em.persist(usuario_tecnico1);
         em.persist(tecnico);
+
+        FallaTecnica falla = new FallaTecnica(colab, "titila el led rojo 5 veces cada 10 segundos", null, heladera);
+        List<Tecnico> tecnicos = new ArrayList<>();
+        tecnicos.add(tecnico);
+        falla.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
+        em.persist(falla);
 
         localidad = ldao.findOrCreate("Caballito","Buenos Aires","Argentina");
         domicilio = new Domicilio("-34.583250","-58.429140","Bilbao 97",localidad);
@@ -211,9 +219,13 @@ public class prueba_repo {
         // public AreaCobertura(String latitud, String longitud, String radio)
         area = new AreaCobertura("-34.623611", "-58.381142", "8");
         tecnico = new Tecnico("Marcos", "Reinoso", "21-12-1977", doc, empMedios, domicilio, area);
+        Usuario usuario_tecnico2 = new Usuario(tecnico.getPersona(),"tecnico2","tec123");
+        em.persist(usuario_tecnico2);
         em.persist(tecnico);
+
+
 //Visita
-        Visita visita = new Visita(falla, heladera, "problema led rojo", false, null);
+        Visita visita = new Visita(falla, heladera, "problema led rojo", false, null,falla.getTecnicoAsignado());
         em.persist(visita);
 //oferta public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias)
         Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80,emp, "/uploads/Easy-Logo.svg.png");

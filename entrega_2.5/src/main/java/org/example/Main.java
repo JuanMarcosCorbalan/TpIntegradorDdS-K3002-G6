@@ -8,6 +8,7 @@ import org.example.Colaborador.RepositorioColaboradores;
 import org.example.Conversores.DistribucionViandaHistorial;
 import org.example.Conversores.DonacionViandaHistorial;
 import org.example.DAO.*;
+import org.example.DTO.VisitaDTO2;
 import org.example.Formas_contribucion.*;
 import org.example.DTO.IncidenteDTO;
 import org.example.DTO.VisitaDTO;
@@ -33,6 +34,11 @@ import io.javalin.Javalin;
 import org.example.ReporteSemanal.Reporte;
 import org.example.ReporteSemanal.ServicioReporte;
 import org.example.Sistema.*;
+import org.example.Personal.Visita;
+import org.example.Sistema.MigracionColaboradores;
+import org.example.Sistema.RegistrarUsuario;
+import org.example.Sistema.Usuario;
+import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.FallaTecnica;
@@ -84,6 +90,8 @@ public class Main {
                 .defaultScope(SCOPE)
                 .build(GoogleApi20.instance());
 
+
+
         Javalin app = Javalin.create(javalinConfig -> {
                             javalinConfig.plugins.enableCors(cors -> {
                                 cors.add(it -> it.anyHost());
@@ -130,6 +138,7 @@ public class Main {
                     Usuario usuario = us.buscarUsuarioPorEmail(email);
 
                     // Mostrar la información del usuario
+                    //ctx.result(userInfo);
 
                     if (usuario != null) {
                         // Usuario existe
@@ -270,14 +279,24 @@ public class Main {
                     // Lógica para iniciar sesión normal
                     try {
                         usuario = us.verificarInicioSesion(username, password);
-                        Colaborador colaborador = us.obtenerColaborador(usuario);
+                        Rol rol = us.obtenerRolAsociado(usuario);
                         // Guardar al colaborador en la sesión
-                        ctx.sessionAttribute("colaborador", colaborador);
-                        if (colaborador.persona instanceof Persona_fisica personaFisica) {
-                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
-                            return;
-                        } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
-                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                        if(rol instanceof Colaborador)
+                        {
+                            Colaborador colaborador = (Colaborador) rol;
+                            ctx.sessionAttribute("colaborador", colaborador);
+                            if (colaborador.persona instanceof Persona_fisica personaFisica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                                return;
+                            } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                                return;
+                            }
+                        } else if(rol instanceof Tecnico)
+                        {
+                            Tecnico tecnico = (Tecnico) rol;
+                            ctx.sessionAttribute("tecnico", tecnico);
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
                             return;
                         }
                     } catch (RuntimeException e) {
@@ -321,7 +340,7 @@ public class Main {
                 colaboradorDAO.update(colaborador);
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
                 // Enviar una respuesta de confirmación
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
@@ -365,7 +384,7 @@ public class Main {
                     RegistrarPersonasSvHandler.registrarPersonaSv(colaborador, nombre, apellido, situacionDeCalle, domicilio, cantidadMenoresACargo);
                     colaboradorDAO.update(colaborador);
                     // Enviar una respuesta de confirmación
-                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
                 } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
@@ -403,9 +422,8 @@ public class Main {
         app.post("/reportarFallaTecnica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             HeladeraDAO heladeraDAO = new HeladeraDAO(em);
-            ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
-            TarjetaDAO tarjetaDAO = new TarjetaDAO(em);
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            TecnicoDAO tecnicoDAO = new TecnicoDAO(em);
             if(colaborador !=null)
             {
                 String descripcion = ctx.formParam("inputDescripcion");
@@ -445,9 +463,11 @@ public class Main {
                 }
 
                 FallaTecnica falla = new FallaTecnica(colaborador,descripcion,filePath,heladera);
+                List<Tecnico> tecnicos = tecnicoDAO.findAlltecnicos();
+                falla.asignarTecnico(heladera.getPuntoUbicacion(),tecnicos);
                 incidenteDAO.save(falla);
 
-                ctx.status(201).json(Map.of("mensaje", "Falla técnica reportada exitosamente."));
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             }else{
                 ctx.redirect("/login");
             }
@@ -503,7 +523,7 @@ public class Main {
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
 
                 // Enviar una respuesta de confirmación
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
@@ -534,7 +554,7 @@ public class Main {
                     //update colaborador
                     colaboradorDAO.update(colaborador);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
 
                 }
 
@@ -714,7 +734,8 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
-            ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionRegistroUsuario.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+            ctx.redirect("/login");
         });
 
         app.post("/registarPersonaJuridica", ctx -> {
@@ -788,7 +809,8 @@ public class Main {
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
-            ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionRegistroUsuario.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+            ctx.redirect("/login");
         });
 
         app.get("/puntosYCanjes", ctx -> {
@@ -840,9 +862,9 @@ public class Main {
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
                         ofertaDAO.update(ofertaSeleccionada);
-                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
                     } else {
-                        ctx.render("/paginaWebColaboracionHeladeras/resultados/html/rechazadoCanjeOferta.mustache");
+                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
                     }
                 } else {
                     ctx.status(404).result("La oferta seleccionada no existe.");
@@ -867,6 +889,124 @@ public class Main {
                 ctx.redirect("/login");
             }
         });
+
+
+
+        app.get("/historialVisitas", ctx -> {
+            Tecnico tecnico = ctx.sessionAttribute("tecnico");
+            VisitaDAO visitaDAO = new VisitaDAO(em);
+            if (tecnico != null) {
+                // Obtener la lista de canjes realizados por el colaborador
+                List<VisitaDTO2> visitasHistorial = visitaDAO.findVisitasHistorial(tecnico.getId());
+
+                // Crear el modelo para la plantilla
+                Map<String, Object> model = new HashMap<>();
+                model.put("historialVisitas", visitasHistorial); // Pasa la lista al modelo
+
+                // Renderizar la plantilla Mustache y pasar el modelo
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialVisitas.mustache", model);
+            } else {
+                ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
+            }
+        });
+
+        app.get("/verFallasTecnicas", ctx ->{
+           Tecnico tecnico = ctx.sessionAttribute("tecnico");
+           IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+           if(tecnico != null)
+           {
+               List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(tecnico.getId());
+
+               Map<String, Object> model = new HashMap<>();
+               model.put("fallas", fallas);
+
+
+
+               ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/vistaHeladerasTecnico.mustache", model);
+           }
+           else{
+               ctx.status(401).result("Por favor inicia sesión para ver las fallas tecnicas.");
+           }
+        });
+
+        app.get("/registrarVisita/{idFalla}", ctx -> {
+            Long idFalla = Long.parseLong(ctx.pathParam("idFalla"));
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
+
+            if (falla != null) {
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registrarVisita.mustache", Map.of("falla", falla));
+            } else {
+                ctx.status(404).result("Falla no encontrada");
+            }
+        });
+
+        app.post("/registrarVisita/{idFalla}", ctx -> {
+            Tecnico tecnico = ctx.sessionAttribute("tecnico");
+            VisitaDAO visitaDAO = new VisitaDAO(em);
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+
+            if (tecnico != null) {
+                Long idFalla = Long.parseLong(ctx.pathParam("idFalla"));  // Usar pathParam para capturar el id
+                String descripcion = ctx.formParam("descripcion");
+                LocalDate fechaVisita = LocalDate.parse(ctx.formParam("fechaVisita"));
+                String estadoHeladera = ctx.formParam("estadoHeladera");
+
+                // Manejar la imagen (si se envía)
+                // Manejar la imagen (si se envía)
+                UploadedFile uploadedFile = ctx.uploadedFile("inputFoto");
+                String filePath = null;
+
+                if (uploadedFile != null) {
+                    try {
+                        // Directorio donde se almacenará la imagen
+                        String uploadDir = "uploads/visitas";
+                        File uploadDirFile = new File(uploadDir);
+                        if (!uploadDirFile.exists()) {
+                            uploadDirFile.mkdirs(); // Crear directorio si no existe
+                        }
+
+                        // Crear un nombre único para la imagen
+                        String uniqueFileName = UUID.randomUUID() + "_" + uploadedFile.filename();
+
+                        // Ruta completa para guardar el archivo
+                        filePath = uploadDir + File.separator + uniqueFileName;
+
+                        // Guardar el archivo en el sistema
+                        File file = new File(filePath);
+                        try (InputStream inputStream = uploadedFile.content();
+                             OutputStream outputStream = new FileOutputStream(file)) {
+                            inputStream.transferTo(outputStream);
+                        }
+
+                    } catch (IOException e) {
+                        ctx.status(500).result("Error al procesar la imagen.");
+                        return;
+                    }
+                }
+
+                Boolean incidenteSolucionado = null;
+
+                if (estadoHeladera.equals("1")) {
+                    incidenteSolucionado = true;
+                } else {
+                    incidenteSolucionado = false;
+                }
+
+                //BUSCO LA FALLA TECNICA EN LA BD
+                FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
+                //CREO LA VISITA
+                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado());
+
+                falla.agregarVisita(visita);
+                incidenteDAO.update(falla);
+                //ctx.status(201).result("Registrado la visita con exito!");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+            } else {
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
+            }
+        });
+
 
         app.get("/historialContribuciones", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -919,7 +1059,7 @@ public class Main {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
                 colaboradorDAO.update(colaborador);
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionFisica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 ctx.redirect("/login");
             }
@@ -931,7 +1071,7 @@ public class Main {
                 Integer monto = Integer.parseInt(ctx.formParam("inputMonto"));
                 colaborador.donarMonto(monto);
                 colaboradorDAO.update(colaborador);
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionJuridica.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
                 ctx.redirect("/login");
             }
@@ -1007,9 +1147,10 @@ public class Main {
                 //NO HARIA FALTA ESTO:
                 //ofertasDisponibles.add(nuevaOferta);
                 // aca deberia armar una interfaz para confirmacion de suscripcion, estoy usando la de colaboraciones
-                ctx.render("/paginaWebColaboracionHeladeras/resultados/html/confirmacionOfertaCargada.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
             } else {
-                ctx.status(401).result("Por favor inicia sesión para donar dinero");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionFallida.mustache");
+                //ctx.status(401).result("Por favor inicia sesión para donar dinero");
             }
         });
 
