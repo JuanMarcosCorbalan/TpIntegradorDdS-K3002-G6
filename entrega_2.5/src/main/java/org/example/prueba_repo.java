@@ -216,11 +216,11 @@ public class prueba_repo {
         Visita visita = new Visita(falla, heladera, "problema led rojo", false, null);
         em.persist(visita);
 //oferta public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias)
-        Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80,emp, null);
+        Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80,emp, "/uploads/Easy-Logo.svg.png");
         em.persist(oferta);
-        oferta = new Oferta("Descuento 5% YPF", 25000, 45,emp, null);
+        oferta = new Oferta("Descuento 5% YPF", 25000, 45,emp, "/uploads/Logo_de_YPF.svg.png");
         em.persist(oferta);
-        oferta = new Oferta("Descuento 15% easy", 8000, 140,emp, null);
+        oferta = new Oferta("Descuento 15% easy", 8000, 140,emp, "/uploads/Logo_Jumbo_Cencosud.png");
         em.persist(oferta);
 
         // Tarjetas

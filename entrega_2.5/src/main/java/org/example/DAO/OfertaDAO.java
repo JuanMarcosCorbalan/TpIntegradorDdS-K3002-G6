@@ -58,9 +58,17 @@ public class OfertaDAO {
         }
     }
 
+    public List<Oferta> findAllActive() {
+        try {
+            return entityManager.createQuery("SELECT o FROM Oferta o where o.ofertaActiva = 1", Oferta.class).getResultList();
+        } catch (Exception e) {
+            System.err.println("Error al ejecutar la consulta: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Oferta> findAll() {
-
-
         try {
             return entityManager.createQuery("SELECT o FROM Oferta o", Oferta.class).getResultList();
         } catch (Exception e) {
@@ -69,7 +77,6 @@ public class OfertaDAO {
             return null;
         }
     }
-
     public List<Oferta> findAllByColaborador(Colaborador colaborador) {
         List<Oferta> oferta;
         try {
@@ -82,4 +89,8 @@ public class OfertaDAO {
         }
         return oferta;
     }
+    public Oferta findById(Long id) {
+        return entityManager.find(Oferta.class, id);
+    }
+
 }

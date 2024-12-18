@@ -25,6 +25,10 @@ public class Oferta extends Contribucion {
     String imagenIlustrativa;
     //CAMBIO RESPECTO A LA ENTREGA 2
     Integer cant_instancias;
+    Integer ofertaActiva;
+
+    @Transient
+    String estadoOferta;
 
     public Oferta() {
 
@@ -49,6 +53,8 @@ public class Oferta extends Contribucion {
         this.fecha_contribucion = LocalDate.now();
         this.imagenIlustrativa = foto;
         this.estado = EXITOSA;
+        this.ofertaActiva = 0;
+        this.setEstadoOferta();
     }
 
     public String getNombre() {
@@ -65,5 +71,30 @@ public class Oferta extends Contribucion {
 
     public void setPuntosNecesarios(Integer puntosNecesarios) {
         this.puntosNecesarios = puntosNecesarios;
+    }
+
+    public void desactivar(){
+        ofertaActiva = 0;
+        setEstadoOferta();
+    }
+    public void activar(){
+        ofertaActiva = 1;
+        setEstadoOferta();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEstadoOferta() {
+        return estadoOferta;
+    }
+
+    public void setEstadoOferta() {
+        if (ofertaActiva == 1) {
+            this.estadoOferta = "ACTIVA";
+        } else {
+            this.estadoOferta = "DESACTIVA";
+        }
     }
 }
