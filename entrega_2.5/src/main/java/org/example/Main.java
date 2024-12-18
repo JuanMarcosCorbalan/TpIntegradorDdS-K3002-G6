@@ -1,7 +1,6 @@
 package org.example;
 
 import com.github.scribejava.apis.GoogleApi20;
-import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 import org.example.Colaborador.Colaborador;
 import org.example.Colaborador.Forma_colaborar;
@@ -913,7 +912,7 @@ public class Main {
                     // model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisico.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache",model);
                 }else{
                     System.out.println("entre a juridico");
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
@@ -928,7 +927,7 @@ public class Main {
                     model.put("hacerseCargoHeladeras", hacerseCargoHeladeras);
                     model.put("ofertas", ofertas);
 
-                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridico.mustache",model);
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesJuridica.mustache",model);
                 }
             } else {
                 ctx.status(401).result("Por favor inicia sesión para ver tu historial de canjes.");
