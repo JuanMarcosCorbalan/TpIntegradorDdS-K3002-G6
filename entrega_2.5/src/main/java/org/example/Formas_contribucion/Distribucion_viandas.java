@@ -28,9 +28,13 @@ public class Distribucion_viandas extends Contribucion{
     List<Vianda> viandas = new ArrayList<Vianda>();
 
     // preguntar juan
+    @Transient
     Boolean ContribucionFinalizada;
+    @Transient
     Boolean ContribucionExitosa;
+    @Transient
     Boolean RetiroExitoso;
+    @Transient
     Boolean IngresoExitoso;
 
     public Distribucion_viandas() {

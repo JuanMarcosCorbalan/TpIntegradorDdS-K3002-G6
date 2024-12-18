@@ -6,6 +6,7 @@ import org.example.Validadores_Sensores.FallaTecnica;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,11 +20,11 @@ public class Tecnico extends Rol {
     @ManyToOne (cascade = CascadeType.ALL)
     AreaCobertura areaCobertura;
 
-    @OneToMany(mappedBy = "tecnicoAsignado")
-    List <FallaTecnica> fallasTecnicasAsignadas;
+    @OneToMany(mappedBy = "tecnicoAsignado", cascade = CascadeType.ALL)
+    List <FallaTecnica> fallasTecnicasAsignadas = new ArrayList<FallaTecnica>();
 
-    @OneToMany(mappedBy = "tecnico")
-    List <Visita> visitasRealizadas;
+    @OneToMany(mappedBy = "tecnico", cascade = CascadeType.ALL)
+    List <Visita> visitasRealizadas = new ArrayList<Visita>();
 
     public Tecnico(String nombre, String apellido, String fecha_nacimiento,Documento_identidad documento, List<Medio_contacto> mediosContacto, Domicilio domicilio, AreaCobertura areaCobertura ){
         this.persona = new Persona_fisica(nombre,apellido,fecha_nacimiento,documento,mediosContacto,domicilio);
@@ -46,11 +47,13 @@ public class Tecnico extends Rol {
         fallasTecnicasAsignadas.add(fallaTecnica);
     }
 
-    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen)
+    public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen, Tecnico tecnico)
     {
-        Visita visitaRealizada = new Visita(fallaARevisar,heladera,descripcion,incidenteSolucionado,imagen);
+        Visita visitaRealizada = new Visita(fallaARevisar,heladera,descripcion,incidenteSolucionado,imagen,tecnico);
         visitasRealizadas.add(visitaRealizada);
     }
 
     public Long getId(){return id;}
+
+    public List<FallaTecnica> getFallasTecnicasAsignadas(){return fallasTecnicasAsignadas;}
 }

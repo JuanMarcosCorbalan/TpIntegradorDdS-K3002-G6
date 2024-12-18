@@ -4,6 +4,8 @@ import org.example.Colaborador.Colaborador;
 import org.example.DAO.CiudadDAO;
 import org.example.Persona.Ciudad;
 import org.example.Persona.Localidad;
+import org.example.Persona.Persona;
+import org.example.Persona.Rol;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
@@ -74,6 +76,25 @@ public class UsuarioService {
         }
 
         return colaborador;
+
+
+    }
+
+    public Rol obtenerRolAsociado(Usuario usuario) {
+
+        Rol rol = null;
+        try {
+            rol = entityManager
+                    .createQuery("select r from Usuario u join u.persona p " +
+                            "join Rol r on " +
+                            "  r.persona.id = p.id where u.nombre = ?1", Rol.class)
+                    .setParameter(1, usuario.getNombre())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            // quizas habria que verificar que no exista el colaborador pero no tendria que pasar
+        }
+
+        return rol;
 
 
     }
