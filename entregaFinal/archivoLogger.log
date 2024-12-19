@@ -307,3 +307,17 @@ NOMBRE Y APELLIDO: lautaro martinez
 FECHA DE NACIMIENTO 2000-02-10
 CANTIDAD DE MENORES A CARGO 2
 Y SITUACION DE CALLE true
+dic 19, 2024 12:02:49 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 12:02:54 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 10000 PESOS REGISTRADA CON EXITO
+dic 19, 2024 12:03:00 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 12:03:02 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador
