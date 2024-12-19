@@ -70,5 +70,36 @@ public class UsuarioDAO {
 
     }
 
+    public Usuario findByUsername(String nombre_usuario) {
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            // Inicia la transacción si es necesario
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+
+            Usuario usuario = entityManager
+                    .createQuery("select u from Usuario u where u.nombre = :nombre", Usuario.class)
+                    .setParameter("nombre", nombre_usuario)
+                    .getSingleResult();
+
+            return usuario;
+        } catch (NoResultException e) {
+            // Manejar el caso donde no se encuentra ningún usuario
+            System.out.println("No se encontró un usuario con el nombre especificado.");
+            return null;
+        } catch (Exception e) {
+            // Manejar excepciones generales
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (transaction.isActive()) {
+                transaction.commit();
+            }
+        }
+    }
+
+
 
 }

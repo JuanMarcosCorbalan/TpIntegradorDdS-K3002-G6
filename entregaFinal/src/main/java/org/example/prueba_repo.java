@@ -20,6 +20,7 @@ import org.example.Validadores_Sensores.Alerta;
 import org.example.Validadores_Sensores.FallaTecnica;
 import org.example.Validadores_Sensores.TipoAlerta;
 import org.example.Validadores_Sensores.TipoIncidente;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
 
@@ -93,7 +94,8 @@ public class prueba_repo {
         wsp.setPersona(perColab);
         List<Forma_colaborar> forma = List.of(DONACION_DINERO,DONACION_VIANDAS,DISTRIBUCION_VIANDAS);
         Colaborador colab = new Colaborador(perColab,forma);
-        Usuario user = new Usuario(perColab,"usuario1","pass123");
+        String contra = "pass123";
+        Usuario user = new Usuario(perColab,"usuario1",BCrypt.hashpw(contra, BCrypt.gensalt()));
         TarjetaColaborador tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
@@ -109,7 +111,8 @@ public class prueba_repo {
         wsp.setPersona(perColab);
         forma = List.of(DONACION_VIANDAS);
         colab = new Colaborador(perColab,forma);
-        user = new Usuario(perColab,"usuario2","123456");
+        contra = "123456";
+        user = new Usuario(perColab,"usuario2",BCrypt.hashpw(contra, BCrypt.gensalt()));
         tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
@@ -125,7 +128,8 @@ public class prueba_repo {
         wsp.setPersona(perColab);
         forma = List.of(DISTRIBUCION_VIANDAS);
         colab = new Colaborador(perColab,forma);
-        user = new Usuario(perColab,"usuario3","abc123");
+        contra = "abc123";
+        user = new Usuario(perColab,"usuario3",BCrypt.hashpw(contra, BCrypt.gensalt()));
         tarj = new TarjetaColaborador(colab);
         em.persist(user);
         em.persist(colab);
@@ -142,7 +146,8 @@ public class prueba_repo {
         email.setPersona(empColab);
         List<Forma_colaborar> empForma = List.of(DONACION_DINERO,DONACION_VIANDAS);
         Colaborador emp = new Colaborador(empColab,empForma);
-        user = new Usuario(empColab,"usuario4","qwerty");
+        contra = "qwerty";
+        user = new Usuario(empColab,"usuario4",BCrypt.hashpw(contra, BCrypt.gensalt()));
         em.persist(user);
         em.persist(emp);
 
@@ -202,7 +207,8 @@ public class prueba_repo {
         // public AreaCobertura(String latitud, String longitud, String radio)
         AreaCobertura area = new AreaCobertura("-34.627711","-58.381422","25");
         Tecnico tecnico = new Tecnico("Edgardo","Elsztain","25-01-1962",doc, empMedios, domicilio, area);
-        Usuario usuario_tecnico1 = new Usuario(tecnico.getPersona(),"tecnico1","tec123");
+        contra = "tec123";
+        Usuario usuario_tecnico1 = new Usuario(tecnico.getPersona(),"tecnico1",BCrypt.hashpw(contra, BCrypt.gensalt()));
         em.persist(usuario_tecnico1);
         em.persist(tecnico);
 
@@ -221,13 +227,14 @@ public class prueba_repo {
         // public AreaCobertura(String latitud, String longitud, String radio)
         area = new AreaCobertura("-34.623611", "-58.381142", "8");
         tecnico = new Tecnico("Marcos", "Reinoso", "21-12-1977", doc, empMedios, domicilio, area);
-        Usuario usuario_tecnico2 = new Usuario(tecnico.getPersona(),"tecnico2","tec123");
+        contra = "tect123";
+        Usuario usuario_tecnico2 = new Usuario(tecnico.getPersona(),"tecnico2",BCrypt.hashpw(contra, BCrypt.gensalt()));
         em.persist(usuario_tecnico2);
         em.persist(tecnico);
 
 
 //Visita
-        Visita visita = new Visita(falla, heladera, "problema led rojo", false, null,falla.getTecnicoAsignado());
+        Visita visita = new Visita(falla, heladera, "problema led rojo", false, null,falla.getTecnicoAsignado(),LocalDate.now());
         em.persist(visita);
 //oferta public Oferta(String nombre, Integer puntosNecesarios, Integer cantInstancias)
         Oferta oferta = new Oferta("Descuento 20% Jumbo", 25000, 80,emp, "/uploads/Easy-Logo.svg.png");

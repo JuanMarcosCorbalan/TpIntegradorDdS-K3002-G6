@@ -91,7 +91,33 @@
                 <div class="col-12 p-3">
                     <div id="map"></div>
                   </div>
-                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Tipo Alerta</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {{#alertas}}
+                                <tr>
+                                    <td>{{fecha}}</td>
+                                    <td>{{hora}}</td>
+                                    <td>{{tipoAlerta}}</td>
+                                </tr>
+                            {{/alertas}}
+                            <!-- -->
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--
                   <div class="col-md-6">
                     <label for="selectAction" class="form-label mx-3 my-2">Seleccione acción a realizar</label>
                     <select id="selectAction" class="form-select" disabled>
@@ -106,13 +132,14 @@
                     <h5 id="alertTitle">Alertas</h5>
                     <div id="alertsList"></div>
                   </div>
+                -->
 
-
-                <!-- Botón centrado -->
+                <!-- Botón centrado
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-success btn-custom mb-3" 
                         style="background-color: #f69000; border-color: #f69000;" onclick="deseleccionar()">Confirmar</button>
                 </div>
+                -->
             </div>
         </div>
     </div>

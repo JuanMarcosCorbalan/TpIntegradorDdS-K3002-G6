@@ -10,6 +10,7 @@ import org.example.Conversores.DistribucionViandaHistorial;
 import org.example.Conversores.DonacionViandaHistorial;
 import org.example.Conversores.HacerseCargoHeladeraHistorial;
 import org.example.DAO.*;
+import org.example.DTO.AlertaDTO;
 import org.example.DTO.VisitaDTO2;
 import org.example.Formas_contribucion.*;
 import org.example.DTO.IncidenteDTO;
@@ -38,6 +39,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
+import org.mindrot.jbcrypt.BCrypt;
 import io.javalin.Javalin;
 import org.example.ReporteSemanal.Reporte;
 import org.example.ReporteSemanal.ServicioReporte;
@@ -50,6 +52,7 @@ import org.example.Sistema.UsuarioService;
 import org.example.Suscripcion.TipoSuscripcion;
 import org.example.Utils.BDutils;
 import org.example.Validadores_Sensores.FallaTecnica;
+import org.example.Validadores_Sensores.Incidente;
 import org.example.ValidarContrasenia.ValidarContrasenia;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -79,6 +82,7 @@ public class Main {
     private static final String AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String ACCESS_TOKEN_URL = "https://oauth2.googleapis.com/token";
     private static final String RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
+
     private static OAuth20Service service;
 
 
@@ -96,6 +100,7 @@ public class Main {
                 .callback(REDIRECT_URI)
                 .defaultScope(SCOPE)
                 .build(GoogleApi20.instance());
+
 
 
         Javalin app = Javalin.create(javalinConfig -> {
@@ -270,10 +275,13 @@ public class Main {
         });
 
 
+
+
         // login para guardar al colaborador
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
             UsuarioService us = new UsuarioService(em);
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
 
             /*
             Persona_fisica juan = new Persona_fisica("juan", "corbalan");
@@ -294,7 +302,11 @@ public class Main {
                     Usuario usuario;
                     // Lógica para iniciar sesión normal
                     try {
-                        usuario = us.verificarInicioSesion(username, password);
+                        usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
+                        if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
+                            ctx.status(401).result("Usuario o contraseña incorrecta");
+                            return;
+                        }
                         Rol rol = us.obtenerRolAsociado(usuario);
                         // Guardar al colaborador en la sesión
                         if (rol instanceof Colaborador) {
@@ -444,6 +456,7 @@ public class Main {
                 LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
             }
         });
+
 
 
         //REPORTAR FALLA TECNICA
@@ -690,8 +703,12 @@ public class Main {
             ValidarContrasenia validadorContra = new ValidarContrasenia();
             if (!validadorContra.validar(contrasenia)) {
                 ctx.status(400).result("Contraseña poco segura");
+                return;
             }
-            usuario = new Usuario(usuarioNombre, contrasenia);
+            String hashedContrasenia = BCrypt.hashpw(contrasenia, BCrypt.gensalt());
+            usuario = new Usuario(usuarioNombre, hashedContrasenia);
+
+            //usuario = new Usuario(usuarioNombre, contrasenia);
 
             ctx.sessionAttribute("usuario", usuario);
             LoggerToFile.logInfo("Nuevo usuario registrado con el nombre de usuario: " + usuarioNombre);
@@ -1070,7 +1087,8 @@ public class Main {
                 //BUSCO LA FALLA TECNICA EN LA BD
                 FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
                 //CREO LA VISITA
-                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath, falla.getTecnicoAsignado());
+                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado(),fechaVisita);
+
                 falla.agregarVisita(visita);
                 incidenteDAO.update(falla);
                 LoggerToFile.logInfo("\nVisita registrada con exito");
@@ -1092,17 +1110,17 @@ public class Main {
                     DonacionDineroDAO donacionDineroDAO = new DonacionDineroDAO(em);
                     DonacionViandaDAO donacionViandasDAO = new DonacionViandaDAO(em);
                     DistribucionViandasDAO distribucionViandasDAO = new DistribucionViandasDAO(em);
-                    //DistribucionTarjetasDAO distribucionTarjetasDAO = new DonacionDistribucionTarjetasDAO(em);
+                    DistribucionTarjetasDAO distribucionTarjetasDAO = new DistribucionTarjetasDAO(em);
 
                     List<Donacion_dinero> donacionesDinero = donacionDineroDAO.findAllByColaborador(colaborador);
                     List<DonacionViandaHistorial> donacionesViandas = donacionViandasDAO.obtenerHistorial(colaborador);
                     List<DistribucionViandaHistorial> distribucionViandas = distribucionViandasDAO.obtenerHistorial(colaborador);
-                    //List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
+                    List<RegistrarPersonasSV> distribucionTarjetas = distribucionTarjetasDAO.findAllByColaborador(colaborador);
 
                     model.put("donacionesDinero", donacionesDinero);
                     model.put("donacionesViandas", donacionesViandas);
                     model.put("distribucionViandas", distribucionViandas);
-                    // model.put("distribucionTarjetas", distribucionTarjetas);
+                    model.put("distribucionTarjetas", distribucionTarjetas);
 
                     // Renderizar la plantilla Mustache y pasar el modelo
                     ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/historialContribucionesFisica.mustache", model);
@@ -1192,7 +1210,7 @@ public class Main {
             }
         });
 
-        app.post("/cargarOferta", ctx -> {
+        app.post("/cargarOferta", ctx-> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 String nombreOferta = ctx.formParam("inputNombre");
@@ -1269,7 +1287,6 @@ public class Main {
                         "reporteActual", reporte,
                         "reportesAnteriores", reportesAnteriores
                 ));
-
             } else {
                 // El reporte corresponde a la semana actual, usarlo
                 // Obtener los 5 reportes anteriores
@@ -1418,6 +1435,15 @@ public class Main {
 
             // Devolver las heladeras en formato JSON
             ctx.json(heladeras);
+        });
+
+        app.get("/api/alertas/{idHeladera}", ctx -> {
+            String idHeladera = ctx.pathParam("idHeladera");
+            System.out.println(idHeladera);
+            IncidenteDAO incidenteDAO = new IncidenteDAO(em);
+            List<AlertaDTO> alertas = incidenteDAO.findAlertas(idHeladera);
+
+            ctx.json(alertas);
         });
 
         app.get("/api/tecnicos/{idTecnico}/fallasTecnicas", ctx -> {

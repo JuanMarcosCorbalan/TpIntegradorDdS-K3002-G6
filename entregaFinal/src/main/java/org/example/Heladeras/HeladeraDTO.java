@@ -2,14 +2,16 @@ package org.example.Heladeras;
 
 
 public class HeladeraDTO {
+    private String idHeladera;
     private String latitud;
     private String longitud;
     private EstadoHeladera estado;
 
-    public HeladeraDTO(String latitud, String longitud, EstadoHeladera estado) {
+    public HeladeraDTO(String latitud, String longitud, EstadoHeladera estado, String idHeladera) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.estado = estado;
+        this.idHeladera = idHeladera;
     }
 
     // Getters
@@ -25,6 +27,8 @@ public class HeladeraDTO {
         return estado;
     }
 
+    public String getIdHeladera() {return idHeladera;}
+
     // Setters
     public void setLatitud(String latitud) {
         this.latitud = latitud;
@@ -37,5 +41,7 @@ public class HeladeraDTO {
     public void setEstado(EstadoHeladera estado) {
         this.estado = estado;
     }
+
+    public void setIdHeladera(String idHeladera) {this.idHeladera=idHeladera;}
 }
 

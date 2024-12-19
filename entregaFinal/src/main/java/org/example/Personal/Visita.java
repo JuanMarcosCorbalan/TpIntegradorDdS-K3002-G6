@@ -29,12 +29,12 @@ public class Visita {
     String imagen;
     Boolean incidenteSolucionado;
 
-    public Visita(FallaTecnica fallaTecnica, Heladera heladera, String descripcion, Boolean incidenteSolucionado,String imagen, Tecnico tecnico) {
+    public Visita(FallaTecnica fallaTecnica, Heladera heladera, String descripcion, Boolean incidenteSolucionado,String imagen, Tecnico tecnico,LocalDate fechaVisita) {
         this.fallaRevisada = fallaTecnica;
         this.heladera = heladera;
         this.descripcion = descripcion;
         this.incidenteSolucionado = incidenteSolucionado;
-        fechaVisita = LocalDate.now();
+        this.fechaVisita = fechaVisita;
         this.imagen=imagen;
         this.tecnico=tecnico;
         if(incidenteSolucionado) {

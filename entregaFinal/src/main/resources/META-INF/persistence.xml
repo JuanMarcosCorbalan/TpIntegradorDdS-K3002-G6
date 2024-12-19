@@ -10,7 +10,7 @@
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/sakila?serverTimezone=America/Buenos_Aires"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ddstp?serverTimezone=America/Buenos_Aires"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="contraseña"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>

@@ -22,6 +22,6 @@ public class Alerta extends Incidente{
 
     }
 
-    public TipoAlerta getTipo(){return tipo;}
-    public Heladera getHeladera(){return heladera;}
+    public TipoAlerta getTipoAlerta(){return tipo;}
+    //public Heladera getHeladera(){return heladera;}
 }
