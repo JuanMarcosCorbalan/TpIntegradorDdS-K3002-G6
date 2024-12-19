@@ -301,43 +301,43 @@ public class Main {
                 case "principal":
                     Usuario usuario;
                     // Lógica para iniciar sesión normal
-                    try {
-                        usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
-                        if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
-                            ctx.status(401).result("Usuario o contraseña incorrecta");
-                            return;
-                        }
-                        Rol rol = us.obtenerRolAsociado(usuario);
-                        // Guardar al colaborador en la sesión
-                        if (rol instanceof Colaborador) {
-                            Colaborador colaborador = (Colaborador) rol;
-                            ctx.sessionAttribute("colaborador", colaborador);
-                            if (colaborador.persona instanceof Persona_fisica personaFisica) {
-                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
-                                LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA");
-
-                                return;
-                            } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
-                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
-                                LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA");
+                    if (! username.equals("administrador") && ! password.equals("administrador")) {
+                        try {
+                            usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
+                            if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
+                                model.put("error", "usuario y/o contraseña invalido/s");
                                 return;
                             }
-                        } else if (rol instanceof Tecnico) {
-                            Tecnico tecnico = (Tecnico) rol;
-                            ctx.sessionAttribute("tecnico", tecnico);
-                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
-                            LoggerToFile.logInfo("\nTECNICO LOGUEADO");
-                            return;
-                        }
-                    } catch (RuntimeException e) {
-                        if (username.equals("administrador") && password.equals("administrador")) {
-                            ctx.sessionAttribute("administrador", 1);
-                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
-                            LoggerToFile.logInfo("\nADMINISTRADOR LOGUEADO");
-                            return;
-                        } else {
+                            Rol rol = us.obtenerRolAsociado(usuario);
+                            // Guardar al colaborador en la sesión
+                            if (rol instanceof Colaborador) {
+                                Colaborador colaborador = (Colaborador) rol;
+                                ctx.sessionAttribute("colaborador", colaborador);
+                                if (colaborador.persona instanceof Persona_fisica personaFisica) {
+                                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                                    LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA");
+
+                                    return;
+                                } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
+                                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                                    LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA");
+                                    return;
+                                }
+                            } else if (rol instanceof Tecnico) {
+                                Tecnico tecnico = (Tecnico) rol;
+                                ctx.sessionAttribute("tecnico", tecnico);
+                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
+                                LoggerToFile.logInfo("\nTECNICO LOGUEADO");
+                                return;
+                            }
+                        } catch (RuntimeException e) {
                             model.put("error", e.getMessage());
                         }
+                    } else {
+                        ctx.sessionAttribute("administrador", 1);
+                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
+                        LoggerToFile.logInfo("\nADMINISTRADOR LOGUEADO");
+                        return;
                     }
                     break;
                 case "administrador":
@@ -407,6 +407,7 @@ public class Main {
             // Obtener al colaborador desde la sesión
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             ColaboradorDAO colaboradorDAO = new ColaboradorDAO(em);
+            Map<String, Object> model = new HashMap<>();
             if (colaborador != null) {
                 // Recibir los datos del formulario
                 String nombre = ctx.formParam("inputNombre");
@@ -422,8 +423,9 @@ public class Main {
                         + "\nFECHA DE NACIMIENTO " + fechaNacimiento + "\nCANTIDAD DE MENORES A CARGO " + cantidadMenoresACargo + "\nY SITUACION DE CALLE " + situacionDeCalleString);
 
                 colaboradorDAO.update(colaborador);
+                model.put("pathanterior", "/registroPersonasSv");
                 // Enviar una respuesta de confirmación
-                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosa.mustache");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/operacionExitosaTarjetas.mustache", model);
             } else {
                 // Si el colaborador no está en la sesión, redirigir al login o mostrar error
                 ctx.redirect("/login");
@@ -947,6 +949,7 @@ public class Main {
                         ctx.sessionAttribute("colaborador", colaborador);
                         colaboradorDAO.update(colaborador);
                         model.put("codigoUnico" , ofertaCanjeada.getCodigoUnico());
+                        model.put("pathanterior", "/puntosYCanjes");
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
                         ofertaDAO.update(ofertaSeleccionada);

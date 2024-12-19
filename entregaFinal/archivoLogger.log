@@ -220,3 +220,90 @@ dic 18, 2024 4:52:29 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 Oferta: Descuento 15% easyCanjeada con exito
  8000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:44:33 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 11:51:05 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 19, 2024 11:51:09 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Oferta: Descuento 20% Jumbo activada
+dic 19, 2024 11:51:09 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Oferta: Descuento 5% YPF activada
+dic 19, 2024 11:51:09 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Oferta: Descuento 15% easy activada
+dic 19, 2024 11:51:12 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 11:51:19 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 1000000 PESOS REGISTRADA CON EXITO
+dic 19, 2024 11:51:23 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 15% easyCanjeada con exito
+ 8000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:51:34 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 20% JumboCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:52:03 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:52:08 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:31 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 11:56:35 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:36 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:37 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:37 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:38 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:38 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Oferta: Descuento 5% YPFCanjeada con exito
+ 25000 fueron substraidos con exito del colaborador
+dic 19, 2024 11:56:49 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+DONACION DE DINERO DE: 1000 PESOS REGISTRADA CON EXITO
+dic 19, 2024 11:57:19 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+EL USUARIO REALIZO UNA SOLICITUD DE 10 TARJETAS
+dic 19, 2024 11:59:56 A. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 12:00:13 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA PERSONA EN SITUACION VULNERABLE CON: 
+NOMBRE Y APELLIDO: juan corbalan
+FECHA DE NACIMIENTO 2001-12-11
+CANTIDAD DE MENORES A CARGO 0
+Y SITUACION DE CALLE true
+dic 19, 2024 12:00:35 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 19, 2024 12:00:49 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA PERSONA EN SITUACION VULNERABLE CON: 
+NOMBRE Y APELLIDO: lautaro martinez
+FECHA DE NACIMIENTO 2000-02-10
+CANTIDAD DE MENORES A CARGO 2
+Y SITUACION DE CALLE true
