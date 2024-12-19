@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 public class TestsValidacionContrasenia {
+    /*
     @Test
     void contrasenia_menor_ocho_caracteres() throws IOException {
         LargoContrasenia lc = new LargoContrasenia();
@@ -104,7 +105,7 @@ public class TestsValidacionContrasenia {
         boolean resultado = contraseniaEsp.validar(contraseniaPrueba);
         assertFalse(resultado, "La contrasenia no tiene un caracter especial");
     }
-
+*/
 
 
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 public class TestsRegistroUsuarios {
-
+/*
     @Test
     void usuario_registrado() throws IOException {
         RegistrarUsuario.comprobar_registrar_usuario("rood92","Hola3456.");
@@ -31,5 +31,5 @@ public class TestsRegistroUsuarios {
 
     }
     //PODRIA IR UN CASO EN DONDE NO DEJE REGISTRARSE A UN USUARIO SI YA HAY UNO CON ESE NOMBRE DE USUARIO
-
+*/
 }

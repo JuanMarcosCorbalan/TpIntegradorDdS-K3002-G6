@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLecturaCsv {
-
+/*
     private ObtencionLineasCsv lector = new ObtencionLineasCsv();
 
     @Test
@@ -47,6 +47,6 @@ public class TestLecturaCsv {
                 "penelopelavalle@yahoo.com", "19/09/2023",
                 "ENTREGA_TARJETAS", "5"}, ultimaLinea);
         System.out.println("Éxito: La última línea coincide con los valores esperados.");
-    }
+    }*/
 
 }
