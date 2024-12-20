@@ -321,3 +321,63 @@ dic 19, 2024 12:03:02 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 Oferta: Descuento 15% easyCanjeada con exito
  8000 fueron substraidos con exito del colaborador
+dic 20, 2024 12:27:43 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 12:33:40 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 12:36:01 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 1:27:15 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:29:17 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:44:50 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:45:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:47:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:47:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano desactivada
+dic 20, 2024 1:47:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano activada
+dic 20, 2024 1:47:10 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Plaza Dorrego desactivada
+dic 20, 2024 1:47:11 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Plaza Dorrego activada
+dic 20, 2024 1:47:11 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Estación Constitución desactivada
+dic 20, 2024 1:47:11 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Estación Constitución activada
+dic 20, 2024 1:47:49 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:48:59 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:49:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:50:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:50:55 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 1:50:57 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano activada
+dic 20, 2024 1:50:58 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Plaza Dorrego desactivada
+dic 20, 2024 1:50:59 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Estación Constitución desactivada
+dic 20, 2024 1:51:18 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA

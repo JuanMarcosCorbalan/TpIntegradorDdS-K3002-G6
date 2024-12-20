@@ -97,6 +97,11 @@ public class HeladeraDAO {
         return heladeraDTOs;
     }
 
+    public List<Heladera> findAll(){
+        String query = "SELECT h FROM Heladera h";
+        return entityManager.createQuery(query, Heladera.class).getResultList();
+    }
+
     public Heladera findHeladeraString(String id) {
         String query = "SELECT h FROM Heladera h where h.idHeladera = ?1 ";
         return entityManager.createQuery(query, Heladera.class)

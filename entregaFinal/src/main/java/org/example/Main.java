@@ -27,6 +27,7 @@ import org.example.Ofertas.Oferta;
 import org.example.Ofertas.OfertaCanjeada;
 import org.example.Persona.*;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
+import org.example.Personal.Administrador;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
 import org.example.Colaborador.ControladoresColaborador.*;
@@ -102,7 +103,6 @@ public class Main {
                 .callback(REDIRECT_URI)
                 .defaultScope(SCOPE)
                 .build(GoogleApi20.instance());
-
 
 
         Javalin app = Javalin.create(javalinConfig -> {
@@ -277,8 +277,6 @@ public class Main {
         });
 
 
-
-
         // login para guardar al colaborador
         app.post("/login", ctx -> {
             // Validar credenciales del colaborador
@@ -303,43 +301,42 @@ public class Main {
                 case "principal":
                     Usuario usuario;
                     // Lógica para iniciar sesión normal
-                    if (! username.equals("administrador") && ! password.equals("administrador")) {
-                        try {
-                            usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
-                            if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
-                                model.put("error", "usuario y/o contraseña invalido/s");
-                                return;
-                            }
-                            Rol rol = us.obtenerRolAsociado(usuario);
-                            // Guardar al colaborador en la sesión
-                            if (rol instanceof Colaborador) {
-                                Colaborador colaborador = (Colaborador) rol;
-                                ctx.sessionAttribute("colaborador", colaborador);
-                                if (colaborador.persona instanceof Persona_fisica personaFisica) {
-                                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
-                                    LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA");
-
-                                    return;
-                                } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
-                                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
-                                    LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA");
-                                    return;
-                                }
-                            } else if (rol instanceof Tecnico) {
-                                Tecnico tecnico = (Tecnico) rol;
-                                ctx.sessionAttribute("tecnico", tecnico);
-                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
-                                LoggerToFile.logInfo("\nTECNICO LOGUEADO");
-                                return;
-                            }
-                        } catch (RuntimeException e) {
-                            model.put("error", e.getMessage());
+                    try {
+                        usuario = usuarioDAO.findByUsername(username); // Método para buscar el usuario
+                        if (usuario == null || !BCrypt.checkpw(password, usuario.getContrasenia())) {
+                            model.put("error", "usuario y/o contraseña invalido/s");
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/login.mustache", model);
+                            return;
                         }
-                    } else {
-                        ctx.sessionAttribute("administrador", 1);
-                        ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
-                        LoggerToFile.logInfo("\nADMINISTRADOR LOGUEADO");
-                        return;
+                        Rol rol = us.obtenerRolAsociado(usuario);
+                        // Guardar al colaborador en la sesión
+                        if (rol instanceof Colaborador) {
+                            Colaborador colaborador = (Colaborador) rol;
+                            ctx.sessionAttribute("colaborador", colaborador);
+                            if (colaborador.persona instanceof Persona_fisica personaFisica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaFisica.mustache");
+                                LoggerToFile.logInfo("\nPERSONA FISICA LOGUEADA");
+
+                                return;
+                            } else if (colaborador.persona instanceof Persona_juridica personaJuridica) {
+                                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioPersonaJuridica.mustache");
+                                LoggerToFile.logInfo("\nPERSONA JURIDICA LOGUEADA");
+                                return;
+                            }
+                        } else if (rol instanceof Tecnico) {
+                            Tecnico tecnico = (Tecnico) rol;
+                            ctx.sessionAttribute("tecnico", tecnico);
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioTecnico.mustache");
+                            LoggerToFile.logInfo("\nTECNICO LOGUEADO");
+                            return;
+                        } else if (rol instanceof Administrador) {
+                            ctx.sessionAttribute("administrador", 1);
+                            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/inicioAdministrador.mustache");
+                            LoggerToFile.logInfo("\nADMINISTRADOR LOGUEADO");
+                            return;
+                        }
+                    } catch (RuntimeException e) {
+                        model.put("error", e.getMessage());
                     }
                     break;
                 case "administrador":
@@ -462,7 +459,6 @@ public class Main {
         });
 
 
-
         //REPORTAR FALLA TECNICA
         app.post("/reportarFallaTecnica", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
@@ -565,7 +561,7 @@ public class Main {
                 SolicitarDistribucionViandasHandler.solicitarDistribucion(colaborador, heladera0, heladera1, cantidadViandasAMover, motivoDistribucion, fechaDistribucion);
                 LoggerToFile.logInfo("\nSE REGISTRO UNA SOLICITUD DE DISTRIBUCION DE VIANDAS DESDE LA HELADERA: " + idHeladeraOrigen +
                         "\n A LA HELADERA DESTINO:  " + idHeladeraDestino + "\n CON UNA CANTIDAD DE : " + cantidadViandasAMover + " VIANDAS A MOVER, PARA LA FECHA " + fechaDistribucion
-                + "\n CON EL MOTIVO DE: " + motivo);
+                        + "\n CON EL MOTIVO DE: " + motivo);
                 colaboradorDAO.update(colaborador);
                 tarjetaDAO.update(colaborador.getTarjetaColaborador());
 
@@ -712,8 +708,7 @@ public class Main {
                 return;
             }
 
-            if(!Objects.equals(contrasenia, contraseniaRepetida))
-            {
+            if (!Objects.equals(contrasenia, contraseniaRepetida)) {
                 model.put("error", "Las contraseñas no coinciden");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
                 return;
@@ -822,7 +817,7 @@ public class Main {
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
             LoggerToFile.logInfo("\nNueva persona fisica registrada! Datos: \n" +
-                    "\n Nombre/s: "+ nombres + "\n Apellido/s: " + apellidos + "\n Fecha de Nacimiento: " + fechaNacimiento
+                    "\n Nombre/s: " + nombres + "\n Apellido/s: " + apellidos + "\n Fecha de Nacimiento: " + fechaNacimiento
                     + "\n Numero de Documento: " + numeroDocumento + "\n Domicilio: " + domicilio + "\n Ciudad: " + ciudadString +
                     "\n Localidad: " + localidadString + "\n medios de contacto:\n correo: " + correo + "\n telefono: " + numeroTelefono
                     + "\n Whatsapp: " + numeroWhatsapp);
@@ -903,7 +898,7 @@ public class Main {
             usuarioDAO.save(usuario);
             colaboradoresExistentes.agregarColaborador(colaborador);
             LoggerToFile.logInfo("\nNueva persona juridica registrada! Datos: \n" +
-                    "\n Razon Social: "+ razonSocial + "\n Tipo: " + tipoJuridico + "\n Domicilio: " + domicilio + "\n Ciudad: " + ciudadString +
+                    "\n Razon Social: " + razonSocial + "\n Tipo: " + tipoJuridico + "\n Domicilio: " + domicilio + "\n Ciudad: " + ciudadString +
                     "\n Localidad: " + localidadString + "\n medios de contacto:\n correo: " + correo + "\n telefono: " + numeroTelefono
                     + "\n Whatsapp: " + numeroWhatsapp);
 
@@ -960,7 +955,7 @@ public class Main {
                         OfertaCanjeada ofertaCanjeada = colaborador.canjearOferta(ofertaSeleccionada);
                         ctx.sessionAttribute("colaborador", colaborador);
                         colaboradorDAO.update(colaborador);
-                        model.put("codigoUnico" , ofertaCanjeada.getCodigoUnico());
+                        model.put("codigoUnico", ofertaCanjeada.getCodigoUnico());
                         model.put("pathanterior", "/puntosYCanjes");
                         // Actualizar la base de datos o la lista de colaboradores si es necesario
                         // (Aquí iría la lógica para persistir los cambios)
@@ -1102,7 +1097,7 @@ public class Main {
                 //BUSCO LA FALLA TECNICA EN LA BD
                 FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
                 //CREO LA VISITA
-                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado(),fechaVisita);
+                Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath, falla.getTecnicoAsignado(), fechaVisita);
 
                 falla.agregarVisita(visita);
                 incidenteDAO.update(falla);
@@ -1225,7 +1220,7 @@ public class Main {
             }
         });
 
-        app.post("/cargarOferta", ctx-> {
+        app.post("/cargarOferta", ctx -> {
             Colaborador colaborador = ctx.sessionAttribute("colaborador");
             if (colaborador != null) {
                 String nombreOferta = ctx.formParam("inputNombre");
@@ -1428,6 +1423,58 @@ public class Main {
 
                     // Renderizar la plantilla Mustache y pasar el modelo
                     ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/altaOferta.mustache", model);
+                }
+            } else {
+                ctx.redirect("/login");
+            }
+        });
+
+
+        app.get("/activarHeladera/{id}", ctx -> {
+            Long id = Long.parseLong(ctx.pathParam("id"));
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            Heladera heladera = heladeraDAO.findById(id);
+
+            if (heladera != null) {
+                heladera.activar();
+                heladeraDAO.save(heladera);
+                LoggerToFile.logInfo("Heladera: " + heladera.getNombre() + " activada");
+                ctx.redirect("/altaBajaHeladera");
+            } else {
+                ctx.status(404).result("Heladera no encontrada");
+            }
+        });
+
+        app.get("/desactivarHeladera/{id}", ctx -> {
+            Long id = Long.parseLong(ctx.pathParam("id"));
+            HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+            Heladera heladera = heladeraDAO.findById(id);
+
+            if (heladera != null) {
+                heladera.desactivar();
+                heladeraDAO.save(heladera);
+                LoggerToFile.logInfo("Heladera: " + heladera.getNombre() + " desactivada");
+                ctx.redirect("/altaBajaHeladera");
+            } else {
+                ctx.status(404).result("Heladera no encontrada");
+            }
+        });
+
+        app.get("/altaBajaHeladera", ctx -> {
+            Integer administrador = ctx.sessionAttribute("administrador");
+            if (administrador != null) {
+                if (administrador == 1) {
+                    // Obtener las ofertas desde tu dominio o base de datos
+
+                    HeladeraDAO heladeraDAO = new HeladeraDAO(em);
+                    List<Heladera> heladeras = heladeraDAO.findAll();
+
+                    // Crear un modelo con la lista de ofertas y los puntos
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("heladeras", heladeras); // Pasa la lista de ofertas al modelo
+
+                    // Renderizar la plantilla Mustache y pasar el modelo
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/altaHeladeras.mustache", model);
                 }
             } else {
                 ctx.redirect("/login");

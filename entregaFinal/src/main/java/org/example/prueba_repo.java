@@ -9,6 +9,7 @@ import org.example.Heladeras.PuntoUbicacion;
 import org.example.Ofertas.Oferta;
 import org.example.Persona.*;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
+import org.example.Personal.Administrador;
 import org.example.Personal.AreaCobertura;
 import org.example.Personal.Tecnico;
 import org.example.Personal.Visita;
@@ -245,7 +246,15 @@ public class prueba_repo {
         em.persist(oferta);
 
         // Tarjetas
-        
+
+        Persona_fisica personaAdmin = new Persona_fisica("NOMBREADMIN", "APELLIDOADMIN");
+        Administrador administrador = new Administrador(personaAdmin);
+        em.persist(administrador);
+        contra = "hobbitsadmin";
+        Usuario userAdmin = new Usuario(personaAdmin,"admin",BCrypt.hashpw(contra, BCrypt.gensalt()));
+        em.persist(userAdmin);
+
+
 
 
 
