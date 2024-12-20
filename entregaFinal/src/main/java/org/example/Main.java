@@ -92,7 +92,7 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
-        //prueba_repo.ejecutar();
+        prueba_repo.ejecutar();
 
         EntityManager em = BDutils.getEntityManager();
 
