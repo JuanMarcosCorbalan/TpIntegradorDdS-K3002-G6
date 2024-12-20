@@ -10,11 +10,11 @@
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/dds?serverTimezone=America/Buenos_Aires"/>
-            <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value="contraseña"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://hobbitsbd.cr2m08qmq1sx.sa-east-1.rds.amazonaws.com:3306/dds?serverTimezone=America/Buenos_Aires"/>
+            <property name="hibernate.connection.username" value="admin"/>
+            <property name="hibernate.connection.password" value="Hobbits_2024"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
             <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
             <property name="hibernate.show_sql" value="true"/>

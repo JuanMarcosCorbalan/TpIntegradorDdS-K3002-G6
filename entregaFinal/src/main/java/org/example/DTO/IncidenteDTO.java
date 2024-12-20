@@ -1,12 +1,14 @@
 package org.example.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.example.Validadores_Sensores.TipoAlerta;
+import org.example.Validadores_Sensores.TipoIncidente;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class IncidenteDTO {
-    private Long idFalla;
+    private Long idIncidente;
     private String heladeraId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
@@ -19,9 +21,12 @@ public class IncidenteDTO {
     private Long idTecnico;
     private String nombreUbicacion;
 
+    private TipoIncidente tipoIncidente;
+    private TipoAlerta tipoAlerta;
+
     // Constructor
-    public IncidenteDTO(Long id,String heladeraId, LocalDate fecha, LocalTime hora, String descripcion, String rutaFoto, Long idTecnico, String nombreUbicacion) {
-        this.idFalla = id;
+    public IncidenteDTO(Long id,String heladeraId, LocalDate fecha, LocalTime hora, String descripcion, String rutaFoto, Long idTecnico, String nombreUbicacion,TipoIncidente tipoIncidente,TipoAlerta tipoAlerta) {
+        this.idIncidente = id;
         this.heladeraId = heladeraId;
         this.fecha = fecha;
         this.hora = hora;
@@ -29,6 +34,8 @@ public class IncidenteDTO {
         this.rutaFoto = rutaFoto;
         this.idTecnico = idTecnico;
         this.nombreUbicacion = nombreUbicacion;
+        this.tipoIncidente = tipoIncidente;
+        this.tipoAlerta = tipoAlerta;
     }
 
     // Getters
@@ -45,7 +52,7 @@ public class IncidenteDTO {
     }
 
     public String id(){
-        return idFalla!= null ? idFalla.toString() : "No disponible";
+        return idIncidente!= null ? idIncidente.toString() : "No disponible";
     }
 
     public String getDescripcion() {
@@ -64,6 +71,10 @@ public class IncidenteDTO {
         return nombreUbicacion;
     }
 
-    public Long getIdFalla(){return idFalla;}
+    public Long getIdIncidente(){return idIncidente;}
+
+    public String getTipoIncidente() {return tipoIncidente.equals(TipoIncidente.ALERTA) ? "Alerta" : "Falla Técnica";}
+
+    public String getTipoAlerta() {return tipoAlerta!=null ? tipoAlerta.toString() : null;}
 }
 

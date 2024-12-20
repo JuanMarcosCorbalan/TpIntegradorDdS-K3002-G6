@@ -64,7 +64,7 @@ public class VisitaDAO {
         return entityManager.find(Visita.class, id);
     }
 
-    public List<VisitaDTO> findVisitas(Long idFallaTecnica) {
+    public List<VisitaDTO> findVisitas(Long idIncidente) {
         // Query para obtener todos los incidentes que sean de tipo 'FALLA_TECNICA'
         String query = "SELECT i FROM Visita i";
 
@@ -76,9 +76,9 @@ public class VisitaDAO {
         for (Visita visita : visitas) {
 
                 // Filtrar por el id del técnico asignado
-                if (visita.getFallaRevisada().getId().equals(idFallaTecnica)) {
+                if (visita.getIncidente().getId().equals(idIncidente)) {
 
-                    Long idFalla = visita.getFallaRevisada().getId();
+                    Long idFalla = visita.getIncidente().getId();
                     LocalDate fecha = visita.getFechaVisita();
                     String descripcion = visita.getDescripcion();
                     String imagen = visita.getImagen();
@@ -108,14 +108,14 @@ public class VisitaDAO {
             // Filtrar por el id del técnico asignado
             if (visita.getTecnico().getId().equals(idTecnico)) {
 
-
+                Long idIncidente = visita.getIncidente().getId();
                 LocalDate fecha = visita.getFechaVisita();
                 String descripcion = visita.getDescripcion();
                 String idHeladera = visita.getHeladera().getIdHeladera();
                 Boolean solucionado = visita.getIncidenteSolucionado();
 
                 //fecha, descr, id, estado
-                VisitaDTO2 dto = new VisitaDTO2(fecha, descripcion, idHeladera, solucionado);
+                VisitaDTO2 dto = new VisitaDTO2(idIncidente,fecha, descripcion, idHeladera, solucionado);
 
                 visitasDTOs.add(dto);
 
@@ -124,4 +124,5 @@ public class VisitaDAO {
 
         return visitasDTOs;
     }
+
 }

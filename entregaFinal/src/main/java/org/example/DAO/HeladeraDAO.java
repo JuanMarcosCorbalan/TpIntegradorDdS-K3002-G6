@@ -84,14 +84,18 @@ public class HeladeraDAO {
         List<HeladeraDTO2> heladeraDTOs = new ArrayList<HeladeraDTO2>();
 
         for (Heladera heladera : heladeras) {
-            long id = heladera.getId();
-            String idHeladera = heladera.getIdHeladera();
-            String nombre = heladera.getPuntoUbicacion().getNombre();
-            int capacidad = heladera.getUnidadesMaximoViandas();
+            if(heladera.getEstado().equals(EstadoHeladera.ACTIVA))
+            {
+                long id = heladera.getId();
+                String idHeladera = heladera.getIdHeladera();
+                String nombre = heladera.getPuntoUbicacion().getNombre();
+                int capacidad = heladera.getUnidadesMaximoViandas();
 
 
-            HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
-            heladeraDTOs.add(heladeraDTO);
+                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
+                heladeraDTOs.add(heladeraDTO);
+            }
+
         }
 
         return heladeraDTOs;

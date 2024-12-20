@@ -88,37 +88,40 @@
 
 
 <div class="card shadow mb-4 p-2 ml-4 mr-4" style="margin-top: 90px;">
-    {{#fallas}}
+    {{#incidentes}}
         <div class="card shadow mb-4">
             <!-- Card Header - Accordion -->
-            <a href="#collapseCard-{{heladeraId}}-{{@index}}" class="d-block card-header py-3"
+            <a href="#collapseCard-{{heladeraId}}-{{idIncidente}}" class="d-block card-header py-3"
                data-toggle="collapse" role="button" aria-expanded="true"
-               aria-controls="collapseCard-{{heladeraId}}-{{@index}}">
-                <h6 class="m-0 font-weight-bold text-primary">Heladera {{heladeraId}} - {{nombreUbicacion}}</h6>
+               aria-controls="collapseCard-{{heladeraId}}-{{idIncidente}}">
+                <h6 class="m-0 font-weight-bold text-primary">ID incidente: {{idIncidente}} - Tipo incidente: {{tipoIncidente}}</h6>
             </a>
             <!-- Card Content - Collapse -->
-            <div class="collapse show" id="collapseCard-{{heladeraId}}-{{@index}}">
+            <div class="collapse" id="collapseCard-{{heladeraId}}-{{idIncidente}}">
                 <div class="card-body">
                     <div class="content-container">
                         <div class="lorem-text">
-                            <p><strong>Descripción:</strong> {{descripcion}}</p>
+                            <p><strong>ID heladera:</strong> {{heladeraId}} - <strong>Punto ubicación:</strong> {{nombreUbicacion}}</p>
+                            {{#tipoAlerta}}
+                                <p><strong>TipoAlerta:</strong> {{tipoAlerta}}</p>
+                            {{/tipoAlerta}}
                             <p><strong>Fecha:</strong> {{fecha}}</p>
                             <p><strong>Hora:</strong> {{hora}}</p>
+                            {{#descripcion}}
+                                <p><strong>Descripción:</strong> {{descripcion}}</p>
+                            {{/descripcion}}
                             {{#rutaFoto}}
                                 <p><strong>Ruta Foto:</strong> <a href="{{rutaFoto}}" target="_blank">Ver imagen</a></p>
                             {{/rutaFoto}}
-                            <p><strong>ID Técnico:</strong> {{idTecnico}}</p>
-                            <p><strong>ID Falla:</strong> {{idFalla}}</p>
                         </div>
                         <div class="button-container">
-                            <button class="btn btn-primary btn-small" onclick="window.location.href='/registrarVisita/{{idFalla}}'">Registrar visita</button>
-
+                            <button class="btn btn-primary btn-small" onclick="window.location.href='/registrarVisita/{{idIncidente}}'">Registrar visita</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    {{/fallas}}
+    {{/incidentes}}
 
 </div>
 

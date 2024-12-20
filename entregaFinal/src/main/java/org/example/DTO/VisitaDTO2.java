@@ -12,9 +12,11 @@ public class VisitaDTO2 {
     private String descripcion;
     private String idHeladera;
     private String estadoVisita;
+    private Long idIncidente;
 
-    public VisitaDTO2(LocalDate fecha,String descripcion,String heladera,Boolean incidenteSolucionado)
+    public VisitaDTO2(Long idIncidente,LocalDate fecha,String descripcion,String heladera,Boolean incidenteSolucionado)
     {
+        this.idIncidente=idIncidente;
         this.fechaVisita = fecha;
         this.descripcion = descripcion;
         this.idHeladera = heladera;
@@ -42,4 +44,6 @@ public class VisitaDTO2 {
     public String getIdHeladera() {return idHeladera;}
 
     public String getEstadoVisita() {return estadoVisita;}
+
+    public String getIdIncidente() {return idIncidente.toString();}
 }

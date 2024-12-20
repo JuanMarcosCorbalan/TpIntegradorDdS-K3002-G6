@@ -70,4 +70,11 @@ public class Domicilio {
     public Localidad getLocalidad() {
         return localidad;
     }
+
+    public String getDireccionCompleta() {
+        String nombre_ciudad = localidad.getCiudad().getNombre();
+        String nombre_localidad = localidad.getNombre();
+        String nombre_pais = localidad.getCiudad().getPais().getNombre();
+        return direccion + ", " + nombre_localidad+ ", " + nombre_ciudad+ ", "  + nombre_pais;
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.DTO;
 
 import net.bytebuddy.asm.Advice;
+import org.example.Validadores_Sensores.EstadoIncidente;
 import org.example.Validadores_Sensores.TipoAlerta;
 
 import java.time.LocalDate;
@@ -12,11 +13,13 @@ public class AlertaDTO {
     private LocalDate fecha;
     private LocalTime hora;
     private String tipoAlerta;
+    private String estadoAlerta;
 
-    public AlertaDTO(LocalDate fecha, LocalTime hora, TipoAlerta tipoAlerta) {
+    public AlertaDTO(LocalDate fecha, LocalTime hora, TipoAlerta tipoAlerta, EstadoIncidente estado) {
         this.fecha = fecha;
         this.hora = hora;
         this.tipoAlerta= deducirAlerta(tipoAlerta);
+        this.estadoAlerta = deducirEstadoIncidente(estado);
     }
 
     public String getFecha() {
@@ -29,6 +32,8 @@ public class AlertaDTO {
     public String getTipoAlerta() {
         return tipoAlerta;
     }
+
+    public String getEstadoAlerta() {return estadoAlerta;}
 
     public void setFecha(LocalDate fecha) {this.fecha= fecha;}
     public void setHora(LocalTime hora) {this.hora= hora;}
@@ -45,6 +50,16 @@ public class AlertaDTO {
         }
         else{
             return "Falla Conexion";
+        }
+    }
+
+    public String deducirEstadoIncidente(EstadoIncidente estado) {
+        if(estado.equals(EstadoIncidente.REPARADO))
+        {
+            return "Reparado";
+        }
+        else{
+            return "No reparado";
         }
     }
 

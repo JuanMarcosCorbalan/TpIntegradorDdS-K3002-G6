@@ -3,7 +3,9 @@ package org.example.Personal;
 import java.io.File;
 import java.time.LocalDate;
 import org.example.Heladeras.Heladera;
+import org.example.Validadores_Sensores.EstadoIncidente;
 import org.example.Validadores_Sensores.FallaTecnica;
+import org.example.Validadores_Sensores.Incidente;
 
 import javax.persistence.*;
 
@@ -18,7 +20,7 @@ public class Visita {
     Tecnico tecnico;
 
     @ManyToOne
-    FallaTecnica fallaRevisada;
+    Incidente incidente;
 
     @ManyToOne
     Heladera heladera;
@@ -29,8 +31,8 @@ public class Visita {
     String imagen;
     Boolean incidenteSolucionado;
 
-    public Visita(FallaTecnica fallaTecnica, Heladera heladera, String descripcion, Boolean incidenteSolucionado,String imagen, Tecnico tecnico,LocalDate fechaVisita) {
-        this.fallaRevisada = fallaTecnica;
+    public Visita(Incidente incidente, Heladera heladera, String descripcion, Boolean incidenteSolucionado,String imagen, Tecnico tecnico,LocalDate fechaVisita) {
+        this.incidente = incidente;
         this.heladera = heladera;
         this.descripcion = descripcion;
         this.incidenteSolucionado = incidenteSolucionado;
@@ -38,7 +40,10 @@ public class Visita {
         this.imagen=imagen;
         this.tecnico=tecnico;
         if(incidenteSolucionado) {
-            heladera.activar();
+            heladera.desactivar();
+        }
+        if(incidenteSolucionado){
+            incidente.setEstadoIncidente(EstadoIncidente.REPARADO);
         }
     }
 
@@ -48,7 +53,7 @@ public class Visita {
 
     public Long getId() {return id;}
     public Tecnico getTecnico() {return tecnico;}
-    public FallaTecnica getFallaRevisada() {return fallaRevisada;}
+    public Incidente getIncidente() {return incidente;}
     public Heladera getHeladera() {return heladera;}
     public LocalDate getFechaVisita() {return fechaVisita;}
     public String getDescripcion() {return descripcion;}
