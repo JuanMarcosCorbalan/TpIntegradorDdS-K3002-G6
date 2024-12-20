@@ -36,10 +36,10 @@ public class DistribucionViandasDAO {
     public List<DistribucionViandaHistorial> cargarHistorial(List<Distribucion_viandas> distribucionViandas){
         List<DistribucionViandaHistorial> distribucionHistorial = new ArrayList<>();
         for(Distribucion_viandas distribucion : distribucionViandas){
-            String heladera_destino = distribucion.getHeladeraDestino().getNombre();
-            String heladera_origen = distribucion.getHeladeraOrigen().getNombre();
+            String heladera_destino = distribucion.getHeladeraDestino() != null ? distribucion.getHeladeraDestino().getNombre(): "Sin especificar";
+            String heladera_origen = distribucion.getHeladeraOrigen() != null ? distribucion.getHeladeraOrigen().getNombre(): "Sin especificar";
 
-            DistribucionViandaHistorial dvh = new DistribucionViandaHistorial(distribucion.getEstado(),distribucion.getCantidadViandasAMover(),distribucion.getMotivo(),heladera_origen,heladera_origen,distribucion.getFecha_contribucion(),distribucion.getFechaDistribucion());
+            DistribucionViandaHistorial dvh = new DistribucionViandaHistorial(distribucion.getEstado(),distribucion.getCantidadViandasAMover(),distribucion.getMotivo(),heladera_origen,heladera_destino,distribucion.getFecha_contribucion(),distribucion.getFechaDistribucion());
             distribucionHistorial.add(dvh);
         }
         return distribucionHistorial;

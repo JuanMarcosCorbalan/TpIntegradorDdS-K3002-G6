@@ -347,7 +347,6 @@ public class Heladera {
         }
     }
 
-
     public String getNombre() {
         return puntoUbicacion.getNombre();
     }

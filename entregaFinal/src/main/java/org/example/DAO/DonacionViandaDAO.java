@@ -34,8 +34,8 @@ public class DonacionViandaDAO {
     public List<DonacionViandaHistorial> cargarHistorial(List<Donacion_viandas> donacionesViandas){
         List<DonacionViandaHistorial> donacionesHistorial = new ArrayList<>();
         for(Donacion_viandas donacion : donacionesViandas){
-            String nombre_heladera = donacion.getHeladera().getNombre();
-            String nombre_vianda = donacion.getVianda().getNombre();
+            String nombre_heladera = donacion.getHeladera() != null ? donacion.getHeladera().getNombre(): "Sin especificar" ;
+            String nombre_vianda = donacion.getVianda() != null ? donacion.getVianda().getNombre(): "Sin especificar";
 
             DonacionViandaHistorial dvh = new DonacionViandaHistorial(nombre_heladera,nombre_vianda,donacion.getEstado());
             donacionesHistorial.add(dvh);

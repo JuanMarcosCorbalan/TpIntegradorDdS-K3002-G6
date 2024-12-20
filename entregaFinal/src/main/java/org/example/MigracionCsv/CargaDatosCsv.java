@@ -93,6 +93,7 @@ public class CargaDatosCsv {
 
     public Colaborador obtenerColaborador(List<Colaborador> colaboradoresExistentes, Map<String, Colaborador> colaboradoresExistentesMap, Map<String, Persona> personasFisicasExistentesMap,String nombre, String apellido, String numeroDocumentoString, Tipo_documento tipoDocumento, String mail) throws IOException {
         Boolean existeColaborador = this.validarExistencia(personasFisicasExistentesMap, numeroDocumentoString);
+
         LoggerToFile.logInfo("Verificando existencia de colaborador: " + nombre + " " + apellido + " - " + numeroDocumentoString);
         if (!existeColaborador){
             LoggerToFile.logInfo("Colaborador no encontrado, creando nuevo Colaborador");
@@ -115,7 +116,7 @@ public class CargaDatosCsv {
             usuarioDAO.save(usuarioNuevo);
             EnvioMail envio = new EnvioMail();
             envio.enviarEmail(emailPersona,"Carga realizada correctamente","Tu usuario fue cargado correctamente, sus credenciales son las siguientes: " +
-                    "\nNOMBRE DE USUARIO: " + usuarioGenerado + "\nCONTRASEÑA: " + contraseniaGenerada ,"hola");
+                    "\nNOMBRE DE USUARIO: " + usuarioGenerado + "\nCONTRASEÑA: " + contraseniaGenerada);
             LoggerToFile.logInfo("Colaborador creado! " + contraseniaGenerada);
             return colaborador;
         } else {
