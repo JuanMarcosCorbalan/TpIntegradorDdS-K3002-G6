@@ -704,12 +704,21 @@ public class Main {
             }
 
             String contrasenia = ctx.formParam("contraseña");
+            String contraseniaRepetida = ctx.formParam("contraseñaRepetida");
             ValidarContrasenia validadorContra = new ValidarContrasenia();
             if (!validadorContra.validar(contrasenia)) {
                 model.put("error", "La contraseña debe contener al menos una mayúscula, un numero y un carácter especial");
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
                 return;
             }
+
+            if(!Objects.equals(contrasenia, contraseniaRepetida))
+            {
+                model.put("error", "Las contraseñas no coinciden");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
+                return;
+            }
+
             String hashedContrasenia = BCrypt.hashpw(contrasenia, BCrypt.gensalt());
             usuario = new Usuario(usuarioNombre, hashedContrasenia);
 
