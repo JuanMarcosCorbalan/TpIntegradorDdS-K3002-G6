@@ -1,0 +1,29 @@
+/* Contenedor principal para las ofertas */
+.ofertas-container {
+    background-color: #f1f3f5; /* Fondo gris claro */
+    border: 1px solid #d6d8db; /* Borde sutil */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 2rem; /* Espaciado interno */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilo de las tarjetas de ofertas */
+.oferta-card {
+    background-color: #f8f9fa; /* Fondo ligeramente más claro */
+    border: 1px solid #dee2e6; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease-in-out; /* Animación al pasar el mouse */
+}
+
+.oferta-card:hover {
+    transform: scale(1.03); /* Efecto de agrandamiento */
+}
+
+/* Mensaje cuando no hay ofertas */
+.no-ofertas-msg {
+    font-size: 1.25rem;
+    color: #6c757d; /* Gris oscuro */
+    margin-top: 2rem;
+    font-weight: bold;
+}

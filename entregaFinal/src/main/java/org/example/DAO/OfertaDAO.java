@@ -93,4 +93,9 @@ public class OfertaDAO {
         return entityManager.find(Oferta.class, id);
     }
 
+    public Oferta findByNombre(String nombre) {
+        return entityManager.find(Oferta.class, nombre);
+    }
+
+
 }

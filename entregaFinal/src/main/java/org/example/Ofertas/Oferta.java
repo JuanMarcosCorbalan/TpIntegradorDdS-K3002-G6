@@ -80,10 +80,10 @@ public class Oferta extends Contribucion {
         ofertaActiva = 1;
         setEstadoOferta();
     }
-/*
+
     public Long getId() {
-        return id;
-    }*/
+        return super.getId();
+    }
 
     public String getEstadoOferta() {
         return estadoOferta;

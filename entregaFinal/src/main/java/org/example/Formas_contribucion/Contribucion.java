@@ -68,4 +68,8 @@ abstract public class Contribucion {
     public void setEstado(EstadoContribucion estado) {
         this.estado = estado;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

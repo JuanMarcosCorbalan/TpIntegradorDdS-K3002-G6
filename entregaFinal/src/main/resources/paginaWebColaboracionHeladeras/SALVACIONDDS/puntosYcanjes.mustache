@@ -21,6 +21,7 @@
     <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="/SALVACIONDDS/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/SALVACIONDDS/css/ofertas.css" rel="stylesheet">
 
     <style>
         /* Estilo para el área de puntos */
@@ -86,37 +87,51 @@
 <a href="/SALVACIONDDS/inicioPersonaFisica.mustache" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
     <i class="fas fa-arrow-left"></i> Volver
 </a>
-
-
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {{#ofertas}}
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="/static{{imagenIlustrativa}}" alt="{{nombre}}" />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{nombre}}</h5>
-
-                                <!-- Product price-->
-                                <i class="fas fa-coins mr-1"></i> {{puntosNecesarios}} puntos
+        <!-- Contenedor principal con fondo de color diferente -->
+        <div class="ofertas-container p-4">
+            <!-- Bloque condicional para verificar si hay ofertas -->
+            <div class="row mb-4 justify-content-center">
+                <div class="col text-center">
+                    <h2 class="ofertas-titulo">Ofertas Disponibles</h2>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {{#ofertas}}
+                    <div class="col mb-5">
+                        <div class="card h-100 oferta-card">
+                            <!-- Imagen de la oferta -->
+                            <img class="card-img-top" src="/static{{imagenIlustrativa}}" alt="{{nombre}}" />
+                            <!-- Detalles del producto -->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Nombre de la oferta -->
+                                    <h5 class="fw-bolder">{{nombre}}</h5>
+                                    <!-- Puntos necesarios -->
+                                    <i class="fas fa-coins mr-1"></i> {{puntosNecesarios}} puntos
+                                </div>
                             </div>
+                            <!-- Acciones -->
+                            <form method="post" action="/canjearOferta" class="mt-auto">
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <input type="hidden" name="nombreOferta" value="{{nombre}}">
+                                    <button type="submit" class="btn btn-success w-100">Canjear</button>
+                                </div>
+                            </form>
                         </div>
-                        <!-- Product actions-->
-                        <form method="post" action="/canjearOferta" class="mt-auto">
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <input type="hidden" name="nombreOferta" value="{{nombre}}">
-                                <button type="submit" class="btn btn-success w-100">Canjear</button>
-                            </div>
-                        </form>
+                    </div>
+                {{/ofertas}}
+            </div>
+
+            <!-- Mensaje cuando no hay ofertas -->
+            {{^ofertas}}
+                <div class="row justify-content-center">
+                    <div class="col text-center">
+                        <p class="no-ofertas-msg">No hay ofertas disponibles!</p>
                     </div>
                 </div>
             {{/ofertas}}
-
         </div>
     </div>
 </section>

@@ -1,0 +1,25 @@
+/* Contenedor principal con fondo */
+.ofertas-container {
+    background-color: #f8f9fa; /* Fondo gris claro */
+    border: 1px solid #dee2e6; /* Borde sutil */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 2rem; /* Espaciado interno */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    margin-top: 2rem; /* Separación del borde superior */
+}
+
+/* Título de las ofertas */
+.ofertas-titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #495057; /* Gris oscuro */
+    margin-bottom: 1rem;
+}
+
+/* Mensaje cuando no hay ofertas */
+.no-ofertas-msg {
+    font-size: 1.25rem;
+    color: #6c757d; /* Gris oscuro */
+    font-weight: bold;
+    margin-top: 2rem;
+}
