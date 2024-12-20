@@ -92,7 +92,7 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
-        prueba_repo.ejecutar();
+        //prueba_repo.ejecutar();
 
         EntityManager em = BDutils.getEntityManager();
 
@@ -929,7 +929,7 @@ public class Main {
                 model.put("puntos", puntosColaborador); // Pasa los puntos del colaborador al modelo
 
                 // Renderizar la plantilla Mustache y pasar el modelo
-                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/puntosYCanjes.mustache", model);
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/puntosYcanjes.mustache", model);
             } else {
                 ctx.redirect("/login");
                 LoggerToFile.logWarning("\nUSUARIO NO LOGUEADO, LLEVANDO AL LOGIN");
