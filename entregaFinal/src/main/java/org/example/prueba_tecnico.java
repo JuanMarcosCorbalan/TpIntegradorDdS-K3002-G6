@@ -14,6 +14,8 @@ import java.util.List;
 public class prueba_tecnico {
 
     public static void main(String[] args){
+
+        prueba_repo.ejecutar();
 /*
         EntityManager em = BDutils.getEntityManager();
         IncidenteDAO dao = new IncidenteDAO(em);

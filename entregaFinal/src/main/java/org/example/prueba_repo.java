@@ -161,9 +161,11 @@ public class prueba_repo {
         heladera.activar();
 
 
-        Alerta alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
+        Alerta alerta = new Alerta(heladera,TipoAlerta.ALERT_FRAUDE);
+        alerta.reparar();
         heladera.getIncidentes().add(alerta);
-        Alerta alerta2 = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FALLA_CONEX);
+        Alerta alerta2 = new Alerta(heladera,TipoAlerta.ALERT_FALLA_CONEX);
+        alerta2.reparar();
         heladera.getIncidentes().add(alerta2);
 
         heladera.setPuntoUbicacion(ubi1);
@@ -189,9 +191,10 @@ public class prueba_repo {
         ubi1 = new PuntoUbicacion("-34.62681084639811","-58.38598781674918","Av. Juan de Garay 1500","Estación Constitución",localidad) ;
         fechaEspecifica = LocalDate.of(2024,4,9);
         heladera = new Heladera(ubi1, fechaEspecifica, 7, 2, null,150);
-        alerta = new Alerta(heladera,TipoIncidente.ALERTA,TipoAlerta.ALERT_FRAUDE);
-        heladera.getIncidentes().add(alerta);
         heladera.activar();
+        alerta = new Alerta(heladera,TipoAlerta.ALERT_FRAUDE);
+        alerta.reparar();
+        heladera.getIncidentes().add(alerta);
         heladera.setPuntoUbicacion(ubi1);
         ubi1.aniadirHeladera(heladera);
         em.persist(ubi1);

@@ -321,3 +321,143 @@ dic 19, 2024 12:03:02 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 Oferta: Descuento 15% easyCanjeada con exito
  8000 fueron substraidos con exito del colaborador
+dic 20, 2024 2:13:20 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 2:15:44 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 2:15:59 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 2:16:13 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA FALLA TECNICA EN LA HELADERA: 3
+CON DESCRIPCION:  nueva falla misma heladera
+dic 20, 2024 2:16:20 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 2:19:30 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 2:57:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 2:59:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:00:54 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:03:18 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:03:18 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:05:06 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:06:17 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:12:54 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:14:41 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:15:33 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:21:43 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:21:55 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 3:22:04 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA FALLA TECNICA EN LA HELADERA: 3
+CON DESCRIPCION:  sin imagen
+dic 20, 2024 3:22:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:32:23 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:33:28 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:34:10 P. M. org.example.Sistema.LoggerToFile logWarning
+WARNING: 
+TECNICO NO LOGUEADO, LLEVANDO AL LOGIN
+dic 20, 2024 3:34:17 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:35:29 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:36:42 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:48:59 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:55:08 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 3:58:15 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 4:00:14 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Visita registrada con exito
+dic 20, 2024 4:01:01 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 4:49:50 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 4:50:04 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 4:50:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA JURIDICA LOGUEADA
+dic 20, 2024 4:52:17 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 4:52:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:03:51 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 5:04:31 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:05:35 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 5:05:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:09:34 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:10:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:19:29 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 5:20:04 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+TECNICO LOGUEADO
+dic 20, 2024 5:21:02 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Visita registrada con exito
+dic 20, 2024 5:21:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA

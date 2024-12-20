@@ -3,9 +3,9 @@ package org.example.Personal;
 import org.example.Heladeras.Heladera;
 import org.example.Persona.*;
 import org.example.Validadores_Sensores.FallaTecnica;
+import org.example.Validadores_Sensores.Incidente;
 
 import javax.persistence.*;
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Tecnico extends Rol {
     AreaCobertura areaCobertura;
 
     @OneToMany(mappedBy = "tecnicoAsignado", cascade = CascadeType.ALL)
-    List <FallaTecnica> fallasTecnicasAsignadas = new ArrayList<FallaTecnica>();
+    List <Incidente> incidentesAsignados = new ArrayList<Incidente>();
 
     @OneToMany(mappedBy = "tecnico", cascade = CascadeType.ALL)
     List <Visita> visitasRealizadas = new ArrayList<Visita>();
@@ -44,8 +44,8 @@ public class Tecnico extends Rol {
     }
     public void notificarPorMedio(){}
     
-    public void asignarFalla(FallaTecnica fallaTecnica){
-        fallasTecnicasAsignadas.add(fallaTecnica);
+    public void asignarIncidente(Incidente incidente){
+        incidentesAsignados.add(incidente);
     }
 
     public void realizarVisitas(FallaTecnica fallaARevisar, Heladera heladera, String descripcion, Boolean incidenteSolucionado, String imagen, Tecnico tecnico, LocalDate fecha)
@@ -56,5 +56,5 @@ public class Tecnico extends Rol {
 
     public Long getId(){return id;}
 
-    public List<FallaTecnica> getFallasTecnicasAsignadas(){return fallasTecnicasAsignadas;}
+    public List<Incidente> getIncidentesAsignados(){return incidentesAsignados;}
 }

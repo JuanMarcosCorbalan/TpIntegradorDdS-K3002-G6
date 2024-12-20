@@ -12,7 +12,7 @@ public class Validador {
 
     public Validador(Heladera heladera) {this.heladera = heladera;}
     public void darAviso(TipoAlerta tipo){
-        Alerta nueva_alerta = new Alerta(heladera,TipoIncidente.ALERTA,tipo);
+        Alerta nueva_alerta = new Alerta(heladera,tipo);
         alertas.add(nueva_alerta);
     }
 

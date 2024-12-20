@@ -75,6 +75,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>ID incidente</th>
                             <th>Descripcion</th>
                             <th>Heladera</th>
                             <th>Fecha de la visita</th>
@@ -82,9 +83,9 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         {{#historialVisitas}}
                             <tr>
+                                <td>{{idIncidente}}</td>
                                 <td>{{descripcion}}</td>
                                 <td>{{idHeladera}}</td>
                                 <td>{{fechaVisita}}</td>

@@ -19,6 +19,22 @@
 
     <!-- Custom styles for this template-->
     <link href="/SALVACIONDDS/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .tooltip-container {
+            display: flex;
+            align-items: center;
+        }
+        .tooltip-container .bi-question-circle {
+            margin-left: 10px; /* Ajusta el margen izquierdo para separar el ícono */
+        }
+        .tooltip-inner {
+            font-size: 10px; /* Ajusta el tamaño del texto del tooltip */
+        }
+    </style>
+
 
 </head>
 
@@ -72,6 +88,27 @@
                         <label for="whatsapp" class="form-label">Whatsapp</label>
                         <input type="text" class="form-control shadow-sm input-smaller" id="whatsapp"
                                name="inputWhatsapp" placeholder="Whatsapp actual">
+                    </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label for="telegram" class="form-label">Telegram</label>
+                    <div class="row">
+                        <!-- Input Chat ID con tooltip -->
+                        <div class="col-md-6 mb-2">
+                            <div class="d-flex align-items-center tooltip-container">
+                                <input type="text" class="form-control shadow-sm input-smaller" id="telegram"
+                                       name="inputTelegramChatId" placeholder="Chat ID">
+                                <span class="ms-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                                      title="El Chat ID es un identificador único de tu cuenta en Telegram, se puede obtener a través del bot userinfobot. Debe interactuar con el bot HobbitsHC para recibir notificaciones">
+                                             <i class="bi bi-question-circle"></i> <!-- Ícono de ayuda -->
+                                    </span>
+                            </div>
+                        </div>
+                        <!-- Input Usuario -->
+                        <div class="col-md-6">
+                            <input type="text" class="form-control shadow-sm input-smaller" id="telegram"
+                                   name="inputTelegramUsuario" placeholder="Usuario">
+                        </div>
                     </div>
                 </div>
 
@@ -167,6 +204,13 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
 <script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
 
 <!-- Core plugin JavaScript-->
 <script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>

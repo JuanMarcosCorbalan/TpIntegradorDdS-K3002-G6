@@ -78,15 +78,16 @@
             <div class="col-12 text-center p-3">
                 <h1 class="h4 text-gray-900 mb-2">Hacerse cargo de una heladera</h1>
             </div>
-            <!-- Campo de entrada -->
-            <form method="post" action="/hacerseCargoHeladera">
+            <!-- Formulario centrado -->
+            <form method="post" action="/hacerseCargoHeladera" class="d-flex flex-column align-items-center">
+                <!-- Campo de entrada -->
                 <div class="col-md-9">
                     <div class="col-md-12 mb-3">
                         <label for="nomHeladera" class="form-label">Nombre heladera</label>
                         <input type="text" class="form-control shadow-sm input-smaller" id="nomHeladera" name="nomHeladera" placeholder="Nombre" required>
                     </div>
 
-                    <div class="row mb-3 mx-3 " style="background-color: #ffffff; padding: 10px; border-radius: 5px;">
+                    <div class="row mb-3 mx-3" style="background-color: #ffffff; padding: 10px; border-radius: 5px;">
                         <div class="col-md-6 mb-3">
                             <label for="tempMinima" class="form-label">Temperatura minima</label>
                             <input type="number" class="form-control shadow-sm input-smaller" id="tempMinima" name="tempMinima" placeholder="Temperatura" required>
@@ -96,17 +97,16 @@
                             <input type="number" class="form-control shadow-sm input-smaller" id="tempMaxima" name="tempMaxima" placeholder="Temperatura" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="viandasMax" class="form-label">Cantidad maximo de viandas</label>
+                            <label for="viandasMax" class="form-label">Cantidad maxima de viandas</label>
                             <input type="number" class="form-control shadow-sm input-smaller" id="viandasMax" name="viandasMax" required>
                         </div>
-
                     </div>
 
-                    <h6 class="mx-3" style="color:#444444">¿Desea colocarla en su dirección?</h6>
-                    <div class="row mb-3 mx-3">
+                    <h6 class="mx-3 text-center" style="color:#444444">¿Desea colocarla en su dirección?</h6>
+                    <div class="row mb-3 mx-3 text-center">
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio"  value="enDomicilio" id="flexRadioDefault1"
+                                <input class="form-check-input" type="radio" value="enDomicilio" id="flexRadioDefault1"
                                        name="eleccionUbicacion" required>
                                 <label class="form-check-label" for="flexRadioDefault1" style="color: #333;">
                                     Sí
@@ -122,10 +122,23 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="container mx-3 my-3" id="domicilio-container" style="display: none;">
+
+                        <!-- Contenedor de Domicilio -->
+                        <div class="container mx-3 my-3 text-center" id="domicilio-container" style="display: none;">
+                            <h5>Domicilio</h5>
+                            <div class="col-md-12">
+                                <input type="text" id="domicilioInput" class="form-control"
+                                       value="{{#domicilio}}{{domicilio}}{{/domicilio}}{{^domicilio}}No hay domicilio cargado{{/domicilio}}"
+                                       readonly style="background-color: #f1f1f1; color: #333; font-size: 0.9rem; width: 100%;">
+                            </div>
+                        </div>
+
+                        <!-- Contenedor de Puntos sugeridos -->
+                        <div class="container mx-3 my-3 text-center" id="puntosSugeridos-container" style="display: none;">
                             <h5>Puntos sugeridos</h5>
                             <div class="col-md-12">
-                                <select class="form-select mt-3" id="puntosSugeridos" name="puntoSugerido" style="display: block; width: 100%; padding: .375rem 2.25rem .375rem .75rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff; border-color: #dee2e6; border-radius: 7px;">
+                                <select class="form-select mt-3" id="puntosSugeridos" name="puntoSugerido"
+                                        style="display: block; width: 100%; padding: .375rem 2.25rem .375rem .75rem; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff; border-color: #dee2e6; border-radius: 7px;">
                                     <option selected>Seleccione una ubicación</option>
                                     {{#puntosSugeridos}}
                                         <option value="{{latitud}},{{longitud}},{{direccion}}">
@@ -143,13 +156,14 @@
 
                 <!-- Botón centrado -->
                 <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-success btn-custom mb-3"
+                    <button type="submit" class="btn btn-success btn-custom mb-3" id="submitButton"
                             style="background-color: #f69000; border-color: #f69000;">Confirmar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 
 
@@ -181,6 +195,52 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/SALVACIONDDS/vendor/jquery/jquery.min.js"></script>
 <script src="/SALVACIONDDS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtener los elementos de los radio buttons
+        var radioDomicilio = document.getElementById('flexRadioDefault1');
+        var radioPuntoSugerido = document.getElementById('flexRadioDefault2');
+
+        // Obtener los contenedores de domicilio y puntos sugeridos
+        var domicilioContainer = document.getElementById('domicilio-container');
+        var puntosSugeridosContainer = document.getElementById('puntosSugeridos-container');
+
+        // Obtener el botón de submit
+        var submitButton = document.getElementById('submitButton');
+        var domicilioInput = document.getElementById('domicilioInput');
+
+        // Función para habilitar o deshabilitar el botón de submit
+        function validateDomicilio() {
+            // Si el domicilio es "No hay domicilio cargado", deshabilitar el botón
+            if (domicilioInput.value === "No hay domicilio cargado") {
+                submitButton.disabled = true;
+            } else {
+                submitButton.disabled = false;
+            }
+        }
+
+        // Inicializar el estado del botón al cargar la página
+        validateDomicilio();
+
+        // Escuchar cambios en los botones de radio
+        radioDomicilio.addEventListener('change', function () {
+            if (radioDomicilio.checked) {
+                domicilioContainer.style.display = 'block'; // Mostrar el contenedor de domicilio
+                puntosSugeridosContainer.style.display = 'none'; // Ocultar el contenedor de puntos sugeridos
+                validateDomicilio(); // Validar al cambiar la opción
+            }
+        });
+
+        radioPuntoSugerido.addEventListener('change', function () {
+            if (radioPuntoSugerido.checked) {
+                domicilioContainer.style.display = 'none'; // Ocultar el contenedor de domicilio
+                puntosSugeridosContainer.style.display = 'block'; // Mostrar el contenedor de puntos sugeridos
+                submitButton.disabled = false; // Habilitar el botón de submit si selecciona "No"
+            }
+        });
+    });
+</script>
 
 <!-- Core plugin JavaScript-->
 <script src="/SALVACIONDDS/vendor/jquery-easing/jquery.easing.min.js"></script>

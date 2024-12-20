@@ -13,8 +13,8 @@ public class Alerta extends Incidente{
     @Enumerated (EnumType.STRING)
     TipoAlerta tipo;
 
-    public Alerta(Heladera heladera,TipoIncidente tipoIncidente, TipoAlerta tipoAlerta){
-        super(heladera, tipoIncidente);
+    public Alerta(Heladera heladera, TipoAlerta tipoAlerta){
+        super(heladera, TipoIncidente.ALERTA);
         this.tipo = tipoAlerta;
     }
 

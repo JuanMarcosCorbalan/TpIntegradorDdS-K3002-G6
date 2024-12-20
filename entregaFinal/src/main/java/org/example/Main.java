@@ -92,7 +92,7 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
-        prueba_repo.ejecutar();
+        //prueba_repo.ejecutar();
 
         EntityManager em = BDutils.getEntityManager();
 
@@ -232,11 +232,14 @@ public class Main {
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
+            Colaborador colaborador = ctx.sessionAttribute("colaborador");
             BusquedaPuntosSugeridos buscadorPuntos = new BusquedaPuntosSugeridos();
             List<PuntoUbicacion> puntosSugeridos = buscadorPuntos.solicitar_ubicaciones();
-            System.out.println(puntosSugeridos);
+            String domicilio = colaborador.getPersona().getDomicilio().getDireccionCompleta();
+
             Map<String, Object> model = new HashMap<>();
             model.put("puntosSugeridos", puntosSugeridos);
+            model.put("domicilio",domicilio);
 
             ctx.render("/paginaWebColaboracionHeladeras/hacerseCargoHeladera/html/hacerseCargoHeladera3.mustache", model);
         });//server error
@@ -478,7 +481,7 @@ public class Main {
                 UploadedFile uploadedFile = ctx.uploadedFile("inputFoto");
                 String filePath = null;
 
-                if (uploadedFile != null) {
+                if (uploadedFile != null && uploadedFile.content().available() > 0) { // Verifica si el contenido del archivo no está vacío
                     try {
                         // Directorio donde se almacenará la imagen
                         String uploadDir = "uploads/fallas";
@@ -801,6 +804,7 @@ public class Main {
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
             String numeroWhatsapp = ctx.formParam("inputWhatsapp");
+            String chatIDTelegram = ctx.formParam("inputTelegramChatId");
 
             if (correo != null) {
                 Medio_contacto nuevoCorreo = new Mail(persona, correo);
@@ -815,6 +819,12 @@ public class Main {
             if (numeroWhatsapp != null) {
                 Medio_contacto nuevoWhatsapp = new Whatsapp(persona, numeroWhatsapp);
                 persona.agregarMedioContacto(nuevoWhatsapp);
+            }
+
+            if(chatIDTelegram != null){
+                String user = ctx.formParam("inputTelegramUsuario");
+                Medio_contacto nuevoTelegram = new Telegram(persona,chatIDTelegram,user);
+                persona.agregarMedioContacto(nuevoTelegram);
             }
 
             Colaborador colaborador = new Colaborador(persona);
@@ -883,6 +893,8 @@ public class Main {
             String correo = ctx.formParam("inputCorreo");
             String numeroTelefono = ctx.formParam("inputTelefono");
             String numeroWhatsapp = ctx.formParam("inputWhatsapp");
+            String chatIDTelegram = ctx.formParam("inputTelegramChatId");
+
 
             if (correo != null) {
                 Medio_contacto nuevoCorreo = new Mail(persona, correo);
@@ -898,6 +910,13 @@ public class Main {
                 Medio_contacto nuevoWhatsapp = new Whatsapp(persona, numeroWhatsapp);
                 persona.agregarMedioContacto(nuevoWhatsapp);
             }
+
+            if(chatIDTelegram != null){
+                String user = ctx.formParam("inputTelegramUsuario");
+                Medio_contacto nuevoTelegram = new Telegram(persona,chatIDTelegram,user);
+                persona.agregarMedioContacto(nuevoTelegram);
+            }
+
             Colaborador colaborador = new Colaborador(persona);
             colaboradorDAO.save(colaborador);
             usuarioDAO.save(usuario);
@@ -1018,14 +1037,14 @@ public class Main {
             }
         });
 
-        app.get("/verFallasTecnicas", ctx -> {
+        app.get("/verIncidentes", ctx -> {
             Tecnico tecnico = ctx.sessionAttribute("tecnico");
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
             if (tecnico != null) {
-                List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(tecnico.getId());
+                List<IncidenteDTO> fallas = incidenteDAO.findIncidentes(tecnico.getId());
 
                 Map<String, Object> model = new HashMap<>();
-                model.put("fallas", fallas);
+                model.put("incidentes", fallas);
 
 
                 ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/vistaHeladerasTecnico.mustache", model);
@@ -1035,25 +1054,25 @@ public class Main {
             }
         });
 
-        app.get("/registrarVisita/{idFalla}", ctx -> {
-            Long idFalla = Long.parseLong(ctx.pathParam("idFalla"));
+        app.get("/registrarVisita/{idIncidente}", ctx -> {
+            Long idIncidente = Long.parseLong(ctx.pathParam("idIncidente"));
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
-            FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
+            Incidente incidente = incidenteDAO.findById(idIncidente);
 
-            if (falla != null) {
-                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registrarVisita.mustache", Map.of("falla", falla));
+            if (incidente != null) {
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registrarVisita.mustache", Map.of("incidente", incidente));
             } else {
                 ctx.status(404).result("Falla no encontrada");
             }
         });
 
-        app.post("/registrarVisita/{idFalla}", ctx -> {
+        app.post("/registrarVisita/{idIncidente}", ctx -> {
             Tecnico tecnico = ctx.sessionAttribute("tecnico");
             VisitaDAO visitaDAO = new VisitaDAO(em);
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
 
             if (tecnico != null) {
-                Long idFalla = Long.parseLong(ctx.pathParam("idFalla"));  // Usar pathParam para capturar el id
+                Long idIncidente = Long.parseLong(ctx.pathParam("idIncidente"));  // Usar pathParam para capturar el id
                 String descripcion = ctx.formParam("descripcion");
                 LocalDate fechaVisita = LocalDate.parse(ctx.formParam("fechaVisita"));
                 String estadoHeladera = ctx.formParam("estadoHeladera");
@@ -1100,7 +1119,7 @@ public class Main {
                 }
 
                 //BUSCO LA FALLA TECNICA EN LA BD
-                FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idFalla);
+                FallaTecnica falla = (FallaTecnica) incidenteDAO.findById(idIncidente);
                 //CREO LA VISITA
                 Visita visita = new Visita(falla, falla.getHeladera(), descripcion, incidenteSolucionado, filePath,falla.getTecnicoAsignado(),fechaVisita);
 
@@ -1461,19 +1480,21 @@ public class Main {
             ctx.json(alertas);
         });
 
+        //CREO QUE NO SE UTILIZA
         app.get("/api/tecnicos/{idTecnico}/fallasTecnicas", ctx -> {
             Long idTecnico = Long.valueOf(ctx.pathParam("idTecnico"));
             IncidenteDAO incidenteDAO = new IncidenteDAO(em);
-            List<IncidenteDTO> fallas = incidenteDAO.findFallasTecnicas(idTecnico);
+            List<IncidenteDTO> fallas = incidenteDAO.findIncidentes(idTecnico);
 
             ctx.json(fallas);
 
         });
 
-        app.get("/api/fallasTecnicas/{idFalla}/visitas", ctx -> {
-            Long idFalla = Long.valueOf(ctx.pathParam("idFalla"));
+        //CREO QUE ESTO TAMPOCO
+        app.get("/api/fallasTecnicas/{idIncidente}/visitas", ctx -> {
+            Long idIncidente = Long.valueOf(ctx.pathParam("idIncidente"));
             VisitaDAO visitaDAO = new VisitaDAO(em);
-            List<VisitaDTO> visitas = visitaDAO.findVisitas(idFalla);
+            List<VisitaDTO> visitas = visitaDAO.findVisitas(idIncidente);
 
             ctx.json(visitas);
         });

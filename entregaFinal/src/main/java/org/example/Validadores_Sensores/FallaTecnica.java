@@ -25,22 +25,16 @@ public class FallaTecnica extends Incidente{
     String descripcion;
     String foto;
 
-    @ManyToOne
-    Tecnico tecnicoAsignado;
 
-    @OneToMany(mappedBy = "fallaRevisada",cascade = CascadeType.ALL)
-    List<Visita> visitas = new ArrayList<>();
+
+
 
 
     public FallaTecnica(Colaborador colaborador, String descripcion, String foto, Heladera heladera){
-        super();
+        super(heladera,TipoIncidente.FALLA_TECNICA);
         this.colaborador = colaborador;
         this.descripcion = descripcion;
         this.foto = foto;
-        this.fecha = LocalDate.now();
-        this.hora = LocalTime.now();
-        this.tipoIncidente = TipoIncidente.FALLA_TECNICA;
-        this.heladera = heladera;
     }
 
     public FallaTecnica(Colaborador colaborador, String descripcion, Heladera heladera){
@@ -60,20 +54,12 @@ public class FallaTecnica extends Incidente{
     {
         visitas.add(visita);
     }
-    public void asignarTecnico(PuntoUbicacion ubicacion, List<Tecnico> tecnicos)
-    {
-        BuscarTecnico buscarTecnico = new BuscarTecnico();
-        this.tecnicoAsignado = buscarTecnico.buscarTecnico(tecnicos,ubicacion);
-        tecnicoAsignado.asignarFalla(this);
-    }
 
-    public Tecnico getTecnicoAsignado() {
-        return tecnicoAsignado;
-    }
 
     public String getDescripcion() {return descripcion;
     }
 
     public String getFoto() {return foto;
     }
+
 }

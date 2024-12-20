@@ -2,6 +2,7 @@ package org.example.DAO;
 
 import org.example.DTO.AlertaDTO;
 import org.example.DTO.IncidenteDTO;
+import org.example.Heladeras.EstadoHeladera;
 import org.example.Heladeras.Heladera;
 import org.example.Heladeras.HeladeraDTO2;
 import org.example.Persona.Persona;
@@ -65,9 +66,9 @@ public class IncidenteDAO {
         return entityManager.find(Incidente.class, id);
     }
 
-    public List<IncidenteDTO> findFallasTecnicas(Long idTecnico) {
+    public List<IncidenteDTO> findIncidentes(Long idTecnico) {
         // Query para obtener todos los incidentes que sean de tipo 'FALLA_TECNICA'
-        String query = "SELECT i FROM Incidente i WHERE TYPE(i) = FallaTecnica";
+        String query = "SELECT i FROM Incidente i";
 
         List<Incidente> incidentes = entityManager.createQuery(query, Incidente.class)
                 .getResultList();
@@ -75,25 +76,35 @@ public class IncidenteDAO {
         List<IncidenteDTO> incidenteDTOs = new ArrayList<>();
 
         for (Incidente incidente : incidentes) {
-            if (incidente instanceof FallaTecnica fallaTecnica) {
+            //if (incidente instanceof FallaTecnica fallaTecnica) {
                 // Filtrar por el id del técnico asignado
-                if (fallaTecnica.getTecnicoAsignado() != null
-                        && fallaTecnica.getTecnicoAsignado().getId().equals(idTecnico)) {
+                if (incidente.getTecnicoAsignado() != null &&
+                        incidente.getTecnicoAsignado().getId().equals(idTecnico) && !incidente.getEstadoIncidente().equals(EstadoIncidente.REPARADO) &&
+                incidente.getHeladera().getEstado().equals(EstadoHeladera.EN_MANTENIMIENTO)) {
+                    String descripcion = null;
+                    String rutaFoto = null;
+                    TipoAlerta tipoAlerta = null;
 
-                    String heladeraId = fallaTecnica.getHeladera().getIdHeladera();
-                    LocalDate fecha = fallaTecnica.getFecha();
-                    LocalTime hora = fallaTecnica.getHora();
-                    String descripcion = fallaTecnica.getDescripcion(); // Método de la clase hija
-                    String rutaFoto = fallaTecnica.getFoto();           // Método de la clase hija
-                    Long idTecnicoAsignado = (fallaTecnica.getTecnicoAsignado() != null)
-                            ? fallaTecnica.getTecnicoAsignado().getId() : 0;
-                    String nombreUbicacion = fallaTecnica.getHeladera().getPuntoUbicacion().getNombre();
-                    Long idFalla = fallaTecnica.getId();
+                    TipoIncidente tipoIncidente = incidente.getTipoIncidente();
+                    String heladeraId = incidente.getHeladera().getIdHeladera();
+                    LocalDate fecha = incidente.getFecha();
+                    LocalTime hora = incidente.getHora();
+                    if(incidente instanceof FallaTecnica fallaTecnica) {
+                        descripcion = fallaTecnica.getDescripcion(); // Método de la clase hija
+                        rutaFoto = fallaTecnica.getFoto();
+                    }else if(incidente instanceof Alerta alerta){
+                        tipoAlerta = alerta.getTipoAlerta();
+                    }
+                               // Método de la clase hija
+                    Long idTecnicoAsignado = (incidente.getTecnicoAsignado() != null)
+                            ? incidente.getTecnicoAsignado().getId() : 0;
+                    String nombreUbicacion = incidente.getHeladera().getPuntoUbicacion().getNombre();
+                    Long idIncidente = incidente.getId();
                     // Crear el DTO
-                    IncidenteDTO dto = new IncidenteDTO(idFalla,heladeraId, fecha, hora, descripcion, rutaFoto, idTecnicoAsignado,nombreUbicacion);
+                    IncidenteDTO dto = new IncidenteDTO(idIncidente,heladeraId, fecha, hora, descripcion, rutaFoto, idTecnicoAsignado,nombreUbicacion,tipoIncidente,tipoAlerta);
                     incidenteDTOs.add(dto);
                 }
-            }
+
         }
         return incidenteDTOs;
     }
@@ -116,8 +127,9 @@ public class IncidenteDAO {
                 LocalDate fecha = alerta.getFecha();
                 LocalTime hora = alerta.getHora();
                 TipoAlerta tipo = alerta.getTipoAlerta();
+                EstadoIncidente estado = alerta.getEstadoIncidente();
 
-                AlertaDTO dto = new AlertaDTO(fecha,hora,tipo);
+                AlertaDTO dto = new AlertaDTO(fecha,hora,tipo,estado);
                 alertas.add(dto);
             }
 

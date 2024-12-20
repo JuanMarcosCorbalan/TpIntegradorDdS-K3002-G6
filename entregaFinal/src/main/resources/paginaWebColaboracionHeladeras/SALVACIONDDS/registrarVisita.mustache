@@ -61,7 +61,7 @@
     
     </nav>
     <div>
-        <a href="/verFallasTecnicas" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
+        <a href="/verIncidentes" style="position: absolute; top: 80px; left: 35px; color: #000000; font-size: 24px;">
             <i class="fas fa-arrow-left"></i> Volver
         </a>
     </div>
@@ -69,7 +69,7 @@
     
     <div class="container mt-5">
         <div class="card o-hidden border-0 shadow-lg my-5">
-            <form method="POST" action="/registrarVisita/{{falla.id}}" enctype="multipart/form-data">
+            <form method="POST" action="/registrarVisita/{{incidente.id}}" enctype="multipart/form-data">
             <div class="row justify-content-center">
                 <!-- Título centrado arriba -->
                 <div class="col-12 text-center p-3">
@@ -78,7 +78,7 @@
                 <!-- Campo de entrada -->
                 <div class="col-md-9">
 
-                        <input type="hidden" name="fallaId" id="fallaId" value="{{falla.id}}">
+                        <input type="hidden" name="fallaId" id="fallaId" value="{{incidente.id}}">
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción de la visita:</label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="5" placeholder="Cómo le fue en la visita?"></textarea>
