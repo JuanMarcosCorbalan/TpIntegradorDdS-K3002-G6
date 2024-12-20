@@ -36,7 +36,7 @@ import static org.example.Persona.Tipo_juridico.EMPRESA;
 
 public class prueba_repo {
 
-    public static void main(String[] args) {
+    public static void ejecutar() {
 
 
         EntityManager em = BDutils.getEntityManager();
@@ -250,5 +250,6 @@ public class prueba_repo {
 
 
         BDutils.commit(em);
+        em.close();
     }
 }

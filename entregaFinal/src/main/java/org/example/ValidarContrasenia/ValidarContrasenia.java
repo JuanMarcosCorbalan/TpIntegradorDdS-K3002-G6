@@ -12,8 +12,8 @@ public class ValidarContrasenia {
     public ValidarContrasenia() throws IOException {
         LargoContrasenia largoContrasenia = new LargoContrasenia();
         condiciones.add(largoContrasenia);
-        ContraseniaComun contraseniaComun = new ContraseniaComun();
-        condiciones.add(contraseniaComun);
+        //ContraseniaComun contraseniaComun = new ContraseniaComun();
+        //condiciones.add(contraseniaComun);
         TieneCaracterEspecial tieneCE = new TieneCaracterEspecial();
         condiciones.add(tieneCE);
         TieneMayuscula tieneMayuscula = new TieneMayuscula();

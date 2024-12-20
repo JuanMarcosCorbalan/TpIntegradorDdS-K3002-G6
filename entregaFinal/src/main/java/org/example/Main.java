@@ -92,6 +92,8 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
+        prueba_repo.ejecutar();
+
         EntityManager em = BDutils.getEntityManager();
 
         // Crear un servicio OAuth2 con ScribeJava
@@ -704,7 +706,8 @@ public class Main {
             String contrasenia = ctx.formParam("contraseña");
             ValidarContrasenia validadorContra = new ValidarContrasenia();
             if (!validadorContra.validar(contrasenia)) {
-                ctx.status(400).result("Contraseña poco segura");
+                model.put("error", "La contraseña debe contener al menos una mayúscula, un numero y un carácter especial");
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/register.mustache", model);
                 return;
             }
             String hashedContrasenia = BCrypt.hashpw(contrasenia, BCrypt.gensalt());
