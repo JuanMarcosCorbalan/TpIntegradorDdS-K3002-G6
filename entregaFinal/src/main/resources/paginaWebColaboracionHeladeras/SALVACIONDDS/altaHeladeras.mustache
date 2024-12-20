@@ -98,6 +98,7 @@
                 <table class="table table-bordered table-striped table-hover">
                     <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
@@ -106,8 +107,10 @@
                     <tbody>
                     {{#heladeras}}
                         <tr>
-                            <!-- Nombre de la heladera -->
+                            <!-- Id de la heladera -->
                             <td>{{idHeladera}}</td>
+                            <!-- Nombre de la heladera -->
+                            <td>{{nombre}}</td>
                             <!-- Estado de la heladera -->
                             <td>{{estado_actual}}</td>
                             <!-- Botones de acción -->

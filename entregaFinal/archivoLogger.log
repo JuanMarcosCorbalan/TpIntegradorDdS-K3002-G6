@@ -849,3 +849,52 @@ INFO: Oferta: Easy 20% off activada
 dic 20, 2024 6:19:21 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 PERSONA FISICA LOGUEADA
+dic 20, 2024 6:36:44 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+USUARIO DE GOOGLE NO REGISTRADO
+dic 20, 2024 6:36:46 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Registro de persona fisica seleccionado
+dic 20, 2024 6:37:09 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Nueva persona fisica registrada! Datos: 
+
+ Nombre/s: Juan Marcos
+ Apellido/s: Corbalan
+ Fecha de Nacimiento: 2001-12-11
+ Numero de Documento: 43871010
+ Domicilio: Calle Altura
+ Ciudad: Ciudad
+ Localidad: Localidad
+ medios de contacto:
+ correo: jcorbalan@frba.utn.edu.ar
+ telefono: 1131498738
+ Whatsapp: 1131498738
+dic 20, 2024 6:37:13 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA CON GOOGLE
+dic 20, 2024 6:37:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA CON GOOGLE
+dic 20, 2024 6:38:12 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 6:38:17 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano desactivada
+dic 20, 2024 6:38:19 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano activada
+dic 20, 2024 6:39:33 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 6:41:05 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 6:41:33 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 6:41:51 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 6:41:55 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
