@@ -381,3 +381,20 @@ INFO: Heladera: Estación Constitución desactivada
 dic 20, 2024 1:51:18 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 PERSONA FISICA LOGUEADA
+dic 20, 2024 2:04:33 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 2:04:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano desactivada
+dic 20, 2024 2:04:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Plaza Dorrego desactivada
+dic 20, 2024 2:04:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Plaza Dorrego activada
+dic 20, 2024 2:04:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: Estación Constitución desactivada
+dic 20, 2024 2:04:41 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 2:04:47 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA

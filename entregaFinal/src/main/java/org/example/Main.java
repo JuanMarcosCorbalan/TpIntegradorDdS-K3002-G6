@@ -1493,7 +1493,7 @@ public class Main {
         app.get("/api/heladeras", ctx -> {
             // Obtener las heladeras desde el DAO
             HeladeraDAO heladeraDAO = new HeladeraDAO(em);
-            List<HeladeraDTO2> heladeras = heladeraDAO.findAllHeladeras();
+            List<HeladeraDTO2> heladeras = heladeraDAO.findAllHeladerasActivas();
 
             // Devolver las heladeras en formato JSON
             ctx.json(heladeras);

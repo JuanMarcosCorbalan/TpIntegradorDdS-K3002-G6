@@ -97,6 +97,26 @@ public class HeladeraDAO {
         return heladeraDTOs;
     }
 
+    public List<HeladeraDTO2> findAllHeladerasActivas() {
+        String query = "SELECT h FROM Heladera h";
+        List<Heladera> heladeras = entityManager.createQuery(query, Heladera.class).getResultList();
+        List<HeladeraDTO2> heladeraDTOs = new ArrayList<HeladeraDTO2>();
+
+        for (Heladera heladera : heladeras) {
+            long id = heladera.getId();
+            String idHeladera = heladera.getIdHeladera();
+            String nombre = heladera.getPuntoUbicacion().getNombre();
+            int capacidad = heladera.getUnidadesMaximoViandas();
+            if (heladera.getEstado().equals(EstadoHeladera.ACTIVA)) {
+                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
+                heladeraDTOs.add(heladeraDTO);
+            }
+
+        }
+
+        return heladeraDTOs;
+    }
+
     public List<Heladera> findAll(){
         String query = "SELECT h FROM Heladera h";
         return entityManager.createQuery(query, Heladera.class).getResultList();
