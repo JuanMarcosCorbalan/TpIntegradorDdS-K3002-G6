@@ -398,3 +398,165 @@ ADMINISTRADOR LOGUEADO
 dic 20, 2024 2:04:47 P. M. org.example.Sistema.LoggerToFile logInfo
 INFO: 
 PERSONA FISICA LOGUEADA
+dic 20, 2024 2:06:46 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 2:06:47 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Heladera: UTN Medrano desactivada
+dic 20, 2024 2:06:51 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+PERSONA FISICA LOGUEADA
+dic 20, 2024 2:07:16 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+SE REGISTRO UNA NUEVA FALLA TECNICA EN LA HELADERA: 2
+CON DESCRIPCION:  falla
+dic 20, 2024 2:16:07 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Archivo guardado correctamente en la direccion /csvs/csvColaboradores.csv
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: COMENZANDO MIGRACION
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Juan Corbalan - 43871010
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:16:24 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 4 viandas, en la fecha: 2023-12-11
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Ignacio Montero - 43871011
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:16:25 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 1000 pesos, en la fecha: 2024-05-09
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 900 pesos, en la fecha: 2023-09-20
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Lorenzo Atierri - 65987554
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:16:26 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado!
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 2 viandas, en la fecha: 2024-03-08
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador ya existente!
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como registro de personas en situacion vulnerable, con una cantidad de 5 tarjetas repartidas, en la fecha: 2023-09-19
+dic 20, 2024 2:16:27 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+MIGRACION FINALIZADA CON EXITO
+dic 20, 2024 2:21:28 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+ADMINISTRADOR LOGUEADO
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+Archivo guardado correctamente en la direccion /csvs/csvColaboradores.csv
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: COMENZANDO MIGRACION
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Juan Corbalan - 43871010
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:21:36 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado! %r7LfOH@TV
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 4 viandas, en la fecha: 2023-12-11
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Ignacio Montero - 43871011
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:21:37 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado! ^$6*pgyD%j
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 1000 pesos, en la fecha: 2024-05-09
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado! 4(Ii-MwVeq
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de dinero, con una cantidad de 900 pesos, en la fecha: 2023-09-20
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Lorenzo Atierri - 65987554
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador no encontrado, creando nuevo Colaborador
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Agregando colaborador a existentes
+dic 20, 2024 2:21:38 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador persistido con exito
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador creado! #S4&7l0*6*
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como donacion de viandas, con una cantidad de 2 viandas, en la fecha: 2024-03-08
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Verificando existencia de colaborador: Penelope Lavalle - 88275662
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaborador ya existente!
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Identificando Colaboración
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: Colaboracion identificada como registro de personas en situacion vulnerable, con una cantidad de 5 tarjetas repartidas, en la fecha: 2023-09-19
+dic 20, 2024 2:21:39 P. M. org.example.Sistema.LoggerToFile logInfo
+INFO: 
+MIGRACION FINALIZADA CON EXITO

@@ -3,14 +3,19 @@ package org.example.MigracionCsv;
 import com.sendgrid.helpers.mail.objects.Email;
 import org.example.Colaborador.Colaborador;
 import org.example.DAO.ColaboradorDAO;
+import org.example.DAO.UsuarioDAO;
 import org.example.Formas_contribucion.*;
 import org.example.Funcionalidades.EnvioMail;
+import org.example.GeneradorContrasenia;
+import org.example.GeneradorUsuario;
 import org.example.Persona.Documento_identidad;
 import org.example.Persona.Persona;
 import org.example.Persona.Persona_fisica;
 import org.example.Persona.Tipo_documento;
 import org.example.Sistema.LoggerToFile;
+import org.example.Sistema.Usuario;
 import org.example.Utils.BDutils;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
@@ -102,9 +107,16 @@ public class CargaDatosCsv {
 
             this.agregarColaboradorNuevoAExistentes(colaborador, nuevaPersonaFisica, colaboradoresExistentes, colaboradoresExistentesMap, personasFisicasExistentesMap, numeroDocumentoString);
             Email emailPersona = new Email(mail);
+            EntityManager em = BDutils.getEntityManager();
+            UsuarioDAO usuarioDAO = new UsuarioDAO(em);
+            String usuarioGenerado = GeneradorUsuario.generarNombreUsuario(nuevaPersonaFisica.getNombre(), nuevaPersonaFisica.getApellido());
+            String contraseniaGenerada = GeneradorContrasenia.generarContrasenia(10);
+            Usuario usuarioNuevo = new Usuario(nuevaPersonaFisica, usuarioGenerado, BCrypt.hashpw(contraseniaGenerada, BCrypt.gensalt()));
+            usuarioDAO.save(usuarioNuevo);
             EnvioMail envio = new EnvioMail();
-            envio.enviarEmail(emailPersona,"Carga realizada correctamente","Tu usuario fue cargado correctamente.","hola");
-            LoggerToFile.logInfo("Colaborador creado!");
+            envio.enviarEmail(emailPersona,"Carga realizada correctamente","Tu usuario fue cargado correctamente, sus credenciales son las siguientes: " +
+                    "\nNOMBRE DE USUARIO: " + usuarioGenerado + "\nCONTRASEÑA: " + contraseniaGenerada ,"hola");
+            LoggerToFile.logInfo("Colaborador creado! " + contraseniaGenerada);
             return colaborador;
         } else {
             LoggerToFile.logInfo("Colaborador ya existente!");
