@@ -12,12 +12,11 @@ import static org.example.Formas_contribucion.EstadoContribucion.EXITOSA;
 @Entity
 public class Oferta extends Contribucion {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
 
     @Transient
-    @JoinColumn(name = "id_ofertaRubro")
     private OfertasRubro ofertaRubro;
 
     String nombre;
@@ -81,10 +80,10 @@ public class Oferta extends Contribucion {
         ofertaActiva = 1;
         setEstadoOferta();
     }
-
+/*
     public Long getId() {
         return id;
-    }
+    }*/
 
     public String getEstadoOferta() {
         return estadoOferta;

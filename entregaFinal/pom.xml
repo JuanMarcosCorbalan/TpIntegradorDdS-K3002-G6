@@ -79,11 +79,7 @@
             <version>1.0.0-rc1</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.cdimascio</groupId>
-            <artifactId>java-dotenv</artifactId>
-            <version>5.2.2</version>
-        </dependency>
+
 
 <!-- drivers jdbc -->
     <!-- mysql -->
@@ -130,12 +126,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.7.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.0</version>
-        </dependency>
 
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>2.2.3.Final</version> <!-- Versión compatible con Hibernate 5.4.x -->
+        </dependency>
         <!-- ScribeJava (para OAuth 2.0) -->
         <dependency>
             <groupId>com.github.scribejava</groupId>
@@ -171,11 +167,31 @@
 
     <build>
         <plugins>
-            <!-- Surefire plugin to run the tests -->
+            <!-- Plugin para compilar el proyecto en un archivo JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org/example/Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions> <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <minimizeJar>false</minimizeJar>
+                    </configuration> </execution> </executions>
             </plugin>
         </plugins>
     </build>

@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 @Entity
 @Table (name = "Persona")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-abstract public class Persona {
+public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

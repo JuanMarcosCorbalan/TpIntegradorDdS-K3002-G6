@@ -14,9 +14,9 @@ import java.util.List;
 @Entity
 public class Tecnico extends Rol {
 
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // autogenerado e incremental
-    public Long id;
+    public Long id;*/
 
     @ManyToOne (cascade = CascadeType.ALL)
     AreaCobertura areaCobertura;

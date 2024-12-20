@@ -6,16 +6,15 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+
 public class OfertasRubro {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     //@OneToMany(mappedBy = "ofertaRubro")
-    @Transient
+
     private List<Oferta> ofertas;
+
 
     Rubro rubro;
 
