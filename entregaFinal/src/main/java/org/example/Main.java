@@ -93,7 +93,7 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
-        //prueba_repo.ejecutar();
+        prueba_repo.ejecutar();
 
         EntityManager em = BDutils.getEntityManager();
 
@@ -229,6 +229,9 @@ public class Main {
         });//server error
         app.get("/gestionHeladerasJuridica", ctx -> {
             ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladerasJuridica.mustache");
+        });//server error
+        app.get("/gestionHeladerasAdmin", ctx -> {
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/gestionHeladerasAdmin.mustache");
         });//server error
 
         app.get("/hacerseCargoHeladera", ctx -> {
@@ -1377,6 +1380,53 @@ public class Main {
 
         });
 
+
+        app.get("/generarReporteAdmin", ctx -> {
+            UsuarioService us = new UsuarioService(em);
+            ReporteServiceDB rs = new ReporteServiceDB(em);
+            Reporte reporte;
+
+            List<Heladera> heladeras = us.findAllHeladera();
+            List<Colaborador> colaboradores = us.findAllColaborador();
+            LocalDate fechaReporte = null;
+            LocalDate fechaActual = LocalDate.now();
+
+            reporte = rs.findLast();
+            if (reporte != null) {
+                fechaReporte = reporte.getFechaGeneracion();
+            }
+
+            // Verificar si el reporte es de la semana actual
+            if (reporte == null || fechaReporte == null || fechaReporte.isBefore(fechaActual.minusDays(fechaActual.getDayOfWeek().getValue() - 1))) {
+                // El reporte no corresponde a la semana actual o no existe (primer reporte)
+                // Generar un nuevo reporte
+                LoggerToFile.logInfo("\nGENERANDO NUEVO REPORTE SEMANAL");
+                ServicioReporte servicio = new ServicioReporte(colaboradores, heladeras);
+                reporte = servicio.getReporteActual();
+
+                // Obtener los 5 reportes anteriores (en orden descendente)
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+
+                // Renderizar la página pasando el nuevo reporte y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalAdmin.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            } else {
+                // El reporte corresponde a la semana actual, usarlo
+                // Obtener los 5 reportes anteriores
+                List<Reporte> reportesAnteriores = rs.findUltimosReportes(5);
+                LoggerToFile.logInfo("\nREPORTE SEMANAL YA GENERADO");
+
+                // Renderizar la página pasando el reporte actual y los 5 anteriores
+                ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizadorReporteSemanalAdmin.mustache", Map.of(
+                        "reporteActual", reporte,
+                        "reportesAnteriores", reportesAnteriores
+                ));
+            }
+
+        });
+
         app.get("/descargarReporte/{id}", ctx -> {
             Long id = Long.parseLong(ctx.pathParam("id"));
             ReporteServiceDB rs = new ReporteServiceDB(em);
@@ -1560,6 +1610,27 @@ public class Main {
             String mimeType = Files.probeContentType(rutaArchivo);
             ctx.contentType(mimeType != null ? mimeType : "application/octet-stream");
             ctx.result(Files.newInputStream(rutaArchivo));
+        });
+
+
+        app.get("/verPersonasSVRegistradas", ctx -> {
+            Integer administrador = ctx.sessionAttribute("administrador");
+            if (administrador != null) {
+                if (administrador == 1) {
+
+                    PersonaSituacionVulnerableDAO personaSituacionVulnerableDAO = new PersonaSituacionVulnerableDAO(em);
+                    List<PersonaSituacionVulnerable> personaSituacionVulnerableList =  personaSituacionVulnerableDAO.findAll();
+
+                    // Crear un modelo con la lista de ofertas y los puntos
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("personassv", personaSituacionVulnerableList); // Pasa la lista de ofertas al modelo
+
+                    // Renderizar la plantilla Mustache y pasar el modelo
+                    ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/visualizarPersonasSv.mustache", model);
+                }
+            } else {
+                ctx.redirect("/login");
+            }
         });
 
 

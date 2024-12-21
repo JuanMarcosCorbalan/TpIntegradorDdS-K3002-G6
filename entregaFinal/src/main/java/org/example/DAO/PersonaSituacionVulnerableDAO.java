@@ -1,9 +1,11 @@
 package org.example.DAO;
 
+import org.example.Heladeras.Heladera;
 import org.example.PersonaVulnerable.PersonaSituacionVulnerable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.List;
 
 public class PersonaSituacionVulnerableDAO {
     private EntityManager entityManager;
@@ -54,4 +56,11 @@ public class PersonaSituacionVulnerableDAO {
     public PersonaSituacionVulnerable findById(long id) {
         return entityManager.find(PersonaSituacionVulnerable.class, id);
     }
+
+    public List<PersonaSituacionVulnerable> findAll(){
+        String query = "SELECT p FROM PersonaSituacionVulnerable p";
+        return entityManager.createQuery(query, PersonaSituacionVulnerable.class).getResultList();
+    }
+
+
 }

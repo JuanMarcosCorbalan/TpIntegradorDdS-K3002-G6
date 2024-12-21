@@ -16,6 +16,8 @@ import java.util.Date;
 @Entity
 public class PersonaSituacionVulnerable extends Rol {
 
+    String nombres;
+    String apellido;
     Date fechaRegistroSistema;
     Boolean enSituacionCalle;
     Boolean poseeMenoresACargo;
@@ -28,18 +30,22 @@ public class PersonaSituacionVulnerable extends Rol {
     @ManyToOne
     private RegistrarPersonasSV registro;
 
-    public PersonaSituacionVulnerable(String nombre, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Integer cantidadMenoresACargo, TarjetaSv tarjetaSv) {
+    public PersonaSituacionVulnerable(String nombres, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Integer cantidadMenoresACargo, TarjetaSv tarjetaSv) {
         //super(domicilio);
+        this.nombres = nombres;
+        this.apellido = apellido;
         this.fechaRegistroSistema = new Date();
         this.enSituacionCalle = enSituacionCalle;
         //this.domicilio = domicilio;
         //this.poseeMenoresACargo = poseeMenoresACargo;
         this.cantidadMenoresACargo = cantidadMenoresACargo;
         //this.tarjetaSv = tarjetaSv;
-        this.persona = new Persona_fisica(nombre,apellido,null,null,null,domicilio);
+        this.persona = new Persona_fisica(nombres,apellido,null,null,null,domicilio);
     }
 
     public PersonaSituacionVulnerable(String nombre, String apellido, Boolean enSituacionCalle, Domicilio domicilio, Integer cantidadMenoresACargo) {
+        this.nombres = nombre;
+        this.apellido = apellido;
         this.fechaRegistroSistema = new Date();
         this.enSituacionCalle = enSituacionCalle;
         //this.domicilio = domicilio;
@@ -72,4 +78,8 @@ public class PersonaSituacionVulnerable extends Rol {
         this.cantidadMenoresACargo = cantidadMenoresACargo;
     }
     public void setTarjetaSv(TarjetaSv tarjetaSv) {this.tarjetaSv = tarjetaSv;}
+
+    public void getNombre(){
+
+    }
 }
