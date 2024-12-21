@@ -635,7 +635,7 @@ public class Main {
             var archivoCsv = ctx.uploadedFile("archivoCsv");
             if (archivoCsv != null) {
 
-                String directorioDestino = new File("src/main/resources/static/uploads").getAbsolutePath();;
+                String directorioDestino = new File("src/main/resources/static/uploads").getAbsolutePath();
                 File directorio = new File(directorioDestino);
 
                 if (!directorio.exists()) {
@@ -660,7 +660,7 @@ public class Main {
                 RepositorioColaboradores colabExistentes = new RepositorioColaboradores(colaboradores);
 
                 LoggerToFile.logInfo("COMENZANDO MIGRACION");
-                MigracionColaboradores migracionColaboradores = new MigracionColaboradores(pathArchivo, colabExistentes);
+                MigracionColaboradores migracionColaboradores = new MigracionColaboradores(file.getAbsolutePath(), colabExistentes);
                 List<DatosColaboracion> datosAImprimir = migracionColaboradores.migrarCsv();
                 System.out.println(datosAImprimir);
                 Map<String, Object> model = new HashMap<>();
