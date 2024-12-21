@@ -67,6 +67,16 @@ public class Distribucion_viandas extends Contribucion{
         this.estado = EstadoContribucion.EN_CURSO;
         this.fechaDistribucion = fecha_distribucion;
     }
+    @Override
+    public void realizar_contribucion(){
+        super.realizar_contribucion();
+        viandas = heladeraOrigen.obtenerViandasARetirar(cantidadViandasAMover);
+        for(Vianda vianda : viandas) {
+            vianda.setHeladera(heladeraDestino);
+            heladeraDestino.aniadirVianda(vianda);
+            heladeraDestino.aniadirDonacion();
+        }
+    }
 
     @Override
     public double calcular_puntos() {

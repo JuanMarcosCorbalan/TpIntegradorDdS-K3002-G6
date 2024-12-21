@@ -1,0 +1,19 @@
+CANTIDAD_FALLAS_POR_HELADERA
+Heladera 3080bd2c: 0
+Heladera 928d8900: 0
+Heladera f4dbcde4: 0
+
+CANTIDAD_DE_VIANDAS_RETIRADAS_POR_HELADERA
+Heladera 3080bd2c: 0
+Heladera 928d8900: 0
+Heladera f4dbcde4: 0
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_HELADERA
+Heladera: 3080bd2c: 2
+Heladera: 928d8900: 3
+Heladera: f4dbcde4: 0
+
+CANTIDAD_DE_VIANDAS_DONADAS_POR_COLABORADOR
+Colaborador: Pablo Diaz: 2
+Colaborador: Juan Meza: 0
+Colaborador: Esteban Karagounis: 0

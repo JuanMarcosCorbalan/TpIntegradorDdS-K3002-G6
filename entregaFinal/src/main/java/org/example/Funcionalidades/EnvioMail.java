@@ -38,7 +38,8 @@ public class EnvioMail {
     public static void main(String[] args) throws IOException {
         Email from = new Email("grupo.hobbits@gmail.com");
         String subject = "Carga realizada correctamente";
-        Email to = new Email("rrodasgaleano@frba.utn.edu.ar");
+        //Email to = new Email("rrodasgaleano@frba.utn.edu.ar");
+        Email to = new Email("juanmarcoscorbalan@hotmail.com");
         Content content = new Content("text/plain", "Tu usuario fue cargado correctamente.");
         Mail mail = new Mail(from, subject, to, content);
 

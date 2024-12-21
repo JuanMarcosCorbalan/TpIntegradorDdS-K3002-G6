@@ -70,8 +70,12 @@ public class HeladeraDAO {
             String longitud = heladera.getPuntoUbicacion().getLongitud();
             EstadoHeladera estado = heladera.getEstado();
             String idHeladera = heladera.getIdHeladera();
+            Integer viandasActuales = heladera.getCantidadViandasActuales();
+            Integer viandasPendientesRetiro = heladera.getViandasPendientesRetiro();
+            Integer viandasPendientesIngreso = heladera.getViandasPendientesIngreso();
 
-            HeladeraDTO heladeraDTO = new HeladeraDTO(latitud, longitud, estado, idHeladera);
+
+            HeladeraDTO heladeraDTO = new HeladeraDTO(latitud, longitud, estado, idHeladera, viandasActuales, viandasPendientesRetiro, viandasPendientesIngreso);
             heladeraDTOs.add(heladeraDTO);
         }
 
@@ -90,9 +94,10 @@ public class HeladeraDAO {
                 String idHeladera = heladera.getIdHeladera();
                 String nombre = heladera.getPuntoUbicacion().getNombre();
                 int capacidad = heladera.getUnidadesMaximoViandas();
+                int viandasActuales = heladera.getCantidadViandasActuales();
 
 
-                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
+                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad, viandasActuales);
                 heladeraDTOs.add(heladeraDTO);
             }
 
@@ -111,8 +116,10 @@ public class HeladeraDAO {
             String idHeladera = heladera.getIdHeladera();
             String nombre = heladera.getPuntoUbicacion().getNombre();
             int capacidad = heladera.getUnidadesMaximoViandas();
+            int viandasActuales = heladera.getCantidadViandasActuales();
+
             if (heladera.getEstado().equals(EstadoHeladera.ACTIVA)) {
-                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad);
+                HeladeraDTO2 heladeraDTO = new HeladeraDTO2(id, idHeladera, nombre,capacidad,viandasActuales);
                 heladeraDTOs.add(heladeraDTO);
             }
 

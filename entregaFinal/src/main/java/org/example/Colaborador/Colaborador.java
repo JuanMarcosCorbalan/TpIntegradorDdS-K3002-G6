@@ -204,7 +204,9 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Donacion_viandas Contribucion = new Donacion_viandas(this, HeladeraAIngresarViandas, ViandaADonar);
             ViandaADonar.setHeladera(HeladeraAIngresarViandas);
+
             contribuciones.add(Contribucion);
+            Contribucion.realizar_contribucion();
             puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudWebDonacion(HeladeraAIngresarViandas);
         }
@@ -233,6 +235,7 @@ public class Colaborador extends Rol {
             // aca se crea una nueva contribucion con estado pendiente (false en entregada)
             Distribucion_viandas Contribucion = new Distribucion_viandas(cantidadViandasAMover,this, HeladeraOrigen, HeladeraDestino, motivo_distribucion,fechaDistribucion);
             contribuciones.add(Contribucion);
+            Contribucion.realizar_contribucion();
             puntos+= Contribucion.calcular_puntos();
             tarjetaColaborador.crearSolicitudesWebDistribucion(HeladeraOrigen,HeladeraDestino);
         }

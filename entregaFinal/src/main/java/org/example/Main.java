@@ -93,7 +93,7 @@ public class Main {
         InstanciacionClases instanciacion = new InstanciacionClases();
         System.out.println("Hello world!");
 
-        prueba_repo.ejecutar();
+        //prueba_repo.ejecutar();
 
         EntityManager em = BDutils.getEntityManager();
 
@@ -1527,6 +1527,7 @@ public class Main {
 
             ctx.json(alertas);
         });
+
 
         //CREO QUE NO SE UTILIZA
         app.get("/api/tecnicos/{idTecnico}/fallasTecnicas", ctx -> {

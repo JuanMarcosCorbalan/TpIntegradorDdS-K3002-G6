@@ -51,7 +51,6 @@ public class TarjetaColaborador extends Tarjeta{
     public void crearSolicitudWebDonacion(Heladera heladera){
         SolicitudWeb nuevaSolicitudWeb = new SolicitudWeb(colaborador, APERTURA_DONACION, LocalDate.now(), LocalTime.now(),heladera,this);
         solicitudesWeb.add(nuevaSolicitudWeb);
-
     }
     public SolicitudApertura crearSolicitudApertura(Heladera heladera){
         return new SolicitudApertura(heladera, LocalDate.now(), LocalTime.now(), colaborador,this);

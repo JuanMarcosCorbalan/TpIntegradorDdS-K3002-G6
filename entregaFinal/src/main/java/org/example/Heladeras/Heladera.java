@@ -46,16 +46,14 @@ public class Heladera {
     List<Suscripcion> suscripciones = new ArrayList<>();
 
 
-
-
     int cantidadFallas;
 
     int temperaturaMaxima;
     int temperaturaMinima;
     Double temperaturaActual;
 
-
-
+    int viandasPendientesRetiro;
+    int viandasPendientesIngreso;
 
     int cantidadViandasDonadas;
 
@@ -74,6 +72,8 @@ public class Heladera {
         this.temperaturaActual=temperaturaActual;
         this.validadorMov = new ValidadorMovimiento(this);
         this.validadorTemp = new ValidadorTemperatura(this);
+        this.viandasPendientesRetiro = 0;
+        this.viandasPendientesIngreso = 0;
     }
 
     public Heladera(String idHeladera) {
@@ -88,6 +88,8 @@ public class Heladera {
         this.colaboradores = colaborador;
         this.unidadesMaximoViandas = maxViandas;
         this.idHeladera = GeneradorId.generar();
+        this.viandasPendientesRetiro = 0;
+        this.viandasPendientesIngreso = 0;
     }
 
     public void setIdHeladera(String idHeladera){
@@ -97,12 +99,16 @@ public class Heladera {
     public Heladera(String idHeladera, Integer unidadesMaximoViandas) {
         this.idHeladera = idHeladera;
         this.unidadesMaximoViandas = unidadesMaximoViandas;
+        this.viandasPendientesRetiro = 0;
+        this.viandasPendientesIngreso = 0;
     }
 
 
     public Heladera(PuntoUbicacion puntoUbicacion ) {
         // habria q generar un id
         this.puntoUbicacion = puntoUbicacion;
+        this.viandasPendientesRetiro = 0;
+        this.viandasPendientesIngreso = 0;
     }
 
     public Heladera(PuntoUbicacion puntoUbicacion,int temperaturaMinima,int temperaturaMaxima,int cantidadViandasMax,Colaborador colaborador) {
@@ -112,6 +118,8 @@ public class Heladera {
         this.temperaturaMinima = temperaturaMinima;
         this.unidadesMaximoViandas = cantidadViandasMax;
         this.colaboradores = colaborador;
+        this.viandasPendientesRetiro = 0;
+        this.viandasPendientesIngreso = 0;
     }
 
     public Heladera() {
@@ -152,6 +160,22 @@ public class Heladera {
         }
     }
 
+    public List<Vianda> obtenerViandasARetirar(Integer cantidadARetirar){
+        List<Vianda> viandasARetirar = new ArrayList<>();
+        Vianda viandaActual = null;
+        for (int i = 0; i < cantidadARetirar; i++) {
+            viandaActual = viandas.remove(0);
+            viandasARetirar.add(viandaActual);
+        }
+        return viandasARetirar;
+    };
+
+    public void retirarViandaADistribuir(Vianda vianda){
+        viandas.remove(vianda);
+        this.notificar_viandas_faltantes();
+        this.notificar_viandas_sobrantes();
+    }
+
     public void definirTemperatura(int temperaturaMinima, int temperaturaMaxima){
         this.setTemperaturaMaxima(temperaturaMaxima);
         this.setTemperaturaMinima(temperaturaMinima);
@@ -169,6 +193,13 @@ public class Heladera {
 
     public void aniadirDonacion(){
         cantidadViandasDonadas++;
+    }
+
+    public void aniadirViandaPendienteIngreso(){
+        viandasPendientesIngreso += 1;
+    }
+    public void aniadirViandaPendienteRetiro(){
+        viandasPendientesRetiro += 1;
     }
 
 
@@ -221,6 +252,14 @@ public class Heladera {
     //public void setAdmin_suscr(AdministradorSuscripciones admin){this.admin_suscr = admin;}
 
     public int getCantidadViandasActuales(){return viandas.size();}
+
+    public int getViandasPendientesRetiro() {
+        return viandasPendientesRetiro;
+    }
+
+    public int getViandasPendientesIngreso() {
+        return viandasPendientesIngreso;
+    }
 
     public int verificarEspacioUnitarioDisponible(){
        if (unidadesMaximoViandas - getCantidadViandasActuales() > 0) {
