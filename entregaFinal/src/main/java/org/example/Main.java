@@ -635,14 +635,15 @@ public class Main {
             var archivoCsv = ctx.uploadedFile("archivoCsv");
             if (archivoCsv != null) {
 
-                String directorioDestino = "/csvs/";
+                String directorioDestino = new File("src/main/resources/static/uploads").getAbsolutePath();;
                 File directorio = new File(directorioDestino);
 
                 if (!directorio.exists()) {
                     directorio.mkdirs(); // Crea el directorio si no existe
                 }
-                String pathArchivo = directorioDestino + archivoCsv.filename();
-                try (OutputStream out = new FileOutputStream(pathArchivo)) {
+                String pathArchivo = archivoCsv.filename();
+                File file = new File(directorioDestino, pathArchivo);
+                try (OutputStream out = new FileOutputStream(file)) {
                     archivoCsv.content().transferTo(out);
                 } catch (IOException e) {
                     e.printStackTrace();
