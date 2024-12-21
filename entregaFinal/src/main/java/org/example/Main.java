@@ -198,7 +198,7 @@ public class Main {
         });*/
 
         app.get("/registroPersonas", ctx -> {
-            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registroPersonas.mustache");
+            ctx.render("/paginaWebColaboracionHeladeras/SALVACIONDDS/registropersonas.mustache");
         });
 
         app.get("/distribucionViandas", ctx -> {
